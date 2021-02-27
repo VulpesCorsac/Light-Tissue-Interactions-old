@@ -3,6 +3,7 @@ image: Ubuntu
 build_script:
 - sh: >-
     git submodule init
+    
     git submodule update
 
     cmake CMakeLists.txt
