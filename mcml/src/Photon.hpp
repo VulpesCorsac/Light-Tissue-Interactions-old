@@ -1,9 +1,9 @@
 #pragma once
 
-#include <cmath>
-
 #include "Vector3.hpp"
 #include "General.hpp"
+
+#include <cmath>
 
 
 template<class T>

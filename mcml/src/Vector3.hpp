@@ -6,7 +6,6 @@
 #include <cmath>
 #include <stdexcept>
 
-//REFACTOR remove from Vector random and refract
 
 template<typename T>
 class Vector3 {
