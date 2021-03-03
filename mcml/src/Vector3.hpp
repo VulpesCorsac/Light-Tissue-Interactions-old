@@ -6,6 +6,8 @@
 #include <cmath>
 #include <stdexcept>
 
+//REFACTOR remove from Vector random and refract
+
 template<typename T>
 class Vector3 {
 public:
@@ -23,8 +25,6 @@ public:
     const T& z() const noexcept { return e[2];}
 
     bool near_zero() { return this->length() <= 1e-8;}
-    Vector3<T> reflect(const Vector3<T>& n) const noexcept{ return *this - 2*dot(*this, n.unit())*n.unit();}
-    Vector3<T> refract(const Vector3<T>&, T) const noexcept;
 
     Vector3<T> operator+() const noexcept { return Vector3(e[0], e[1], e[2]);}
     Vector3<T> operator-() const noexcept { return Vector3(-e[0], -e[1], -e[2]);}
@@ -38,7 +38,7 @@ public:
 
     T length_squared() const noexcept { return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];}
     T length() const noexcept { return sqrt(this->length_squared());}
-    Vector3<T> unit() const noexcept { return *this/this->length();}
+    Vector3<T> unit() const { return *this/this->length();}
 
     friend Vector3<T> operator+(const Vector3<T> &l, const Vector3<T> &r) noexcept { return Vector3<T>(l.e[0] + r.e[0], l.e[1] + r.e[1], l.e[2] + r.e[2]);}
     friend Vector3<T> operator-(const Vector3<T> &l, const Vector3<T> &r) noexcept { return l + -r;}
@@ -57,31 +57,6 @@ public:
         return out;
     }
 
-    static Vector3<T> random_vec(T min, T max) { return Vector3<T>(random<T>(min, max), random<T>(min, max), random<T>(min, max));}
-
-    static Vector3<T> random_unit_vector() { //Marsaglia algorythm
-        while(true) {
-            double tmp_1 = random<double>(-1, 1);
-            double tmp_2 = random<double>(-1, 1);
-            auto sq_1 = tmp_1*tmp_1;
-            auto sq_2 = tmp_2*tmp_2;
-            if(sq_1+sq_2 >= 1)
-                continue;
-            auto x = 2*tmp_1*sqrt(1-sq_1-sq_2);
-            auto y = 2*tmp_2*sqrt(1-sq_1-sq_2);
-            auto z = 1 - 2*(sq_1+sq_2);
-
-            return Vector3<double>(x, y, z);
-        }
-    }
-    static Vector3<T> randon_unit_vector_xy() {
-        while(true){
-            Vector3<T> tmp = Vector3<T>(random<T>(-1.0, 1.0), random<T>(-1.0, 1.0), 0);
-            if (tmp.length_squared() > 1)
-                continue;
-            return tmp.unit();
-        }
-    }
 };
 
 template<typename T>
@@ -127,12 +102,34 @@ T& Vector3<T>::operator[](int i) {
         return e[i];
 }
 
-template<typename T>
-Vector3<T> Vector3<T>::refract(const Vector3<T>& n, T k) const noexcept {  // k = n/n'
-    auto uv = this->unit();
-    auto un = n.unit();
-    T cos = fmin(dot(-uv, un), 1.0);
-    Vector3<T> r_perp = k*(uv + cos*un);
-    Vector3<T> r_par = -sqrt(1.0 - r_perp.length_squared())*un;
-    return r_perp + r_par;
+
+//other functions commected with Vector
+template<class T>
+Vector3<T> random_unit_vector() { //Marsaglia algorythm
+    while(true) {
+        T tmp_1 = random<T>(-1, 1);
+        T tmp_2 = random<T>(-1, 1);
+        auto sq_1 = tmp_1*tmp_1;
+        auto sq_2 = tmp_2*tmp_2;
+        if(sq_1+sq_2 >= 1)
+            continue;
+        auto x = 2*tmp_1*sqrt(1-sq_1-sq_2);
+        auto y = 2*tmp_2*sqrt(1-sq_1-sq_2);
+        auto z = 1 - 2*(sq_1+sq_2);
+
+        return Vector3<T>(x, y, z);
+    }
 }
+
+template<class T>
+Vector3<T> randon_unit_vector_xy() {
+    while(true){
+        Vector3<T> tmp = Vector3<T>(random<T>(-1.0, 1.0), random<T>(-1.0, 1.0), 0);
+        if (tmp.length_squared() > 1)
+            continue;
+        return tmp.unit();
+    }
+}
+
+template<class T>
+Vector3<T> random_vec(T min, T max) { return Vector3<T>(random<T>(min, max), random<T>(min, max), random<T>(min, max));}

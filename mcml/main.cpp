@@ -17,8 +17,8 @@ int main() {
     double dr = 0.01;
     double dz = 0.01;
 
-    int nR = static_cast<int>(r/dr);
-    double REFLECT[nR];
+    int nR = r/dr; //unesessary cast
+    double REFLECT[nR]; //={0} or memset
     double TRANSIT[nR];
     int nZ = static_cast<int>((z1-z0)/dz);
     double MEDIUM[nZ][nR];
@@ -31,83 +31,102 @@ int main() {
     }
 
 
-    double num = 450;
+    double num = 10000;
     double treshold = 0.01;
     double chance = 0.1; //check to be greater than treshold
     double increase = 1/chance;
 
-    for(int i = 0; i < num; i++) {
+    bool debug;
+
+    for(int i = 0; i < num; ++i) {
+        debug = false;
+
         std::cerr << "\rSampling photons, done: " << i;
-        Photon<double> p(Vector3<double>(random<double>(-0.1, 0.1), random<double>(-0.1, 0.1), 0), Vector3<double>(0, 0, 1), 1);
+        Photon<double> p(Vector3<double>(/*random<double>(-0.1, 0.1), random<double>(-0.1, 0.1)*/0,0, 0), Vector3<double>(0, 0, 1), 1);
         bool alive = true;
         while(alive){
             double l = tissue.path_length();
-            bool reflect = p.p.z() + p.u.z()*l < z0;
-            bool transit = p.p.z() + p.u.z()*l > z1;
-//            std::cerr << " hop";
+            bool reflect = p.position.e[2] + p.direction.e[2]*l < z0;
+            bool transit = p.position.e[2] + p.direction.e[2]*l > z1;
+            if(debug)
+                std::cerr << " hop";
+
             if(reflect || transit) {
                 double l1;
                 if(reflect)
-                    l1 = fabs(p.p.z()/p.u.z());
+                    l1 = fabs(p.position.e[2]/p.direction.e[2]);
                 else
-                    l1 = fabs((z1 - p.p.z())/p.u.z());
+                    l1 = fabs((z1 - p.position.e[2])/p.direction.e[2]);
 
                 p.move(l1);
-                double R = tissue.Frenel_refraction(p);
+                double R;
+
+                R = tissue.Frenel_refraction(p, debug);
                 //reflect counter <---------------------------------- NEED TO CODE
-                double r = sqrt(p.p.x()*p.p.x() + p.p.y()*p.p.y());
+                double r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
                 int ir = static_cast<int>(r/dr);
-//                std::cerr << " reflect";
+                if(debug)
+                    std::cerr << " reflect";
                 if(ir < nR) {
                     if(reflect)
-                        REFLECT[ir] += (1 - R)*p.w;
+                        REFLECT[ir] += (1 - R)*p.weight;
                     if(transit)
-                        TRANSIT[ir] += (1 - R)*p.w;
+                        TRANSIT[ir] += (1 - R)*p.weight;
                 }
-
-//                std::cerr << " R=" << R;
+                if(debug)
+                    std::cerr << " R=" << R;
                 if(std::isnan(R)) {
                     std::cerr << "\n R = NaN";
                     exit(-1);
                 }
-                p.w *= R;
-//                std::cerr << " z=" << p.p.z();
-//                std::cerr << " uz before " << p.u.z();
-                p.u.z() = - p.u.z();
-//                std::cerr << " uz after " << p.u.z();
+                p.weight *= R;
+                if(debug){
+                    std::cerr << " z=" << p.position.e[2];
+                    std::cerr << " uz before " << p.direction.e[2];
+                }
+                p.direction.e[2] = - p.direction.e[2];
+                if(debug)
+                    std::cerr << " uz after " << p.direction.e[2];
                 p.move(l-l1);
-//                std::cerr << " z=" << p.p.z();
+                if(debug)
+                    std::cerr << " z=" << p.position.e[2];
             }
             else
                 p.move(l);
-//            std::cerr << " drop";
+            if(debug)
+                std::cerr << " drop";
             //adsorbtion counter <----------------------------------- NEED TO CODE
-            double r = sqrt(p.p.x()*p.p.x() + p.p.y()*p.p.y());
+
+            double r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
             int ir = static_cast<int>(r/dr);
-            double z = p.p.z();
+            double z = p.position.e[2];
             int iz = static_cast<int>(z/dz);
 
             if(iz < 0) {
-                std::cerr << "\n iz < 0 \n" << p.u.z();
+                std::cerr << "\n iz < 0 \n" << p.direction.e[2];
                 exit(-1);
             }
 
             if(iz < nZ && ir < nR)
-                MEDIUM[iz][ir] += p.w*tissue.att;
+                MEDIUM[iz][ir] += p.weight*tissue.att;
 
-            p.w *= (1 - tissue.att);
-//            std::cerr << " w= " << p.w;
-            if(p.w < treshold) {
+            p.weight *= (1 - tissue.att);
+            if(debug)
+                std::cerr << " w= " << p.weight;
+            if(p.weight < treshold) {
                 if(fast_random<double>() < chance)
-                    p.w *= increase;
+                    p.weight *= increase;
                 else
                     alive = false;
             }
 
             if(alive){
-//                std::cerr << " spin \n";
-                p.u += tissue.scatter();
-                p.u = p.u.unit();
+                if(debug)
+                    std::cerr << " spin:";
+                tissue.scatter(p, debug);
+                if(debug) {
+                    std::cerr << " z=" << p.position.e[2] << " uz=" << p.direction.e[2] << "\n-------------------------------\n";
+                }
             }
 
         }

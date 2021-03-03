@@ -9,13 +9,13 @@
 template<class T>
 class Photon {
 public:
-    Vector3<T> p;
-    Vector3<T> u;
-    T w;
+    Vector3<T> position;
+    Vector3<T> direction;
+    T weight;
 
     Photon(){}
-    Photon(Vector3<T> _p, Vector3<T> _u, T _w) : p(_p), u(_u), w(_w) {}
+    Photon(Vector3<T> _p, Vector3<T> _d, T _w) : position(_p), direction(_d), weight(_w) {}
 
-    void move(T t) noexcept { p += t*u;}
+    void move(T t) noexcept { position += t*direction;}
 };
 
