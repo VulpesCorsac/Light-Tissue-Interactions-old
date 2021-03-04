@@ -7,3 +7,7 @@ build_script:
     git submodule update
 
     cmake CMakeLists.txt
+    
+    make
+    
+    ctest
