@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <cmath>
 
 
@@ -26,14 +27,14 @@ TEST(TEST_INIT_UNDEF, BUGER)
 
     DataContainer<double> data(nR, nZ, z0, z1, r1);
 
-    double num = 10000;
+    double num = 1000000;
     double treshold = 0.01;
     double chance = 0.1; //check to be greater than treshold
 
     bool debug = false;
-    int numder_of_threads = 4;
+    int numder_of_threads = 1;
 
-    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0));
+    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0), false);
 
 
     double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);

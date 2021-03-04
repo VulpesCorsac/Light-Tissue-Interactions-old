@@ -139,7 +139,7 @@ void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, 
 
 
 template<class T>
-void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params) {
+void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, bool print) {
     ProgressBar counter(params.NP);
     std::vector<std::thread> threads;
     std::mutex m;
@@ -149,7 +149,7 @@ void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& 
         threads.emplace_back(std::thread(compute<double>, std::ref(tissue), std::ref(data), tmp, std::ref(counter), std::ref(m)));
     }
 
-    while(counter.current() < counter.Total) {
+    while(counter.current() < counter.Total && print) {
         std::cerr << "\rSampling photons, done " << counter.get_percentage() << "\%";
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
