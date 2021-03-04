@@ -11,3 +11,5 @@ build_script:
     make
     
     ctest
+    
+    ./test/unit_test
