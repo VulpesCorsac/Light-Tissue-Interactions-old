@@ -12,4 +12,4 @@ build_script:
     
     ctest
     
-    ls
+    ./mcml/tests/unit_test
