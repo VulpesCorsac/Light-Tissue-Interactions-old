@@ -39,6 +39,6 @@ TEST(TEST_INIT_UNDEF, BUGER)
 
     double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);
 
-    EXPECT_EQ(static_cast<int>(sqrt(transited/num)*100), static_cast<int>(exp(-width*attenuation)*100));
+    EXPECT_NEAR(sqrt(transited/num), exp(-width*attenuation), 0.01);
 }
 

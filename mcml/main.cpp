@@ -37,7 +37,7 @@ int main() {
     bool debug = false;
     int numder_of_threads = 4;
 
-    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0));
+    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0), true);
 
 
     double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);
