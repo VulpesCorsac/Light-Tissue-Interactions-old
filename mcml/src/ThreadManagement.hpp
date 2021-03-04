@@ -5,6 +5,7 @@
 #include "DataContainer.hpp"
 #include "Photon.hpp"
 
+#include <iostream>
 #include <thread>
 #include <atomic>
 #include <mutex>
@@ -135,3 +136,25 @@ void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, 
     }
 
 }
+
+
+template<class T>
+void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params) {
+    ProgressBar counter(params.NP);
+    std::vector<std::thread> threads;
+    std::mutex m;
+
+    for(int i = 0; i < number_of_threads; ++i) {
+        ThreadParams<double> tmp(params.NP/number_of_threads, params.chance, params.treshold, params.debug, i);
+        threads.emplace_back(std::thread(compute<double>, std::ref(tissue), std::ref(data), tmp, std::ref(counter), std::ref(m)));
+    }
+
+    while(counter.current() < counter.Total) {
+        std::cerr << "\rSampling photons, done " << counter.get_percentage() << "\%";
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
+
+    for(auto& t : threads)
+        t.join();
+}
+

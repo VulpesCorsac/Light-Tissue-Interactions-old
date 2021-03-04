@@ -6,19 +6,25 @@
 #include "src/ThreadManagement.hpp"
 
 #include <iostream>
+#include <cmath>
 #include <thread>
 #include <chrono>
 #include <mutex>
+#include <algorithm>
 
 
 int main() {
-    //test script with image
+    //test script with Buger adsorbtion
+    double mean_free_pathlength = 0.5;
+    double attenuation = 0.1;
+    double g = 1;
+    double width = 5;
+    double n = 1.5;
 
-                        //w  n    l    g    att
-    Tissue<double> tissue(5, 1.5, 0.5, 0.9, 0.1);
+    Tissue<double> tissue(width, n, mean_free_pathlength, g, attenuation);
     double z0 = 0;
     double z1 = 5;
-    double r1 = 5;
+    double r1 = 10;
     int nR = 500;
     int nZ = 500;
 
@@ -29,27 +35,23 @@ int main() {
     double chance = 0.1; //check to be greater than treshold
 
     bool debug = false;
+    int numder_of_threads = 4;
 
-    ProgressBar counter(num);
-    int number_of_threads = 4;
-    std::vector<std::thread> threads;
-    std::mutex m;
+    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0));
 
-    for(int i = 0; i < number_of_threads; ++i) {
-        ThreadParams<double> tmp(num/number_of_threads, chance, treshold, debug, i);
-        threads.emplace_back(std::thread(compute<double>, std::ref(tissue), std::ref(data), tmp, std::ref(counter), std::ref(m)));
-    }
 
-    while(counter.current() < counter.Total) {
-        std::cerr << "\rSampling photons, done " << counter.get_percentage() << "\%";
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    }
+    double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);
+    double reflected = std::accumulate(data.get_reflect().begin(), data.get_reflect().end(), 0);
+    double adsorbed = 0;
 
-    for(auto& t : threads)
-        t.join();
+    for(int i = 0; i < data.NZ; i++)
+        adsorbed += std::accumulate(data.get_medium()[i].begin(), data.get_medium()[i].end(), 0);
 
-    data.print_to_output();
-
+    std::cout << std::endl << "------------------------------------------------" << std::endl;
+    std::cout << "Coefficient of transition: " << sqrt(transited/num) << std::endl;
+    //std::cout << "Coefficient of reflectance: " << reflected/num << std::endl;
+    //std::cout << "Coefficient of adsorbtion: " << adsorbed/num << std::endl;
+    std::cout << "Buger lambert says: " << exp(-attenuation*width) << std::endl;
 
     return 0;
 }

@@ -26,6 +26,10 @@ public:
     void add_transit(T r, T w) { if(r < R1) Transit[static_cast<int>(NR*r/R1)] += w;}
     void add_medium(T z, T r, T w) { if(r < R1 && z > Z0 && z < Z1) Medium[static_cast<int>(NZ*z/(Z1 - Z0))][static_cast<int>(NR*r/R1)] += w;}
 
+    std::vector<T>& get_reflect() { return Reflect;}
+    std::vector<T>& get_transit() { return Transit;}
+    std::vector<std::vector<T>>& get_medium() { return Medium;}
+
 
     void print_to_output() {
         std::cerr << "\nWriting in output";
