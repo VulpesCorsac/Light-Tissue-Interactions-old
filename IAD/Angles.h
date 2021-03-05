@@ -5,6 +5,8 @@
 #include <cmath>
 #include <complex>
 
+using namespace std;
+
 template <class T>
 T Vc (T n_refr) {
     return (cos(asin (1.0/n_refr)));

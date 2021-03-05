@@ -15,12 +15,12 @@ using namespace Eigen;
 
 
 template <class T, size_t M>
-T chi(T& g, int& k) {
+T chi(T g, int k) {
     return ((pow(g, k) - pow(g, M))/(1.0 - pow(g, M)));
 }
 
 template <class T, size_t M>
-Matrix<T, M, M> PP(array<T, M>& a) {
+Matrix<T, M, M> PP(array<T, M> a) {
     Matrix<T, M, M> pp;
     int m = M;
     for (int i = 0; i < m; i++) { //row
@@ -32,7 +32,7 @@ Matrix<T, M, M> PP(array<T, M>& a) {
 }
 
 template <class T, size_t M>
-Matrix<T, M, M> PN(array<T, M>& a) {
+Matrix<T, M, M> PN(array<T, M> a) {
     Matrix<T, M, M> pn;
     int m = M;
     for (int i = 0; i < m; i++) { //row
@@ -44,7 +44,7 @@ Matrix<T, M, M> PN(array<T, M>& a) {
 }
 
 template <class T, size_t M>
-Matrix<T, M, M> HPP(array<T, M>& a, T& g) {
+Matrix<T, M, M> HPP(array<T, M> a, T g) {
     Matrix<T, M, M> hpp;
     int m = M;
     if (g == 0.0) {
@@ -68,7 +68,7 @@ Matrix<T, M, M> HPP(array<T, M>& a, T& g) {
 }
 
 template <class T, size_t M>
-Matrix<T, M, M> HPN(array<T, M>& a, T& g) {
+Matrix<T, M, M> HPN(array<T, M> a, T g) {
     Matrix<T, M, M> hpn;
     int m = M;
     if (g == 0.0) {

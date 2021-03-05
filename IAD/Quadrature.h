@@ -7,6 +7,8 @@
 #include <vector>
 #include <array>
 
+#include "Angles.h"
+
 #define _USE_MATH_DEFINES
 const int eps = 1E-8;
 using namespace std;
@@ -15,12 +17,12 @@ template <class T, size_t M>
 class Quadrature
 {
     public:
-        Quadrature(T Vc);
+        Quadrature(T n_slab);
         array<T, M> getV ();
         array<T, M> getW ();
 
-        void setValues (const T& Vc);
-        void printQuadrature (array<T, M>& arr);
+        void setValues (const T& n_slab);
+        void printQuadrature (array<T, M> arr);
 
     protected:
         T vc;
@@ -37,18 +39,18 @@ class Quadrature
 };
 
 template <class T, size_t M>
-Quadrature<T, M>::Quadrature(T Vc) {
-    setValues (Vc);
+Quadrature<T, M>::Quadrature(T n_slab) {
+    setValues (n_slab);
     calculateQuadrature();
 }
 
 template <class T, size_t M>
-void Quadrature<T, M>::setValues (const T& new_vc){
-    vc = new_vc;
+void Quadrature<T, M>::setValues (const T& n_slab){
+    vc = Vc(n_slab);
 }
 
 template <class T, size_t M>
-void Quadrature<T, M>::printQuadrature (array<T, M>& arr) {
+void Quadrature<T, M>::printQuadrature (array<T, M> arr) {
     for (auto x : arr) {
         cout << x << ' ';
     }

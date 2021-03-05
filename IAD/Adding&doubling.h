@@ -5,7 +5,7 @@
 
 
 template <class T, size_t M>
-Matrix<T, M, M> newE(array<T, M>& v, array<T, M>& w) {
+Matrix<T, M, M> newE(array<T, M> v, array<T, M> w) {
     Matrix<T, M, M> myE = E<T, M> ();
     int m = M;
     for (int i = 0; i < m; i++)
@@ -14,7 +14,7 @@ Matrix<T, M, M> newE(array<T, M>& v, array<T, M>& w) {
 }
 
 template <class T, size_t M>
-Matrix<T, M, M> star(array<T, M>& v, array<T, M>& w) {
+Matrix<T, M, M> star(array<T, M> v, array<T, M> w) {
     Matrix<T, M, M> myStar = E<T, M> ();
     int m = M;
     for (int i = 0; i < m; i++)
@@ -39,10 +39,10 @@ void addingBounds (Matrix<T, M, M> R01, Matrix<T, M, M> R12, Matrix<T, M, M>& R0
 }
 
 template <class T, size_t M>
-void doubling (T& a, T& tau, T& g, T& Vc, array<T, M>& v, array<T, M>& w, Matrix<T, M, M>& Rs, Matrix<T, M, M>& Ts) {
-    int n = n1<T, M>(a, tau, g, Vc);
-    Matrix<T, M, M> myR = Rd1<T, M>(a, tau, g, Vc, v, w);
-    Matrix<T, M, M> myT = Td1<T, M>(a, tau, g, Vc, v, w);
+void doubling (T a, T tau, T g, T n_slab, array<T, M> v, array<T, M> w, Matrix<T, M, M>& Rs, Matrix<T, M, M>& Ts) {
+    int n = n1<T, M>(a, tau, g, n_slab);
+    Matrix<T, M, M> myR = Rd1<T, M>(a, tau, g, n_slab, v, w);
+    Matrix<T, M, M> myT = Td1<T, M>(a, tau, g, n_slab, v, w);
     for (int i = 0; i < n; i ++) {
         Matrix<T, M, M> oldT = myT;
         Matrix<T, M, M> oldR = myR;
