@@ -18,9 +18,6 @@ public:
     T path_length() const noexcept;
 
     void scatter(Photon<T>&, bool) const;
-
-
-    T Frenel_refraction(Photon<T>&, bool) const;
 };
 
 template<class T>
@@ -86,27 +83,3 @@ void Tissue<T>::scatter(Photon<T>& p, bool debug) const {
     p.direction = Vector3<T>(x, y, z);
 }
 
-template<class T>
-T Tissue<T>::Frenel_refraction(Photon<T>& p, bool debug) const {
-    T cos_th1 = fabs(p.direction.e[2]);
-    T sin_th1 = sqrt(1 - cos_th1*cos_th1);
-    T sin_th2 = n*sin_th1;
-    if(sin_th2 >= 1)
-        return 1;
-    T cos_th2 = sqrt(1 - sin_th2*sin_th2);
-    if(sin_th1 == 0)
-        return (1-n)*(1-n)/((1+n)*(1+n));
-
-    if(debug){
-        std::cerr << "\n-----------------------------------\n"
-                  << "Frenel refraction code\n"
-                  << cos_th1 << ' ' << sin_th1 << ' ' << cos_th2 << ' ' << sin_th2
-                  << "\n-----------------------------------\n";
-    }
-
-    return 0.5*(sin_th1*cos_th2 - cos_th1*sin_th2)*(sin_th1*cos_th2 - cos_th1*sin_th2)
-            * ((cos_th1*cos_th2 + sin_th1*sin_th2)*(cos_th1*cos_th2 + sin_th1*sin_th2)
-             + (cos_th1*cos_th2 - sin_th1*sin_th2)*(cos_th1*cos_th2 - sin_th1*sin_th2))
-            / ((sin_th1*cos_th2 + cos_th1*sin_th2)*(sin_th1*cos_th2 + cos_th1*sin_th2)
-             * (cos_th1*cos_th2 + sin_th1*sin_th2)*(cos_th1*cos_th2 + sin_th1*sin_th2));
-}
