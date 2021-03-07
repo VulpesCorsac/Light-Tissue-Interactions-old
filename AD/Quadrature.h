@@ -106,8 +106,6 @@ void Quadrature<T,M>::gaussQuadrature(const int eps)  {
         w_g[i] = vc / ((1 - sqr(v_g[i])) * sqr(dLegendre(n, v_g[i])));
         v_g[i] = vc * (1 - v_g[i]) / 2;
     }
-
-
 }
 
 template < typename T, size_t M >
