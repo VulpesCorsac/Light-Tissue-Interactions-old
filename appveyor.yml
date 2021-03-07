@@ -16,5 +16,5 @@ build_script:
     
     g++ -std=c++17 -o2 -Ieigen main_ad.cpp -o main_ad
     
-    ./main_ad
+    time ./main_ad
 
