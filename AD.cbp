@@ -100,10 +100,7 @@
 		<Unit filename="googletest/googletest/src/gtest_main.cc">
 			<Option target="GoogleTest" />
 		</Unit>
-		<Unit filename="main.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
+		<Unit filename="main_ad.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
