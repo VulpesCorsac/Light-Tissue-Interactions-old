@@ -12,9 +12,13 @@ build_script:
     
     ctest
     
-    ./mcml/tests/unit_tests
+    ./Tests/unit_tests
     
     g++ -std=c++17 -o2 -Ieigen main_ad.cpp -o main_ad
     
     time ./main_ad
+
+    g++ -pthread -std=c++17 -o2 main_mcml.cpp -o main_mcml
+    
+    time ./main_mcml
 

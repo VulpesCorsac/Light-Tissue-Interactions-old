@@ -1,12 +1,12 @@
 #pragma once
 
-#include "General.h"
+#include "../Utils/Random.h"
 
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
 
-template<typename T>
+template < typename T >
 class Vector3 {
 public:
     T e[3];
@@ -57,7 +57,7 @@ public:
 
 };
 
-template<typename T>
+template < typename T >
 Vector3<T>& Vector3<T>::operator-=(const Vector3<T>& r) noexcept {
     e[0] -= r[0];
     e[1] -= r[1];
@@ -66,7 +66,7 @@ Vector3<T>& Vector3<T>::operator-=(const Vector3<T>& r) noexcept {
     return *this;
 }
 
-template<typename T>
+template < typename T >
 Vector3<T>& Vector3<T>::operator+=(const Vector3<T>& r) noexcept {
     e[0] += r[0];
     e[1] += r[1];
@@ -75,7 +75,7 @@ Vector3<T>& Vector3<T>::operator+=(const Vector3<T>& r) noexcept {
     return *this;
 }
 
-template<typename T>
+template < typename T >
 Vector3<T>& Vector3<T>::operator*=(const T a) noexcept {
     e[0] *= a;
     e[1] *= a;
@@ -84,7 +84,7 @@ Vector3<T>& Vector3<T>::operator*=(const T a) noexcept {
     return *this;
 }
 
-template<typename T>
+template < typename T >
 const T& Vector3<T>::operator[](int i) const {
     if (i>2 || i<0)
         throw std::invalid_argument("wrong index");
@@ -92,7 +92,7 @@ const T& Vector3<T>::operator[](int i) const {
         return e[i];
 }
 
-template<typename T>
+template < typename T >
 T& Vector3<T>::operator[](int i) {
     if (i>2 || i<0)
         throw std::invalid_argument("wrong index");
@@ -100,16 +100,15 @@ T& Vector3<T>::operator[](int i) {
         return e[i];
 }
 
-
-//other functions commected with Vector
-template<class T>
+//other functions connected with Vector
+template < typename T >
 Vector3<T> random_unit_vector() { //Marsaglia algorythm
-    while(true) {
+    while (true) {
         T tmp_1 = random<T>(-1, 1);
         T tmp_2 = random<T>(-1, 1);
         auto sq_1 = tmp_1*tmp_1;
         auto sq_2 = tmp_2*tmp_2;
-        if(sq_1+sq_2 >= 1)
+        if (sq_1+sq_2 >= 1)
             continue;
         auto x = 2*tmp_1*sqrt(1-sq_1-sq_2);
         auto y = 2*tmp_2*sqrt(1-sq_1-sq_2);
@@ -119,9 +118,9 @@ Vector3<T> random_unit_vector() { //Marsaglia algorythm
     }
 }
 
-template<class T>
+template < typename T >
 Vector3<T> randon_unit_vector_xy() {
-    while(true){
+    while (true) {
         Vector3<T> tmp = Vector3<T>(random<T>(-1.0, 1.0), random<T>(-1.0, 1.0), 0);
         if (tmp.length_squared() > 1)
             continue;
@@ -129,5 +128,9 @@ Vector3<T> randon_unit_vector_xy() {
     }
 }
 
-template<class T>
-Vector3<T> random_vec(T min, T max) { return Vector3<T>(random<T>(min, max), random<T>(min, max), random<T>(min, max));}
+template < typename T >
+Vector3<T> random_vec(T min, T max) {
+    return Vector3<T>(random<T>(min, max),
+                      random<T>(min, max),
+                      random<T>(min, max));
+}

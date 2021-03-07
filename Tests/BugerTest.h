@@ -9,8 +9,7 @@
 
 using namespace testing;
 
-TEST(TEST_INIT_UNDEF, BUGER)
-{
+TEST(TEST_INIT_UNDEF, BUGER) {
     //test script with Buger adsorbtion
     double mean_free_pathlength = 0.5;
     double attenuation = 0.1;
@@ -35,7 +34,6 @@ TEST(TEST_INIT_UNDEF, BUGER)
     int numder_of_threads = 1;
 
     set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0), false);
-
 
     double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);
 

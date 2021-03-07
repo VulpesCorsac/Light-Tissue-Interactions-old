@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1615132516 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_mcml.cpp
+	"MCML/Tissue.h"
+	"MCML/DataContainer.h"
+	"MCML/ThreadManagement.h"
+	<iostream>
+	<cmath>
+	<thread>
+	<chrono>
+	<mutex>
+	<algorithm>
+
+1615132592 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/Photon.h
+	"Vector3.h"
+
+1615132647 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/Vector3.h
+	"../Utils/Random.h"
+	<iostream>
+	<cmath>
+	<stdexcept>
+
+1615130698 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/General.h
+	<cmath>
+	<limits>
+	<memory>
+	<random>
+	<cstdlib>
+
+1615132810 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/Tissue.h
+	"Photon.h"
+	"../Utils/Utils.h"
+
+1615132188 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/DataContainer.h
+	<vector>
+	<iostream>
+
+1615132764 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/ThreadManagement.h
+	"Tissue.h"
+	"DataContainer.h"
+	"Photon.h"
+	"Frensel.h"
+	<iostream>
+	<thread>
+	<atomic>
+	<mutex>
+
+1615131608 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MCML/Frensel.h
+	"Photon.h"
+	"../Utils/Utils.h"
+
+1615131353 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Random.h
+	<random>
+	<cstdlib>
+
+1615131007 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
+	<cmath>
+
