@@ -1,5 +1,10 @@
 *.user
 *.o
+
 build/*
 bin/*
+pvs/*
 
+main_ad
+strace_out
+log

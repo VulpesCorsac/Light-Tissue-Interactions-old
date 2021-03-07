@@ -13,3 +13,8 @@ build_script:
     ctest
     
     ./mcml/tests/unit_tests
+    
+    g++ -std=c++17 -o2 -Ieigen main_ad.cpp -o main_ad
+    
+    ./main_ad
+
