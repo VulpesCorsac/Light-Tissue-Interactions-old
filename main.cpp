@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main (int argc, char **argv) {
-    using T = double;
+    using T = float;
     const int M = 4;
 
     T a = 0.9; // albedo
