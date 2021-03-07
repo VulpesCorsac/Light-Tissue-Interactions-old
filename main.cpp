@@ -1,48 +1,39 @@
+#include "AD/Quadrature.h"
+#include "AD/RT.h"
+
 #include <iostream>
-#include "IAD/Quadrature.h"
-#include "IAD/Angles.h"
-#include "IAD/DMmethod.h"
-#include "IAD/RedistributionFunction.h"
-#include "IAD/LayerInit.h"
-#include "IAD/Adding&doubling.h"
-#include "IAD/RandT.h"
-
-
 
 int main (int argc, char **argv) {
-
+    using T = double;
     const int M = 4;
 
+    T a = 0.9; // albedo
+    T tau = 1.0; // optical thickness
+    T g = 0.9; // anisotropy
+    T n_slab = 1.4; // refraction index of sample
+    T n_slide_top = 1.5; // refraction index of slide
+    T n_slide_bottom = 1.5;
 
-    double a = 0.9; // albedo
-    double tau = 1.0; // optical thickness
-    double g = 0.9; // anisotropy
-    double n_slab = 1.4; // refraction index of sample
-    double n_slide_top = 1.5; // refraction index of slide
-    double n_slide_bottom = 1.5;
+    Quadrature<T,M> quadrature(n_slab);
 
-    Quadrature<double, M> quadrature(n_slab);
+    const auto v = quadrature.getV();
+    const auto w = quadrature.getW();
 
-    array<double, M> v, w;
-
-    v = quadrature.getV();
-    w = quadrature.getW();
-
-/*    cout << "Knots" << endl;
+    /*
+    std::cout << "Knots" << std::endl;
     quadrature.printQuadrature(v);
-    cout << "Weights" << endl;
-    quadrature.printQuadrature(w);*/
+    std::cout << "Weights" << std::endl;
+    quadrature.printQuadrature(w);
+    //*/
 
 
-    double ts, rs;
-    RTs<double, M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
-    cout << "T scattered = " << ts << endl;
-    cout << "R scattered = " << rs << endl;
+    T ts, rs;
+    RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
+    std::cout << "T scattered = " << ts << std::endl;
+    std::cout << "R scattered = " << rs << std::endl;
 
-    double tc = Tc<double, M>(tau, n_slab, n_slide_top, n_slide_bottom);
-    cout << "T collimated = " << tc << endl;
-
+    T tc = Tc<T,M>(tau, n_slab, n_slide_top, n_slide_bottom);
+    std::cout << "T collimated = " << tc << std::endl;
 
     return 0;
-
 }
