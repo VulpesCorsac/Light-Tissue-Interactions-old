@@ -1,11 +1,11 @@
-#include "../src/ThreadManagement.hpp"
+#include "../MCML/ThreadManagement.h"
 
 #include <gtest/gtest.h>
+
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <cmath>
-
 
 using namespace testing;
 

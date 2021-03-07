@@ -1,10 +1,22 @@
 *.user
 *.o
+*.cmake
 
 build/*
 bin/*
+lib/*
 pvs/*
+CMakeFiles/*
+MCML/CMakeFiles/*
+Tests/CMakeFiles/*
 
 main_ad
+main_mcml
+Tests/unit_tests
+
 strace_out
 log
+Makefile
+
+CMakeLists.txt
+CMakeCache.txt

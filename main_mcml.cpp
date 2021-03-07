@@ -1,9 +1,9 @@
-#include "src/Photon.hpp"
-#include "src/Vector3.hpp"
-#include "src/Tissue.hpp"
-#include "src/General.hpp"
-#include "src/DataContainer.hpp"
-#include "src/ThreadManagement.hpp"
+#include "MCML/Photon.h"
+#include "MCML/Vector3.h"
+#include "MCML/Tissue.h"
+#include "MCML/General.h"
+#include "MCML/DataContainer.h"
+#include "MCML/ThreadManagement.h"
 
 #include <iostream>
 #include <cmath>
@@ -12,32 +12,33 @@
 #include <mutex>
 #include <algorithm>
 
-
 int main() {
+	using T = double;
+	
     //test script with Buger adsorbtion
-    double mean_free_pathlength = 0.5;
-    double attenuation = 0.1;
-    double g = 1;
-    double width = 5;
-    double n = 1.5;
+    T mean_free_pathlength = 0.5;
+    T attenuation = 0.1;
+    T g = 1;
+    T width = 5;
+    T n = 1.5;
 
-    Tissue<double> tissue(width, n, mean_free_pathlength, g, attenuation);
-    double z0 = 0;
-    double z1 = 5;
-    double r1 = 10;
+    Tissue<T> tissue(width, n, mean_free_pathlength, g, attenuation);
+    T z0 = 0;
+    T z1 = 5;
+    T r1 = 10;
     int nR = 500;
     int nZ = 500;
 
-    DataContainer<double> data(nR, nZ, z0, z1, r1);
+    DataContainer<T> data(nR, nZ, z0, z1, r1);
 
-    double num = 1000000;
-    double treshold = 0.01;
-    double chance = 0.1; //check to be greater than treshold
+    T num = 1000000;
+    T treshold = 0.01;
+    T chance = 0.1; //check to be greater than treshold
 
     bool debug = false;
     int numder_of_threads = 4;
 
-    set_up_threads(numder_of_threads, tissue, data, ThreadParams<double>(num, chance, treshold, debug, 0), true);
+    set_up_threads(numder_of_threads, tissue, data, ThreadParams<T>(num, chance, treshold, debug, 0), true);
 
 
     double transited = std::accumulate(data.get_transit().begin(), data.get_transit().end(), 0);

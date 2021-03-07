@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Photon.hpp"
-
+#include "Photon.h"
 
 template<class T>
 class Tissue {

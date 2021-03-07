@@ -1,4 +1,4 @@
-#include "tst_test_init.h"
+#include "BugerTest.h"
 
 #include <gtest/gtest.h>
 

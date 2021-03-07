@@ -1,20 +1,14 @@
 #pragma once
 
-#include "Photon.hpp"
-#include "Tissue.hpp"
+#include "Photon.h"
+#include "Tissue.h"
 
 #include <vector>
 #include <iostream>
 
-template<class T>
+template < typename T >
 class DataContainer {
-private:
-    std::vector<T> Reflect, Transit;
-    std::vector<std::vector<T>> Medium;
 public:
-    int NR, NZ;
-    T Z0, Z1, R1;
-
     DataContainer() {}
     DataContainer(int NR, int NZ, T Z0, T Z1, T R1) : NR(NR), NZ(NZ), Z0(Z0), Z1(Z1), R1(R1) {
         Reflect = std::vector<T>(NR, 0);
@@ -30,17 +24,13 @@ public:
     std::vector<T>& get_transit() { return Transit;}
     std::vector<std::vector<T>>& get_medium() { return Medium;}
 
-
     void print_to_output() {
         std::cerr << "\nWriting in output";
-
         T max_weight = 0;
-        for(int i = 0; i < NR; i++) {
-            for(int j = 0; j < NZ; j++){
-                if(max_weight < Medium[j][i])
+        for (int i = 0; i < NR; i++)
+            for (int j = 0; j < NZ; j++)
+                if (max_weight < Medium[j][i])
                     max_weight = Medium[j][i];
-            }
-        }
 
         std::cout << "P3\n" << NR << ' ' << NZ << "\n255\n";
         for(int h = NZ - 1; h >= 0; --h) {
@@ -50,5 +40,12 @@ public:
             }
         }
     }
+
+private:
+    std::vector<T> Reflect, Transit;
+    std::vector<std::vector<T>> Medium;
+public:
+    int NR, NZ;
+    T Z0, Z1, R1;
 };
 

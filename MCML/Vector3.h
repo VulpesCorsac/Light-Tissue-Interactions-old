@@ -1,11 +1,10 @@
 #pragma once
 
-#include "General.hpp"
+#include "General.h"
 
 #include <iostream>
 #include <cmath>
 #include <stdexcept>
-
 
 template<typename T>
 class Vector3 {

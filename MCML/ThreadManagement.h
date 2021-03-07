@@ -1,10 +1,10 @@
 #pragma once
 
-#include "General.hpp"
-#include "Tissue.hpp"
-#include "DataContainer.hpp"
-#include "Photon.hpp"
-#include "Frenel.hpp"
+#include "General.h"
+#include "Tissue.h"
+#include "DataContainer.h"
+#include "Photon.h"
+#include "Frensel.h"
 
 #include <iostream>
 #include <thread>

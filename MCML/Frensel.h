@@ -1,8 +1,7 @@
 #pragma once
 
-#include "General.hpp"
-#include "Photon.hpp"
-
+#include "General.h"
+#include "Photon.h"
 
 template<class T>
 T Frenel_refraction(Photon<T>& p, T n1, T n2, bool debug) {
