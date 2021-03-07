@@ -18,5 +18,4 @@ strace_out
 log
 Makefile
 
-CMakeLists.txt
 CMakeCache.txt

@@ -39,7 +39,7 @@ T Tissue<T>::path_length() const noexcept {
 }
 
 template < typename T >
-void Tissue<T>::scatter(Photon<T>& p, bool debug) const {
+void Tissue<T>::scatter(Photon<T>& p, bool debug) const noexcept {
     T r1 = fast_random<T>();
     T r2 = fast_random<T>();
     T cos_th;
