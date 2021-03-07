@@ -48,7 +48,7 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>
 template < typename T, size_t M >
 Matrix<T,M,M> Tbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
     const int m = M;
-    Matrix<T,M,M> myTb = E<T,M> ();
+    Matrix<T,M,M> myTb = E<T,M>();
     for (int i = 0; i < m; i++) {
         const auto cached1 = FresnelR(n_slide, 1.0, Vt(n_slab, n_slide, v[i]));
         const auto cached2 = FresnelR(n_slab, n_slide, v[i]);
@@ -134,9 +134,10 @@ T Rs(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::arra
 
 template < typename T, size_t M >
 T Rborder(T n_slab, T n_slide) {
-    const auto cached1 = FresnelR(n_slab, n_slide, 1.0);
-    const auto cached2 = FresnelR(n_slide, 1.0, 1.0);
-    return (cached1 + cached2 - 2 * cached1 * cached2) / (1.0 - cached1 * cached2);
+    const auto cached1 = FresnelR(n_slab, n_slide, 1);
+    const auto cached2 = FresnelR(n_slide, 1, 1);
+    const auto cached3 = cached1 * cached2;
+    return (cached1 + cached2 - 2 * cached3) / (1 - cached3);
 }
 
 template < typename T, size_t M >
