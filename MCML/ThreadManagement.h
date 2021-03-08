@@ -154,8 +154,8 @@ void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& 
     std::mutex m;
 
     for (int i = 0; i < number_of_threads; ++i) {
-        ThreadParams<double> tmp(params.NP/number_of_threads, params.chance, params.treshold, params.debug, i);
-        threads.emplace_back(std::thread(compute<double>, std::ref(tissue), std::ref(data), tmp, std::ref(counter), std::ref(m)));
+        ThreadParams<T> tmp(params.NP/number_of_threads, params.chance, params.treshold, params.debug, i);
+        threads.emplace_back(std::thread(compute<T>, std::ref(tissue), std::ref(data), tmp, std::ref(counter), std::ref(m)));
     }
 
     while (counter.current() < counter.Total && print) {
