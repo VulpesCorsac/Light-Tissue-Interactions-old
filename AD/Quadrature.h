@@ -24,8 +24,8 @@ public:
 
 protected:
     void calculateQuadrature() ;
-    void gaussQuadrature(const int eps = 1E-8) ;
-    void radauQuadrature() ;
+    void gaussQuadrature() ;
+    void radauQuadrature();
     void mergeQuadratures() ;
 
     T dLegendre(int n, T x) const ;
@@ -85,18 +85,18 @@ T Quadrature<T,M>::dLegendre(int n, T x) const  {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::gaussQuadrature(const int eps)  {
+void Quadrature<T,M>::gaussQuadrature()  {
     using namespace std;
-
     const int n = M/2;
     for (int i = 1; i <= n; i++) {
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;
         T xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
-        while (fabs(xn1 - xn) > eps){
+        while (fabs(xn1 - xn) > 1E-7){
             xn = xn1;
             xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
         }
+
         // v_g.push_back(xn1);
         v_g[i-1] = xn1;
         // w.push_back(2 / ((1 - sqr(xn1)) * sqr(dLegendre(n, xn1))));
