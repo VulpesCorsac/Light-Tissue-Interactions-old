@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -44,6 +46,8 @@
 				<Option working_dir="" />
 				<Option type="2" />
 				<Option compiler="gcc" />
+				<Option host_application="ADMC_test.exe" />
+				<Option run_host_application_in_terminal="1" />
 				<Option createDefFile="1" />
 				<Compiler>
 					<Add directory="googletest/googletest/include" />
@@ -62,7 +66,10 @@
 		<Unit filename="AD/Angles.h" />
 		<Unit filename="AD/DMmethod.h" />
 		<Unit filename="AD/Fresnel.h" />
+		<Unit filename="AD/IAD.h" />
 		<Unit filename="AD/LayerInit.h" />
+		<Unit filename="AD/NelderMead.h" />
+		<Unit filename="AD/NelderMeadasa047.hpp" />
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
