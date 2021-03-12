@@ -17,7 +17,7 @@ T Frenel_refraction(Vector3<T>& v, T n1, T n2, bool debug = false) noexcept {
 
     if (debug)
         std::cerr << "\n-----------------------------------\n"
-                  << "Frenel refraction code\n"
+                  << "Fresnel refraction code\n"
                   << cos_th1 << ' ' << sin_th1 << ' ' << cos_th2 << ' ' << sin_th2
                   << "\n-----------------------------------\n";
 

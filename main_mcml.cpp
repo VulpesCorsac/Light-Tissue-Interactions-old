@@ -15,7 +15,7 @@
 int main() {
 	using T = double;
 
-    //test script with Buger adsorbtion
+    //test script with Buger adsorption
     T mean_free_pathlength = 0.5;
     T attenuation = 0.1;
     T g = 1;
@@ -33,7 +33,7 @@ int main() {
 
     T num = 1000000;
     T treshold = 0.01;
-    T chance = 0.1; //check to be greater than treshold
+    T chance = 0.1; //check to be greater than threshold
 
     constexpr bool debug = false;
     constexpr int numder_of_threads = 4;
@@ -51,7 +51,7 @@ int main() {
     std::cout << std::endl << "------------------------------------------------" << std::endl;
     std::cout << "Coefficient of transition: " << sqrt(transited/num) << std::endl;
     //std::cout << "Coefficient of reflectance: " << reflected/num << std::endl;
-    //std::cout << "Coefficient of adsorbtion: " << absorbed/num << std::endl;
+    //std::cout << "Coefficient of adsorption: " << absorbed/num << std::endl;
     std::cout << "Buger lambert says: " << exp(-attenuation*width) << std::endl;
 
     return 0;

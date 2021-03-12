@@ -78,7 +78,7 @@ void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, 
                 p.move(l1);
                 T R;
 
-                R = Frenel_refraction<T>(p, tissue.n, 1, params.debug);
+                R = Frenel_refraction<T>(p.direction, tissue.n, 1, params.debug);
                 //reflect counter <---------------------------------- NEED TO CODE
                 T r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
 
