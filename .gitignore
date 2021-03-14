@@ -9,6 +9,7 @@ pvs/*
 CMakeFiles/*
 MCML/CMakeFiles/*
 Tests/CMakeFiles/*
+.vs/
 
 main_ad
 main_mcml
