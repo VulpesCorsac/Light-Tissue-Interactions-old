@@ -30,8 +30,8 @@
 				</Linker>
 			</Target>
 			<Target title="Test">
-				<Option output="AD_test" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
+				<Option output="bin/Test/AD_test" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add directory="googletest/googletest/include" />
@@ -107,7 +107,15 @@
 		<Unit filename="googletest/googletest/src/gtest_main.cc">
 			<Option target="GoogleTest" />
 		</Unit>
-		<Unit filename="main_ad.cpp" />
+		<Unit filename="main_ad.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="GoogleTest" />
+		</Unit>
+		<Unit filename="test_ad.cpp">
+			<Option target="Test" />
+			<Option target="GoogleTest" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

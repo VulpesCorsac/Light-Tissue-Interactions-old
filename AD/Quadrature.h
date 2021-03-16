@@ -30,7 +30,6 @@ protected:
 
     T dLegendre(int n, T x) const ;
 
-protected:
     T vc;
     std::array<T,M/2> v_g, v_r, w_g, w_r;
     std::array<T,M> v, w;

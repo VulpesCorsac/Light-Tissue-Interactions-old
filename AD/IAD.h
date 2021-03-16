@@ -24,34 +24,41 @@ T funcToMinimize(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, T r
     return fabs((rs - rmeas)/(rmeas + 1E-6)) + fabs((ts - tmeas)/(tmeas + 1E-6));
 }
 
-template <typename T, size_t M, size_t N>
+template <typename T, size_t M, size_t N, bool fix>
 class Minimizable {
 public:
     virtual T funcToMinimize3args(Matrix<T, 1, N> vec) = 0;
 };
 
-template <typename T, size_t M, size_t N>
-class func: public Minimizable<T, M, N> {
+template <typename T, size_t M, size_t N, bool fix>
+class func: public Minimizable<T, M, N, fix> {
 public:
-    func (T n_slab_new, T n_slide_top_new, T n_slide_bottom_new, T rmeas_new, T tmeas_new, T tcmeas_new) {
+    func (T fixed_param, T n_slab_new, T n_slide_top_new, T n_slide_bottom_new, T rmeas_new, T tmeas_new) {
         this->n_slab = n_slab_new;
         this->n_slide_top = n_slide_top_new;
         this->n_slide_bottom = n_slide_bottom_new;
         this->rmeas = rmeas_new;
         this->tmeas = tmeas_new;
-        this->tau = tauCalc<T, M>(n_slab_new, n_slide_top_new, n_slide_bottom_new, tcmeas_new);
+        if (fix == 1)
+            this->tau = fixed_param;
+        else
+            this->g = fixed_param;
     }
     T funcToMinimize3args (Matrix<T, 1, N> vec) {
         //ROSENBROCK
         //return 100*sqr(vec(1) - sqr(vec(0))) + sqr(vec(0) - 1) + 100*sqr(vec(2) - sqr(vec(1))) +sqr(vec(1) - 1);
-        if (N == 2)
-            return funcToMinimize<T, M>(vec(0), this->tau, vec(1), this->n_slab, this->n_slide_top, this->n_slide_bottom, this->rmeas, this->tmeas);
+        if (N == 2){
+            if (fix == 1)
+                return funcToMinimize<T, M>(vec(0), this->tau, vec(1), this->n_slab, this->n_slide_top, this->n_slide_bottom, this->rmeas, this->tmeas);
+            else
+                return funcToMinimize<T, M>(vec(0), vec(1), this->g, this->n_slab, this->n_slide_top, this->n_slide_bottom, this->rmeas, this->tmeas);
+        }
         else if (N == 3)
             return funcToMinimize<T, M>(vec(0), vec(1), vec(2), this->n_slab, this->n_slide_top, this->n_slide_bottom, this->rmeas, this->tmeas);
     }
 protected:
     T n_slab, n_slide_top, n_slide_bottom, rmeas, tmeas;
-    T tau;
+    T tau, g;
 };
 
 

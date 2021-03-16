@@ -3,6 +3,7 @@
 
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
+#include "AD/NelderMead.h"
 
 #include <iostream>
 
@@ -37,6 +38,35 @@ int main (int argc, char **argv) {
 
     T tc = Tc<T,M>(tau, n_slab, n_slide_top, n_slide_bottom);
     std::cout << "T collimated = " << tc << std::endl;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 0; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T rsmeas = 0.0862;
+    T tsmeas = 0.764;
+    T tcmeas = 0.338;
+
+    T fixedParam;// g or tau
+    if (fix == 1)
+        fixedParam = tauCalc<T, M>(n_slab, n_slide_top, n_slide_bottom, tcmeas); // tau
+    else
+        fixedParam = 0.9; // g
+
+    func<T, M, N, fix> toMinimize(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas);
+
+    int maxIter = 100;
+    T astart = 0.95;
+    T tstart = 0.95;
+    T gstart = 0.95;
+    T fmin;
+    Matrix<T, 1, N> vecMin;
+
+    NelderMeadMin<T, M, N, fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin);
+
+    if (fix == 1)
+        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << std::endl;
+    else
+        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << std::endl;
 
     return 0;
 }
