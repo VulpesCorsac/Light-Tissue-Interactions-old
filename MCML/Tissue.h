@@ -7,12 +7,15 @@
 template < typename T >
 class Tissue {
 public:
-    Tissue(T width, T n, T mfpl, T g, T att) noexcept
+    Tissue() {}
+
+    Tissue(T width, T n, T mfpl, T g, T att, bool is_glass) noexcept
         : width(width)
         , n(n)
         , mfpl(mfpl)
         , g(g)
-        , att(att) {}
+        , att(att)
+        , is_glass(is_glass) {}
 
     T path_length() const noexcept;
 
@@ -24,6 +27,7 @@ public:
     const T mfpl; //mean free path length
     const T g;
     const T att;
+    const bool is_glass;
 };
 
 template < typename T >
@@ -89,3 +93,28 @@ void Tissue<T>::scatter(Photon<T>& p, bool debug) const noexcept {
     p.direction = Vector3<T>(x, y, z);
 }
 
+
+template<typename T>
+class LayersWrapper {
+public:
+    std::vector<Tissue<T>> layers;
+    std::vector<T> structure;
+
+    LayersWrapper() noexcept {
+        layers.push_back(Tissue<T>());
+        structure.push_back(0);
+    }
+
+    void add_layer(Tissue<T> tiss) noexcept {
+        layers.push_back(tiss);
+        structture.push_back(structure.back() + tiss.width);
+    }
+
+    int get_tissue_idx(T z) {
+        int idx = 0;
+        while(z >= structure[idx])
+            idx ++;
+
+        return idx;
+    }
+};

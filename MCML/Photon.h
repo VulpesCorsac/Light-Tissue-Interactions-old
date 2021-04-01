@@ -20,4 +20,5 @@ public:
     Vector3<T> position;
     Vector3<T> direction;
     T weight = 0;
+    bool alive = true;
 };

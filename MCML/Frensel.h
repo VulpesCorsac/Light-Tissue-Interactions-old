@@ -9,6 +9,8 @@ T Frenel_refraction(Vector3<T>& v, T n1, T n2, bool debug = false) noexcept {
     T cos_th1 = fabs(v.e[2]);
     T sin_th1 = sqrt(1 - sqr(cos_th1));
     T sin_th2 = n1 * sin_th1 / n2;
+    if (n1 == n2)
+        return 0;
     if (sin_th2 >= 1)
         return 1;
     T cos_th2 = sqrt(1 - sqr(sin_th2));

@@ -21,8 +21,9 @@ int main() {
     T g = 1;
     T width = 5;
     T n = 1.5;
+    bool is_glas = false;
 
-    Tissue<T> tissue(width, n, mean_free_pathlength, g, attenuation);
+    Tissue<T> tissue(width, n, mean_free_pathlength, g, attenuation, is_glass);
     T z0 = 0;
     T z1 = 5;
     T r1 = 10;

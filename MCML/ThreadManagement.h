@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Tissue.h"
+#include "Vector3.h"
 #include "DataContainer.h"
 #include "Photon.h"
 #include "Frensel.h"
@@ -9,6 +10,8 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
+#include <exception>
+
 
 class ProgressBar {
 public:
@@ -57,9 +60,20 @@ public:
 };
 
 template < typename T >
+void compute(LayersWrapper<T>& L, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter) {
+    Vector3<T> origin(0, 0, 0);
+    Vector3<T> direction(0, 0, 1);
+
+    for(int i = 0; i < params.NP; i++) {
+        hop_drop_spin(Photon<T>(origin, direction, 1), L, data, params);
+        ++counter;
+    }
+}
+
+template < typename T >
 void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter, std::mutex& m) {
     for (int i = 0; i < params.NP; ++i) {
-        Photon<T> p(Vector3<T>(/*random<T>(-0.1, 0.1), random<T>(-0.1, 0.1)*/0, 0, 0), Vector3<T>(0, 0, 1), 1);
+        Photon<T> p(Vector3<T>(0, 0, 0), Vector3<T>(0, 0, 1), 1);
         bool alive = true;
         while (alive) {
             auto l = tissue.path_length();
@@ -165,4 +179,146 @@ void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& 
 
     for (auto& t : threads)
         t.join();
+}
+
+template<typename T>
+void hop_drop_spin(Photon<T>& p, LayersWrapper<T>& L, DataContainer<T>& data, ThreadParams<T> params) {
+
+    T MICRO_STEP = 0.001 // used for leaving glass layer
+
+    while(p.alive) {
+        int idx = L.get_tissue_idx(p.position.e[2]);
+        T down_edje = L.structure[idx - 1];
+        T up_edje = L.structure[idx];
+        T l;
+
+        if(L.layers[idx].is_glass){ //--------------------------------------Operating propagation in glass
+            T n = 1;
+            bool outer = false;
+
+            if(p.direction.e[2] > 0) {
+                l = (up_edje - p.position.e[2])/p.direction.e[2];
+                if(idx < L.structure.size())
+                    n = L.layers[idx + 1].n;
+                else
+                    outer = true;
+            }
+            else {
+                l = (down_edje - p.position.e[2])/p.direction.e[2];
+                if(idx > 1)
+                    n = L.layers[idx - 1].n;
+                else
+                    outer = true;
+            }
+            p.move(l);
+
+            T R = Frenel_refraction<T>(p.direction, L.layers[idx].n, n, params.debug);
+            if(std::isnan(R))
+                throw std::logic_error("R is NaN, occurred in is_glass part");
+
+            if(outer) {
+                T r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
+
+                if (p.direction < 0)
+                    data.add_reflect(r, (1 - R)*p.weight);
+                else
+                    data.add_transit(r, (1 - R)*p.weight);
+
+                p.weight *= R;
+
+                p.direction.e[2] = -p.direction.e[2];
+            } else {
+                if(random<T>(0, 1) <= R)
+                    p.direction.e[2] = -p.direction.e[2];
+                else
+                    p.move(MICRO_STEP);
+            }
+
+
+        } else { //--------------------------------------------------------Operating propagation in tissue
+
+            //=========================================== HOP ============================================
+
+            l = L.layers[idx].path_length();
+
+            bool up_cross = p.position.e[2] + p.direction.e[2]*l > up_edje;
+            bool down_cross = p.position.e[2] + p.direction.e[2]*l < down_edje;
+
+            if(down_cross || up_cross) {
+                T partial_l;
+                T n = 1;
+                bool outer = false;
+                T resize_l = 1;
+
+                if(up_cross) {
+                    partial_l = (up_edje - p.position.e[2])/p.direction.e[2];
+
+                    if(idx < L.structure.size()) // photon tries to escape through up side
+                        n = L.layers[idx + 1].n;
+                    else
+                        outer = true;
+                } else {
+                    partial_l = (down_edje - p.position.e[2])/p.direction.e[2];
+
+                    if(idx > 1) // photon tries to escape through down side
+                        n = L.layers[idx - 1].n;
+                    else
+                        outer = true;
+                }
+
+                T R = Frenel_refraction<T>(p.direction, L.layers[idx].n, n, params.debug);
+                if(std::isnan(R))
+                    throw std::logic_error("R is NaN, occurred in tissue part");
+
+                if(outer) {
+                    T r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
+
+                    if (p.direction < 0)
+                        data.add_reflect(r, (1 - R)*p.weight);
+                    else
+                        data.add_transit(r, (1 - R)*p.weight);
+
+                    p.weight *= R;
+
+                    p.direction.e[2] = -p.direction.e[2];
+                } else {
+                    if(random<T>(0, 1) <= R)
+                        p.direction.e[2] = -p.direction.e[2];
+                    else {
+                        T tmp_mpfl = L.layers[idx].mfpl;
+                        if(up_cross){
+                            idx++;
+                        } else {
+                            idx--;
+                        }
+                        resize_l = L.layers[idx].mfpl/tmp_mpfl;
+                    }
+                }
+
+                p.move((l-partial_l)*resize_l);
+            }
+
+            //=============================================== DROP ======================================
+
+            T r = sqrt(p.position.e[0]*p.position.e[0] + p.position.e[1]*p.position.e[1]);
+            T z = p.position.e[2];
+
+            data.add_medium(z, r, p.weight*L.layers[idx].att);
+
+            p.weight *= (1 - L.layers[idx].att);
+
+            if (p.weight < params.treshold) {
+                if (random<T>(0, 1) < params.chance)
+                    p.weight *= params.increase;
+                else
+                    p.alive = false;
+            }
+
+            //=============================================== SPIN ======================================
+
+            if(p.alive)
+                L.layers[idx].scatter(p, params.debug);
+
+        }
+    }
 }
