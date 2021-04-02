@@ -60,7 +60,7 @@ public:
 };
 
 template < typename T >
-void compute(LayersWrapper<T>& L, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter) {
+void compute_multilayer(LayersWrapper<T>& L, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter) {
     Vector3<T> origin(0, 0, 0);
     Vector3<T> direction(0, 0, 1);
 
