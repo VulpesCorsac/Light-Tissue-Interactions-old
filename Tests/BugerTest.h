@@ -17,7 +17,7 @@ TEST(TEST_INIT_UNDEF, BUGER) {
     double width = 5;
     double n = 1.5;
 
-    Tissue<double> tissue(width, n, mean_free_pathlength, g, attenuation);
+    Tissue<double> tissue(width, n, mean_free_pathlength, g, attenuation, false);
     double z0 = 0;
     double z1 = 5;
     double r1 = 10;

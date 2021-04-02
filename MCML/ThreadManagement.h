@@ -184,7 +184,7 @@ void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& 
 template<typename T>
 void hop_drop_spin(Photon<T>& p, LayersWrapper<T>& L, DataContainer<T>& data, ThreadParams<T> params) {
 
-    T MICRO_STEP = 0.001 // used for leaving glass layer
+    T MICRO_STEP = 0.001; // used for leaving glass layer
 
     while(p.alive) {
         int idx = L.get_tissue_idx(p.position.e[2]);

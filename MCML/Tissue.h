@@ -107,7 +107,7 @@ public:
 
     void add_layer(Tissue<T> tiss) noexcept {
         layers.push_back(tiss);
-        structture.push_back(structure.back() + tiss.width);
+        structure.push_back(structure.back() + tiss.width);
     }
 
     int get_tissue_idx(T z) {
