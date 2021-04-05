@@ -38,9 +38,9 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
     for (int i = 1; i < N + 1; i++) {
         T h = 0;
         if (vstart(i-1) == 0)
-            h = 0.025;
+            h = 0.0025;
         else
-            h = 0.5;
+            h = 0.05;
         start[i] = start[i - 1] - h * basis[i - 1];
         simplex[i].first = start[i];
     }
