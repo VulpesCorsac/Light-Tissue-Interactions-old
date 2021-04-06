@@ -12,13 +12,24 @@ bool sortSimplex(const std::pair<Matrix<T, 1, N>, T> &a, const std::pair<Matrix<
     return (a.second < b.second);
 }
 
-template <typename T, size_t M, size_t N, bool fix>
-void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T, 1, N>& vecMin, T& fmin) {
+template <typename T, size_t N>
+int checkConvergence(const Matrix<T, 1, N>& currentVec, const Matrix<T, 1, N>& prevVec) {
+    int checksum = 0;
+        for (int m = 0; m < N; m++) {
+            if (std::abs(currentVec(m) - prevVec(m)) < 1E-5)
+                checksum+=1;
+        }
+    return checksum;
+}
 
-    Matrix<T, 1, N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs;
+template <typename T, size_t M, size_t N, bool fix>
+void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T, 1, N>& vecMin, T& fmin, int& iters) {
+
+    Matrix<T, 1, N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
     T gamma = 2.0;
+
 
 /*INITIALIZING STARTING SIMPLEX*/
     if (N == 3)
@@ -45,8 +56,12 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
         simplex[i].first = start[i];
     }
 
+    vprevious = simplex[0].first;
 
     for (int k = 0; k < maxIter; k++) {
+
+        iters = k;
+
         // FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (int i = 0; i < N + 1; i++){
             simplex[i].second = f.funcToMinimize3args(simplex[i].first);
@@ -76,15 +91,33 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
             if (f.funcToMinimize3args(ve) < fvr) {
                 simplex[N].first = ve;
                 simplex[N].second = f.funcToMinimize3args(ve);
+
+                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+                if (checksum == N)
+                    break;
+
+                vprevious = simplex[N].first;
                 continue;
             } else {
                 simplex[N].first = vr;
                 simplex[N].second = fvr;
+
+                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+                if (checksum == N)
+                    break;
+
+                vprevious = simplex[N].first;
                 continue;
             }
         } else if (f.funcToMinimize3args(vb) < fvr && fvr < f.funcToMinimize3args(vg)) {
             simplex[N].first = vr;
             simplex[N].second = f.funcToMinimize3args(vr);
+
+            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+            if (checksum == N)
+                break;
+
+            vprevious = simplex[N].first;
             continue;
         } else if (f.funcToMinimize3args(vg) < fvr && fvr < f.funcToMinimize3args(vw)) {
             Matrix<T, 1, N> cache = vr;
@@ -96,6 +129,12 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
         if (f.funcToMinimize3args(vs) < f.funcToMinimize3args(vw)) {
             simplex[N].first = vs;
             simplex[N].second = f.funcToMinimize3args(vs);
+
+            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+            if (checksum == N)
+                break;
+
+            vprevious = simplex[N].first;
             continue;
         } else {
           //  GLOBAL SHRINK;
@@ -105,6 +144,7 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
             }
         }
     }
+
     std::sort(begin(simplex), end(simplex), sortSimplex<T, N>);
 //    std::cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << std::endl;
     vecMin = simplex[0].first;

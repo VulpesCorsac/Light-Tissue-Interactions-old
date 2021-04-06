@@ -87,9 +87,10 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;*/
 
 
-    T rsmeas = 0.0425882;
-    T tsmeas = 0.0288216;
-    T tcmeas = 0.00227921;
+
+    T rsmeas = 0.138833;
+    T tsmeas = 0.823378;
+    T tcmeas = 0.205185;
 
 
     T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
@@ -101,12 +102,16 @@ int main (int argc, char **argv) {
 
     std::cout << astart << " " << gstart << std::endl;
 
-    int maxIter = 50;
+    int maxIter = 100;
 
     T fmin;
     Matrix<T, 1, N> vecMin;
 
-    NelderMeadMin<T, M, N, fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin);
+    int itersMade;
+
+    NelderMeadMin<T, M, N, fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
+
+    std::cout << "Iterations made " << itersMade << std::endl;
 
     if (fix == 1)
         std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << std::endl;
