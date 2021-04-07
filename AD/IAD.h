@@ -2,8 +2,10 @@
 
 #include <utility>
 
+//#include "NelderMead.h"
 #include "Quadrature.h"
 #include "RT.h"
+
 
 template <typename T, size_t M>
 T tauCalc (T n_slab, T n_slide_top, T n_slide_bottom, T Tcol){
@@ -141,9 +143,9 @@ void startingPoints(func<T, M, N, fix> f, T& aStart, T& tStart, T& gStart) {
         tStart = gridT(minCol);
         gStart = f.getG();
     }
-
-
 }
+
+
 
 
 

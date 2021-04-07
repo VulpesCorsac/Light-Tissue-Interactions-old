@@ -1,9 +1,11 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
+
+#include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
-#include "AD/NelderMead.h"
+
 
 #include <iostream>
 #include <fstream>
@@ -87,36 +89,11 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;*/
 
 
+    T rsmeas = 0.139269;
+    T tsmeas = 0.860729;
+    T tcmeas = 5.64959e-006;
 
-    T rsmeas = 0.138833;
-    T tsmeas = 0.823378;
-    T tcmeas = 0.205185;
-
-
-    T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    func<T, M, N, fix> toMinimize(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
-
-    // STARTING POINT
-    T astart, tstart, gstart;
-    startingPoints(toMinimize, astart, tstart, gstart);
-
-    std::cout << astart << " " << gstart << std::endl;
-
-    int maxIter = 100;
-
-    T fmin;
-    Matrix<T, 1, N> vecMin;
-
-    int itersMade;
-
-    NelderMeadMin<T, M, N, fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
-
-    std::cout << "Iterations made " << itersMade << std::endl;
-
-    if (fix == 1)
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << std::endl;
-    else
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << std::endl;
+    IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
 
     return 0;
 }

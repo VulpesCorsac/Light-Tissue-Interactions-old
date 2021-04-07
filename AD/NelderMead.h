@@ -149,6 +149,50 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
 //    std::cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << std::endl;
     vecMin = simplex[0].first;
     fmin = simplex[0].second;
+}
 
+template <typename T, size_t M, size_t N, bool fix>
+void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom) {
+    T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
+    func<T, M, N, fix> toMinimize(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
 
+    // STARTING POINT
+    T astart, tstart, gstart;
+    startingPoints(toMinimize, astart, tstart, gstart);
+
+    if (fix == 1)
+        std::cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << std::endl;
+    else
+       std::cout << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << std::endl;
+
+    //std::cout << astart << " " << gstart << std::endl;
+
+    int maxIter = 50;
+
+    T fmin;
+    Matrix<T, 1, N> vecMin;
+
+    int itersMade;
+
+    NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
+
+    std::cout << "Iterations made " << itersMade << std::endl;
+
+    if (itersMade == maxIter - 1) { //RESTART
+        std::cout << "Restart" << std::endl;
+        if (fix == 1) {
+            astart = vecMin(0)+0.05;
+            gstart = vecMin(1)-0.05;
+        } else {
+            astart = vecMin(0)+0.05;
+            tstart = vecMin(1)+1;
+        }
+        NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
+        std::cout << "Iterations made " << itersMade << std::endl;
+    }
+
+    if (fix == 1)
+        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << std::endl;
+    else
+        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << std::endl;
 }

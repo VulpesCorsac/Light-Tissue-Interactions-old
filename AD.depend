@@ -973,10 +973,10 @@
 
 1615118582 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
 
-1617688587 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_ad.cpp
+1617773597 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_ad.cpp
+	"AD/NelderMead.h"
 	"AD/Quadrature.h"
 	"AD/RT.h"
-	"AD/NelderMead.h"
 	<iostream>
 	<fstream>
 	<string>
@@ -2092,13 +2092,13 @@
 1614330311 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\googletest\googletest\include\gtest\gtest_pred_impl.h
 	"gtest/gtest.h"
 
-1617689144 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\neldermead.h
+1617773775 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\neldermead.h
 	<Eigen/Dense>
 	<iostream>
 	"IAD.h"
 	<utility>
 
-1617650946 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\iad.h
+1617772668 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\iad.h
 	<utility>
 	"Quadrature.h"
 	"RT.h"
