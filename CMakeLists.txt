@@ -11,9 +11,6 @@ set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
 target_link_libraries(main_mcml PRIVATE Threads::Threads)
 
-find_package(Eigen3 REQUIRED)
-include_directories(EIGEN3_INCLUDE_DIR)
-
 add_subdirectory(googletest)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -O2 -std=c++17")
