@@ -62,7 +62,24 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
+			<Add option="-Wnon-virtual-dtor" />
+			<Add option="-Wshadow" />
+			<Add option="-Winit-self" />
+			<Add option="-Wredundant-decls" />
+			<Add option="-Wcast-align" />
+			<Add option="-Wundef" />
+			<Add option="-Wfloat-equal" />
+			<Add option="-Winline" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wmissing-declarations" />
+			<Add option="-Wmissing-include-dirs" />
+			<Add option="-Wswitch-enum" />
+			<Add option="-Wswitch-default" />
+			<Add option="-Weffc++" />
+			<Add option="-Wzero-as-null-pointer-constant" />
+			<Add option="-Wmain" />
+			<Add option="-w" />
+			<Add option="-Wextra" />
 			<Add option="-std=c++17" />
 			<Add directory="eigen" />
 		</Compiler>
@@ -73,7 +90,6 @@
 		<Unit filename="AD/IAD.h" />
 		<Unit filename="AD/LayerInit.h" />
 		<Unit filename="AD/NelderMead.h" />
-		<Unit filename="AD/NelderMeadasa047.hpp" />
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
@@ -113,14 +129,9 @@
 		<Unit filename="googletest/googletest/src/gtest_main.cc">
 			<Option target="GoogleTest" />
 		</Unit>
-		<Unit filename="include/TestAD.h" />
 		<Unit filename="main_ad.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
-			<Option target="GoogleTest" />
-		</Unit>
-		<Unit filename="test_ad.cpp">
-			<Option target="Test" />
 			<Option target="GoogleTest" />
 		</Unit>
 		<Extensions>

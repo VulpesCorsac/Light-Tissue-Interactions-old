@@ -2,19 +2,89 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main_ad.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/DMmethod.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3904" topLine="103" />
+			<Cursor1 position="615" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="AD\Quadrature.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Utils/Utils.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2563" topLine="48" />
+			<Cursor1 position="258" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="AD\NelderMead.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/RT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1203" topLine="31" />
+			<Cursor1 position="5487" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="AD/AddingDoubling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="AD/IAD.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5713" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="10" />
+			<Collapse line="17" />
+			<Collapse line="30" />
+			<Collapse line="36" />
+			<Collapse line="44" />
+			<Collapse line="51" />
+			<Collapse line="80" />
+			<Collapse line="88" />
+			<Collapse line="106" />
+			<Collapse line="132" />
+		</Folding>
+	</File>
+	<File name="Tests/TestIAD.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1508" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="main_ad.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3072" topLine="62" />
+		</Cursor>
+	</File>
+	<File name="AD/NelderMead.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="95" topLine="158" />
+		</Cursor>
+	</File>
+	<File name="Tests/TestAD.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2452" topLine="49" />
+		</Cursor>
+	</File>
+	<File name="AD/Quadrature.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2946" topLine="150" />
+		</Cursor>
+	</File>
+	<File name="AD/LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="272" topLine="1" />
+		</Cursor>
+		<Folding>
+			<Collapse line="9" />
+			<Collapse line="13" />
+			<Collapse line="18" />
+			<Collapse line="30" />
+			<Collapse line="43" />
+			<Collapse line="48" />
+			<Collapse line="54" />
+			<Collapse line="59" />
+			<Collapse line="64" />
+			<Collapse line="73" />
+			<Collapse line="85" />
+		</Folding>
+	</File>
+	<File name="AD/RedistributionFunction.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1607" topLine="56" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
