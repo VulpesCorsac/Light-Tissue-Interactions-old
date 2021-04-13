@@ -3,22 +3,22 @@ image: Ubuntu
 build_script:
 - sh: >-
     git submodule init
-    
+
     git submodule update
 
     cmake CMakeLists.txt
-    
+
     make
-    
-    ctest
-    
-    ./Tests/unit_tests
-    
+
     g++ -std=c++17 -o2 -Ieigen main_ad.cpp -o main_ad
-    
+
     time ./main_ad
 
     g++ -pthread -std=c++17 -o2 main_mcml.cpp -o main_mcml
-    
-    time ./main_mcml
 
+    time ./main_mcml
+test_script:
+- sh: >-
+    ctest
+
+    ./Tests/unit_tests
