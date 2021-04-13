@@ -11,6 +11,7 @@ CMakeFiles/*
 MCML/CMakeFiles/*
 AD/CMakeFiles/*
 Tests/CMakeFiles/*
+Testing/*
 .vs/
 
 main_ad

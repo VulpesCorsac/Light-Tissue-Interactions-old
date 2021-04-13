@@ -9,7 +9,7 @@
 
 using namespace testing;
 
-TEST(TEST_INIT_UNDEF, BUGER) {
+TEST(MC_TEST_BUGER_ADSORBTION, BUGER) {
     //test script with Buger adsorbtion
     double mean_free_pathlength = 0.5;
     double attenuation = 0.1;
