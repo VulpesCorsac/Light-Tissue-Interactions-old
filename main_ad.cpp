@@ -1,11 +1,9 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
-
 
 #include <iostream>
 #include <fstream>
@@ -16,9 +14,11 @@ int main (int argc, char **argv) {
     using T = float;
     const int M = 4;
 
- /*   T a = 0.9; // albedo
+    /*
+    T a = 0.9; // albedo
     T tau = 1.0; // optical thickness
-    T g = 0.9; // anisotropy */
+    T g = 0.9; // anisotropy
+    //*/
     T n_slab = 1.4; // refraction index of sample
     T n_slide_top = 1.5; // refraction index of slide
     T n_slide_bottom = 1.5;
@@ -38,7 +38,8 @@ int main (int argc, char **argv) {
     const int N = 2; // minimize 2 parameters
     const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-/*    std::ofstream myfileIAD;
+    /*
+    std::ofstream myfileIAD;
     myfileIAD.open ("IAD_calc_set.txt");
 
     // GENERATE SETS OF A, TAU AND G
@@ -55,9 +56,8 @@ int main (int argc, char **argv) {
                 RTs<T,M>(setA(i), setT(j), setG(k), n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
 
                 T fixedParam;// g or tau
-                if (fix == 1){
+                if (fix == 1)
                     fixedParam = tauCalc<T, M>(n_slab, n_slide_top, n_slide_bottom, tc);// tau
-                }
                 else
                     fixedParam = setG(k); // g
 
@@ -78,16 +78,18 @@ int main (int argc, char **argv) {
         }
     }
 
-    myfileIAD.close(); */
+    myfileIAD.close();
+    //*/
 
-/*    T ts, rs;
+    /*
+    T ts, rs;
     RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
     std::cout << "T scattered = " << ts << std::endl;
     std::cout << "R scattered = " << rs << std::endl;
 
     T tc = Tc<T,M>(tau, n_slab, n_slide_top, n_slide_bottom);
-    std::cout << "T collimated = " << tc << std::endl;*/
-
+    std::cout << "T collimated = " << tc << std::endl;
+    //*/
 
     T rsmeas = 0.139269;
     T tsmeas = 0.860729;

@@ -12,11 +12,12 @@
 using namespace Eigen;
 
 template < typename T, size_t M >
-void RTslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::array<T,M>& w, Matrix<T,M,M>& Rslab, Matrix<T,M,M>& Tslab){
+void RTslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::array<T,M>& w, Matrix<T,M,M>& Rslab, Matrix<T,M,M>& Tslab) {
     doubling<T,M>(a, tau, g, n_slab, v, w, Rslab, Tslab);
 }
 
-/*template < typename T, size_t M >
+/*
+template < typename T, size_t M >
 Matrix<T,M,M> Rslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::array<T,M>& w) {
     Matrix<T,M,M> myRslab;
     Matrix<T,M,M> myTslab;
@@ -30,7 +31,8 @@ Matrix<T,M,M> Tslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const s
     Matrix<T,M,M> myTslab;
     doubling<T,M>(a, tau, g, n_slab, v, w, myRslab, myTslab);
     return myTslab;
-}*/
+}
+//*/
 
 template < typename T, size_t M >
 Matrix<T,M,M> Rbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
@@ -73,7 +75,6 @@ void RTtotal(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const s
 }
 
 /*
-
 template < typename T, size_t M >
 Matrix<T,M,M> Ttotal(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::array<T,M>& v, const std::array<T,M>& w) {
     Matrix<T,M,M> T02t, R20t, T03t, R30t;
@@ -93,7 +94,6 @@ Matrix<T,M,M> Rtotal(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom,
         R30mod(i, i) += Rbound<T,M>(a, tau, g, n_slab, n_slide_bottom, v, w)(i, i) / sqr(twoaw<T,M>(v, w)(i));
     return R30mod;
 }
-
 //*/
 
 template < typename T, size_t M >
@@ -109,7 +109,6 @@ void RTs(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::
 }
 
 /*
-
 template < typename T, size_t M >
 T Ts(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::array<T,M>& v, const std::array<T,M>& w) {
     const int m = M;
@@ -129,7 +128,6 @@ T Rs(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::arra
         myRs += 2 * v[i] * w[i] * Rtot(i, m - 1);
     return myRs;
 }
-
 //*/
 
 template < typename T, size_t M >

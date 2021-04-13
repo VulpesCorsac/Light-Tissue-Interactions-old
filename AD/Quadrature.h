@@ -15,20 +15,20 @@
 template < typename T, size_t M >
 class Quadrature {
 public:
-    Quadrature(T n_slab) ;
-    std::array<T,M> getV() const ;
-    std::array<T,M> getW() const ;
+    Quadrature(T n_slab);
+    std::array<T,M> getV() const;
+    std::array<T,M> getW() const;
 
-    void setValues(const T& n_slab) ;
-    void printQuadrature(std::array<T,M> arr) const ;
+    void setValues(const T& n_slab);
+    void printQuadrature(std::array<T,M> arr) const;
 
 protected:
-    void calculateQuadrature() ;
-    void gaussQuadrature() ;
+    void calculateQuadrature();
+    void gaussQuadrature();
     void radauQuadrature();
-    void mergeQuadratures() ;
+    void mergeQuadratures();
 
-    T dLegendre(int n, T x) const ;
+    T dLegendre(int n, T x) const;
 
     T vc;
     std::array<T,M/2> v_g, v_r, w_g, w_r;
@@ -91,7 +91,7 @@ void Quadrature<T,M>::gaussQuadrature()  {
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;
         T xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
-        while (fabs(xn1 - xn) > 1E-7){
+        while (fabs(xn1 - xn) > 1E-7) {
             xn = xn1;
             xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
         }
@@ -121,14 +121,12 @@ void Quadrature<T,M>::radauQuadrature()  {
     if (n == 2) {
         roots[0] = 0.3333333333333333;
         roots[1] = -1.0;
-    }
-    else if (n == 4) {
+    } else if (n == 4) {
         roots[0] = 0.822824080974592;
         roots[1] = 0.1810662711185306;
         roots[2] = -0.5753189235216941;
         roots[3] = -1.0;
-    }
-    else if (n == 8) {
+    } else if (n == 8) {
         roots[0] = 0.955041227122575;
         roots[1] = 0.7706418936781912;
         roots[2] = 0.46842035443082103;
@@ -137,8 +135,7 @@ void Quadrature<T,M>::radauQuadrature()  {
         roots[5] = -0.6395186165262154;
         roots[6] = -0.887474878926156;
         roots[7] = -1.0;
-    }
-    else if (n == 16) {
+    } else if (n == 16) {
         roots[0] = 0.9887186220549766;
         roots[1] = 0.941035402704115;
         roots[2] = 0.8571740937696823;
@@ -167,17 +164,17 @@ void Quadrature<T,M>::radauQuadrature()  {
         w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * sqr(dLegendre(n-1, roots[i])));
         v_r[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
     }
-//    w_r.erase(w_r.begin() + (n - 1));
-//    w_r.push_back((1 - vc) / sqr(n));
+    // w_r.erase(w_r.begin() + (n - 1));
+    // w_r.push_back((1 - vc) / sqr(n));
     w_r[n-1] = (1 - vc) / sqr(n);
 }
 
 template < typename T, size_t M >
 void Quadrature<T,M>::mergeQuadratures ()  {
-//    v = v_g;
-//    w = w_g;
-//    v.insert(v.end(), v_r.begin(), v_r.end());
-//    w.insert(w.end(), w_r.begin(), w_r.end());
+    // v = v_g;
+    // w = w_g;
+    // v.insert(v.end(), v_r.begin(), v_r.end());
+    // w.insert(w.end(), w_r.begin(), w_r.end());
     const int m = M;
     for (int i = 0; i < m/2; i++) {
         v[i] = v_g[i];
