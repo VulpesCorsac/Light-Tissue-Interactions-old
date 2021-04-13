@@ -2,7 +2,7 @@
 
 #include "IAD.h"
 
-#include <Eigen/Dense>
+#include "../eigen/Eigen/Dense"
 
 #include <iostream>
 #include <utility>

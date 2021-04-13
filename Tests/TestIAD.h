@@ -3,6 +3,7 @@
 #include "../AD/RT.h"
 #include "../AD/Quadrature.h"
 #include "../AD/NelderMead.h"
+#include "../AD/IAD.h"
 
 #include <gtest/gtest.h>
 
@@ -42,8 +43,7 @@ public:
 protected:
     T myFixedParam, myN_slab, myN_slide_top, myN_slide_bottom, myRsmeas, myTsmeas, myFmin, myAstart, myTstart, myGstart;
     Matrix<T, 1, N> myVecMin;
-    int maxIter = 100;
-
+    const int maxIter = 100;
 };
 
 TEST(IAD, testT1) {

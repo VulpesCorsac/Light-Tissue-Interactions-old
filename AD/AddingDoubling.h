@@ -2,8 +2,8 @@
 
 #include "LayerInit.h"
 
-#include <Eigen/Dense>
-#include <Eigen/LU>
+#include "../eigen/Eigen/Dense"
+#include "../eigen/Eigen/LU"
 
 #include <array>
 

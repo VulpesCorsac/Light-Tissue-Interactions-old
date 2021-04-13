@@ -5,7 +5,7 @@
 
 #include "../Utils/Utils.h"
 
-#include <Eigen/Dense>
+#include "../eigen/Eigen/Dense"
 
 #include <array>
 

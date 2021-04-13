@@ -2,7 +2,7 @@
 
 #include "DMmethod.h"
 
-#include <Eigen/Dense>
+#include "../eigen/Eigen/Dense"
 
 #include <iostream>
 #include <cmath>

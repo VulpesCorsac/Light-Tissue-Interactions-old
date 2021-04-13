@@ -2,7 +2,7 @@
 
 #include "RedistributionFunction.h"
 
-#include <Eigen/LU>
+#include "../eigen/Eigen/LU"
 
 #include <array>
 
