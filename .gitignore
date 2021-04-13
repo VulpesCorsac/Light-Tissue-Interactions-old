@@ -9,6 +9,7 @@ lib/*
 pvs/*
 CMakeFiles/*
 MCML/CMakeFiles/*
+AD/CMakeFiles/*
 Tests/CMakeFiles/*
 .vs/
 

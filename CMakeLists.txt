@@ -11,8 +11,10 @@ target_link_libraries(main_mcml PRIVATE Threads::Threads)
 set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -O2")
 
 add_subdirectory(googletest)
+add_subdirectory(eigen)
 
 enable_testing()
 
 add_subdirectory(MCML)
+add_subdirectory(AD)
 add_subdirectory(Tests)

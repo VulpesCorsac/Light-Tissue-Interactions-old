@@ -1,4 +1,6 @@
-#include "BugerTest.h"
+#include "TestBuger.h"
+#include "TestAD.h"
+#incldue "TestIAD.h"
 
 #include <gtest/gtest.h>
 

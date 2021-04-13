@@ -3,12 +3,12 @@ add_executable(
     main.cpp
     )
 
-add_library(BugerTest.h INTERFACE)
+add_library(TestBuger.h INTERFACE)
 
 target_link_libraries(
     unit_tests
     gtest_main
-    BugerTest.h
+    TestBuger.h
     )
 
 add_test(

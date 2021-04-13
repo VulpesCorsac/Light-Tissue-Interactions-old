@@ -3,13 +3,11 @@
 #include "Tests/TestAD.h"
 #include "Tests/TestIAD.h"
 
-
 #include <cstdio>
 #include <string>
-#include <gtest/gtest.h>
 #include <iostream>
 
-
+#include <gtest/gtest.h>
 
 int main (int argc, char* argv[]) {
     testing::InitGoogleTest(&argc, argv);
