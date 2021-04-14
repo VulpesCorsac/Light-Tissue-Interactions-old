@@ -70,7 +70,7 @@ TEST(AD_FinalRT, RTtestG0) {
 }
 
 TEST(AD_FinalRT, RTtestA0) {
-    testDataRT<float, 8> test(0.95, 5.0, 0.0, 1.5, 1.6, 1.6);
+    testDataRT<float, 8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
     EXPECT_NEAR(test.getRs(), 0.07204, 1e-4);
     EXPECT_NEAR(test.getTs(), 0.54314, 1e-4);
     EXPECT_NEAR(test.getTc(), 0.543166, 1e-4);
