@@ -19,6 +19,7 @@ class Photon
         T lastStep = 0;
         T pathLength = 0.0;
         int stepN = 0;
+        int number = 0;
         bool alive = true;
 
         void printInfo ();

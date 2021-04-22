@@ -29,10 +29,12 @@ class MonteCarlo
 
         T nVac = 1.0;
 
+        const int Nz = 1000;
+        const int Nr = 1000;
 
-        Matrix<T, Dynamic, Dynamic> A = Matrix<T, 500, 2000>::Constant(0.0);
-        Matrix<T, 1, Dynamic> RR = Matrix<T, 1, 2000>::Constant(0.0);
-        Matrix<T, 1, Dynamic> TT = Matrix<T, 1, 2000>::Constant(0.0);
+        Matrix<T, Dynamic, Dynamic> A = Matrix<T, 100, 1000>::Constant(0.0);
+        Matrix<T, 1, Dynamic> RR = Matrix<T, 1, 1000>::Constant(0.0);
+        Matrix<T, 1, Dynamic> TT = Matrix<T, 1, 1000>::Constant(0.0);
 
         Photon<T> photon;
         const Medium<T>& tissue;
@@ -43,7 +45,7 @@ class MonteCarlo
         void Drop();
         void Spin();
         void Terminate();
-        void Simulation(const int& debug);
+        void Simulation(const int& debug_n);
 
         T Volume(const T& ir);
         T Area(const T& ir);
@@ -70,21 +72,35 @@ void MonteCarlo<T>::Launch(const Matrix<T, 1, 3>& startCoord, const Matrix<T, 1,
 
 template <typename T>
 void MonteCarlo<T>::Hop() {
+//    this->photon.printInfo();
+//    std::cout << "" << std::endl;
     T RND = random(0.0, 1.0);
     T s = - std::log(RND)/tissue.getMt();
+    if (this->photon.number == 25238)
+        std::cout<< s << std::endl;
     this->photon.coordinate += s * this->photon.direction;
     this->photon.lastStep = s;
     this->photon.pathLength += s;
+    if (this->photon.number == 25238)
+        this->photon.printInfo();
+
+
+//    this->photon.printInfo();
 }
 
 template <typename T>
 void MonteCarlo<T>::CheckBoundaries() {
     if (this->photon.coordinate(2) < 0) { // trying to escape -- front
+ //       std::cout << "BND CHK FRONT" << std::endl;
+        if (this->photon.number == 25238)
+            this->photon.printInfo();
         T s1 = std::abs(this->photon.coordinate(2) / this->photon.direction(2));
    /*     this->photon.coordinate -= this->photon.lastStep * this->photon.direction;
         this->photon.pathLength -= this->photon.lastStep; // maybe i'll get rid of it
         this->photon.coordinate += s1 * this->photon.direction;*/
         this->photon.coordinate -= s1*this->photon.direction;
+ //       this->photon.printInfo();
+
 
         T n1 = tissue.getN();
         T n2 = this->nVac;
@@ -93,9 +109,13 @@ void MonteCarlo<T>::CheckBoundaries() {
         T Ri = FresnelR(n1, n2, cos1);
         T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
         int ir = std::floor(r/this->dr); // +1?
+        if (this->photon.number == 25238)
+            std::cout << "R ir = " << ir << " " << this->photon.coordinate << this->photon.direction << std::endl;
+        if (abs(ir) > 500)
+            this->RR(500) += (1 - Ri) * this->photon.weight; // I had one case with coordinates = nan and ir = -...
 
-    /*    if (ir > Nr)
-            std::cout << "ACHTUNG!!! ir exceeds Nr during boundary check" << std::endl;*/
+ //       if (ir > Nr)
+   //         std::cout << "ACHTUNG!!! ir exceeds Nr during boundary check" << std::endl;
 
         this->RR(ir) += (1 - Ri) * this->photon.weight;
         this->photon.weight *= Ri;
@@ -103,11 +123,23 @@ void MonteCarlo<T>::CheckBoundaries() {
 
         this->photon.coordinate = (this->photon.lastStep - s1) * this->photon.direction;
         this->photon.lastStep -= s1;
+ //       this->photon.printInfo();
+   //     std::cout << RR << std:: endl;
     } else if (this->photon.coordinate(2) > tissue.getD()) { // trying to escape -- rear
+  //      std::cout << "BND CHK REAR" << std::endl;
         T s1 = std::abs((this->photon.coordinate(2)-tissue.getD()) / this->photon.direction(2));
+
+        if (this->photon.number == 25238) {
+            this->photon.printInfo();
+            std::cout << "s1 = " << s1 << std::endl;
+        }
   /*      this->photon.coordinate -= this->photon.lastStep * this->photon.direction;
         this->photon.coordinate += s1 * this->photon.direction;*/
         this->photon.coordinate -= s1*this->photon.direction;
+   //     this->photon.printInfo();
+        if (this->photon.number == 25238)
+            this->photon.printInfo();
+
 
         T n1 = tissue.getN();
         T n2 = this->nVac;
@@ -116,26 +148,39 @@ void MonteCarlo<T>::CheckBoundaries() {
         T Ri = FresnelR(n1, n2, cos1);
         T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
         int ir = std::floor(r/this->dr); // +1?
+        if (this->photon.number == 25238)
+            std::cout << "T ir = " << ir << " " << this->photon.coordinate << this->photon.direction << std::endl;
+        if (ir < 0)
+            this->photon.alive = 0; // I had one case with coordinates = nan and ir = -...
 
-    /*    if (ir > Nr)
-            std::cout << "ACHTUNG!!! ir exceeds Nr during boundary check" << std::endl;*/
+    //    if (ir > Nr)
+      //      std::cout << "ACHTUNG!!! ir exceeds Nr during boundary check" << std::endl;
 
         this->TT(ir) += (1 - Ri) * this->photon.weight;
         this->photon.weight *= Ri;
         this->photon.direction(2) = -this->photon.direction(2);
 
+        if (std::abs(this->photon.lastStep - s1) == tissue.getD())
+            this->photon.coordinate += (this->photon.lastStep - s1 - 1e-8) * this->photon.direction;
         this->photon.coordinate += (this->photon.lastStep - s1) * this->photon.direction;
         this->photon.lastStep -= s1;
+        if (this->photon.number == 25238)
+            this->photon.printInfo();
+  //      this->photon.printInfo();
+   //     std::cout << TT << std::endl;
     }
 }
 
 template <typename T>
 void MonteCarlo<T>::Drop() {
+ //   std::cout << "DROP" << std::endl;
     T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
     int ir = std::floor(r/this->dr);
     int iz = std::floor(this->photon.coordinate(2)/this->dz);
-    if (iz < 0)
-        iz = 0;
+ //   std::cout << "A ir = " << ir << " iz = " << iz << std::endl;
+
+    if (abs(ir)>500)
+            this->A(iz, 500) += this->photon.weight * (tissue.getMa()/tissue.getMt());
 
 /*    if (ir >= Nr)
         std::cout << "ACHTUNG!!! ir exceeds Nr during drop" << std::endl;
@@ -144,10 +189,12 @@ void MonteCarlo<T>::Drop() {
 
     this->A(iz, ir) += this->photon.weight * (tissue.getMa()/tissue.getMt());
     this->photon.weight *= (tissue.getMs()/tissue.getMt());
+ //   this->photon.printInfo();
 }
 
 template <typename T>
 void MonteCarlo<T>::Spin() {
+ //   std::cout << "SPIN" << std::endl;
     T g = tissue.getG();
     T RND = random(0.0, 1.0);
     T cosHG = (1 + sqr(g) - sqr((1 - sqr(g))/(1 - g + 2*g*RND)))/(2*g);
@@ -167,8 +214,7 @@ void MonteCarlo<T>::Spin() {
     T uyy = sinHG * (uy*uz*std::cos(phi) + ux*std::sin(phi))/temp + uy*cosHG;
     T uzz = -sinHG * std::cos(phi) * temp + uz*cosHG;
 
-    if (std::abs(uz) - 1.0 < 1e-3){
-
+    if (std::abs(uz - 1.0) < 1e-3){
         uxx = sinHG * std::cos(phi);
         uyy = sinHG * std::sin(phi);
         if (uz > 0 || uz == 0)
@@ -180,11 +226,13 @@ void MonteCarlo<T>::Spin() {
     this->photon.direction(0) = uxx;
     this->photon.direction(1) = uyy;
     this->photon.direction(2) = uzz;
+//    this->photon.printInfo();
 }
 
 template <typename T>
 void MonteCarlo<T>::Terminate() {
     if (this->photon.weight < this->threshold) {
+ //       std::cout << "KILL" << std::endl;
         T RND = random(0.0, 1.0);
         if (RND < this->chance || RND == this->chance){
             this->photon.weight /= this->chance;
@@ -195,17 +243,28 @@ void MonteCarlo<T>::Terminate() {
 
 
 template <typename T>
-void MonteCarlo<T>::Simulation(const int& debug) {
+void MonteCarlo<T>::Simulation(const int& debug_n) {
     Matrix<T, 1, 3> startCoord, startDir;
     startCoord << 0, 0, 0;
     startDir << 0, 0, 1;
     Launch(startCoord, startDir);
-    this->photon.number = debug;
+    this->photon.number = debug_n;
+  //  std::cout << debug_n << std::endl;
     while(this->photon.alive == 1) {
+            if (debug_n == 25238)
+                std::cout << "HOP" << std::endl;
             Hop();
+            if (debug_n == 25238)
+                std::cout << "BND" << std::endl;
             CheckBoundaries();
+            if (debug_n == 25238)
+                std::cout << "DROP" << std::endl;
             Drop();
+            if (debug_n == 25238)
+                std::cout << "SPIN" << std::endl;
             Spin();
+            if (debug_n == 25238)
+                std::cout << "KILL" << std::endl;
             Terminate();
     }
 }
@@ -223,6 +282,7 @@ T MonteCarlo<T>::Area(const T& ir) {
 template <typename T>
 void MonteCarlo<T>::Normalize() {
     for (int i = 0; i < this->Nphotons; i++) {
+
         Simulation(i);
     }
 
@@ -233,6 +293,8 @@ void MonteCarlo<T>::Normalize() {
     std::cout << "A matrix" << std::endl;
     std::cout << this->A << std::endl;*/
 
+    std::cout << std::sqrt(this->RR.sum()/this->Nphotons) << std::endl;
+    std::cout << std::sqrt(this->TT.sum()/this->Nphotons) << std::endl;
     std::cout << this->RR.sum()/this->Nphotons << std::endl;
     std::cout << this->TT.sum()/this->Nphotons << std::endl;
 /*    for (int i = 0; i < Nz; i++){
