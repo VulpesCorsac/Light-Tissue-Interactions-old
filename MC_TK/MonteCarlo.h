@@ -37,7 +37,7 @@ class MonteCarlo
         Photon<T> photon;
         const Medium<T>& tissue;
 
-        void Launch(const Matrix<T, 1, 3>& startCoord, const Matrix<T, 1, 3>& startDir); //TODO: different light sources
+        void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir); //TODO: different light sources
         void Hop();
         void CheckBoundaries();
         void Drop();
@@ -62,7 +62,7 @@ MonteCarlo<T>::MonteCarlo(const Medium<T>& new_medium, const int& new_Np, const 
 }
 
 template <typename T>
-void MonteCarlo<T>::Launch(const Matrix<T, 1, 3>& startCoord, const Matrix<T, 1, 3>& startDir) {
+void MonteCarlo<T>::Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir) {
  //   std::cout << "LAUNCH" << std::endl;
     this->photon = Photon<T>(startCoord, startDir, 1.0, 0.0);
     this->photon.alive=1;
@@ -79,8 +79,8 @@ void MonteCarlo<T>::Hop() {
 
 template <typename T>
 void MonteCarlo<T>::CheckBoundaries() {
-    if (this->photon.coordinate(2) < 0) { // trying to escape -- front
-        T s1 = std::abs(this->photon.coordinate(2) / this->photon.direction(2));
+    if (this->photon.coordinate.z < 0) { // trying to escape -- front
+        T s1 = std::abs(this->photon.coordinate.z / this->photon.direction.z);
    /*     this->photon.coordinate -= this->photon.lastStep * this->photon.direction;
         this->photon.pathLength -= this->photon.lastStep; // maybe i'll get rid of it
         this->photon.coordinate += s1 * this->photon.direction;*/
@@ -88,10 +88,10 @@ void MonteCarlo<T>::CheckBoundaries() {
 
         T n1 = tissue.getN();
         T n2 = this->nVac;
-        T cos1 = std::abs(this->photon.direction(2));
+        T cos1 = std::abs(this->photon.direction.z);
 
         T Ri = FresnelR(n1, n2, cos1);
-        T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
+        T r = std::sqrt(sqr(this->photon.coordinate.x) + sqr(this->photon.coordinate.y));
         int ir = std::floor(r/this->dr); // +1?
 
     /*    if (ir > Nr)
@@ -99,22 +99,22 @@ void MonteCarlo<T>::CheckBoundaries() {
 
         this->RR(ir) += (1 - Ri) * this->photon.weight;
         this->photon.weight *= Ri;
-        this->photon.direction(2) = -this->photon.direction(2);
+        this->photon.direction.z = -this->photon.direction.z;
 
         this->photon.coordinate = (this->photon.lastStep - s1) * this->photon.direction;
         this->photon.lastStep -= s1;
-    } else if (this->photon.coordinate(2) > tissue.getD()) { // trying to escape -- rear
-        T s1 = std::abs((this->photon.coordinate(2)-tissue.getD()) / this->photon.direction(2));
+    } else if (this->photon.coordinate.z > tissue.getD()) { // trying to escape -- rear
+        T s1 = std::abs((this->photon.coordinate.z-tissue.getD()) / this->photon.direction.z);
   /*      this->photon.coordinate -= this->photon.lastStep * this->photon.direction;
         this->photon.coordinate += s1 * this->photon.direction;*/
         this->photon.coordinate -= s1*this->photon.direction;
 
         T n1 = tissue.getN();
         T n2 = this->nVac;
-        T cos1 = std::abs(this->photon.direction(2));
+        T cos1 = std::abs(this->photon.direction.z);
 
         T Ri = FresnelR(n1, n2, cos1);
-        T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
+        T r = std::sqrt(sqr(this->photon.coordinate.x) + sqr(this->photon.coordinate.y));
         int ir = std::floor(r/this->dr); // +1?
 
     /*    if (ir > Nr)
@@ -122,7 +122,7 @@ void MonteCarlo<T>::CheckBoundaries() {
 
         this->TT(ir) += (1 - Ri) * this->photon.weight;
         this->photon.weight *= Ri;
-        this->photon.direction(2) = -this->photon.direction(2);
+        this->photon.direction.z = -this->photon.direction.z;
 
         this->photon.coordinate += (this->photon.lastStep - s1) * this->photon.direction;
         this->photon.lastStep -= s1;
@@ -131,9 +131,9 @@ void MonteCarlo<T>::CheckBoundaries() {
 
 template <typename T>
 void MonteCarlo<T>::Drop() {
-    T r = std::sqrt(sqr(this->photon.coordinate(0)) + sqr(this->photon.coordinate(1)));
+    T r = std::sqrt(sqr(this->photon.coordinate.x) + sqr(this->photon.coordinate.y));
     int ir = std::floor(r/this->dr);
-    int iz = std::floor(this->photon.coordinate(2)/this->dz);
+    int iz = std::floor(this->photon.coordinate.z/this->dz);
     if (iz < 0)
         iz = 0;
 
@@ -157,9 +157,9 @@ void MonteCarlo<T>::Spin() {
         cosHG = 1.0;
     T phi = 2*M_PI*RND; //radians
 
-    T ux = this->photon.direction(0);
-    T uy = this->photon.direction(1);
-    T uz = this->photon.direction(2);
+    T ux = this->photon.direction.x;
+    T uy = this->photon.direction.y;
+    T uz = this->photon.direction.z;
     T sinHG = std::sqrt(1 - sqr(cosHG));
     T temp = std::sqrt(1 - sqr(uz));
 
@@ -177,9 +177,9 @@ void MonteCarlo<T>::Spin() {
             uzz = -cosHG;
     }
 
-    this->photon.direction(0) = uxx;
-    this->photon.direction(1) = uyy;
-    this->photon.direction(2) = uzz;
+    this->photon.direction.x = uxx;
+    this->photon.direction.y = uyy;
+    this->photon.direction.z = uzz;
 }
 
 template <typename T>
@@ -196,9 +196,9 @@ void MonteCarlo<T>::Terminate() {
 
 template <typename T>
 void MonteCarlo<T>::Simulation(const int& debug) {
-    Matrix<T, 1, 3> startCoord, startDir;
-    startCoord << 0, 0, 0;
-    startDir << 0, 0, 1;
+    Vector3D<T> startCoord, startDir;
+    startCoord = Vector3D<T>(0,0,0);
+    startDir = Vector3D<T>(0,0,1);
     Launch(startCoord, startDir);
     this->photon.number = debug;
     while(this->photon.alive == 1) {

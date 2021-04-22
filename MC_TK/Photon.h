@@ -1,20 +1,22 @@
 #pragma once
 
 #include "../eigen/Eigen/Dense"
+#include "Vector3.h"
 #include <iostream>
 
 using namespace Eigen;
+using namespace Geo;
 
 template <typename T>
 class Photon
 {
     public:
         Photon() = default;//default constructor
-        Photon(const Matrix<T, 1, 3>& coord, const Matrix<T, 1, 3>& dir, const T& w, const T& path); // construct from coord, dir, weight
+        Photon(const Vector3D<T>& coord, const Vector3D<T>& dir, const T& w, const T& path); // construct from coord, dir, weight
         ~Photon() = default; //destructor
 
-        Matrix<T, 1, 3> coordinate = Matrix<T, 1, 3>::Constant(0.0);
-        Matrix<T, 1, 3> direction = Matrix<T, 1, 3>::Constant(0.0);
+        Vector3D<T> coordinate = Vector3D<T>(0,0,0);
+        Vector3D<T> direction = Vector3D<T>(0,0,0);
         T weight = 1.0;
         T lastStep = 0;
         T pathLength = 0.0;
@@ -26,7 +28,7 @@ class Photon
 };
 
 template < typename T>
-Photon<T>::Photon(const Matrix<T, 1, 3>& new_coord, const Matrix<T, 1, 3>& new_dir, const T& new_w, const T& new_path)  {
+Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& new_w, const T& new_path)  {
     coordinate = new_coord;
     direction = new_dir;
     weight = new_w;

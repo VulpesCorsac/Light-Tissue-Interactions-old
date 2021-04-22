@@ -41,6 +41,7 @@
 		<Unit filename="MC_TK/Medium.h" />
 		<Unit filename="MC_TK/MonteCarlo.h" />
 		<Unit filename="MC_TK/Photon.h" />
+		<Unit filename="MC_TK/Vector3.h" />
 		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_mcTK.cpp" />
