@@ -5,10 +5,11 @@
 #include "Photon.h"
 #include "Frensel.h"
 
-#include <iostream>
 #include <thread>
-#include <atomic>
 #include <mutex>
+#include <iostream>
+#include <atomic>
+
 
 class ProgressBar {
 public:
