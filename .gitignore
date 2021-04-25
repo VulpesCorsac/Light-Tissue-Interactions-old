@@ -16,10 +16,13 @@ Testing/*
 
 main_ad
 main_mcml
+main_mcTK
 Tests/unit_tests
 
 strace_out
 log
-Makefile
+tasks/*
 
+Makefile
 CMakeCache.txt
+
