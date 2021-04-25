@@ -6,6 +6,7 @@
 [![deepcode](https://www.deepcode.ai/api/gh/badge?key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwbGF0Zm9ybTEiOiJnaCIsIm93bmVyMSI6IlZ1bHBlc0NvcnNhYyIsInJlcG8xIjoiTGlnaHQtVGlzc3VlLUludGVyYWN0aW9ucyIsImluY2x1ZGVMaW50IjpmYWxzZSwiYXV0aG9ySWQiOjE2MDkxLCJpYXQiOjE2MTkzNzY5NzZ9.Rw_8dq6WMsEgU2_HudmVREkEteOIdgeb-RtSH1mvfak)](https://www.deepcode.ai/app/gh/VulpesCorsac/Light-Tissue-Interactions/_/dashboard?utm_content=gh%2FVulpesCorsac%2FLight-Tissue-Interactions)
 [![CodeFactor](https://www.codefactor.io/repository/github/vulpescorsac/light-tissue-interactions/badge)](https://www.codefactor.io/repository/github/vulpescorsac/light-tissue-interactions)
 [![BCH compliance](https://bettercodehub.com/edge/badge/VulpesCorsac/Light-Tissue-Interactions?branch=main)](https://bettercodehub.com/)
+[![Codeac](https://static.codeac.io/badges/2-306647886.svg "Codeac")](https://app.codeac.io/github/VulpesCorsac/Light-Tissue-Interactions)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/6913369d5e5eeb196ef6/maintainability)](https://codeclimate.com/github/VulpesCorsac/Light-Tissue-Interactions/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/6913369d5e5eeb196ef6/test_coverage)](https://codeclimate.com/github/VulpesCorsac/Light-Tissue-Interactions/test_coverage)
