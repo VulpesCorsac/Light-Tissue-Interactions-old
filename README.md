@@ -8,8 +8,5 @@
 [![BCH compliance](https://bettercodehub.com/edge/badge/VulpesCorsac/Light-Tissue-Interactions?branch=main)](https://bettercodehub.com/)
 [![Codeac](https://static.codeac.io/badges/2-306647886.svg "Codeac")](https://app.codeac.io/github/VulpesCorsac/Light-Tissue-Interactions)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/6913369d5e5eeb196ef6/maintainability)](https://codeclimate.com/github/VulpesCorsac/Light-Tissue-Interactions/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/6913369d5e5eeb196ef6/test_coverage)](https://codeclimate.com/github/VulpesCorsac/Light-Tissue-Interactions/test_coverage)
-
 # Light-Tissue-Interactions
 MC, AD, etc.
