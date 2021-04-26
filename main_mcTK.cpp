@@ -14,7 +14,7 @@ int main (int argc, char **argv) {
     // startDir = Vector3D<T>(0,0,1);
 
     // Photon<T> photon(startCoord, startDir, 1.0, 0.0);
-    Medium<T> tissue(1.5, 100, 900, 1e-3, 0.9);
+    Medium<T> tissue(1.4, 500, 0, 1e-3, 0.99);
     MonteCarlo<T> mc(tissue, 1e5, 1, 1e-4, 1e-5, 0.1, 1e-4);
     mc.Normalize();
 

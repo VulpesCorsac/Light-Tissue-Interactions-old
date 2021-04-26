@@ -40,14 +40,15 @@ protected:
     T nVac = 1.0;
 
 
-    Matrix<T, Dynamic, Dynamic> A = Matrix<T, 500, 2000>::Constant(0.0);
-    Matrix<T, 1, Dynamic> RR = Matrix<T, 1, 2000>::Constant(0.0);
-    Matrix<T, 1, Dynamic> TT = Matrix<T, 1, 2000>::Constant(0.0);
+    Matrix<T, Dynamic, Dynamic> A = Matrix<T, 1000, 3000>::Constant(0.0);
+    Matrix<T, 1, Dynamic> RR = Matrix<T, 1, 3000>::Constant(0.0);
+    Matrix<T, 1, Dynamic> TT = Matrix<T, 1, 3000>::Constant(0.0);
 
     Photon<T> photon; /// TODO: you use the same photon, why not passing it as a parameter to the function to be able to use multithreading later on?
     const Medium<T>& tissue;
 
     void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir); //TODO: different light sources
+    void FirstReflection();
     void Hop();
     void CheckBoundaries();
     void Drop();
@@ -92,6 +93,21 @@ void MonteCarlo<T>::Hop() {
     photon.coordinate += s * photon.direction;
     photon.lastStep = s;
     photon.pathLength += s;
+}
+
+template < typename T >
+void MonteCarlo<T>::FirstReflection() {
+    T n1 = nVac;
+    T n2 = tissue.getN();
+    T cos1 = std::abs(photon.direction.z);
+
+    T Ri = FresnelR(n1, n2, cos1);
+    T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+    int ir = std::floor(r/dr);
+
+    RR(ir) += Ri * photon.weight;
+    photon.weight *= (1 - Ri);
+    photon.direction.z = Cos2(n1, n2, cos1);
 }
 
 template < typename T >
@@ -231,6 +247,7 @@ void MonteCarlo<T>::Simulation(const int& debug) {
     startDir = Vector3D<T>(0,0,1);
     Launch(startCoord, startDir);
     photon.number = debug;
+    FirstReflection();
     while(photon.alive) {
         Hop();
         CheckBoundaries();
