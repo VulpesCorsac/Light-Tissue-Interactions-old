@@ -4,6 +4,7 @@
 #include "MC_TK/Photon.h"
 #include "MC_TK/Medium.h"
 #include "MC_TK/MonteCarlo.h"
+#include "MC_TK/BugerLambert.h"
 
 int main (int argc, char **argv) {
     using T = float;
@@ -16,6 +17,8 @@ int main (int argc, char **argv) {
     Medium<T> tissue(1.5, 100, 900, 1e-3, 0.9);
     MonteCarlo<T> mc(tissue, 1e5, 1, 1e-4, 1e-5, 0.1, 1e-4);
     mc.Normalize();
+
+    std::cout << BugerLambert(tissue.getTau(), tissue.getN(), tissue.getN(), tissue.getN()) << std::endl;
 
     return 0;
 }

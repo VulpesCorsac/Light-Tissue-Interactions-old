@@ -177,15 +177,17 @@ template < typename T >
 void MonteCarlo<T>::Spin() {
     T g = tissue.getG();
     /// TODO: You actually calculate random once, but use at least twice!
-    T RND = random(0.0, 1.0);
-    T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND))) / (2 * g);
+    T RND1 = random(0.0, 1.0);
+    T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
 
     if (g == 0)
-        cosHG = 2 * RND - 1;
+        cosHG = 2 * RND1 - 1;
     else if (g == 1)
         cosHG = 1.0;
 
-    T phi = 2 * M_PI * RND; // radians
+    T RND2 = random(0.0, 1.0);
+
+    T phi = 2 * M_PI * RND2; // radians
 
     T ux = photon.direction.x;
     T uy = photon.direction.y;

@@ -37,6 +37,7 @@
 			<Add option="-std=c++17" />
 			<Add directory="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen" />
 		</Compiler>
+		<Unit filename="MC_TK/BugerLambert.h" />
 		<Unit filename="MC_TK/Fresnel.h" />
 		<Unit filename="MC_TK/Medium.h" />
 		<Unit filename="MC_TK/MonteCarlo.h" />
