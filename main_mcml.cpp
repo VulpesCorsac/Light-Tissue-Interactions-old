@@ -15,28 +15,28 @@
 int main() {
 	using T = double;
 
-    //test script with Buger adsorption
-    T mean_free_pathlength = 0.5;
-    T attenuation = 0.1;
-    T g = 1;
-    T width = 5;
+    //test script with Buger arption
+    T mean_free_pathlength = 0.001;
+    T attenuation = 0.9; // albedo
+    T g = 0.9;
+    T width = 0.01;
     T n = 1.5;
 
     Tissue<T> tissue(width, n, mean_free_pathlength, g, attenuation);
     T z0 = 0;
-    T z1 = 5;
-    T r1 = 10;
+    T z1 = 0.002;
+    T r1 = 0.001;
     int nR = 500;
     int nZ = 500;
 
     DataContainer<T> data(nR, nZ, z0, z1, r1);
 
-    T num = 1000000;
+    T num = 1000;
     T treshold = 0.01;
     T chance = 0.1; //check to be greater than threshold
 
     constexpr bool debug = false;
-    constexpr int numder_of_threads = 4;
+    constexpr int numder_of_threads = 1;
 
     set_up_threads(numder_of_threads, tissue, data, ThreadParams<T>(num, chance, treshold, debug, 0), true);
 
@@ -50,8 +50,8 @@ int main() {
 
     std::cout << std::endl << "------------------------------------------------" << std::endl;
     std::cout << "Coefficient of transition: " << sqrt(transited/num) << std::endl;
-    //std::cout << "Coefficient of reflectance: " << reflected/num << std::endl;
-    //std::cout << "Coefficient of adsorption: " << absorbed/num << std::endl;
+    std::cout << "Coefficient of reflectance: " << reflected/num << std::endl;
+    std::cout << "Coefficient of adsorption: " << absorbed/num << std::endl;
     std::cout << "Buger lambert says: " << exp(-attenuation*width) << std::endl;
 
     return 0;

@@ -60,6 +60,10 @@ public:
 template < typename T >
 void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter, std::mutex& m) {
     for (int i = 0; i < params.NP; ++i) {
+        if(false)
+            params.debug = true;
+        else
+            params.debug = false;
         Photon<T> p(Vector3<T>(/*random<T>(-0.1, 0.1), random<T>(-0.1, 0.1)*/0, 0, 0), Vector3<T>(0, 0, 1), 1);
         bool alive = true;
         while (alive) {
