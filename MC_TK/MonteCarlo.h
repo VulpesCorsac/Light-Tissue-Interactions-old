@@ -39,7 +39,8 @@ protected:
 
     T nVac = 1.0;
 
-    bool debug = 0;
+    bool debug = 1;
+    int debugPhoton = 0;
 
     Matrix<T, Dynamic, Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
@@ -100,18 +101,21 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection() {
     RR(ir) += Ri * photon.weight;
     photon.weight *= (1 - Ri);
     photon.direction.z = Cos2(n1, n2, cos1);
+    photon.coordinate.z += 1e-9; //crook
 }
 
 template < typename T, size_t Nz, size_t Nr >
 void MonteCarlo<T, Nz, Nr>::CheckBoundaries() {
     if (photon.coordinate.z < 0) {// trying to escape -- front
 
-        if (debug && photon.number == 1) {
-            std::cout << "Reflection on front" << std::endl;
+        T s1 = std::abs((photon.coordinate.z) / photon.direction.z);
+        T s = photon.lastStep;
+
+        if (debug && photon.number == debugPhoton) {
+            std::cout << "Reflection on front, s1 = " << s1 << std::endl;
+            photon.printInfo();
         }
 
-        T s1 = std::abs(photon.coordinate.z / photon.direction.z);
-        T s = photon.lastStep;
         photon.coordinate -= s1*photon.direction;
 
         T n1 = tissue.getN();
@@ -136,17 +140,19 @@ void MonteCarlo<T, Nz, Nr>::CheckBoundaries() {
         T z = photon.direction.z;
         photon.direction.z = -z;
 
-        photon.coordinate += (s - s1) * photon.direction;
-        photon.lastStep -= s1;
+        photon.coordinate += (s-s1) * photon.direction;
+        photon.lastStep = s1;
 
     } else if (photon.coordinate.z > tissue.getD()) { // trying to escape -- rear
 
-        if (debug && photon.number == 1) {
-            std::cout << "Reflection on rear" << std::endl;
+        T s1 = std::abs((photon.coordinate.z - tissue.getD()) / photon.direction.z);
+        T s = photon.lastStep;
+
+        if (debug && photon.number == debugPhoton) {
+            std::cout << "Reflection on rear, s1 = " << s1 << std::endl;
+            photon.printInfo();
         }
 
-        T s1 = std::abs((photon.coordinate.z-tissue.getD()) / photon.direction.z);
-        T s = photon.lastStep;
         photon.coordinate -= s1*photon.direction;
 
         T n1 = tissue.getN();
@@ -157,8 +163,8 @@ void MonteCarlo<T, Nz, Nr>::CheckBoundaries() {
         T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
         int ir = std::floor(r/dr); // +1?
 
-  /*      if (ir > Nr)
-            std::cout << "ACHTUNG!!! ir = " << ir << " exceeds Nr during boundary check" << std::endl;*/
+        if (ir > Nr && debug)
+            std::cout << "ACHTUNG!!! ir = " << ir << " exceeds Nr during boundary check" << std::endl;
 
         if (ir >= Nr)
             TT(Nr-1)+= (1 - Ri) * photon.weight; // OVERFLOW BIN
@@ -170,8 +176,8 @@ void MonteCarlo<T, Nz, Nr>::CheckBoundaries() {
         T z = photon.direction.z;
         photon.direction.z = -z;
 
-        photon.coordinate += (s - s1) * photon.direction;
-        photon.lastStep -= s1;
+        photon.coordinate += (s-s1) * photon.direction;
+        photon.lastStep = s1;
     }
 }
 
@@ -179,10 +185,84 @@ template < typename T, size_t Nz, size_t Nr >
 void MonteCarlo<T, Nz, Nr>::Hop() {
     T RND = random(0.0, 1.0);
     T s = - std::log(RND) / tissue.getMt();
+  //  T s = 0.0025;
     photon.coordinate += s * photon.direction;
-    photon.lastStep = s;
+
+    while ( photon.coordinate.z < 0 || photon.coordinate.z > tissue.getD() ) {
+        if (photon.direction.z > 0) { // rear
+            T s1 = (photon.coordinate.z - tissue.getD())/photon.direction.z;
+            if (debug && photon.number == debugPhoton) {
+                std::cout << "Reflection on rear, s1 = " << s1 << std::endl;
+                photon.printInfo();
+            }
+            photon.coordinate -= s1 * photon.direction;
+            T n1 = tissue.getN();
+            T n2 = nVac;
+            T cos1 = photon.direction.z;
+
+            T Ri = FresnelR(n1, n2, cos1);
+            T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+
+            int ir = std::floor(r/dr);
+
+            if (ir >= Nr)
+                TT(Nr-1)+= (1 - Ri) * photon.weight; // OVERFLOW BIN
+            else
+                TT(ir) += (1 - Ri) * photon.weight;
+
+            photon.weight *= Ri;
+
+            T z = photon.direction.z;
+            photon.direction.z = -z;
+
+            photon.coordinate += s1 * photon.direction;
+            photon.lastStep = s1;
+
+       /*     if (debug && photon.number == debugPhoton) {
+                std::cout << "Reflected on rear" << std::endl;
+                photon.printInfo();
+            }*/
+        } else { // front
+            T s1 = photon.coordinate.z / photon.direction.z;
+            if (debug && photon.number == debugPhoton) {
+                std::cout << "Reflection on front, s1 = " << s1 << std::endl;
+                photon.printInfo();
+            }
+            photon.coordinate -= s1 * photon.direction;
+            T n1 = tissue.getN();
+            T n2 = nVac;
+            T cos1 = photon.direction.z;
+
+            T Ri = FresnelR(n1, n2, cos1);
+            T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+
+            int ir = std::floor(r/dr);
+
+            if (ir >= Nr)
+                RR(Nr-1)+= (1 - Ri) * photon.weight; // OVERFLOW BIN
+            else
+                RR(ir) += (1 - Ri) * photon.weight;
+
+            photon.weight *= Ri;
+
+            T z = photon.direction.z;
+            photon.direction.z = -z;
+
+            photon.coordinate += s1 * photon.direction;
+            photon.lastStep = s1;
+
+         /*   if (debug && photon.number == debugPhoton) {
+                std::cout << "Reflected on front" << std::endl;
+                photon.printInfo();
+            }*/
+        }
+    }
+
+    if (debug && photon.number == debugPhoton)
+        std::cout << "RND = " << RND << " s = " << s << std::endl;
+//    photon.coordinate += s * photon.direction;
+//    photon.lastStep = s;
     photon.pathLength += s;
-    CheckBoundaries();
 }
 
 template < typename T, size_t Nz, size_t Nr >
@@ -193,19 +273,20 @@ void MonteCarlo<T, Nz, Nr>::Drop() {
     if (iz < 0)
         iz = 0;
 
+    T dw = photon.weight * tissue.getMa() / tissue.getMt();
 
-/*    if (ir >= Nr)
-        std::cout << "ACHTUNG!!! ir = " << ir << " exceeds Nr during drop" << std::endl;
-    if (iz >= Nz)
-        std::cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop" << std::endl;*/
+    if (ir >= Nr && debug)
+        std::cout << "ACHTUNG!!! ir = " << ir << " exceeds Nr during drop"  << std::endl;
+    if (iz >= Nz )
+        std::cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N "<< photon.number << std::endl;
 
 
     if (ir >= Nr)
-        A(iz, Nr-1)+= photon.weight * tissue.getMa() / tissue.getMt(); // OVERFLOW BIN
+        A(iz, Nr-1)+= dw; // OVERFLOW BIN
     else
-        A(iz, ir) += photon.weight * tissue.getMa() / tissue.getMt();
+        A(iz, ir) += dw;
 
-    photon.weight *= tissue.getMs() / tissue.getMt();
+    photon.weight -= dw;
 }
 
 template < typename T, size_t Nz, size_t Nr >
@@ -222,6 +303,9 @@ void MonteCarlo<T, Nz, Nr>::Spin() {
     T RND2 = random(0.0, 1.0);
 
     T phi = 2 * M_PI * RND2; // radians
+
+    if (debug && photon.number == debugPhoton)
+        std::cout << "RND1 = " << RND1 << " cosHG = " << cosHG << " RND2 = " << RND2 << " phi = " << phi << std::endl;
 
     T ux = photon.direction.x;
     T uy = photon.direction.y;
@@ -251,6 +335,8 @@ template < typename T, size_t Nz, size_t Nr >
 void MonteCarlo<T, Nz, Nr>::Terminate() {
     if (photon.weight < threshold) {
         T RND = random(0.0, 1.0);
+        if (debug && photon.number == debugPhoton)
+            std::cout << "Kill? RND = " << RND << std::endl;
         if (RND <= chance)
             photon.weight /= chance;
         else
@@ -267,22 +353,22 @@ void MonteCarlo<T, Nz, Nr>::Simulation(const int& num) {
     photon.number = num;
     FirstReflection();
     while(photon.alive) {
-        if (debug == 1 && photon.number == 1) {
+        if (debug && photon.number == debugPhoton) {
             std::cout << "Before hop" << std::endl;
             photon.printInfo();
         }
         Hop();
-        if (debug == 1 && photon.number == 1) {
+        if (debug && photon.number == debugPhoton) {
             std::cout << "After hop" << std::endl;
             photon.printInfo();
         }
         Drop();
-        if (debug == 1 && photon.number == 1) {
+        if (debug && photon.number == debugPhoton) {
             std::cout << "After drop" << std::endl;
             photon.printInfo();
         }
         Spin();
-        if (debug == 1 && photon.number == 1) {
+        if (debug && photon.number == debugPhoton) {
             std::cout << "After spin" << std::endl;
             photon.printInfo();
         }
@@ -307,6 +393,8 @@ void MonteCarlo<T, Nz, Nr >::Normalize(T& refl, T& trans) {
 
     refl = RR.sum() / Nphotons;
     trans = TT.sum() / Nphotons;
+
+    std::cout << A.sum() / Nphotons << std::endl;
 
  /*   std::cout << RR.sum() / Nphotons << std::endl;
     std::cout << TT.sum() / Nphotons << std::endl;*/

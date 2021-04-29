@@ -13,9 +13,9 @@ int main (int argc, char **argv) {
     const int Nr = 10000;
 
     T selectedRadius = 1e-2;
-    T tissueThickness = 12e-3;
+    T tissueThickness = 8e-3;
 
-    Medium<T> tissue(1.5, 50, 950, tissueThickness, 0.0);
+    Medium<T> tissue(1.5, 100, 900, tissueThickness, 0.9);
     MonteCarlo<T, Nz, Nr> mc(tissue, 1e5, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
     T reflection, transmission;
