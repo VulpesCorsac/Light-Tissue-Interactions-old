@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1619674646 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mctk.cpp
+1619783848 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mctk.cpp
 	"MC_TK/Photon.h"
 	"MC_TK/Medium.h"
+	"MC_TK/Fresnel.h"
 	"MC_TK/MonteCarlo.h"
 	"MC_TK/BugerLambert.h"
 
-1619437857 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\photon.h
+1619702488 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\photon.h
 	"Vector3.h"
 	<iostream>
 
@@ -880,7 +881,7 @@
 
 1619437857 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\medium.h
 
-1619674818 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\montecarlo.h
+1619786258 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\montecarlo.h
 	"Photon.h"
 	"Medium.h"
 	"Fresnel.h"
@@ -888,6 +889,8 @@
 	"../eigen/Eigen/Dense"
 	<cmath>
 	<tgmath.h>
+	<thread>
+	<mutex>
 
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\random.h
 	<random>
@@ -899,7 +902,7 @@
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\utils.h
 	<cmath>
 
-1619507964 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\fresnel.h
+1619680738 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\fresnel.h
 	"../Utils/Utils.h"
 	<complex>
 	<cmath>

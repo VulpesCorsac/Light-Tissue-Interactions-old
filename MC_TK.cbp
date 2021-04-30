@@ -35,6 +35,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c++17" />
+			<Add option="-std=c17" />
 			<Add directory="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen" />
 		</Compiler>
 		<Unit filename="MC_TK/BugerLambert.h" />
@@ -42,6 +43,7 @@
 		<Unit filename="MC_TK/Medium.h" />
 		<Unit filename="MC_TK/MonteCarlo.h" />
 		<Unit filename="MC_TK/Photon.h" />
+		<Unit filename="MC_TK/ThreadManagement.h" />
 		<Unit filename="MC_TK/Vector3.h" />
 		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/Utils.h" />
