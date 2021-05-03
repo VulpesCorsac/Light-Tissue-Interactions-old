@@ -350,7 +350,7 @@ void MonteCarlo<T, Nz, Nr >::Calculate() {
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
         Simulation(myPhoton, i);
-   //     std::cout << RRspecular(0) << std::endl;
+        std::cout << i << std::endl;
     }
 
     results.arrayR = RR;

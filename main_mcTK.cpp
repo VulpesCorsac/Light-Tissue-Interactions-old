@@ -17,20 +17,11 @@ int main (int argc, char **argv) {
     T tissueThickness = 1e-3;
 
     Medium<T> tissue(1.5, 100, 900, tissueThickness, 0.9);
-    MonteCarlo<T, Nz, Nr> mc(tissue, 0.5e4, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr> mc(tissue, 1e5, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
     T reflection, transmission, absorbed;
     MCresults<T,Nz,Nr> myRes;
-
-    std::thread th1(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
-    std::thread th2(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 2500, 5000);
-   // std::thread th3(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 50000, 75000);
-   // std::thread th4(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 75000, 1e5);
-  //  mc.Calculate(reflection, transmission, absorbed);
-    th1.join();
-    th2.join();
-  //  th3.join();
-   // th4.join();
+  //  std::thread th1(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
 
     mc.Calculate();
 
