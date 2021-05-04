@@ -8,7 +8,7 @@
 #include "MC_TK/BugerLambert.h"
 
 int main (int argc, char **argv) {
-    using T = float;
+    using T = double;
 
     const int Nz = 1000;
     const int Nr = 10000;
@@ -32,6 +32,5 @@ int main (int argc, char **argv) {
 
     mc.printResults();
     std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
-
     return 0;
 }

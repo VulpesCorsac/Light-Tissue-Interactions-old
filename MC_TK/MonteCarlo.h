@@ -125,7 +125,6 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr >
 void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
     T RND = random(0.0, 1.0);
- //T RND = fast_random<T>();
     T s = - std::log(RND) / tissue.getMt();
   //  T s = 0.0025;
     photon.coordinate += s * photon.direction;
@@ -268,7 +267,8 @@ void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
     T uyy = +sinHG * (uy*uz*std::cos(phi) + ux*std::sin(phi)) / temp + uy * cosHG;
     T uzz = -sinHG * std::cos(phi) * temp                            + uz * cosHG;
 
-    if (std::abs(uz) - 1.0 < 1e-6) {
+
+    if (std::abs(uz - 1.0)  < 1e-6) {
         uxx = sinHG * std::cos(phi);
         uyy = sinHG * std::sin(phi);
         if (uz >= 0)
@@ -280,6 +280,8 @@ void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
     photon.direction.x = uxx;
     photon.direction.y = uyy;
     photon.direction.z = uzz;
+
+
 }
 
 template < typename T, size_t Nz, size_t Nr >
@@ -350,7 +352,7 @@ void MonteCarlo<T, Nz, Nr >::Calculate() {
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
         Simulation(myPhoton, i);
-   //     std::cout << RRspecular(0) << std::endl;
+   //    std::cout << RRspecular(0) << std::endl;
     }
 
     results.arrayR = RR;
