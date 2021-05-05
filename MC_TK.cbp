@@ -15,6 +15,7 @@
 					<Add option="-g" />
 					<Add directory="MC_TK" />
 					<Add directory="include" />
+					<Add directory="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/MC_TK" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -26,6 +27,7 @@
 					<Add option="-O2" />
 					<Add directory="MC_TK" />
 					<Add directory="include" />
+					<Add directory="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/MC_TK" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -43,6 +45,7 @@
 		<Unit filename="MC_TK/Medium.h" />
 		<Unit filename="MC_TK/MonteCarlo.h" />
 		<Unit filename="MC_TK/Photon.h" />
+		<Unit filename="MC_TK/Sandwich.h" />
 		<Unit filename="MC_TK/ThreadManagement.h" />
 		<Unit filename="MC_TK/Vector3.h" />
 		<Unit filename="Utils/Random.h" />

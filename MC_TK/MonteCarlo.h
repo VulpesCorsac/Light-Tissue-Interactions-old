@@ -3,6 +3,7 @@
 #include "Photon.h"
 #include "Medium.h"
 #include "Fresnel.h"
+#include "Sandwich.h"
 
 #include "../Utils/Random.h"
 
@@ -15,7 +16,7 @@
 
 using namespace Eigen;
 
-template < typename T, size_t Nz, size_t Nr >
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 struct MCresults {
     T specularReflection, diffuseReflection, diffuseTransmission, absorbed;
     Matrix<T, Dynamic, Dynamic> matrixA ;
@@ -25,11 +26,11 @@ struct MCresults {
 
 };
 
-template < typename T, size_t Nz, size_t Nr >
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = default;
-    MonteCarlo(const Medium<T>& new_medium,
+    MonteCarlo(const Sandwich<T, nLayers>& new_sample,
                const int& new_Np,
                const int& new_threads,
                const T& new_dz,
@@ -51,63 +52,74 @@ protected:
     T threshold = 1e-3;
     T chance = 0.1;
 
-    T nVac = 1.0;
-
-    bool debug = 1;
+    bool debug = 0;
     int debugPhoton = 0;
 
-    Matrix<T, Dynamic, Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);
+    Matrix<T, Dynamic, Dynamic> A = Matrix<T, Nz, Nr, nLayers>::Constant(0.0);
     Matrix<T, 1, Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
 
-    const Medium<T>& tissue;
+    const Sandwich<T, nLayers>& sample;
 
-    void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
+    // void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
     void FirstReflection(Photon<T>& photon);
    // void CheckBoundaries(Photon<T>& photon);
+
+    void HopDropSpin(Photon<T>& photon);
+    void HopInGlass(Photon<T>& photon);
+    void HopDropSpinInTissue(Photon<T>& photon);
+
+    void StepSizeInGlass(Photon<T>& photon);
+    void StepSizeInTissue(Photon<T>& photon);
+
     void Hop(Photon<T>& photon);
     void Drop(Photon<T>& photon);
     void Spin(Photon<T>& photon);
+
+    bool HitBoundary(Photon<T>& photon);
+    void CrossOrNot(Photon<T>& photon);
+    void CrossUpOrNot(Photon<T>& photon);
+    void CrossDownOrNot(Photon<T>& photon);
+
     void Terminate(Photon<T>& photon);
     void Simulation(Photon<T>& photon, const int& num);
 
     T Volume(const T& ir);
     T Area(const T& ir);
 
-    MCresults<T,Nz,Nr> results;
+    MCresults<T,Nz,Nr, nLayers> results;
 };
 
-template < typename T, size_t Nz, size_t Nr >
-MonteCarlo<T, Nz, Nr>::MonteCarlo(const Medium<T>& new_medium,
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+MonteCarlo<T, Nz, Nr, nLayers>::MonteCarlo(const Sandwich<T, nLayers>& new_sample,
                           const int& new_Np,
                           const int& new_threads,
                           const T& new_dz,
                           const T& new_dr,
                           const T& new_chance,
                           const T& new_thr)
-    : tissue(new_medium)
+    : sample(new_sample)
     , Nphotons(new_Np)
     , threads(new_threads)
     , dz(new_dz)
     , dr(new_dr)
     , chance(new_chance)
-    , threshold(new_thr)
-    , nVac(1.0) {
+    , threshold(new_thr){
 }
 
-/*template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon) {
+/*template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon) {
     // std::cout << "LAUNCH" << std::endl;
     /// TODO: better set these parameters to default and use them explicitly only when needed
     photon = Photon<T>(startCoord, startDir, 1.0, 0.0);
     photon.alive = 1;
 }*/
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
-    T n1 = nVac;
-    T n2 = tissue.getN();
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::FirstReflection(Photon<T>& photon) {
+    T n1 = sample.getNvacUpper();
+    T n2 = sample.getMedium(0).getN();
     T cos1 = std::abs(photon.direction.z);
 
     T Ri = FresnelR(n1, n2, cos1);
@@ -121,25 +133,47 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
     photon.coordinate.z += 1e-9; //crook
 }
 
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::HopDropSpin(Photon<T>& photon) {
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::HopInGlass(Photon<T>& photon) {
+
+}
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::HopDropSpinInTissue(Photon<T>& photon) {
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::StepSizeInGlass(Photon<T>& photon) {
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::StepSizeInTissue(Photon<T>& photon) {
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Hop(Photon<T>& photon) {
     T RND = random(0.0, 1.0);
-    T s = - std::log(RND) / tissue.getMt();
+    T s = - std::log(RND) / sample.getMedium(0).getMt();
   //  T s = 0.0025;
     photon.coordinate += s * photon.direction;
-    photon.lastStep = s;
 
-    while ( photon.coordinate.z < 0 || photon.coordinate.z > tissue.getD() ) {
+    while ( photon.coordinate.z < 0 || photon.coordinate.z > sample.getMedium(0).getD() ) {
         if (photon.direction.z > 0) { // rear
-            T s1 = (photon.coordinate.z - tissue.getD())/photon.direction.z;
+            T s1 = (photon.coordinate.z - sample.getMedium(0).getD())/photon.direction.z;
             if (debug && photon.number == debugPhoton) {
                 std::cout << "Reflection on rear, s1 = " << s1 << std::endl;
                 photon.printInfo();
             }
             photon.coordinate -= s1 * photon.direction;
-            T n1 = tissue.getN();
-            T n2 = nVac;
+            T n1 = sample.getMedium(0).getN();
+            T n2 = sample.getNvacLower();
             T cos1 = photon.direction.z;
 
             T Ri = FresnelR(n1, n2, cos1);
@@ -162,7 +196,6 @@ void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
             photon.direction.z = -z;
 
             photon.coordinate += s1 * photon.direction;
-            photon.lastStep = s1;
 
             if (debug && photon.number == debugPhoton) {
                 std::cout << "Reflected on rear" << std::endl;
@@ -175,8 +208,8 @@ void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
                 photon.printInfo();
             }
             photon.coordinate -= s1 * photon.direction;
-            T n1 = tissue.getN();
-            T n2 = nVac;
+            T n1 = sample.getMedium(0).getN();
+            T n2 = sample.getNvacUpper();
             T cos1 = photon.direction.z;
 
             T Ri = FresnelR(n1, n2, cos1);
@@ -200,7 +233,6 @@ void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
             photon.direction.z = -z;
 
             photon.coordinate += s1 * photon.direction;
-            photon.lastStep = s1;
 
             if (debug && photon.number == debugPhoton) {
                 std::cout << "Reflected on front" << std::endl;
@@ -212,35 +244,30 @@ void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
     if (debug && photon.number == debugPhoton)
         std::cout << "RND = " << RND << " s = " << s << std::endl;
 //    photon.coordinate += s * photon.direction;
-//    photon.lastStep = s;
-    photon.pathLength += s;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Drop(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Drop(Photon<T>& photon) {
     T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     int ir = std::floor(r / dr);
     int iz = std::floor(photon.coordinate.z / dz);
     if (iz < 0)
         iz = std::abs(iz);
 
-
-/*    if (ir >= Nr && debug)
-        std::cout << "ACHTUNG!!! ir = " << ir << " exceeds Nr during drop"  << std::endl;
-  */  if (iz >= Nz )
+    if (iz >= Nz )
         std::cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N "<< photon.number << std::endl;
 
     if (ir >= Nr)
-        A(iz, Nr-1)+= photon.weight * tissue.getMa() / tissue.getMt(); // OVERFLOW BIN
+        A(iz, Nr-1)+= photon.weight * sample.getMedium(0).getMa() / sample.getMedium(0).getMt(); // OVERFLOW BIN
     else
-        A(iz, ir) += photon.weight * tissue.getMa() / tissue.getMt();
+        A(iz, ir) += photon.weight * sample.getMedium(0).getMa() / sample.getMedium(0).getMt();
 
-    photon.weight *= tissue.getMs() / tissue.getMt();
+    photon.weight *= sample.getMedium(0).getMs() / sample.getMedium(0).getMt();
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
-    T g = tissue.getG();
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Spin(Photon<T>& photon) {
+    T g = sample.getMedium(0).getG();
     T RND1 = random(0.0, 1.0);
     T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
 
@@ -284,8 +311,28 @@ void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
 
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Terminate(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+bool MonteCarlo<T, Nz, Nr, nLayers>::HitBoundary(Photon<T>& photon){
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::CrossOrNot(Photon<T>& photon){
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::CrossUpOrNot(Photon<T>& photon){
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::CrossDownOrNot(Photon<T>& photon){
+
+}
+
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Terminate(Photon<T>& photon) {
     if (photon.weight < threshold) {
         T RND = random(0.0, 1.0);
         if (debug && photon.number == debugPhoton)
@@ -297,12 +344,12 @@ void MonteCarlo<T, Nz, Nr>::Terminate(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Simulation(Photon<T>& photon, const int& num) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers>::Simulation(Photon<T>& photon, const int& num) {
     Vector3D<T> startCoord, startDir;
     startCoord = Vector3D<T>(0,0,0);
     startDir = Vector3D<T>(0,0,1); // normal incidence for now
-    photon = Photon<T>(startCoord, startDir, 1.0, 0.0, num);
+    photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);
     while(photon.alive) {
         if (debug && photon.number == debugPhoton) {
@@ -328,26 +375,26 @@ void MonteCarlo<T, Nz, Nr>::Simulation(Photon<T>& photon, const int& num) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-T MonteCarlo<T, Nz, Nr>::Volume(const T& ir) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+T MonteCarlo<T, Nz, Nr, nLayers>::Volume(const T& ir) {
     return Area(ir) * dz;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-T MonteCarlo<T, Nz, Nr>::Area(const T& ir) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+T MonteCarlo<T, Nz, Nr, nLayers>::Area(const T& ir) {
     return 2 * M_PI * (ir - 0.5) * sqr(dr);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::PhotonsBunchSimulation(int Nstart, int Nfinish) {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers >::PhotonsBunchSimulation(int Nstart, int Nfinish) {
     for (int i = Nstart; i < Nfinish; i++) {
         Photon<T> myPhoton;
         Simulation(myPhoton, i);
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::Calculate() {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers >::Calculate() {
 
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
@@ -377,8 +424,8 @@ void MonteCarlo<T, Nz, Nr >::Calculate() {
     //*/
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::printResults() {
+template < typename T, size_t Nz, size_t Nr, size_t nLayers >
+void MonteCarlo<T, Nz, Nr, nLayers >::printResults() {
     std::cout << "Diffuse reflection = " << results.diffuseReflection << std::endl;
     std::cout << "Specular reflection = " << results.specularReflection << std::endl;
     std::cout << "Diffuse transmission = " << results.diffuseTransmission << std::endl;

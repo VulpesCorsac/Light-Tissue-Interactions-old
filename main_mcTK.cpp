@@ -6,6 +6,7 @@
 #include "MC_TK/Fresnel.h"
 #include "MC_TK/MonteCarlo.h"
 #include "MC_TK/BugerLambert.h"
+#include "MC_TK/Sandwich.h"
 
 int main (int argc, char **argv) {
     using T = double;
@@ -13,15 +14,24 @@ int main (int argc, char **argv) {
     const int Nz = 1000;
     const int Nr = 10000;
 
+    const int nLayers = 1;
+
     T selectedRadius = 10e-2;
     T tissueThickness = 1e-3;
 
     Medium<T> tissue(1.5, 100, 900, tissueThickness, 0.9);
-    MonteCarlo<T, Nz, Nr> mc(tissue, 1e5, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
-    T reflection, transmission, absorbed;
-    MCresults<T,Nz,Nr> myRes;
-  //  std::thread th1(&MonteCarlo<T, Nz, Nr>::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
+    Medium<T> glass(1.5, 0, 0, 1e-3, 0);
+
+    std::array<Medium<T>, nLayers> layers = {tissue};
+    Sandwich<T, nLayers> mySandwich(layers, 1.0, 1.0);
+
+
+    MonteCarlo<T, Nz, Nr, nLayers> mc(mySandwich, 1e5, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+
+  ////  T reflection, transmission, absorbed;
+  ////  MCresults<T,Nz,Nr, nLayers> myRes;
+  ////  std::thread th1(&MonteCarlo<T, Nz, Nr, nLayers>::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
 
     mc.Calculate();
 
@@ -31,6 +41,6 @@ int main (int argc, char **argv) {
     std::cout << "Absorbed fraction = " << myRes.absorbed << std::endl;*/
 
     mc.printResults();
-    std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
+ //   std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
     return 0;
 }
