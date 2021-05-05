@@ -14,20 +14,20 @@ int main (int argc, char **argv) {
     const int Nz = 1000;
     const int Nr = 10000;
 
-    const int nLayers = 1;
+    const int nLayers = 3;
 
     T selectedRadius = 10e-2;
     T tissueThickness = 1e-3;
 
-    Medium<T> tissue(1.5, 100, 900, tissueThickness, 0.9);
+    Medium<T> tissue(1.6, 100, 900, tissueThickness, 0.9);
 
     Medium<T> glass(1.5, 0, 0, 1e-3, 0);
 
-    std::array<Medium<T>, nLayers> layers = {tissue};
+    std::array<Medium<T>, nLayers> layers = {glass, tissue, glass};
     Sandwich<T, nLayers> mySandwich(layers, 1.0, 1.0);
 
 
-    MonteCarlo<T, Nz, Nr, nLayers> mc(mySandwich, 1e5, 1, (tissueThickness / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr, nLayers> mc(mySandwich, 1e5, 1, (mySandwich.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
   ////  T reflection, transmission, absorbed;
   ////  MCresults<T,Nz,Nr, nLayers> myRes;
