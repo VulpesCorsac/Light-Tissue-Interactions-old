@@ -14,24 +14,22 @@ int main (int argc, char **argv) {
     const int Nz = 1000;
     const int Nr = 10000;
 
-    const int nLayers = 3;
-
     T selectedRadius = 10e-2;
-    T tissueThickness = 1e-3;
+    T tissueThickness = 4e-3;
 
-    Medium<T> tissue(1.4, 100, 900, tissueThickness, 0.9);
+    Medium<T> tissue(1.5, 200, 800, tissueThickness, 0.5);
 
-    Medium<T> glass(1.5, 0, 0, 1e-3, 0);
+    Medium<T> glass(1.6, 0, 0, 1e-3, 0);
 
-    std::array<Medium<T>, nLayers> layers = {glass,tissue,glass};
-    Sample<T, nLayers> mySample(layers, 1.0, 1.0);
+    std::vector<Medium<T>> layers = {glass,tissue,glass};
+    Sample<T> mySample(layers, 1.0, 1.0);
 
 
-    MonteCarlo<T, Nz, Nr, nLayers> mc(mySample, 1e5, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
   ////  T reflection, transmission, absorbed;
-  ////  MCresults<T,Nz,Nr, nLayers> myRes;
-  ////  std::thread th1(&MonteCarlo<T, Nz, Nr, nLayers>::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
+  ////  MCresults<T,Nz,Nr, > myRes;
+  ////  std::thread th1(&MonteCarlo<T, Nz, Nr, >::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
 
     mc.Calculate();
 
@@ -41,6 +39,6 @@ int main (int argc, char **argv) {
     std::cout << "Absorbed fraction = " << myRes.absorbed << std::endl;*/
 
     mc.printResults();
- //   std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
+  //  std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
     return 0;
 }

@@ -1,11 +1,11 @@
-#include <array>
+#include <vector>
 
 #pragma once
 
-template < typename T, size_t nLayers >
+template < typename T>
 class Sample {
 public:
-    Sample(const std::array<Medium<T>, nLayers>& mediums, const T& vacUpper, const T& vacLower);
+    Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, const T& vacLower);
     ~Sample() noexcept = default;
 
     inline T CurrentUpperBorderZ(const int& currentLayer) const noexcept { //layer numeration from 0!
@@ -23,22 +23,22 @@ public:
     inline T getNvacUpper() const noexcept { return nVacUpper; }
     inline T getNvacLower() const noexcept { return nVacLower; }
     inline T getTotalThickness() const noexcept { return totalThickness; }
+    inline int getNlayers() const noexcept { return sample.size(); }
 protected:
-    std::array<Medium<T>, nLayers> sample;
+    std::vector<Medium<T>> sample;
     T nVacLower;
     T nVacUpper;
     T totalThickness;
 };
-// number of layers, coordinates of boundaries, nVac
 
-template < typename T, size_t nLayers >
-Sample<T, nLayers>::Sample(const std::array<Medium<T>, nLayers>& mediums, const T& vacUpper, const T& vacLower) :
+template < typename T >
+Sample<T>::Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, const T& vacLower) :
     sample(mediums),
     nVacLower(vacLower),
     nVacUpper(vacUpper) {
         T thickness = 0;
-        for (int i = 0; i < nLayers; i++) {
-            thickness += sample[i].D;
+        for (auto i : sample) {
+            thickness += i.D;
         }
         totalThickness = thickness;
 }

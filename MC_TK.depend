@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1620288796 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mctk.cpp
+1620291202 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mctk.cpp
 	"MC_TK/Photon.h"
 	"MC_TK/Medium.h"
 	"MC_TK/Fresnel.h"
@@ -882,7 +882,7 @@
 
 1620289216 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\medium.h
 
-1620289282 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\montecarlo.h
+1620296891 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\montecarlo.h
 	"Photon.h"
 	"Medium.h"
 	"Fresnel.h"
@@ -923,6 +923,6 @@
 1620207299 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\sandwich.h
 	<array>
 
-1620289261 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\sample.h
-	<array>
+1620296891 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc_tk\sample.h
+	<vector>
 
