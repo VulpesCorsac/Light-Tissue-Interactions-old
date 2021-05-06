@@ -45,7 +45,7 @@
 		<Unit filename="MC_TK/Medium.h" />
 		<Unit filename="MC_TK/MonteCarlo.h" />
 		<Unit filename="MC_TK/Photon.h" />
-		<Unit filename="MC_TK/Sandwich.h" />
+		<Unit filename="MC_TK/Sample.h" />
 		<Unit filename="MC_TK/ThreadManagement.h" />
 		<Unit filename="MC_TK/Vector3.h" />
 		<Unit filename="Utils/Random.h" />

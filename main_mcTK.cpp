@@ -17,9 +17,9 @@ int main (int argc, char **argv) {
     const int nLayers = 3;
 
     T selectedRadius = 10e-2;
-    T tissueThickness = 12e-3;
+    T tissueThickness = 1e-3;
 
-    Medium<T> tissue(1.4, 700, 300, tissueThickness, 0.5);
+    Medium<T> tissue(1.4, 100, 900, tissueThickness, 0.9);
 
     Medium<T> glass(1.5, 0, 0, 1e-3, 0);
 
@@ -27,7 +27,7 @@ int main (int argc, char **argv) {
     Sample<T, nLayers> mySample(layers, 1.0, 1.0);
 
 
-    MonteCarlo<T, Nz, Nr, nLayers> mc(mySample, 1e6, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr, nLayers> mc(mySample, 1e5, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
   ////  T reflection, transmission, absorbed;
   ////  MCresults<T,Nz,Nr, nLayers> myRes;

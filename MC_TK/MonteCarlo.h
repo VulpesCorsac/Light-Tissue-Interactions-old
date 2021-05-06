@@ -121,17 +121,17 @@ void MonteCarlo<T, Nz, Nr, nLayers>::Launch(const Vector3D<T>& startCoord, const
 
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 void MonteCarlo<T, Nz, Nr, nLayers>::FirstReflection(Photon<T>& photon) {
-    T n1 = sample.getNvacUpper();
-    T n2 = sample.getMedium(0).getN();
-    T cos1 = std::abs(photon.direction.z);
-    T cos2 = Cos2(n1, n2, cos1);
+    T ni = sample.getNvacUpper();
+    T nt = sample.getMedium(0).n;
+    T cosi = std::abs(photon.direction.z);
+    T cost = CosT(ni, nt, cosi);
 
-    T Ri = FresnelR(n1, n2, cos1);
+    T Ri = FresnelR(ni, nt, cosi);
 
-    if (sample.getMedium(0).getMt() == 0) { // specular from glass
-        T R1 = FresnelR(n1, n2, cos1);
-        T n3 = sample.getMedium(1).getN();
-        T R2 = FresnelR(n2, n3, cos2);
+    if (sample.getMedium(0).ut == 0) { // specular from glass
+        T R1 = FresnelR(ni, nt, cosi);
+        T n3 = sample.getMedium(1).n;
+        T R2 = FresnelR(nt, n3, cost);
         Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
     }
 
@@ -142,14 +142,14 @@ void MonteCarlo<T, Nz, Nr, nLayers>::FirstReflection(Photon<T>& photon) {
     RRspecular(ir) += Ri * photon.weight;
 
     photon.weight *= (1 - Ri);
-    photon.direction.z = Cos2(n1, n2, cos1);
+    photon.direction.z = CosT(ni, nt, cosi);
  //   photon.coordinate.z += 1e-9; //crook
 }
 
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 void MonteCarlo<T, Nz, Nr, nLayers>::HopDropSpin(Photon<T>& photon) {
     int layer = photon.layer;
-    T mT = sample.getMedium(layer).getMt();
+    T mT = sample.getMedium(layer).ut;
     if (mT == 0.0)
         HopInGlass(photon);
     else
@@ -229,7 +229,7 @@ void MonteCarlo<T, Nz, Nr, nLayers>::StepSizeInGlass(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 void MonteCarlo<T, Nz, Nr, nLayers>::StepSizeInTissue(Photon<T>& photon) {
     int layer = photon.layer;
-    T mT = sample.getMedium(layer).getMt();
+    T mT = sample.getMedium(layer).ut;
     if (photon.stepLeft == 0.0) { //new step
         T RND = random(0.0, 1.0);
         photon.step = - std::log(RND) / mT;
@@ -282,94 +282,6 @@ void MonteCarlo<T, Nz, Nr, nLayers>::Hop(Photon<T>& photon) {
     photon.coordinate += s * photon.direction;
 }
 
-/*template < typename T, size_t Nz, size_t Nr, size_t nLayers >
-void MonteCarlo<T, Nz, Nr, nLayers>::Hop(Photon<T>& photon) {
-    T RND = random(0.0, 1.0);
-    T s = - std::log(RND) / sample.getMedium(0).getMt();
-  //  T s = 0.0025;
-    photon.coordinate += s * photon.direction;
-
-    while ( photon.coordinate.z < 0 || photon.coordinate.z > sample.getMedium(0).getD() ) {
-        if (photon.direction.z > 0) { // rear
-            T s1 = (photon.coordinate.z - sample.getMedium(0).getD())/photon.direction.z;
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "Reflection on rear, s1 = " << s1 << std::endl;
-                photon.printInfo();
-            }
-            photon.coordinate -= s1 * photon.direction;
-            T n1 = sample.getMedium(0).getN();
-            T n2 = sample.getNvacLower();
-            T cos1 = photon.direction.z;
-
-            T Ri = FresnelR(n1, n2, cos1);
-            T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
-
-            int ir = std::floor(r/dr);
-
-            if (ir >= Nr)
-                TT(Nr-1)+= (1 - Ri) * photon.weight; // OVERFLOW BIN
-            else
-                TT(ir) += (1 - Ri) * photon.weight;
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "TT at " << ir << " = " << TT(ir) << std::endl;
-                photon.printInfo();
-            }
-
-            photon.weight *= Ri;
-
-            T z = photon.direction.z;
-            photon.direction.z = -z;
-
-            photon.coordinate += s1 * photon.direction;
-
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "Reflected on rear" << std::endl;
-                photon.printInfo();
-            }
-        } else { // front
-            T s1 = photon.coordinate.z / photon.direction.z;
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "Reflection on front, s1 = " << s1 << std::endl;
-                photon.printInfo();
-            }
-            photon.coordinate -= s1 * photon.direction;
-            T n1 = sample.getMedium(0).getN();
-            T n2 = sample.getNvacUpper();
-            T cos1 = photon.direction.z;
-
-            T Ri = FresnelR(n1, n2, cos1);
-            T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
-
-            int ir = std::floor(r/dr);
-
-            if (ir >= Nr)
-                RR(Nr-1)+= (1 - Ri) * photon.weight; // OVERFLOW BIN
-            else
-                RR(ir) += (1 - Ri) * photon.weight;
-
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "RR at " << ir << " = " << RR(ir) << std::endl;
-                photon.printInfo();
-            }
-
-            photon.weight *= Ri;
-
-            T z = photon.direction.z;
-            photon.direction.z = -z;
-
-            photon.coordinate += s1 * photon.direction;
-
-            if (debug && photon.number == debugPhoton) {
-                std::cout << "Reflected on front" << std::endl;
-                photon.printInfo();
-            }
-        }
-    }
-
-    if (debug && photon.number == debugPhoton)
-        std::cout << "RND = " << RND << " s = " << s << std::endl;
-//    photon.coordinate += s * photon.direction;
-}*/
 
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 void MonteCarlo<T, Nz, Nr, nLayers>::Drop(Photon<T>& photon) {
@@ -384,17 +296,17 @@ void MonteCarlo<T, Nz, Nr, nLayers>::Drop(Photon<T>& photon) {
         std::cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N "<< photon.number << std::endl;
 
     if (ir >= Nr)
-        A(iz, Nr-1)+= photon.weight * sample.getMedium(layer).getMa() / sample.getMedium(layer).getMt(); // OVERFLOW BIN
+        A(iz, Nr-1)+= photon.weight * sample.getMedium(layer).ua / sample.getMedium(layer).ut; // OVERFLOW BIN
     else
-        A(iz, ir) += photon.weight * sample.getMedium(layer).getMa() / sample.getMedium(layer).getMt();
+        A(iz, ir) += photon.weight * sample.getMedium(layer).ua / sample.getMedium(layer).ut;
 
-    photon.weight *= sample.getMedium(layer).getMs() / sample.getMedium(layer).getMt();
+    photon.weight *= sample.getMedium(layer).us / sample.getMedium(layer).ut;
 }
 
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 void MonteCarlo<T, Nz, Nr, nLayers>::Spin(Photon<T>& photon) {
     int layer = photon.layer;
-    T g = sample.getMedium(layer).getG();
+    T g = sample.getMedium(layer).g;
     T RND1 = random(0.0, 1.0);
     T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
 
@@ -443,7 +355,7 @@ bool MonteCarlo<T, Nz, Nr, nLayers>::HitBoundary(Photon<T>& photon){
     bool hit;
     int layer = photon.layer;
     T uz = photon.direction.z;
-    T mT = sample.getMedium(layer).getMt();
+    T mT = sample.getMedium(layer).ut;
 
     T distToBnd = 0;
     if (uz > 0)
@@ -474,20 +386,20 @@ void MonteCarlo<T, Nz, Nr, nLayers>::CrossUpOrNot(Photon<T>& photon){
     if (debug && photon.number == debugPhoton) {
             std::cout << "CrossUpOrNot" << std::endl;
     }
-    T cos1 = photon.direction.z;
+    T cosi = photon.direction.z;
     int layer = photon.layer;
-    T n1 = sample.getMedium(layer).getN();
-    T n2 = 1.0;
+    T ni = sample.getMedium(layer).n;
+    T nt = 1.0;
     if (layer == 0)
-        n2 = sample.getNvacUpper();
+        nt = sample.getNvacUpper();
     else
-        n2 = sample.getMedium(layer - 1).getN();
-    T cos2 = Cos2(n1, n2, cos1);
-    T Ri = FresnelR(n1, n2, cos1);
+        nt = sample.getMedium(layer - 1).n;
+    T cost = CosT(ni, nt, cosi);
+    T Ri = FresnelR(ni, nt, cosi);
     T RND = random(0.0, 1.0); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton) {
-            std::cout << "cos2 = " << cos2 << " FresnelR = "<< Ri <<" RND = "<< RND << std::endl;
+            std::cout << "cost = " << cost << " FresnelR = "<< Ri <<" RND = "<< RND << std::endl;
         }
 
     if (layer == 0 && Ri < 1) { // partially transmitted -- only on sample border
@@ -501,9 +413,9 @@ void MonteCarlo<T, Nz, Nr, nLayers>::CrossUpOrNot(Photon<T>& photon){
             std::cout << "TRANSMITTED THROUGH BND" << std::endl;
         }
         photon.layer -= 1;
-        photon.direction.x *= n1 / n2;
-        photon.direction.y *= n1 / n2;
-        photon.direction.z = cos2;
+        photon.direction.x *= ni / nt;
+        photon.direction.y *= ni / nt;
+        photon.direction.z = cost;
     } else { // fully reflected
         if (debug && photon.number == debugPhoton) {
             std::cout << "REFLECTED FROM BND" << std::endl;
@@ -517,20 +429,20 @@ void MonteCarlo<T, Nz, Nr, nLayers>::CrossDownOrNot(Photon<T>& photon){
     if (debug && photon.number == debugPhoton) {
             std::cout << "CrossDownOrNot" << std::endl;
         }
-    T cos1 = photon.direction.z;
+    T cosi = photon.direction.z;
     int layer = photon.layer;
-    T n1 = sample.getMedium(layer).getN();
-    T n2 = 1.0;
+    T ni = sample.getMedium(layer).n;
+    T nt = 1.0;
     if (layer == nLayers - 1)
-        n2 = sample.getNvacLower();
+        nt = sample.getNvacLower();
     else
-        n2 = sample.getMedium(layer + 1).getN();
-    T cos2 = Cos2(n1, n2, cos1);
-    T Ri = FresnelR(n1, n2, cos1);
+        nt = sample.getMedium(layer + 1).n;
+    T cost = CosT(ni, nt, cosi);
+    T Ri = FresnelR(ni, nt, cosi);
     T RND = random(0.0, 1.0); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton) {
-            std::cout << "cos2 = " << cos2 << " FresnelR = "<< Ri << " RND = "<< RND << std::endl;
+            std::cout << "cost = " << cost << " FresnelR = "<< Ri << " RND = "<< RND << std::endl;
         }
 
     if (layer == (nLayers - 1) && Ri < 1) { // partially transmitted -- only on sample border
@@ -544,9 +456,9 @@ void MonteCarlo<T, Nz, Nr, nLayers>::CrossDownOrNot(Photon<T>& photon){
             std::cout << "TRANSMITTED THROUGH BND" << std::endl;
         }
         photon.layer += 1;
-        photon.direction.x *= n1 / n2;
-        photon.direction.y *= n1 / n2;
-        photon.direction.z = cos2;
+        photon.direction.x *= ni / nt;
+        photon.direction.y *= ni / nt;
+        photon.direction.z = cost;
     } else {// fully reflected
         if (debug && photon.number == debugPhoton) {
             std::cout << "REFLECTED FROM BND" << std::endl;
@@ -575,33 +487,12 @@ void MonteCarlo<T, Nz, Nr, nLayers>::Simulation(Photon<T>& photon, const int& nu
     startDir = Vector3D<T>(0,0,1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);
-    if (sample.getMedium(0).getMt() == 0) {
+    if (sample.getMedium(0).ut == 0) { // 1st layer is glass -- go directly to tissue
         photon.layer = 1;
         photon.coordinate.z = sample.CurrentUpperBorderZ(photon.layer);
     }
     while(photon.alive) {
        HopDropSpin(photon);
-
-       /* if (debug && photon.number == debugPhoton) {
-            std::cout << "Before hop" << std::endl;
-            photon.printInfo();
-        }
-        Hop(photon);
-        if (debug && photon.number == debugPhoton) {
-            std::cout << "After hop" << std::endl;
-            photon.printInfo();
-        }
-        Drop(photon);
-        if (debug && photon.number == debugPhoton) {
-            std::cout << "After drop" << std::endl;
-            photon.printInfo();
-        }
-        Spin(photon);
-        if (debug && photon.number == debugPhoton) {
-            std::cout << "After spin" << std::endl;
-            photon.printInfo();
-        }
-        Roulette(photon);*/
     }
 }
 

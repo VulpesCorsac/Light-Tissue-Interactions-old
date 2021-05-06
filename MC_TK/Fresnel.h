@@ -6,32 +6,32 @@
 #include <cmath>
 
 template < typename T >
-T Cos2(const T& n1, const T& n2, const T& cos1) {
-      T cached = 1 - sqr(n1 / n2) * (1 - sqr(cos1));
+T CosT(const T& ni, const T& nt, const T& cosi) {
+      T cached = 1 - sqr(ni / nt) * (1 - sqr(cosi));
       if (cached < 0)
         return 0;
-      else if (cos1 > 0)
+      else if (cosi > 0)
         return std::sqrt(cached);
       else
         return -std::sqrt(cached);
 
-   // return real(std::sqrt(std::complex<T>(1 - sqr(n1 / n2) * (1 - sqr(cos1)))));
+   // return real(std::sqrt(std::complex<T>(1 - sqr(ni / nt) * (1 - sqr(cosi)))));
 }
 
 template < typename T >
-T FresnelR(const T& n1, const T& n2, const T& cos1) {
-    T cos2 = Cos2(n1, n2, cos1);
- //   std::cout << cos2 << std::endl;
-    T cached1 = (n2*cos1 - n1*cos2) / (n2*cos1 + n1*cos2);
-    T cached2 = (n1*cos1 - n2*cos2) / (n1*cos1 + n2*cos2);
+T FresnelR(const T& ni, const T& nt, const T& cosi) {
+    T cost = CosT(ni, nt, cosi);
+ //   std::cout << cost << std::endl;
+    T cached1 = (nt*cosi - ni*cost) / (nt*cosi + ni*cost);
+    T cached2 = (ni*cosi - nt*cost) / (ni*cosi + nt*cost);
   //  std::cout <<cached1 << " " << cached2 << std::endl;
     return 0.5*sqr(cached1) + 0.5*sqr(cached2);
 }
 
 template < typename T >
-T critCos(const T& n1, const T& n2) {
-    if (n1 < n2)
-        return std::cos(std::asin(n1/n2));
+T critCos(const T& ni, const T& nt) {
+    if (ni < nt)
+        return std::cos(std::asin(ni/nt));
     else
-        return std::cos(std::asin(n2/n1));
+        return std::cos(std::asin(nt/ni));
 }

@@ -13,7 +13,6 @@ public:
 
     void printInfo ();
 
-public:
     Vector3D<T> coordinate = Vector3D<T>(0,0,0);
     Vector3D<T> direction = Vector3D<T>(0,0,0);
     T weight = 1.0;
@@ -26,15 +25,15 @@ public:
 };
 
 template < typename T >
-Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& new_w, const int& new_num) noexcept {
-    coordinate = new_coord;
-    direction = new_dir;
-    weight = new_w;
-    number = new_num;
-    alive = (weight > 0);
-    step = 0;
-    stepLeft = 0;
-    layer = 0;
+Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& new_w, const int& new_num) noexcept :
+    coordinate(new_coord),
+    direction(new_dir),
+    weight(new_w),
+    number(new_num),
+    alive(weight > 0),
+    step(0),
+    stepLeft(0),
+    layer(0) {
 }
 
 template < typename T >
