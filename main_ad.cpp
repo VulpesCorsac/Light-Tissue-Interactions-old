@@ -12,14 +12,14 @@
 
 int main (int argc, char **argv) {
     using T = float;
-    const int M = 4;
+    const int M = 32;
 
-    /*
-    T a = 0.9; // albedo
-    T tau = 1.0; // optical thickness
-    T g = 0.9; // anisotropy
-    //*/
-    T n_slab = 1.5; // refraction index of sample
+
+    T a = 0.3; // albedo
+    T tau = 12.0; // optical thickness
+    T g = 0.5; // anisotropy
+    //
+    T n_slab = 1.4; // refraction index of sample
     T n_slide_top = 1.5; // refraction index of slide
     T n_slide_bottom = 1.5;
 
@@ -82,10 +82,10 @@ int main (int argc, char **argv) {
     //*/
 
 
-   /* T ts, rs;
+    T ts, rs;
     RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
     std::cout << "T scattered = " << ts << std::endl;
-    std::cout << "R scattered = " << rs << std::endl;*/
+    std::cout << "R scattered = " << rs << std::endl;
 
     T tc = Tc<T,M>(1.0, n_slab, n_slide_top, n_slide_bottom);
     std::cout << "T collimated = " << tc << std::endl;
@@ -95,7 +95,7 @@ int main (int argc, char **argv) {
     T tsmeas = 0.860729;
     T tcmeas = 5.64959e-006;
 
-    IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
+ //   IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
 
     return 0;
 }

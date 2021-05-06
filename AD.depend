@@ -973,7 +973,7 @@
 
 1615118582 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
 
-1617773597 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_ad.cpp
+1620285838 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_ad.cpp
 	"AD/NelderMead.h"
 	"AD/Quadrature.h"
 	"AD/RT.h"
@@ -982,7 +982,7 @@
 	<string>
 	<sstream>
 
-1615873602 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
 	"Angles.h"
 	"../Utils/Utils.h"
 	<iostream>
@@ -999,38 +999,38 @@
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\utils.h
 	<cmath>
 
-1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
 	"Fresnel.h"
 	"AddingDoubling.h"
 	"../Utils/Utils.h"
-	<Eigen/Dense>
+	"../eigen/Eigen/Dense"
 	<array>
 
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\fresnel.h
 	"Angles.h"
 	"../Utils/Utils.h"
 
-1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoubling.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoubling.h
 	"LayerInit.h"
-	<Eigen/Dense>
-	<Eigen/LU>
+	"../eigen/Eigen/Dense"
+	"../eigen/Eigen/LU"
 	<array>
 
-1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerinit.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerinit.h
 	"RedistributionFunction.h"
-	<Eigen/LU>
+	"../eigen/Eigen/LU"
 	<array>
 
-1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\redistributionfunction.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\redistributionfunction.h
 	"DMmethod.h"
-	<Eigen/Dense>
+	"../eigen/Eigen/Dense"
 	<iostream>
 	<cmath>
 	<algorithm>
 	<array>
 	<numeric>
 
-1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\dmmethod.h
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\dmmethod.h
 	"Quadrature.h"
 	<algorithm>
 	<cmath>
@@ -2092,14 +2092,15 @@
 1614330311 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\googletest\googletest\include\gtest\gtest_pred_impl.h
 	"gtest/gtest.h"
 
-1617773775 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\neldermead.h
-	<Eigen/Dense>
-	<iostream>
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\neldermead.h
 	"IAD.h"
+	"../eigen/Eigen/Dense"
+	<iostream>
 	<utility>
 
-1617772668 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\iad.h
-	<utility>
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\iad.h
 	"Quadrature.h"
 	"RT.h"
+	<utility>
+	<stdexcept>
 

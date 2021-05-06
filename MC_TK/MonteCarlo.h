@@ -3,7 +3,7 @@
 #include "Photon.h"
 #include "Medium.h"
 #include "Fresnel.h"
-#include "Sandwich.h"
+#include "Sample.h"
 
 #include "../Utils/Random.h"
 
@@ -30,7 +30,7 @@ template < typename T, size_t Nz, size_t Nr, size_t nLayers >
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = default;
-    MonteCarlo(const Sandwich<T, nLayers>& new_sample,
+    MonteCarlo(const Sample<T, nLayers>& new_sample,
                const int& new_Np,
                const int& new_threads,
                const T& new_dz,
@@ -52,8 +52,7 @@ protected:
     T threshold = 1e-3;
     T chance = 0.1;
 
-    bool debug = 1
-    ;
+    bool debug = 0;
     int debugPhoton = 0;
 
     Matrix<T, Dynamic, Dynamic> A = Matrix<T, Nz, Nr, nLayers>::Constant(0.0);
@@ -61,7 +60,7 @@ protected:
     Matrix<T, 1, Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
 
-    const Sandwich<T, nLayers>& sample;
+    const Sample<T, nLayers>& sample;
 
     // void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
     void FirstReflection(Photon<T>& photon);
@@ -96,7 +95,7 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, size_t nLayers >
-MonteCarlo<T, Nz, Nr, nLayers>::MonteCarlo(const Sandwich<T, nLayers>& new_sample,
+MonteCarlo<T, Nz, Nr, nLayers>::MonteCarlo(const Sample<T, nLayers>& new_sample,
                           const int& new_Np,
                           const int& new_threads,
                           const T& new_dz,
@@ -125,9 +124,18 @@ void MonteCarlo<T, Nz, Nr, nLayers>::FirstReflection(Photon<T>& photon) {
     T n1 = sample.getNvacUpper();
     T n2 = sample.getMedium(0).getN();
     T cos1 = std::abs(photon.direction.z);
+    T cos2 = Cos2(n1, n2, cos1);
 
-  //  T Ri = FresnelR(n1, n2, cos1);
-  T Ri = 0.040959;
+    T Ri = FresnelR(n1, n2, cos1);
+
+    if (sample.getMedium(0).getMt() == 0) { // specular from glass
+        T R1 = FresnelR(n1, n2, cos1);
+        T n3 = sample.getMedium(1).getN();
+        T R2 = FresnelR(n2, n3, cos2);
+        Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
+    }
+
+
     T r = std::sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     int ir = std::floor(r/dr);
 
@@ -227,6 +235,7 @@ void MonteCarlo<T, Nz, Nr, nLayers>::StepSizeInTissue(Photon<T>& photon) {
         photon.step = - std::log(RND) / mT;
     } else { //leftover step
         photon.step = photon.stepLeft / mT;
+        photon.stepLeft = 0.0;
     }
 }
 
@@ -566,6 +575,10 @@ void MonteCarlo<T, Nz, Nr, nLayers>::Simulation(Photon<T>& photon, const int& nu
     startDir = Vector3D<T>(0,0,1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);
+    if (sample.getMedium(0).getMt() == 0) {
+        photon.layer = 1;
+        photon.coordinate.z = sample.CurrentUpperBorderZ(photon.layer);
+    }
     while(photon.alive) {
        HopDropSpin(photon);
 

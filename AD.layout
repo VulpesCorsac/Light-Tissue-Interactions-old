@@ -2,23 +2,27 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="AD\LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD\IAD.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="199" topLine="20" />
+			<Cursor1 position="4129" topLine="50" />
 		</Cursor>
 		<Folding>
+			<Collapse line="10" />
 			<Collapse line="30" />
-			<Collapse line="43" />
-			<Collapse line="54" />
-			<Collapse line="59" />
-			<Collapse line="64" />
-			<Collapse line="73" />
-			<Collapse line="85" />
+			<Collapse line="36" />
+			<Collapse line="44" />
+			<Collapse line="51" />
+			<Collapse line="132" />
 		</Folding>
 	</File>
-	<File name="AD\AddingDoubling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="googletest\googletest\src\gtest-filepath.cc" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="127" topLine="26" />
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AD\Angles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="350" topLine="6" />
 		</Cursor>
 	</File>
 	<File name="AD\RedistributionFunction.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -36,42 +40,33 @@
 			<Cursor1 position="95" topLine="158" />
 		</Cursor>
 	</File>
+	<File name="main_ad.cpp" open="1" top="1" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="652" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="AD\LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="199" topLine="20" />
+		</Cursor>
+		<Folding>
+			<Collapse line="30" />
+			<Collapse line="43" />
+			<Collapse line="54" />
+			<Collapse line="59" />
+			<Collapse line="64" />
+			<Collapse line="73" />
+			<Collapse line="85" />
+		</Folding>
+	</File>
+	<File name="googletest\googletest\src\gtest-internal-inl.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="AD\DMmethod.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="385" topLine="32" />
-		</Cursor>
-	</File>
-	<File name="AD\Angles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="350" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="AD\RT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5487" topLine="109" />
-		</Cursor>
-	</File>
-	<File name="main_ad.cpp" open="1" top="1" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3077" topLine="74" />
-		</Cursor>
-	</File>
-	<File name="AD\IAD.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4129" topLine="50" />
-		</Cursor>
-		<Folding>
-			<Collapse line="10" />
-			<Collapse line="30" />
-			<Collapse line="36" />
-			<Collapse line="44" />
-			<Collapse line="51" />
-			<Collapse line="132" />
-		</Folding>
-	</File>
-	<File name="AD\Fresnel.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="133" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Tests\TestIAD.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -79,14 +74,34 @@
 			<Cursor1 position="1508" topLine="45" />
 		</Cursor>
 	</File>
-	<File name="AD\Quadrature.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD\AddingDoubling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="917" topLine="12" />
+			<Cursor1 position="127" topLine="26" />
 		</Cursor>
 	</File>
 	<File name="Utils\Utils.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="258" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AD\RT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5487" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="AD\Quadrature.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="917" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="AD\Fresnel.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="133" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="googletest\googletest\src\gtest-test-part.cc" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

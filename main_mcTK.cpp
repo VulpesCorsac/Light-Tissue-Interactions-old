@@ -6,7 +6,7 @@
 #include "MC_TK/Fresnel.h"
 #include "MC_TK/MonteCarlo.h"
 #include "MC_TK/BugerLambert.h"
-#include "MC_TK/Sandwich.h"
+#include "MC_TK/Sample.h"
 
 int main (int argc, char **argv) {
     using T = double;
@@ -17,17 +17,17 @@ int main (int argc, char **argv) {
     const int nLayers = 3;
 
     T selectedRadius = 10e-2;
-    T tissueThickness = 1e-3;
+    T tissueThickness = 12e-3;
 
-    Medium<T> tissue(1.6, 100, 900, tissueThickness, 0.9);
+    Medium<T> tissue(1.4, 700, 300, tissueThickness, 0.5);
 
     Medium<T> glass(1.5, 0, 0, 1e-3, 0);
 
-    std::array<Medium<T>, nLayers> layers = {glass, tissue, glass};
-    Sandwich<T, nLayers> mySandwich(layers, 1.0, 1.0);
+    std::array<Medium<T>, nLayers> layers = {glass,tissue,glass};
+    Sample<T, nLayers> mySample(layers, 1.0, 1.0);
 
 
-    MonteCarlo<T, Nz, Nr, nLayers> mc(mySandwich, 1e5, 1, (mySandwich.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr, nLayers> mc(mySample, 1e6, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
 
   ////  T reflection, transmission, absorbed;
   ////  MCresults<T,Nz,Nr, nLayers> myRes;
