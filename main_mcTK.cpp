@@ -33,11 +33,11 @@ int main (int argc, char **argv) {
   ////  std::thread th1(&MonteCarlo<T, Nz, Nr, >::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
 
     mc.Calculate();
-
+//fraction
  /*   std::cout << "Diffuse reflection = " << myRes.diffuseReflection << std::endl;
     std::cout << "Specular reflection = " << myRes.specularReflection << std::endl;
     std::cout << "Diffuse transmission = " << myRes.diffuseTransmission << std::endl;
-    std::cout << "Absorbed fraction = " << myRes.absorbed << std::endl;*/
+    std::cout << "Absorbed  = " << myRes.absorbed << std::endl;*/
 
     mc.printResults();
   //  std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;

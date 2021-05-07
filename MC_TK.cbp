@@ -33,6 +33,19 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="Test">
+				<Option output="MC_TK" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add directory="googletest/googletest/include" />
+					<Add directory="Tests" />
+					<Add directory="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/MC_TK" />
+				</Compiler>
+				<Linker>
+					<Add library="libGoogleTest.a" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -48,9 +61,48 @@
 		<Unit filename="MC_TK/Photon.h" />
 		<Unit filename="MC_TK/Sample.h" />
 		<Unit filename="MC_TK/Vector3.h" />
+		<Unit filename="Tests/TestMC.h">
+			<Option target="Test" />
+		</Unit>
 		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/Utils.h" />
-		<Unit filename="main_mcTK.cpp" />
+		<Unit filename="googletest/googletest/src/gtest-all.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-death-test.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-filepath.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-internal-inl.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-matchers.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-port.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-printers.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-test-part.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest-typed-test.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="googletest/googletest/src/gtest_main.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="main_mcTK.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
