@@ -11,18 +11,16 @@
 
 #include <cmath>
 #include <tgmath.h>
-#include <thread>
-#include <mutex>
 
 using namespace Eigen;
 
 template < typename T, size_t Nz, size_t Nr >
 struct MCresults {
     T specularReflection, diffuseReflection, diffuseTransmission, absorbed;
-    Matrix<T, Dynamic, Dynamic> matrixA ;
-    Matrix<T, 1, Dynamic> arrayR;
-    Matrix<T, 1, Dynamic> arrayRspecular;
-    Matrix<T, 1, Dynamic> arrayT;
+    Matrix<T, Dynamic, Dynamic> matrixA = Matrix<T, Nz, Nr>::Constant(0.0);
+    Matrix<T, 1, Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0.0);
+    Matrix<T, 1, Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0.0);
+    Matrix<T, 1, Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0.0);
 
 };
 
@@ -32,20 +30,21 @@ public:
     MonteCarlo() noexcept = default;
     MonteCarlo(const Sample<T>& new_sample,
                const int& new_Np,
-               const int& new_threads,
-               const T& new_dz,
-               const T& new_dr,
-               const T& new_chance,
-               const T& new_thr);
+               const T& new_z,
+               const T& new_r);
     ~MonteCarlo() noexcept = default;
 
     void PhotonsBunchSimulation(int Nstart, int Nfinish);
     void Calculate();
     void printResults();
 
+    inline Matrix<T, Dynamic, Dynamic> getMatrixA() const noexcept { return A; }
+    inline Matrix<T, Dynamic, Dynamic> getArrayR() const noexcept { return RR; }
+    inline Matrix<T, Dynamic, Dynamic> getArrayRspec() const noexcept { return RRspecular; }
+    inline Matrix<T, Dynamic, Dynamic> getArrayT() const noexcept { return TT; }
+
 protected:
     int Nphotons = 1e6;
-    int threads = 1;
 
     T dz = 1e-3;
     T dr = 1e-3;
@@ -97,18 +96,14 @@ protected:
 template < typename T, size_t Nz, size_t Nr >
 MonteCarlo<T, Nz, Nr>::MonteCarlo(const Sample<T>& new_sample,
                           const int& new_Np,
-                          const int& new_threads,
-                          const T& new_dz,
-                          const T& new_dr,
-                          const T& new_chance,
-                          const T& new_thr)
+                          const T& new_z,
+                          const T& new_r)
     : sample(new_sample)
     , Nphotons(new_Np)
-    , threads(new_threads)
-    , dz(new_dz)
-    , dr(new_dr)
-    , chance(new_chance)
-    , threshold(new_thr){
+    , dz(new_z / Nz)
+    , dr(new_r / Nr)
+    , chance(0.1)
+    , threshold(1e-4){
 }
 
 /*template < typename T, size_t Nz, size_t Nr >

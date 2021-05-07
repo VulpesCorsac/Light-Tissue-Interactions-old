@@ -7,6 +7,7 @@
 #include "MC_TK/MonteCarlo.h"
 #include "MC_TK/BugerLambert.h"
 #include "MC_TK/Sample.h"
+#include "MC_TK/MCmultithread.h"
 
 int main (int argc, char **argv) {
     using T = double;
@@ -25,20 +26,23 @@ int main (int argc, char **argv) {
     Sample<T> mySample(layers, 1.0, 1.0);
 
 
-    MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, 1, (mySample.getTotalThickness() / Nz), (selectedRadius / Nr), 0.1, 1e-4);
+    MonteCarlo<T, Nz, Nr> mc(mySample, 1e4, mySample.getTotalThickness(), selectedRadius);
 
   ////  T reflection, transmission, absorbed;
   ////  MCresults<T,Nz,Nr, > myRes;
   ////  std::thread th1(&MonteCarlo<T, Nz, Nr, >::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
 
-    mc.Calculate();
+ //   mc.Calculate();
 
  /*   std::cout << "Diffuse reflection = " << myRes.diffuseReflection << std::endl;
     std::cout << "Specular reflection = " << myRes.specularReflection << std::endl;
     std::cout << "Diffuse transmission = " << myRes.diffuseTransmission << std::endl;
     std::cout << "Absorbed fraction = " << myRes.absorbed << std::endl;*/
 
-    mc.printResults();
+ //   mc.printResults();
   //  std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
+
+    MCmultithread<T,Nz,Nr>(mySample, 1e5, 4, mySample.getTotalThickness(), selectedRadius);
+
     return 0;
 }
