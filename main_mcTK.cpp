@@ -8,6 +8,7 @@
 #include "MC_TK/BugerLambert.h"
 #include "MC_TK/Sample.h"
 #include "MC_TK/MCmultithread.h"
+#include "Tests/TestMC.h"
 
 int main (int argc, char **argv) {
     using T = double;
@@ -16,33 +17,28 @@ int main (int argc, char **argv) {
     const int Nr = 10000;
 
     T selectedRadius = 10e-2;
-    T tissueThickness = 4e-3;
 
-    Medium<T> tissue(1.5, 200, 800, tissueThickness, 0.5);
+    Medium<T> tissue(1.6, 700, 300, 10e-3, 0.0);
 
-    Medium<T> glass(1.6, 0, 0, 1e-3, 0);
+    Medium<T> glass1(1.6, 0, 0, 1e-3, 0);
+    Medium<T> glass2(1.65, 0, 0, 1e-3, 0);
 
-    std::vector<Medium<T>> layers = {glass,tissue,glass};
+    std::vector<Medium<T>> layers = {glass2,tissue,glass2};
     Sample<T> mySample(layers, 1.0, 1.0);
 
+  /*  MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, mySample.getTotalThickness(), selectedRadius);
+    MCresults<T,Nz,Nr> myResults;
+    mc.Calculate(myResults);
+    printResults(myResults);*/
 
-    MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, mySample.getTotalThickness(), selectedRadius);
-
-  ////  T reflection, transmission, absorbed;
-  ////  MCresults<T,Nz,Nr, > myRes;
-  ////  std::thread th1(&MonteCarlo<T, Nz, Nr, >::PhotonsBunchSimulation, std::ref(mc), 0, 2500);
-
-    mc.Calculate();
-//fraction
- /*   std::cout << "Diffuse reflection = " << myRes.diffuseReflection << std::endl;
-    std::cout << "Specular reflection = " << myRes.specularReflection << std::endl;
-    std::cout << "Diffuse transmission = " << myRes.diffuseTransmission << std::endl;
-    std::cout << "Absorbed  = " << myRes.absorbed << std::endl;*/
-
-    mc.printResults();
   //  std::cout << "Collimated transmission = " << BugerLambert(tissue.getTau(), tissue.getN(), T(1.0), T(1.0)) << std::endl;
 
- //   MCmultithread<T,Nz,Nr>(mySample, 1e5, 4, mySample.getTotalThickness(), selectedRadius);
+/*    MCresults<T,Nz,Nr> myResultsMT;
+    MCmultithread<T,Nz,Nr>(mySample, 5e6, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
+    printResults(myResultsMT);*/
+
+    TestsMC test;
+ //   test.MultiLayerAbsorptionScattering();
 
     return 0;
 }

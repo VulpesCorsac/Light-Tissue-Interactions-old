@@ -16,13 +16,24 @@ using namespace Eigen;
 
 template < typename T, size_t Nz, size_t Nr >
 struct MCresults {
-    T specularReflection, diffuseReflection, diffuseTransmission, absorbed;
+    T specularReflection = 0.0;
+    T diffuseReflection = 0.0;
+    T diffuseTransmission = 0.0;
+    T absorbed = 0.0;
     Matrix<T, Dynamic, Dynamic> matrixA = Matrix<T, Nz, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0.0);
 
 };
+
+template < typename T, size_t Nz, size_t Nr >
+void printResults(MCresults<T,Nz,Nr>& res) {
+    std::cout << "Diffuse reflection = " << res.diffuseReflection << std::endl;
+    std::cout << "Specular reflection = " << res.specularReflection << std::endl;
+    std::cout << "Diffuse transmission = " << res.diffuseTransmission << std::endl;
+    std::cout << "Absorbed fraction = " << res.absorbed << std::endl;
+}
 
 template < typename T, size_t Nz, size_t Nr >
 class MonteCarlo {
@@ -34,9 +45,7 @@ public:
                const T& new_r);
     ~MonteCarlo() noexcept = default;
 
-    void PhotonsBunchSimulation(int Nstart, int Nfinish);
-    void Calculate();
-    void printResults();
+    void Calculate(MCresults<T,Nz,Nr>& res);
 
     inline Matrix<T, Dynamic, Dynamic> getMatrixA() const noexcept { return A; }
     inline Matrix<T, Dynamic, Dynamic> getArrayR() const noexcept { return RR; }
@@ -501,16 +510,9 @@ T MonteCarlo<T, Nz, Nr>::Area(const T& ir) {
     return 2 * M_PI * (ir - 0.5) * sqr(dr);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::PhotonsBunchSimulation(int Nstart, int Nfinish) {
-    for (int i = Nstart; i < Nfinish; i++) {
-        Photon<T> myPhoton;
-        Simulation(myPhoton, i);
-    }
-}
 
 template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::Calculate() {
+void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
 
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
@@ -528,6 +530,8 @@ void MonteCarlo<T, Nz, Nr >::Calculate() {
     results.diffuseTransmission = TT.sum() / Nphotons;
     results.absorbed = A.sum() / Nphotons;
 
+    res = results;
+
     /*
     for (int i = 0; i < Nz; i++)
         for (int j = 0; j < Nr; j++)
@@ -540,10 +544,3 @@ void MonteCarlo<T, Nz, Nr >::Calculate() {
     //*/
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::printResults() {
-    std::cout << "Diffuse reflection = " << results.diffuseReflection << std::endl;
-    std::cout << "Specular reflection = " << results.specularReflection << std::endl;
-    std::cout << "Diffuse transmission = " << results.diffuseTransmission << std::endl;
-    std::cout << "Absorbed fraction = " << results.absorbed << std::endl;
-}

@@ -15,13 +15,13 @@ int main (int argc, char **argv) {
     const int M = 32;
 
 
-    T a = 0.3; // albedo
-    T tau = 12.0; // optical thickness
-    T g = 0.5; // anisotropy
+    T a = 0.9; // albedo
+    T tau = 1.0; // optical thickness
+    T g = 0.9; // anisotropy
     //
-    T n_slab = 1.4; // refraction index of sample
-    T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
+    T n_slab = 1.5; // refraction index of sample
+    T n_slide_top = 1.6; // refraction index of slide
+    T n_slide_bottom = 1.65;
 
     Quadrature<T,M> quadrature(n_slab);
 
