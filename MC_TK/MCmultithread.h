@@ -8,15 +8,13 @@ void MCmultithread (const Sample<T>& sample, const int& Np, const int& threads, 
     std::vector<MonteCarlo<T, Nz, Nr>> mcDivided;
     std::vector<std::thread> mcThreads;
  //   MonteCarlo<T, Nz, Nr> mc(sample, (Np / threads), z, r);
-    for (int i = 0; i < threads; i++) {
-        std::cout << "Create threads" << std::endl;
+    for (int i = 0; i < threads; i++)
         mcDivided.push_back(MonteCarlo<T, Nz, Nr>(sample, (Np / threads), z, r));
+    for (int i = 0; i < threads; i++)
         mcThreads.push_back(std::thread(&MonteCarlo<T, Nz, Nr>::Calculate, std::ref(mcDivided[i])));
-    }
-    for (int i = 0; i < threads; i++) {
-        std::cout << "Join threads" << std::endl;
+    for (int i = 0; i < threads; i++)
         mcThreads[i].join();
-    }
+
 
     MCresults<T,Nz,Nr> finalResults;
 
