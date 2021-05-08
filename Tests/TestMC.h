@@ -213,7 +213,7 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     assert(std::abs(MTres3.specularReflection - 0.06037) < 1e-4);
     assert(std::abs(MTres3.diffuseReflection - 0.0) < 1e-3);
     assert(std::abs(MTres3.diffuseTransmission - 0.00004008) < 3e-6);
-    assert(std::abs(MTres3.diffuseTransmission - BugerLambert(10.0, 1.6, 1.65, 1.65)) < 2e-6);
+    assert(std::abs(MTres3.diffuseTransmission - BugerLambert(10.0, 1.6, 1.65, 1.65)) < 3e-6);
     assert(std::abs(MTres3.diffuseTransmission + MTres3.diffuseReflection +
                     MTres3.specularReflection + MTres3.absorbed - 1.0) < 1e-4);
 
