@@ -12,10 +12,10 @@
 
 int main (int argc, char **argv) {
     using T = float;
-    const int M = 32;
+    const int M = 128;
 
 
-    T a = 0.9; // albedo
+    T a = 0.0; // albedo
     T tau = 1.0; // optical thickness
     T g = 0.9; // anisotropy
     //

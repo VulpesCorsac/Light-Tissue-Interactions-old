@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-template < typename T> // NORMAL INCIDENCE!!!
+template < typename T>
 T Rborder(T n_slab, T n_slide) {
     const auto cached1 = FresnelR(n_slab, n_slide, static_cast<T>(1));
     const auto cached2 = FresnelR(n_slide, static_cast<T>(1), static_cast<T>(1));
