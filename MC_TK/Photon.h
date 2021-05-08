@@ -7,9 +7,10 @@
 template < typename T >
 class Photon {
 public:
-    Photon() noexcept = default; //default constructor
+    /// TODO: must be deleted to avoid problems later on
+    Photon() noexcept = default; // default constructor
     Photon(const Vector3D<T>& coord, const Vector3D<T>& dir, const T& w, const int& num) noexcept; // construct from coord, dir, weight
-    ~Photon() noexcept = default; //destructor
+    ~Photon() noexcept = default; // destructor
 
     void printInfo ();
 
@@ -25,18 +26,20 @@ public:
 };
 
 template < typename T >
-Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& new_w, const int& new_num) noexcept :
-    coordinate(new_coord),
-    direction(new_dir),
-    weight(new_w),
-    number(new_num),
-    alive(weight > 0),
-    step(0),
-    stepLeft(0),
-    layer(0) {
+Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& new_w, const int& new_num) noexcept
+    : coordinate(new_coord)
+    , direction(new_dir)
+    , weight(new_w)
+    , step(0)
+    , stepLeft(0)
+    , layer(0)
+    , number(new_num)
+    , alive(weight > 0) {
 }
 
 template < typename T >
 void Photon<T>::printInfo() {
-    std::cout << "Coordinate: " << coordinate << ", direction: " << direction << ", weight = " << weight  << ", number " << number << ", in layer " << layer << std::endl;
+    using namespace std;
+
+    cout << "Coordinate: " << coordinate << ", direction: " << direction << ", weight = " << weight  << ", number " << number << ", in layer " << layer << endl;
 }
