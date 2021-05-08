@@ -304,7 +304,7 @@ void TestsMC::SingleLayerAbsorptionScattering() {
 
     assert(std::abs(MTres3.specularReflection - 0.05325) < 1e-4);
     assert(std::abs(MTres3.diffuseReflection - 0.0175) < 1e-3);
-    assert(std::abs(MTres3.diffuseTransmission - 0.0000549) < 2e-6);
+    assert(std::abs(MTres3.diffuseTransmission - 0.0000549) < 3e-6);
     assert(std::abs(MTres3.diffuseTransmission + MTres3.diffuseReflection +
                     MTres3.specularReflection + MTres3.absorbed - 1.0) < 1e-4);
 
