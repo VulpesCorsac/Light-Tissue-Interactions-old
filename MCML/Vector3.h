@@ -54,7 +54,6 @@ public:
         out << r.e[0] << ' ' << r.e[1] << ' ' << r.e[2];
         return out;
     }
-
 };
 
 template < typename T >

@@ -10,7 +10,6 @@
 #include <iostream>
 #include <atomic>
 
-
 class ProgressBar {
 public:
     ProgressBar(int Total) noexcept
@@ -60,7 +59,7 @@ public:
 template < typename T >
 void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, ProgressBar& counter, std::mutex& m) {
     for (int i = 0; i < params.NP; ++i) {
-        if(false)
+        if (false)
             params.debug = true;
         else
             params.debug = false;
@@ -144,13 +143,11 @@ void compute(Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, 
                 if (params.debug)
                     std::cerr << " z=" << p.position.e[2] << " uz=" << p.direction.e[2] << "\n-------------------------------\n";
             }
-
         }
 
         ++counter;
     }
 }
-
 
 template < typename T >
 void set_up_threads(int number_of_threads, Tissue<T>& tissue, DataContainer<T>& data, ThreadParams<T> params, bool print) {

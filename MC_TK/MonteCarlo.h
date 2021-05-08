@@ -391,7 +391,6 @@ bool MonteCarlo<T, Nz, Nr>::HitBoundary(Photon<T>& photon) {
     } else
         hit = false;
     return hit;
-
 }
 
 template < typename T, size_t Nz, size_t Nr >
