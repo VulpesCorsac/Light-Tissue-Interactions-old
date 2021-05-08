@@ -10,37 +10,56 @@
 #include "MC_TK/MCmultithread.h"
 #include "Tests/TestMC.h"
 
-int main (int argc, char **argv) {
+int main(int argc, char **argv) {
+    using namespace std;
     using T = double;
 
-    const int Nz = 1000;
-    const int Nr = 10000;
+    /*
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
 
-    T selectedRadius = 10e-2;
+    constexpr T selectedRadius = 10e-2;
 
-    Medium<T> tissue(1.5, 1000, 0, 1e-3, 0.9);
+    Medium<T> tissue(1.5 , 1000, 0, 1e-3, 0.9);
+    Medium<T> glass1(1.6 ,    0, 0, 1e-3,   0);
+    Medium<T> glass2(1.65,    0, 0, 1e-3,   0);
 
-    Medium<T> glass1(1.6, 0, 0, 1e-3, 0);
-    Medium<T> glass2(1.65, 0, 0, 1e-3, 0);
-
-    std::vector<Medium<T>> layers = {glass1,tissue,glass1};
+    vector<Medium<T>> layers = {glass1, tissue, glass1};
     Sample<T> mySample(layers, 1.0, 1.0);
+    //*/
 
-  /*  MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, mySample.getTotalThickness(), selectedRadius);
+    /*
+    MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, mySample.getTotalThickness(), selectedRadius);
     MCresults<T,Nz,Nr> myResults;
     mc.Calculate(myResults);
-    printResults(myResults);*/
+    printResults(myResults);
+    //*/
 
- /*   MCresults<T,Nz,Nr> myResultsMT;
+    /*
+    MCresults<T,Nz,Nr> myResultsMT;
     MCmultithread<T,Nz,Nr>(mySample, 10e6, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
     printResults(myResultsMT);
-    std::cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << std::endl;
-*/
+    cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << endl;
+    //*/
+
     TestsMC test;
-    test.SingleLayerAbsorptionOnly();
-    test.MultiLayerAbsorptionOnly();
-    test.SingleLayerAbsorptionScattering();
-    test.MultiLayerAbsorptionScattering();
+    constexpr int runs = 1;
+    for (int i = 0; i < runs; ++i) {
+        cout << "SingleLayerAbsorptionOnly: " << i+1 << endl;
+        test.SingleLayerAbsorptionOnly();
+    }
+    for (int i = 0; i < runs; ++i) {
+        cout << "MultiLayerAbsorptionOnly: " << i+1 << endl;
+        test.MultiLayerAbsorptionOnly();
+    }
+    for (int i = 0; i < runs; ++i) {
+        cout << "SingleLayerAbsorptionScattering: " << i+1 << endl;
+        test.SingleLayerAbsorptionScattering();
+    }
+    for (int i = 0; i < runs; ++i) {
+        cout << "MultiLayerAbsorptionScattering: " << i+1 << endl;
+        test.MultiLayerAbsorptionScattering();
+    }
 
     return 0;
 }
