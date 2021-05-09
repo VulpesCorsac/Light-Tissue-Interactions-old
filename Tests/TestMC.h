@@ -63,7 +63,7 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     mc2.Calculate(res2);
     assert(abs(res2.specularReflection - 0.0170132) < 1e-4);
     assert(abs(res2.diffuseReflection - 0.01346) < 1e-3);
-    assert(abs(res2.diffuseTransmission - 0.8743) < 1e-3);
+    assert(abs(res2.diffuseTransmission - 0.8743) < 2e-3);
     assert(abs(res2.diffuseTransmission - BugerLambert(0.1, 1.3, 1.0, 1.0)) < 1e-3);
     assert(abs(res2.diffuseTransmission + res2.diffuseReflection + res2.specularReflection + res2.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 2 OK: single thread" << endl;
@@ -80,7 +80,7 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     assert(abs(res3.specularReflection - 0.05325) < 1e-4);
     assert(abs(res3.diffuseReflection - 0.0) < 1e-3);
     assert(abs(res3.diffuseTransmission - 0.00004069) < 8e-6);
-    assert(abs(res3.diffuseTransmission - BugerLambert(10.0, 1.6, 1.0, 1.0)) < 7e-6);
+    assert(abs(res3.diffuseTransmission - BugerLambert(10.0, 1.6, 1.0, 1.0)) < 8e-6);
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
@@ -216,7 +216,7 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     MCmultithread<T, Nz, Nr>(sample1, 5e5, 4, sample1.getTotalThickness(), selectedRadius, MTres1);
     assert(abs(MTres1.specularReflection - 0.04) < 1e-4);
     assert(abs(MTres1.diffuseReflection - 0.0435) < 1e-3);
-    assert(abs(MTres1.diffuseTransmission - 0.767) < 1e-3);
+    assert(abs(MTres1.diffuseTransmission - 0.767) < 2e-3);
     assert(abs(MTres1.diffuseTransmission + MTres1.diffuseReflection + MTres1.specularReflection + MTres1.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 1 OK: 4 threads" << endl;
 

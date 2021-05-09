@@ -84,7 +84,7 @@ template < typename T >
 Vector3D<T> unit(const Vector3D<T>& v);
 
 template < typename T >
-std::ostream& operator << (std::ostream& os, const Vector3D<T>& v);
+std::ostream& operator << (std::ostream& os, const Vector3D<T>& v) noexcept;
 
 /******************
  * IMPLEMENTATION *
@@ -269,8 +269,8 @@ Vector3D<T> operator / (const Vector3D<T>& v, const U& scale) {
 template < typename T, typename U >
 Vector3D<T> cross_product(const Vector3D<T>& vec1, const Vector3D<U>& vec2) noexcept {
     return Vector3D<T>(vec1.y * vec2.z - vec1.z * vec2.y,
-                            vec1.z * vec2.x - vec1.x * vec2.z,
-                            vec1.x * vec2.y - vec1.y * vec2.x);
+                       vec1.z * vec2.x - vec1.x * vec2.z,
+                       vec1.x * vec2.y - vec1.y * vec2.x);
 }
 
 template < typename T >
@@ -279,7 +279,7 @@ Vector3D<T> unit(const Vector3D<T>& v) {
 }
 
 template < typename T >
-std::ostream& operator << (std::ostream& os, const Vector3D<T>& v) {
+std::ostream& operator << (std::ostream& os, const Vector3D<T>& v) noexcept {
     os << '(';
     os << v.x;
     os << ',';

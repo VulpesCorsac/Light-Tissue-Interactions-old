@@ -12,10 +12,8 @@ T CosT(const T& ni, const T& nt, const T& cosi) {
     const T cached = 1 - sqr(ni / nt) * (1 - sqr(cosi));
     if (cached < 0)
         return 0;
-    /// TODO: ternary
-    if (cosi > 0)
-        return sqrt(cached);
-    return -sqrt(cached);
+
+    return cosi > 0 ? sqrt(cached) : -sqrt(cached);
    // return real(sqrt(complex<T>(1 - sqr(ni / nt) * (1 - sqr(cosi)))));
 }
 
@@ -33,8 +31,5 @@ template < typename T >
 T critCos(const T& ni, const T& nt) {
     using namespace std;
 
-    /// TODO: ternary
-    if (ni < nt)
-        return std::cos(std::asin(ni/nt));
-    return std::cos(std::asin(nt/ni));
+    return cos(asin(min(ni, nt) / max(ni, nt)));
 }

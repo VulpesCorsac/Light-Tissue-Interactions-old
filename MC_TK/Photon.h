@@ -38,8 +38,11 @@ Photon<T>::Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, cons
 }
 
 template < typename T >
-void Photon<T>::printInfo() {
-    using namespace std;
-
-    cout << "Coordinate: " << coordinate << ", direction: " << direction << ", weight = " << weight  << ", number " << number << ", in layer " << layer << endl;
+std::ostream& operator << (std::ostream& os, const Photon<T>& photon) noexcept {
+    os << "Coordinate: "  << photon.coordinate;
+    os << ", direction: " << photon.direction;
+    os << ", weight = "   << photon.weight;
+    os << ", number "     << photon.number;
+    os << ", in layer "   << photon.layer;
+    return os;
 }

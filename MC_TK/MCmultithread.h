@@ -20,16 +20,14 @@ void MCmultithread(const Sample<T>& sample, const int& Np, const int& threads, c
 
     for (int i = 0; i < threads; i++)
         mcThreads.push_back(thread(&MonteCarlo<T, Nz, Nr>::Calculate, ref(mcDivided[i]), ref(mcResults[i])));
-    /// TODO: range-based for
-    for (int i = 0; i < threads; i++)
-        mcThreads[i].join();
+    for (auto& thread: mcThreads)
+        thread.join();
 
-    /// TODO: range-based for
-    for (int i = 0; i < threads; i++) {
-        finalResults.arrayR += mcResults[i].arrayR;
-        finalResults.arrayRspecular += mcResults[i].arrayRspecular;
-        finalResults.arrayT += mcResults[i].arrayT;
-        finalResults.matrixA += mcResults[i].matrixA;
+    for (const auto& result: mcResults) {
+        finalResults.arrayR += result.arrayR;
+        finalResults.arrayRspecular += result.arrayRspecular;
+        finalResults.arrayT += result.arrayT;
+        finalResults.matrixA += result.matrixA;
     }
 
     finalResults.diffuseReflection = finalResults.arrayR.sum() / Np;

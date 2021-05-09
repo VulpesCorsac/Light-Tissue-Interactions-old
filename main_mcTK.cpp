@@ -12,9 +12,10 @@
 
 int main(int argc, char **argv) {
     using namespace std;
-    using T = double;
 
     /*
+    using T = double;
+
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
 
@@ -43,7 +44,7 @@ int main(int argc, char **argv) {
     //*/
 
     TestsMC test;
-    constexpr int runs = 1;
+    constexpr int runs = 3;
     for (int i = 0; i < runs; ++i) {
         cout << "SingleLayerAbsorptionOnly: " << i+1 << endl;
         test.SingleLayerAbsorptionOnly();

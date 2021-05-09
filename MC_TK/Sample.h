@@ -11,7 +11,6 @@ public:
 
     inline T CurrentUpperBorderZ(const int& currentLayer) const noexcept { // layer numeration from 0!
         T upperBndZ = 0;
-        /// TODO: range-based for
         for (int i = 0; i < currentLayer; i++)
             upperBndZ += sample[i].D;
         return upperBndZ;
@@ -37,7 +36,7 @@ Sample<T>::Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, cons
     , nVacLower(vacLower)
     , nVacUpper(vacUpper) {
     T thickness = 0;
-    for (const auto& i : sample)
-        thickness += i.D;
+    for (const auto& layer : sample)
+        thickness += layer.D;
     totalThickness = thickness;
 }
