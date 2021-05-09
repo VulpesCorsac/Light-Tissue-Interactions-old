@@ -47,7 +47,6 @@
 		<Unit filename="MC_TK/Photon.h" />
 		<Unit filename="MC_TK/Sample.h" />
 		<Unit filename="MC_TK/Vector3.h" />
-		<Unit filename="Tests/TestMC.h" />
 		<Unit filename="Tests/TestMCStandalone.h" />
 		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/Utils.h" />
