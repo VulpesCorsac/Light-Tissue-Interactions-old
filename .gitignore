@@ -8,8 +8,8 @@ bin/*
 lib/*
 pvs/*
 CMakeFiles/*
-MCML/CMakeFiles/*
 AD/CMakeFiles/*
+MC_TK/CMakeFiles/*
 Tests/CMakeFiles/*
 Testing/*
 .vs/

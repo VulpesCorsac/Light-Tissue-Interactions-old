@@ -9,7 +9,7 @@ class Photon {
 public:
     /// TODO: must be deleted to avoid problems later on
     Photon() noexcept = default; // default constructor
-    Photon(const Vector3D<T>& coord, const Vector3D<T>& dir, const T& w, const int& num) noexcept; // construct from coord, dir, weight
+    Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& w, const int& new_num) noexcept; // construct from coord, dir, weight
     ~Photon() noexcept = default; // destructor
 
     void printInfo ();

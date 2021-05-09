@@ -5,8 +5,7 @@
 #include <thread>
 
 template < typename T, size_t Nz, size_t Nr >
-
-void MCmultithread(const Sample<T>& sample, const int& Np, const int& threads, const T& z, const T& r, MCresults<T,Nz,Nr>& finalResults) {
+void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr>& finalResults) {
     using namespace std;
 
     vector<MonteCarlo<T, Nz, Nr>> mcDivided;

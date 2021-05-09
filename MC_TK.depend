@@ -1105,7 +1105,7 @@
 	"../MC_TK/MonteCarlo.h"
 	"../MC_TK/BugerLambert.h"
 
-1620585718 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_mcTK.cpp
+1620588572 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_mcTK.cpp
 	"MC_TK/Photon.h"
 	"MC_TK/Medium.h"
 	"MC_TK/Fresnel.h"
@@ -1113,7 +1113,7 @@
 	"MC_TK/BugerLambert.h"
 	"MC_TK/Sample.h"
 	"MC_TK/MCmultithread.h"
-	"Tests/TestMC.h"
+	"Tests/TestMCStandalone.h"
 
 1620585053 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC_TK/Photon.h
 	"Vector3.h"
@@ -2029,6 +2029,10 @@
 	<thread>
 
 1620586094 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Tests/TestMC.h
+	"../MC_TK/MonteCarlo.h"
+	"../MC_TK/BugerLambert.h"
+
+1620586094 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Tests/TestMCStandalone.h
 	"../MC_TK/MonteCarlo.h"
 	"../MC_TK/BugerLambert.h"
 

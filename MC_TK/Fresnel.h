@@ -6,7 +6,7 @@
 #include <cmath>
 
 template < typename T >
-T CosT(const T& ni, const T& nt, const T& cosi) {
+T CosT(T ni, T nt, T cosi) {
     using namespace std;
 
     const T cached = 1 - sqr(ni / nt) * (1 - sqr(cosi));
@@ -18,7 +18,7 @@ T CosT(const T& ni, const T& nt, const T& cosi) {
 }
 
 template < typename T >
-T FresnelR(const T& ni, const T& nt, const T& cosi) {
+T FresnelR(T ni, T nt, T cosi) {
     const T cost = CosT(ni, nt, cosi);
     // std::cout << cost << std::endl;
     const T cached1 = (nt * cosi - ni * cost) / (nt * cosi + ni * cost);
@@ -28,7 +28,7 @@ T FresnelR(const T& ni, const T& nt, const T& cosi) {
 }
 
 template < typename T >
-T critCos(const T& ni, const T& nt) {
+T critCos(T ni, T nt) {
     using namespace std;
 
     return cos(asin(min(ni, nt) / max(ni, nt)));

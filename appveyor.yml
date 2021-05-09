@@ -12,11 +12,8 @@ build_script:
 
     g++ -std=c++17 -o2 -Ieigen main_ad.cpp -o main_ad
 
-    time ./main_ad
+    g++ -pthread -std=c++17 -o2 main_mcTK.cpp -o main_mcTK
 
-    g++ -pthread -std=c++17 -o2 main_mcml.cpp -o main_mcml
-
-    time ./main_mcml
 test_script:
 - sh: >-
     ctest

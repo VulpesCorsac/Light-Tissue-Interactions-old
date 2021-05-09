@@ -8,7 +8,7 @@
 #include "MC_TK/BugerLambert.h"
 #include "MC_TK/Sample.h"
 #include "MC_TK/MCmultithread.h"
-#include "Tests/TestMC.h"
+#include "Tests/TestMCStandalone.h"
 
 int main(int argc, char **argv) {
     using namespace std;

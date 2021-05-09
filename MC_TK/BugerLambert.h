@@ -4,8 +4,8 @@
 
 template < typename T >
 T Rborder(T n_slab, T n_slide) {
-    const auto cached1 = FresnelR(n_slab, n_slide, static_cast<T>(1));
-    const auto cached2 = FresnelR(n_slide, static_cast<T>(1), static_cast<T>(1));
+    const auto cached1 = FresnelR<T>(n_slab, n_slide, T(1));
+    const auto cached2 = FresnelR<T>(n_slide, T(1), T(1));
     const auto cached3 = cached1 * cached2;
     return (cached1 + cached2 - 2 * cached3) / (1 - cached3);
 }
