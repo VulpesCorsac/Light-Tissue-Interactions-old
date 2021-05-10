@@ -14,7 +14,6 @@ int main (int argc, char **argv) {
     using T = float;
     const int M = 128;
 
-
     T a = 0.0; // albedo
     T tau = 1.0; // optical thickness
     T g = 0.9; // anisotropy
@@ -35,8 +34,8 @@ int main (int argc, char **argv) {
     quadrature.printQuadrature(w);
     //*/
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    // const int N = 2; // minimize 2 parameters
+    // const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
     /*
     std::ofstream myfileIAD;
@@ -81,7 +80,6 @@ int main (int argc, char **argv) {
     myfileIAD.close();
     //*/
 
-
     T ts, rs;
     RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
     std::cout << "T scattered = " << ts << std::endl;
@@ -91,11 +89,11 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;
     //
 
-    T rsmeas = 0.139269;
-    T tsmeas = 0.860729;
-    T tcmeas = 5.64959e-006;
+    // T rsmeas = 0.139269;
+    // T tsmeas = 0.860729;
+    // T tcmeas = 5.64959e-006;
 
- //   IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
+    // IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
 
     return 0;
 }
