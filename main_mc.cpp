@@ -44,16 +44,16 @@ int main(int argc, char **argv) {
     //*/
 
     TestsMC test;
-    constexpr int runs = 3;
-    for (int i = 0; i < 0; ++i) {
+    constexpr int runs = 1;
+    for (int i = 0; i < runs; ++i) {
         cout << "SingleLayerAbsorptionOnly: " << i+1 << endl;
         test.SingleLayerAbsorptionOnly();
     }
-    for (int i = 0; i < 0; ++i) {
+    for (int i = 0; i < runs; ++i) {
         cout << "MultiLayerAbsorptionOnly: " << i+1 << endl;
         test.MultiLayerAbsorptionOnly();
     }
-    for (int i = 0; i < 0; ++i) {
+    for (int i = 0; i < runs; ++i) {
         cout << "SingleLayerAbsorptionScattering: " << i+1 << endl;
         test.SingleLayerAbsorptionScattering();
     }
