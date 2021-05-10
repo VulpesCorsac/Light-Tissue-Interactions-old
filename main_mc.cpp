@@ -10,6 +10,8 @@
 #include "MC/MCmultithread.h"
 #include "Tests/TestMCStandalone.h"
 
+#include "Tests/Thresholds.h"
+
 int main(int argc, char **argv) {
     using namespace std;
 
@@ -42,6 +44,9 @@ int main(int argc, char **argv) {
     printResults(myResultsMT);
     cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << endl;
     //*/
+
+    evaluateThresholds();
+    return 0;
 
     TestsMC test;
     constexpr int runs = 1;
