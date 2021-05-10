@@ -114,8 +114,8 @@ public:
 class MC_AbsorptionScattering : public MC_General {
 public:
     const Medium<T> tissue1{1.5, 100, 900,  1e-3, 0.9}; // MFP == D
-    const Medium<T> tissue2{1.3,  20,  80,  1e-3, 0.5}; // MFP == 10*D
-    const Medium<T> tissue3{1.6, 700, 300, 10e-3, 0.0}; // MFP == 0.1*D, it will need more photons
+    const Medium<T> tissue2{1.3,  20,  80,  1e-3, 0.5}; // MFP == D * 10
+    const Medium<T> tissue3{1.6, 700, 300, 10e-3, 0.0}; // MFP == D * 0.1
 };
 
 class MC_SingleLayerAbsorptionScattering_MFP_IS_D : public MC_AbsorptionScattering {
@@ -143,7 +143,7 @@ class MC_MultiLayerAbsorptionScattering_MFP_IS_D : public MC_AbsorptionScatterin
 public:
     const Medium<T> glass1{1.6 , 0, 0, 1e-3, 0};
     const Medium<T> glass3{1.65, 0, 0, 1e-3, 0};
-    const Sample<T> sample{{glass1, tissue1, glass3}, 1, 1}; /// TODO: recalculate for glass 1
+    const Sample<T> sample{{glass1, tissue1, glass3}, 1, 1};
     const TestResult<T> EXPECTED{0.05419, 0.05813, 0.7394, 1e-4, 5e-3, 2e-3};
     static constexpr int photons = 1e6;
 };
