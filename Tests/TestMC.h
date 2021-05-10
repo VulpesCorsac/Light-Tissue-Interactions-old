@@ -305,7 +305,7 @@ TEST_P(MC_MultiLayerAbsorptionOnly_MFP_IS_D, MultiThread) {
     EXPECT_NEAR(res.specularReflection, SPECULAR_REFLECTION, 1e-4);
     EXPECT_NEAR(res.diffuseReflection, DIFFUSE_REFLECTION, 1e-3);
     EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 2e-3);
-    EXPECT_NEAR(res.diffuseTransmission, BUGER, 1e-3);
+    EXPECT_NEAR(res.diffuseTransmission, BUGER, 1.5e-3);
     EXPECT_NEAR(res.diffuseTransmission + res.diffuseReflection + res.specularReflection + res.absorbed, 1.0, TOTAL_TOLERANCE);
 }
 
@@ -317,7 +317,7 @@ TEST_P(MC_MultiLayerAbsorptionOnly_MFP_GREATER_THAN_D, SingleThread) {
     EXPECT_NEAR(res.specularReflection, SPECULAR_REFLECTION, 1e-4);
     EXPECT_NEAR(res.diffuseReflection, DIFFUSE_REFLECTION, 1e-3);
     EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 2e-3);
-    EXPECT_NEAR(res.diffuseTransmission, BUGER, 1e-3);
+    EXPECT_NEAR(res.diffuseTransmission, BUGER, 1.5e-3);
     EXPECT_NEAR(res.diffuseTransmission + res.diffuseReflection + res.specularReflection + res.absorbed, 1.0,  TOTAL_TOLERANCE);
 }
 
@@ -467,7 +467,7 @@ TEST_P(MC_MultiLayerAbsorptionScattering_MFP_LESS_THAN_D, SingleThread) {
     mc.Calculate(res);
     EXPECT_NEAR(res.specularReflection, SPECULAR_REFLECTION, 1e-4);
     EXPECT_NEAR(res.diffuseReflection, DIFFUSE_REFLECTION, 1e-3);
-    EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 5e-6);
+    EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 6e-6);
     EXPECT_NEAR(res.diffuseTransmission + res.diffuseReflection + res.specularReflection + res.absorbed, 1.0,  TOTAL_TOLERANCE);
 }
 
@@ -477,7 +477,7 @@ TEST_P(MC_MultiLayerAbsorptionScattering_MFP_LESS_THAN_D, MultiThread) {
     MCmultithread<T, Nz, Nr>(sample3, photons, multi_thread, sample3.getTotalThickness(), selectedRadius, res);
     EXPECT_NEAR(res.specularReflection, SPECULAR_REFLECTION, 1e-4);
     EXPECT_NEAR(res.diffuseReflection, DIFFUSE_REFLECTION, 1e-3);
-    EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 5e-6);
+    EXPECT_NEAR(res.diffuseTransmission, DIFFUSE_TRANSMISSION, 6e-6);
     EXPECT_NEAR(res.diffuseTransmission + res.diffuseReflection + res.specularReflection + res.absorbed, 1.0, TOTAL_TOLERANCE);
 }
 
