@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../MC_TK/MonteCarlo.h"
-#include "../MC_TK/BugerLambert.h"
+#include "../MC/MonteCarlo.h"
+#include "../MC/BugerLambert.h"
 
 using namespace std;
 
@@ -268,7 +268,7 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     const Medium<T> glass2 (1.4 , 0.0, 0.0, 1e-3, 0.0);
     const Medium<T> glass3 (1.65, 0.0, 0.0, 1e-3, 0.0);
 
-    const vector<Medium<T>> layer1 = {glass1, tissue1, glass3};
+    const vector<Medium<T>> layer1 = {glass1, tissue1, glass3}; /// TODO: recalculate for glass 1
     const vector<Medium<T>> layer2 = {glass2, tissue2, glass2};
     const vector<Medium<T>> layer3 = {glass3, tissue3, glass3};
 

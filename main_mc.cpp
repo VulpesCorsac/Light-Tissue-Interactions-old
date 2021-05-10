@@ -1,13 +1,13 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include "MC_TK/Photon.h"
-#include "MC_TK/Medium.h"
-#include "MC_TK/Fresnel.h"
-#include "MC_TK/MonteCarlo.h"
-#include "MC_TK/BugerLambert.h"
-#include "MC_TK/Sample.h"
-#include "MC_TK/MCmultithread.h"
+#include "MC/Photon.h"
+#include "MC/Medium.h"
+#include "MC/Fresnel.h"
+#include "MC/MonteCarlo.h"
+#include "MC/BugerLambert.h"
+#include "MC/Sample.h"
+#include "MC/MCmultithread.h"
 #include "Tests/TestMCStandalone.h"
 
 int main(int argc, char **argv) {
@@ -45,15 +45,15 @@ int main(int argc, char **argv) {
 
     TestsMC test;
     constexpr int runs = 3;
-    for (int i = 0; i < runs; ++i) {
+    for (int i = 0; i < 0; ++i) {
         cout << "SingleLayerAbsorptionOnly: " << i+1 << endl;
         test.SingleLayerAbsorptionOnly();
     }
-    for (int i = 0; i < runs; ++i) {
+    for (int i = 0; i < 0; ++i) {
         cout << "MultiLayerAbsorptionOnly: " << i+1 << endl;
         test.MultiLayerAbsorptionOnly();
     }
-    for (int i = 0; i < runs; ++i) {
+    for (int i = 0; i < 0; ++i) {
         cout << "SingleLayerAbsorptionScattering: " << i+1 << endl;
         test.SingleLayerAbsorptionScattering();
     }

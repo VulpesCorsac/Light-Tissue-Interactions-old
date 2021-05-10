@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Fresnel.h"
+
 #include <cmath>
 
 template < typename T >

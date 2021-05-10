@@ -4,6 +4,7 @@
 
 #include <thread>
 
+/// TODO: why not return result?
 template < typename T, size_t Nz, size_t Nr >
 void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr>& finalResults) {
     using namespace std;

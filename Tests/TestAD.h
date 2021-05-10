@@ -5,7 +5,7 @@
 
 #include <gtest/gtest.h>
 
-template <typename T, size_t M>
+template < typename T, size_t M >
 class testDataRT {
 public:
     testDataRT(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom) {
@@ -48,39 +48,41 @@ protected:
     std::array<T, M> v, w;
 };
 
+constexpr float TOLERANCE = 1e-4;
+
 TEST(AD_FinalRT, RTtest1) {
     testDataRT<double, 32> test(0.9, 1.0, 0.9, 1.4, 1.5, 1.5);
-    EXPECT_NEAR(test.getRs(), 0.08531, 1e-4);
-    EXPECT_NEAR(test.getTs(), 0.77350, 1e-4);
-    EXPECT_NEAR(test.getTc(), 0.338341, 1e-4);
+    EXPECT_NEAR(test.getRs(), 0.08531 , TOLERANCE);
+    EXPECT_NEAR(test.getTs(), 0.77350 , TOLERANCE);
+    EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
 TEST(AD_FinalRT, RTtest2) {
     testDataRT<float, 16> test(0.9, 2.0, 0.99, 1.5, 1.5, 1.5);
-    EXPECT_NEAR(test.getRs(), 0.06548, 1e-4);
-    EXPECT_NEAR(test.getTs(), 0.74409, 1e-4);
-    EXPECT_NEAR(test.getTc(), 0.124729, 1e-4);
+    EXPECT_NEAR(test.getRs(), 0.06548 , TOLERANCE);
+    EXPECT_NEAR(test.getTs(), 0.74409 , TOLERANCE);
+    EXPECT_NEAR(test.getTc(), 0.124729, TOLERANCE);
 }
 
 TEST(AD_FinalRT, RTtestG0) {
     testDataRT<double, 4> test(0.95, 5.0, 0.0, 1.4, 1.4, 1.4);
-    EXPECT_NEAR(test.getRs(), 0.38911, 1e-4);
-    EXPECT_NEAR(test.getTs(), 0.11869, 1e-4);
-    EXPECT_NEAR(test.getTc(), 0.006369, 1e-4);
+    EXPECT_NEAR(test.getRs(), 0.38911 , TOLERANCE);
+    EXPECT_NEAR(test.getTs(), 0.11869 , TOLERANCE);
+    EXPECT_NEAR(test.getTc(), 0.006369, TOLERANCE);
 }
 
 TEST(AD_FinalRT, RTtestA0) {
     testDataRT<float, 8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
-    EXPECT_NEAR(test.getRs(), 0.07204, 1e-4);
-    EXPECT_NEAR(test.getTs(), 0.54314, 1e-4);
-    EXPECT_NEAR(test.getTc(), 0.543166, 1e-4);
+    EXPECT_NEAR(test.getRs(), 0.07204 , TOLERANCE);
+    EXPECT_NEAR(test.getTs(), 0.54314 , TOLERANCE);
+    EXPECT_NEAR(test.getTc(), 0.543166, TOLERANCE);
     EXPECT_NEAR(test.getTc(), test.getTs(), 1e-3);
 }
 
 TEST(AD_FinalRT, RTtestA0G0) {
     testDataRT<double, 32> test(0.0, 1.0, 0.0, 1.3, 1.4, 1.4);
-    EXPECT_NEAR(test.getRs(), 0.03278, 1e-4);
-    EXPECT_NEAR(test.getTs(), 0.34684, 1e-4);
-    EXPECT_NEAR(test.getTc(), 0.346838, 1e-4);
+    EXPECT_NEAR(test.getRs(), 0.03278 , TOLERANCE);
+    EXPECT_NEAR(test.getTs(), 0.34684 , TOLERANCE);
+    EXPECT_NEAR(test.getTc(), 0.346838, TOLERANCE);
     EXPECT_NEAR(test.getTc(), test.getTs(), 1e-3);
 }

@@ -37,11 +37,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add directory="googletest/googletest/include" />
-					<Add directory="include" />
 					<Add directory="Tests" />
 				</Compiler>
 				<Linker>
-					<Add library="C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/libGoogleTest.a" />
+					<Add library="Tests/libGoogleTest.a" />
 				</Linker>
 			</Target>
 			<Target title="GoogleTest">
