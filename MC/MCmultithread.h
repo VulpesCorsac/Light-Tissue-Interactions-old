@@ -42,3 +42,10 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
     cout << "Absorbed fraction = " << finalResults.absorbed << endl;
     //*/
 }
+
+template < typename T, size_t Nz, size_t Nr >
+MCresults<T,Nz,Nr> MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r) {
+    MCresults<T,Nz,Nr> finalResults;
+    MCmultithread(sample, Np, threads, z, r, finalResults);
+    return finalResults;
+}

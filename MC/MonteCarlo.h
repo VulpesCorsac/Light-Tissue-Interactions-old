@@ -45,7 +45,9 @@ public:
     MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r);
     ~MonteCarlo() noexcept = default;
 
+    /// TODO: Why not return result?
     void Calculate(MCresults<T,Nz,Nr>& res);
+    MCresults<T,Nz,Nr> CalculateResult();
 
     inline Matrix<T, Dynamic, Dynamic> getMatrixA() const noexcept { return A; }
     inline Matrix<T, Dynamic, Dynamic> getArrayR() const noexcept { return RR; }
@@ -511,4 +513,11 @@ void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
         TT(j) /= Area(j+1) * Nphotons;
     }
     //*/
+}
+
+template < typename T, size_t Nz, size_t Nr >
+MCresults<T,Nz,Nr> MonteCarlo<T, Nz, Nr >::CalculateResult() {
+    MCresults<T,Nz,Nr> res;
+    Calculate(res);
+    return res;
 }
