@@ -173,13 +173,16 @@ Deviation Max(const Deviation& d, const MCresults<T,Nz,Nr>& r, const MC_General:
 #define FUNC(Fixture) {                                                            \
     Fixture fixture;                                                               \
     Deviation ans;                                                                 \
-    for (int i = 0; i < RUNS; ++i)                                                 \
+    for (int i = 0; i < RUNS; ++i) {                                               \
+        if (i % 100 == 0)                                                          \
+            cout << #Fixture << ", run " << i << ", " << ans << endl;              \
         ans = Max(ans,                                                             \
                   MonteCarlo<T, Nz, Nr>(fixture.sample,                            \
                                         fixture.photons,                           \
                                         fixture.sample.getTotalThickness(),        \
                                         fixture.selectedRadius).CalculateResult(), \
                   fixture.EXPECTED);                                               \
+    }                                                                              \
     cout << #Fixture << " " << ans << endl;                                        \
 }                                                                                  \
 
