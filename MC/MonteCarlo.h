@@ -336,7 +336,7 @@ void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
     T uyy = +sinHG * (uy * uz * cos(phi) + ux * sin(phi)) / temp + uy * cosHG;
     T uzz = -sinHG *            cos(phi)                  * temp + uz * cosHG;
 
-    if (abs(uz - 1)  < 1e-6) {
+    if (abs(abs(uz) - 1)  < 1e-6) {
         uxx = sinHG * cos(phi);
         uyy = sinHG * sin(phi);
         uzz = uz >= 0 ? cosHG : -cosHG;
