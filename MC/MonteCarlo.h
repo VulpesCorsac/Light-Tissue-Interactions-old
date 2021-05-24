@@ -25,6 +25,10 @@ struct MCresults {
     Matrix<T, 1, Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
+
+    std::vector<Photon<T>> exitedPhotonsFront;
+    std::vector<Photon<T>> exitedPhotonsRear;
+
 };
 
 template < typename T, size_t Nz, size_t Nr >
@@ -72,6 +76,9 @@ protected:
     Matrix<T, 1, Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
 
+    std::vector<Photon<T>> exitedPhotonsFront;
+    std::vector<Photon<T>> exitedPhotonsRear;
+
     // void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
     void FirstReflection(Photon<T>& photon);
     // void CheckBoundaries(Photon<T>& photon);
@@ -83,8 +90,8 @@ protected:
     void StepSizeInGlass(Photon<T>& photon);
     void StepSizeInTissue(Photon<T>& photon);
 
-    void RecordR(Photon<T>& photon, const T& FRefl);
-    void RecordT(Photon<T>& photon, const T& FRefl);
+    void RecordR(Photon<T>& photon, const T& FRefl, const T& cosT);
+    void RecordT(Photon<T>& photon, const T& FRefl, const T& cosT);
 
     void Hop(Photon<T>& photon);
     void Drop(Photon<T>& photon);
@@ -102,6 +109,7 @@ protected:
     T Area(const T& ir);
 
     MCresults<T,Nz,Nr> results;
+
 };
 
 template < typename T, size_t Nz, size_t Nr >
@@ -148,6 +156,12 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
     const size_t ir = floor(r/dr);
 
     RRspecular(ir) += Ri * photon.weight;
+
+    auto exitCoord = photon.coordinate; //this is for normal incidence only!
+    auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, -photon.direction.z);
+    auto exitWeight = Ri * photon.weight;
+
+    exitedPhotonsFront.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
 
     photon.weight *= (1 - Ri);
     photon.direction.z = CosT(ni, nt, cosi);
@@ -250,7 +264,7 @@ void MonteCarlo<T, Nz, Nr>::StepSizeInTissue(Photon<T>& photon) {
 }
 
 template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl) {
+void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
@@ -263,11 +277,17 @@ void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl) {
         cout << photon << endl;
     }
 
+    auto exitCoord = photon.coordinate;
+    auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
+    auto exitWeight = (1 - FRefl) * photon.weight;
+
+    exitedPhotonsFront.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
+
     photon.weight *= FRefl;
 }
 
 template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl) {
+void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
@@ -279,6 +299,12 @@ void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl) {
         cout << "TT at " << ir << " = " << TT(ir) << endl;
         cout << photon << endl;
     }
+
+    auto exitCoord = photon.coordinate;
+    auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
+    auto exitWeight = (1 - FRefl) * photon.weight;
+
+    exitedPhotonsRear.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
 
     photon.weight *= FRefl;
 }
@@ -391,7 +417,7 @@ void MonteCarlo<T, Nz, Nr>::CrossUpOrNot(Photon<T>& photon) {
     if (layer == 0 && Ri < 1) { // partially transmitted -- only on sample border
         if (debug && photon.number == debugPhoton)
             cout << "SAMPLE BORDER" << endl;
-        RecordR(photon, Ri);
+        RecordR(photon, Ri, cost);
         photon.direction.z = - photon.direction.z;
     } else if (RND > Ri) { // fully transmitted
         if (debug && photon.number == debugPhoton)
@@ -427,7 +453,7 @@ void MonteCarlo<T, Nz, Nr>::CrossDownOrNot(Photon<T>& photon) {
     if (layer == (sample.getNlayers() - 1) && Ri < 1) { // partially transmitted -- only on sample border
         if (debug && photon.number == debugPhoton)
             cout << "SAMPLE BORDER" << endl;
-        RecordT(photon, Ri);
+        RecordT(photon, Ri, cost);
         photon.direction.z *= -1;
     } else if (RND > Ri) { // fully transmitted
         if (debug && photon.number == debugPhoton)
@@ -501,6 +527,9 @@ void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
     results.diffuseTransmission = TT.sum() / Nphotons;
     results.absorbed = A.sum() / Nphotons;
 
+    results.exitedPhotonsFront = exitedPhotonsFront;
+    results.exitedPhotonsRear = exitedPhotonsRear;
+
     res = results;
 
     /*
@@ -521,3 +550,4 @@ MCresults<T,Nz,Nr> MonteCarlo<T, Nz, Nr >::CalculateResult() {
     Calculate(res);
     return res;
 }
+

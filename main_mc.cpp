@@ -7,6 +7,7 @@
 #include "MC/MonteCarlo.h"
 #include "MC/BugerLambert.h"
 #include "MC/Sample.h"
+#include "MC/Detector.h"
 #include "MC/MCmultithread.h"
 #include "Tests/TestMCStandalone.h"
 
@@ -14,12 +15,12 @@
 
 int main(int argc, char **argv) {
     using namespace std;
-
-
     using T = double;
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
+
+    constexpr int Nphotons = 1e5;
 
     constexpr T selectedRadius = 10e-2;
 
@@ -31,11 +32,29 @@ int main(int argc, char **argv) {
     Sample<T> mySample(layers, 1.0, 1.0);
     //
 
+    MCresults<T,Nz,Nr> myResultsMT;
+    MCmultithread<T,Nz,Nr>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
+    cout << myResultsMT << endl;
 
-    MonteCarlo<T, Nz, Nr> mc(mySample, 1e5, mySample.getTotalThickness(), selectedRadius);
+  /*  MonteCarlo<T, Nz, Nr> mc(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius);
     MCresults<T,Nz,Nr> myResults;
     mc.Calculate(myResults);
-    cout << myResults << endl;
+    cout << myResults << endl;*/
+
+    //FRONT/RECLECTION IS WHERE THE LASER HITS THE SAMPLE -> ALWAYS 2 PORTS
+
+    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01, 0.001);
+    SphereOnePort<T> SphereT(0.1, 0.01, 0.001);
+
+ /*   T collectedR = SphereR.dataTwoPorts(myResults.exitedPhotonsFront, Nphotons);
+    T collectedT = SphereT.dataOnePort(myResults.exitedPhotonsRear, Nphotons);*/
+    T collectedRmt = SphereR.dataTwoPorts(myResultsMT.exitedPhotonsFront, Nphotons);
+    T collectedTmt = SphereT.dataOnePort(myResultsMT.exitedPhotonsRear, Nphotons);
+
+ //   cout << "Collected R " << collectedR << ", collected T " << collectedT << endl;
+    cout << "Collected Rmt " << collectedRmt << ", collected Tmt " << collectedTmt << endl;
+
+
     //
 
     /*
@@ -44,9 +63,9 @@ int main(int argc, char **argv) {
     printResults(myResultsMT);
     cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << endl;
     //*/
-/*
-    evaluateThresholds();
-    return 0;
+
+ /*   evaluateThresholds();
+//    return 0;
 
     TestsMC test;
     constexpr int runs = 1;

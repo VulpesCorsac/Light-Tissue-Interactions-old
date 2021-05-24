@@ -28,19 +28,14 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
         finalResults.arrayRspecular += result.arrayRspecular;
         finalResults.arrayT += result.arrayT;
         finalResults.matrixA += result.matrixA;
+        finalResults.exitedPhotonsFront.insert(finalResults.exitedPhotonsFront.end(), result.exitedPhotonsFront.begin(), result.exitedPhotonsFront.end());
+        finalResults.exitedPhotonsRear.insert(finalResults.exitedPhotonsRear.end(), result.exitedPhotonsRear.begin(), result.exitedPhotonsRear.end());
     }
 
     finalResults.diffuseReflection = finalResults.arrayR.sum() / Np;
     finalResults.specularReflection = finalResults.arrayRspecular.sum() / Np;
     finalResults.diffuseTransmission = finalResults.arrayT.sum() / Np;
     finalResults.absorbed = finalResults.matrixA.sum() / Np;
-
-    /*
-    cout << "Diffuse reflection = " << finalResults.diffuseReflection << endl;
-    cout << "Specular reflection = " << finalResults.specularReflection << endl;
-    cout << "Diffuse transmission = " << finalResults.diffuseTransmission << endl;
-    cout << "Absorbed fraction = " << finalResults.absorbed << endl;
-    //*/
 }
 
 template < typename T, size_t Nz, size_t Nr >

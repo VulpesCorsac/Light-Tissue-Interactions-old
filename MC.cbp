@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="MC" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -22,6 +23,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="MC" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -35,6 +37,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="MC/BugerLambert.h" />
+		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/Fresnel.h" />
 		<Unit filename="MC/MCmultithread.h" />
 		<Unit filename="MC/Medium.h" />
