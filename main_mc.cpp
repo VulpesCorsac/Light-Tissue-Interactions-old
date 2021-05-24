@@ -8,6 +8,7 @@
 #include "MC/BugerLambert.h"
 #include "MC/Sample.h"
 #include "MC/Detector.h"
+#include "MC/MovingSpheresTable.h"
 #include "MC/MCmultithread.h"
 #include "Tests/TestMCStandalone.h"
 
@@ -30,39 +31,40 @@ int main(int argc, char **argv) {
 
     vector<Medium<T>> layers = {tissue};
     Sample<T> mySample(layers, 1.0, 1.0);
-    //
 
     MCresults<T,Nz,Nr> myResultsMT;
     MCmultithread<T,Nz,Nr>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
     cout << myResultsMT << endl;
-
-  /*  MonteCarlo<T, Nz, Nr> mc(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius);
-    MCresults<T,Nz,Nr> myResults;
-    mc.Calculate(myResults);
-    cout << myResults << endl;*/
+    cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.0), T(1.0)) << endl;
 
     //FRONT/RECLECTION IS WHERE THE LASER HITS THE SAMPLE -> ALWAYS 2 PORTS
 
-    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01, 0.001);
-    SphereOnePort<T> SphereT(0.1, 0.01, 0.001);
+    MovingSpheresTable<T> tabR(0.0, 0.2, 0.01);
+    MovingSpheresTable<T> tabT(0.0, 0.2, 0.01);
 
- /*   T collectedR = SphereR.dataTwoPorts(myResults.exitedPhotonsFront, Nphotons);
-    T collectedT = SphereT.dataOnePort(myResults.exitedPhotonsRear, Nphotons);*/
-    T collectedRmt = SphereR.dataTwoPorts(myResultsMT.exitedPhotonsFront, Nphotons);
-    T collectedTmt = SphereT.dataOnePort(myResultsMT.exitedPhotonsRear, Nphotons);
+    auto myTabR = tabR.getTableTwoPorts(myResultsMT.exitedPhotonsFront, Nphotons, 0.1, 0.01, 0.01);
+    auto myTabT = tabT.getTableOnePort(myResultsMT.exitedPhotonsRear, Nphotons, 0.1, 0.01);
 
- //   cout << "Collected R " << collectedR << ", collected T " << collectedT << endl;
-    cout << "Collected Rmt " << collectedRmt << ", collected Tmt " << collectedTmt << endl;
+    for (auto x : myTabR)
+        cout << x.first << " " << x.second << endl;
 
+    for (auto x : myTabT)
+        cout << x.first << " " << x.second << endl;
 
     //
 
-    /*
-    MCresults<T,Nz,Nr> myResultsMT;
-    MCmultithread<T,Nz,Nr>(mySample, 10e6, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
-    printResults(myResultsMT);
-    cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << endl;
-    //*/
+
+ /*
+     MonteCarlo<T, Nz, Nr> mc(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius);
+    MCresults<T,Nz,Nr> myResults;
+    mc.Calculate(myResults);
+    cout << myResults << endl;
+    T collectedR = SphereR.dataTwoPorts(myResults.exitedPhotonsFront, Nphotons);
+    T collectedT = SphereT.dataOnePort(myResults.exitedPhotonsRear, Nphotons);
+    cout << "Collected R " << collectedR << ", collected T " << collectedT << endl;
+*/
+
+  //  cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.6), T(1.6)) << endl;
 
  /*   evaluateThresholds();
 //    return 0;

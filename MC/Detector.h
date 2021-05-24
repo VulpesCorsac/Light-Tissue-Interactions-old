@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Photon.h"
+
 template <typename T>
 class Detector {
 public:
@@ -8,7 +10,7 @@ public:
     ~Detector() noexcept = default;
 
 protected:
-    T distance;
+    T distance = 0.0;
     void movePhotons (std::vector<Photon<T>>& photons, const T& dist);
 };
 
@@ -23,8 +25,8 @@ public:
     T dataOnePort (std::vector<Photon<T>>& photons, const int& Nphotons);
 
 protected:
-    T dSphere;
-    T dPort;
+    T dSphere = 0.0;
+    T dPort = 0.0;
 };
 
 template <typename T>
@@ -40,9 +42,9 @@ public:
     T dataTwoPorts (std::vector<Photon<T>>& photons, const int& Nphotons);
 
 protected:
-    T dSphere;
-    T dPort1;
-    T dPort2;
+    T dSphere = 0.0;
+    T dPort1 = 0.0;
+    T dPort2 = 0.0;
 };
 
 template <typename T>
