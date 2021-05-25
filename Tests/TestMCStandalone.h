@@ -167,7 +167,7 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample3, 20e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
+    MCmultithread<T, Nz, Nr>(sample3, 10e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
     assert(abs(MTres3.specularReflection - 0.06037) < 1e-4);
     assert(abs(MTres3.diffuseReflection - 0.0) < 1e-3);
     assert(abs(MTres3.diffuseTransmission - 0.00004008) < 4e-6);

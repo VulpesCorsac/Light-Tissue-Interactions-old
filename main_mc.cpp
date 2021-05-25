@@ -21,24 +21,25 @@ int main(int argc, char **argv) {
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
 
-    constexpr int Nphotons = 1e5;
+    constexpr int Nphotons = 10e6;
 
     constexpr T selectedRadius = 10e-2;
 
-    Medium<T> tissue(1.5 , 100, 900, 1e-3, 0.9);
-    Medium<T> glass1(1.6 ,    0, 0, 1e-3,   0);
+    Medium<T> tissue(1.6, 1000, 0, 10e-3, 0.0);
+    Medium<T> glass1(1.65, 0.0, 0.0, 1e-3, 0.0);
     Medium<T> glass2(1.65,    0, 0, 1e-3,   0);
 
-    vector<Medium<T>> layers = {tissue};
+    vector<Medium<T>> layers = {glass1, tissue, glass1};
     Sample<T> mySample(layers, 1.0, 1.0);
 
     MCresults<T,Nz,Nr> myResultsMT;
     MCmultithread<T,Nz,Nr>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT);
     cout << myResultsMT << endl;
     cout << "Collimated transmission = " << BugerLambert(tissue.tau, tissue.n, T(1.0), T(1.0)) << endl;
+    cout << BugerLambert(10.0, 1.6, 1.65, 1.65) << endl;
 
     //FRONT/RECLECTION IS WHERE THE LASER HITS THE SAMPLE -> ALWAYS 2 PORTS
-
+/*
     MovingSpheresTable<T> tabR(0.0, 0.2, 0.01);
     MovingSpheresTable<T> tabT(0.0, 0.2, 0.01);
 
@@ -51,7 +52,7 @@ int main(int argc, char **argv) {
     for (auto x : myTabT)
         cout << x.first << " " << x.second << endl;
 
-    //
+    //*/
 
 
  /*
