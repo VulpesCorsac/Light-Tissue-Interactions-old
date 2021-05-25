@@ -89,7 +89,7 @@ class MC_MultiLayerAbsorptionOnly_MFP_LESS_THAN_D : public MC_AbsorptionOnly {
 public:
     const Medium<T> glass{1.65, 0, 0, 1e-3, 0};
     const Sample<T> sample{{glass, tissue3, glass}, 1, 1};
-    static constexpr int photons = 1e7;
+    static constexpr int photons = 2e7;
     const TestResult<T> EXPECTED{0.06037, 0, 0.00004008, 1e-4, 1e-3, 8e-6};
     const T BUGER = BugerLambert<T>(10, 1.6, 1, 1);
 };

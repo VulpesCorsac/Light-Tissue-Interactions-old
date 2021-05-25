@@ -8,7 +8,7 @@
 #include "MC/BugerLambert.h"
 #include "MC/Sample.h"
 #include "MC/Detector.h"
-#include "MC/MovingSpheresTable.h"
+//#include "MC/MovingSpheresTable.h"
 #include "MC/MCmultithread.h"
 #include "Tests/TestMCStandalone.h"
 

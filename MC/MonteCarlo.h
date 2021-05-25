@@ -26,9 +26,6 @@ struct MCresults {
     Matrix<T, 1, Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
 
-    std::vector<Photon<T>> exitedPhotonsFront;
-    std::vector<Photon<T>> exitedPhotonsRear;
-
 };
 
 template < typename T, size_t Nz, size_t Nr >
@@ -75,9 +72,6 @@ protected:
     Matrix<T, 1, Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
-
-    std::vector<Photon<T>> exitedPhotonsFront;
-    std::vector<Photon<T>> exitedPhotonsRear;
 
     // void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
     void FirstReflection(Photon<T>& photon);
@@ -160,8 +154,6 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
     auto exitCoord = photon.coordinate; //this is for normal incidence only!
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, -photon.direction.z);
     auto exitWeight = Ri * photon.weight;
-
-    exitedPhotonsFront.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
 
     photon.weight *= (1 - Ri);
     photon.direction.z = CosT(ni, nt, cosi);
@@ -281,8 +273,6 @@ void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl, const T& 
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
     auto exitWeight = (1 - FRefl) * photon.weight;
 
-    exitedPhotonsFront.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
-
     photon.weight *= FRefl;
 }
 
@@ -303,8 +293,6 @@ void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl, const T& 
     auto exitCoord = photon.coordinate;
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
     auto exitWeight = (1 - FRefl) * photon.weight;
-
-    exitedPhotonsRear.push_back(Photon<T>(exitCoord, exitDir, exitWeight, photon.number));
 
     photon.weight *= FRefl;
 }
@@ -526,9 +514,6 @@ void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
     results.specularReflection = RRspecular.sum() / Nphotons;
     results.diffuseTransmission = TT.sum() / Nphotons;
     results.absorbed = A.sum() / Nphotons;
-
-    results.exitedPhotonsFront = exitedPhotonsFront;
-    results.exitedPhotonsRear = exitedPhotonsRear;
 
     res = results;
 

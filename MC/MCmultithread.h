@@ -28,8 +28,6 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
         finalResults.arrayRspecular += result.arrayRspecular;
         finalResults.arrayT += result.arrayT;
         finalResults.matrixA += result.matrixA;
-        finalResults.exitedPhotonsFront.insert(finalResults.exitedPhotonsFront.end(), result.exitedPhotonsFront.begin(), result.exitedPhotonsFront.end());
-        finalResults.exitedPhotonsRear.insert(finalResults.exitedPhotonsRear.end(), result.exitedPhotonsRear.begin(), result.exitedPhotonsRear.end());
     }
 
     finalResults.diffuseReflection = finalResults.arrayR.sum() / Np;
