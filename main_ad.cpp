@@ -4,6 +4,7 @@
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
+#include "Tests/TestIAD.h"
 
 #include <iostream>
 #include <fstream>
@@ -12,15 +13,15 @@
 
 int main (int argc, char **argv) {
     using T = float;
-    const int M = 128;
+    const int M = 4;
 
-    T a = 0.0; // albedo
+    T a = 0.9; // albedo
     T tau = 1.0; // optical thickness
     T g = 0.9; // anisotropy
     //
-    T n_slab = 1.5; // refraction index of sample
-    T n_slide_top = 1.6; // refraction index of slide
-    T n_slide_bottom = 1.65;
+    T n_slab = 1.3; // refraction index of sample
+    T n_slide_top = 1.4; // refraction index of slide
+    T n_slide_bottom = 1.4;
 
     Quadrature<T,M> quadrature(n_slab);
 
@@ -34,8 +35,8 @@ int main (int argc, char **argv) {
     quadrature.printQuadrature(w);
     //*/
 
-    // const int N = 2; // minimize 2 parameters
-    // const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+     const int N = 2; // minimize 2 parameters
+     const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
     /*
     std::ofstream myfileIAD;
@@ -89,11 +90,17 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;
     //
 
-    // T rsmeas = 0.139269;
-    // T tsmeas = 0.860729;
-    // T tcmeas = 5.64959e-006;
+     T rsmeas = 0.03278;
+     T tsmeas = 0.34684;
+     T tcmeas = 0.346838;
 
-    // IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom);
+     T aOut, tauOut, gOut;
+
+     IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom,aOut, tauOut, gOut);
+     std::cout << "a = " << aOut << ", tau = " << tauOut << ", g = " << gOut <<  std::endl;
+
+    TestsIAD test;
+    test.RunAllTests();
 
     return 0;
 }

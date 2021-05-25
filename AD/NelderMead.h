@@ -149,7 +149,7 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
 }
 
 template <typename T, size_t M, size_t N, bool fix>
-void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom) {
+void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom, T& aOut, T& tauOut, T& gOut) {
     T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     func<T, M, N, fix> toMinimize(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
 
@@ -188,8 +188,15 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom
         std::cout << "Iterations made " << itersMade << std::endl;
     }
 
-    if (fix)
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << std::endl;
-    else
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << std::endl;
+    if (fix){
+     //   std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << std::endl;
+        aOut = vecMin(0);
+        tauOut = fixedParam;
+        gOut = vecMin(1);
+    } else {
+    //    std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<std::endl;
+        aOut = vecMin(0);
+        tauOut = vecMin(1);
+        gOut = fixedParam;
+    }
 }

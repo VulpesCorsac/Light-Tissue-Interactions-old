@@ -1,61 +1,184 @@
 #pragma once
 
-#include "../AD/RT.h"
-#include "../AD/Quadrature.h"
 #include "../AD/NelderMead.h"
 #include "../AD/IAD.h"
 
-#include <gtest/gtest.h>
+using namespace std;
 
-template <typename T, size_t M, size_t N, bool fix>
-class testDataIAD {
+class TestsIAD {
 public:
-    testDataIAD(T fixedParam, T n_slab, T n_slide_top, T n_slide_bottom, T Rsmeas, T Tsmeas, T astart, T tstart, T gstart) {
-        setValues(fixedParam, n_slab, n_slide_top, n_slide_bottom, Rsmeas, Tsmeas, astart, tstart, gstart);
-        calc();
-    }
-
-    void setValues(const T& fixedParam, const T& n_slab, const T& n_slide_top, const T& n_slide_bottom, const T& Rsmeas, const T& Tsmeas, const T& astart, const T& tstart, const T& gstart) {
-        myFixedParam = fixedParam;
-        myN_slab = n_slab;
-        myN_slide_top = n_slide_top;
-        myN_slide_bottom = n_slide_bottom;
-        myRsmeas = Rsmeas;
-        myTsmeas = Tsmeas;
-        myAstart = astart;
-        myTstart = tstart;
-        myGstart = gstart;
-    }
-
-    void calc() {
-        func<T, M, N, fix> toMinimize(myFixedParam, myN_slab, myN_slide_top, myN_slide_bottom, myRsmeas, myTsmeas);
-        NelderMeadMin<T, M, N, fix>(toMinimize, maxIter, myAstart, myTstart, myGstart, myVecMin, myFmin);
-    }
-
-    Matrix<T, 1, N> getVecMin() const noexcept {
-        return myVecMin;
-    }
-
-    T getMin() const noexcept {
-        return myFmin;
-    }
-
-protected:
-    T myFixedParam, myN_slab, myN_slide_top, myN_slide_bottom, myRsmeas, myTsmeas, myFmin, myAstart, myTstart, myGstart;
-    Matrix<T, 1, N> myVecMin;
-    const int maxIter = 100;
+    void Test1();
+    void Test2();
+    void Test3();
+    void Test4();
+    void Test5();
+    void Test6();
+    void RunAllTests();
 };
 
-TEST(IAD, testT1) {
-    using T = double;
-    T rsmeas = 0.0862;
-    T tsmeas = 0.764;
-    T tcmeas = 0.338;
-    T n_slab = 1.4;
-    T n_slide_top = 1.5;
+constexpr float TOTAL_TOLERANCE = 1e-4;
+
+void TestsIAD::Test1() {
+
+    using T = float;
+    const int M = 4;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.4; // refraction index of sample
+    T n_slide_top = 1.5; // refraction index of slide
     T n_slide_bottom = 1.5;
-    T fixedParam = tauCalc<T, 32>(n_slab, n_slide_top, n_slide_bottom, tcmeas);
-    testDataIAD<T, 32, 2, 1> test(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, 0.9, 0.95, 0.9);
-    EXPECT_NEAR((test.getVecMin())(0), 0.9, 1e-4);
-    EXPECT_NEAR((test.getVecMin())(1), 0.9, 1e-4);
+    T rsmeas = 0.08624;
+    T tsmeas = 0.76446;
+    T tcmeas = 0.338341;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 1 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.9) < TOTAL_TOLERANCE);
+    cout << "Test 1 passed" << endl;
+}
+
+void TestsIAD::Test2() {
+
+    using T = float;
+    const int M = 32;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.4; // refraction index of sample
+    T n_slide_top = 1.5; // refraction index of slide
+    T n_slide_bottom = 1.5;
+    T rsmeas = 0.08531;
+    T tsmeas = 0.77350;
+    T tcmeas = 0.338341;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 2 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.9) < TOTAL_TOLERANCE);
+    cout << "Test 2 passed" << endl;
+}
+
+void TestsIAD::Test3() {
+
+    using T = float;
+    const int M = 16;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.5; // refraction index of sample
+    T n_slide_top = 1.5; // refraction index of slide
+    T n_slide_bottom = 1.5;
+    T rsmeas = 0.06548;
+    T tsmeas = 0.74409;
+    T tcmeas = 0.124729;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 3 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 2.0) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.99) < TOTAL_TOLERANCE);
+    cout << "Test 3 passed" << endl;
+}
+
+void TestsIAD::Test4() {
+
+    using T = float;
+    const int M = 4;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.4; // refraction index of sample
+    T n_slide_top = 1.4; // refraction index of slide
+    T n_slide_bottom = 1.4;
+    T rsmeas = 0.38911;
+    T tsmeas = 0.11869;
+    T tcmeas = 0.006369;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 4 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.95) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 5.0) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.0) < TOTAL_TOLERANCE);
+    cout << "Test 4 passed" << endl;
+}
+
+void TestsIAD::Test5() {
+
+    using T = float;
+    const int M = 8;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.5; // refraction index of sample
+    T n_slide_top = 1.6; // refraction index of slide
+    T n_slide_bottom = 1.6;
+    T rsmeas = 0.07204;
+    T tsmeas = 0.54314;
+    T tcmeas = 0.543166;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 5 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.0) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 0.5) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.0) < 10*TOTAL_TOLERANCE);
+    cout << "Test 5 passed" << endl;
+}
+
+void TestsIAD::Test6() {
+
+    using T = float;
+    const int M = 32;
+
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+
+    T n_slab = 1.3; // refraction index of sample
+    T n_slide_top = 1.4; // refraction index of slide
+    T n_slide_bottom = 1.4;
+    T rsmeas = 0.03278;
+    T tsmeas = 0.34684;
+    T tcmeas = 0.346838;
+    T aOut, tauOut, gOut;
+
+    cout << "Test 6 start" << endl;
+
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+
+    assert(abs(aOut - 0.0) < TOTAL_TOLERANCE);
+    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
+    assert(abs(gOut - 0.0) < 5*TOTAL_TOLERANCE);
+    cout << "Test 6 passed" << endl;
+}
+
+void TestsIAD::RunAllTests() {
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
 }
