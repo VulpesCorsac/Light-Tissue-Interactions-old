@@ -21,6 +21,7 @@ public:
 
     static constexpr size_t Nz = 1e3;
     static constexpr size_t Nr = 1e4;
+    static constexpr bool detector = 1;
     static constexpr T selectedRadius = 1e-1;
 
     static constexpr int single_thread = 1;
@@ -41,7 +42,7 @@ public:
     static constexpr T TOTAL_TOLERANCE = 1e-4;
 
 public:
-    void checkResult(const MCresults<T, Nz, Nr>& res, const TestResult<T>& expected, std::optional<T> buger) const {
+    void checkResult(const MCresults<T, Nz, Nr, detector>& res, const TestResult<T>& expected, std::optional<T> buger) const {
         EXPECT_NEAR(res.specularReflection , expected.SPECULAR_REFLECTION , expected.SPECULAR_REFLECTION_TOLERANCE);
         EXPECT_NEAR(res.diffuseReflection  , expected.DIFFUSE_REFLECTION  , expected.DIFFUSE_REFLECTION_TOLERANCE);
         EXPECT_NEAR(res.diffuseTransmission, expected.DIFFUSE_TRANSMISSION, expected.DIFFUSE_TRANSMISSION_TOLERANCE);
