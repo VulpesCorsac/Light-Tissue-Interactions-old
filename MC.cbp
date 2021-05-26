@@ -45,6 +45,7 @@
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="MC/Vector3.h" />
+		<Unit filename="Tests/TestMC.h" />
 		<Unit filename="Tests/TestMCStandalone.h" />
 		<Unit filename="Tests/Thresholds.h" />
 		<Unit filename="Utils/Random.h" />

@@ -27,6 +27,13 @@ public:
     static constexpr int single_thread = 1;
     static constexpr int multi_thread  = 4;
 
+    const IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    const IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    const DetectorDistances<T> dist;
+    dist.maxDist = 0.3;
+    dist.minDist = 0.0;
+    dist.stepSize = 0.05;
+
 public:
     template < typename T >
     struct TestResult {
@@ -170,99 +177,99 @@ public:
  *********/
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_IS_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_IS_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_GREATER_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_GREATER_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_LESS_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionOnly_MFP_LESS_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_IS_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_IS_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_GREATER_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_GREATER_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_LESS_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, BUGER);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, BUGER);
 }
 
 TEST_P(MC_MultiLayerAbsorptionOnly_MFP_LESS_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, BUGER);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, BUGER);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_IS_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_IS_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_GREATER_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_GREATER_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_LESS_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_SingleLayerAbsorptionScattering_MFP_LESS_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_IS_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_IS_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_GREATER_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_GREATER_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_LESS_THAN_D, SingleThread) {
-    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius).CalculateResult(), EXPECTED, std::nullopt);
+    checkResult(MonteCarlo<T, Nz, Nr, detector>(sample, photons, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist).CalculateResult(), EXPECTED, std::nullopt);
 }
 
 TEST_P(MC_MultiLayerAbsorptionScattering_MFP_LESS_THAN_D, MultiThread) {
-    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius), EXPECTED, std::nullopt);
+    checkResult(MCmultithread<T, Nz, Nr, detector>(sample, photons, multi_thread, sample.getTotalThickness(), selectedRadius, SphereR, SphereT, dist), EXPECTED, std::nullopt);
 }
 
 /*************

@@ -935,7 +935,7 @@
 	"../MC/MCmultithread.h"
 	<iostream>
 
-1622030009 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mc.cpp
+1622033018 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mc.cpp
 	"MC/Photon.h"
 	"MC/Medium.h"
 	"MC/Fresnel.h"
@@ -944,6 +944,8 @@
 	"MC/Sample.h"
 	"MC/Detector.h"
 	"MC/MCmultithread.h"
+	"Tests/TestMCStandalone.h"
+	"Tests/Thresholds.h"
 
 1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\photon.h
 	"Vector3.h"
@@ -964,7 +966,7 @@
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\utils.h
 	<cmath>
 
-1622030173 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
+1622032916 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
 	"Photon.h"
 	"Medium.h"
 	"Fresnel.h"
@@ -1861,11 +1863,11 @@
 	"MonteCarlo.h"
 	<thread>
 
-1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\tests\testmcstandalone.h
+1622033094 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\tests\testmcstandalone.h
 	"../MC/MonteCarlo.h"
 	"../MC/BugerLambert.h"
 
-1621754986 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\tests\thresholds.h
+1622033608 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\tests\thresholds.h
 	"../MC/Medium.h"
 	"../MC/BugerLambert.h"
 	"../MC/MonteCarlo.h"
@@ -1875,7 +1877,7 @@
 1621788379 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\collectdata.h
 	"MonteCarlo.h"
 
-1622025055 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\detector.h
+1622032916 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\detector.h
 	"Photon.h"
 
 1621853060 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\movingspherestable.h
