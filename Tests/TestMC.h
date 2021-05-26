@@ -30,10 +30,7 @@ public:
 
     IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
     IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
-    DetectorDistances<T> dist;
-    dist.maxDist = 0.3;
-    dist.minDist = 0.0;
-    dist.stepSize = 0.05;
+    DetectorDistances<T> dist{0.0,0.3,0.05};
 
 public:
     template < typename T >
