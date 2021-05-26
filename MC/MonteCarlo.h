@@ -4,6 +4,8 @@
 #include "Medium.h"
 #include "Fresnel.h"
 #include "Sample.h"
+#include "Detector.h"
+#include "BugerLambert.h"
 
 #include "../Utils/Random.h"
 
@@ -15,40 +17,60 @@
 
 using namespace Eigen;
 
-template < typename T, size_t Nz, size_t Nr >
+template < typename T, size_t Nz, size_t Nr, bool detector >
 struct MCresults {
     T specularReflection = 0;
     T diffuseReflection = 0;
     T diffuseTransmission = 0;
     T absorbed = 0;
+    T BugerTransmission = 0;
+
     Matrix<T, Dynamic, Dynamic> matrixA = Matrix<T, Nz, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T, 1, Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
 
+    std::vector<IntegratingSphere<T>> SpheresArrayR;
+    std::vector<IntegratingSphere<T>> SpheresArrayT;
+
+    std::vector<OpticalFiber<T>> FibersArrayR;
+    std::vector<OpticalFiber<T>> FibersArrayT;
+
+    std::vector<std::pair<T,T>> detectedR;
+    std::vector<std::pair<T,T>> detectedT;
+
 };
 
-template < typename T, size_t Nz, size_t Nr >
-std::ostream& operator << (std::ostream& os, const MCresults<T,Nz,Nr>& results) noexcept {
+template < typename T, size_t Nz, size_t Nr, bool detector >
+std::ostream& operator << (std::ostream& os, const MCresults<T,Nz,Nr,detector>& results) noexcept {
     using namespace std;
 
     os << "Diffuse reflection = "   << results.diffuseReflection   << endl;
     os << "Specular reflection = "  << results.specularReflection  << endl;
     os << "Diffuse transmission = " << results.diffuseTransmission << endl;
     os << "Absorbed fraction = "    << results.absorbed            << endl;
+    os << "Unscattered transmission = " << results.BugerTransmission << endl;
+    os << "Detected R" << endl;
+    for (int i = 0; i < results.detectedR.size(); i++)
+        os << results.detectedR[i].first << " " << results.detectedR[i].second << endl;
+    os << "Detected T" << endl;
+    for (int i = 0; i < results.detectedT.size(); i++)
+        os << results.detectedT[i].first << " " << results.detectedT[i].second << endl;
+
     return os;
 }
 
-template < typename T, size_t Nz, size_t Nr >
+template < typename T, size_t Nz, size_t Nr, bool detector>
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
-    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r);
+    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistances<T> new_dist);
+    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistances<T> new_dist);
     ~MonteCarlo() noexcept = default;
 
     /// TODO: Why not return result?
-    void Calculate(MCresults<T,Nz,Nr>& res);
-    MCresults<T,Nz,Nr> CalculateResult();
+    void Calculate(MCresults<T,Nz,Nr,detector>& res);
+    MCresults<T,Nz,Nr,detector> CalculateResult();
 
     inline Matrix<T, Dynamic, Dynamic> getMatrixA() const noexcept { return A; }
     inline Matrix<T, Dynamic, Dynamic> getArrayR() const noexcept { return RR; }
@@ -66,16 +88,30 @@ protected:
     const T threshold;
 
     bool debug = 0;
-    int debugPhoton = 0;
+    int debugPhoton = 4;
 
     Matrix<T, Dynamic, Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T, 1, Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
 
-    // void Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon); //TODO: different light sources
+    IntegratingSphere<T> mainSphereR;
+    IntegratingSphere<T> mainSphereT;
+    std::vector<IntegratingSphere<T>> SpheresArrayR;
+    std::vector<IntegratingSphere<T>> SpheresArrayT;
+
+    OpticalFiber<T> mainFiberR;
+    OpticalFiber<T> mainFiberT;
+    std::vector<OpticalFiber<T>> FibersArrayR;
+    std::vector<OpticalFiber<T>> FibersArrayT;
+
+    DetectorDistances<T> distances;
+
+    void GenerateDetectorArrays ();
+    void PhotonDetectionSphereR (Photon<T>& exit_photon);
+    void PhotonDetectionSphereT (Photon<T>& exit_photon);
+
     void FirstReflection(Photon<T>& photon);
-    // void CheckBoundaries(Photon<T>& photon);
 
     void HopDropSpin(Photon<T>& photon);
     void HopInGlass(Photon<T>& photon);
@@ -102,34 +138,106 @@ protected:
     T Volume(const T& ir);
     T Area(const T& ir);
 
-    MCresults<T,Nz,Nr> results;
-
+    MCresults<T,Nz,Nr,detector> results;
 };
 
-template < typename T, size_t Nz, size_t Nr >
-MonteCarlo<T, Nz, Nr>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r)
+template < typename T, size_t Nz, size_t Nr, bool detector>
+MonteCarlo<T, Nz, Nr, detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_detectorR, const IntegratingSphere<T>& new_detectorT, const DetectorDistances<T> new_dist)
     : sample(new_sample)
     , Nphotons(new_Np)
     , dz(new_z / Nz)
     , dr(new_r / Nr)
     , chance(0.1)
-    , threshold(1e-4) {
+    , threshold(1e-4)
+    , mainSphereR(new_detectorR)
+    , mainSphereT(new_detectorT)
+    , distances(new_dist){
+        GenerateDetectorArrays();
 }
 
-/*
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Launch(const Vector3D<T>& startCoord, const Vector3D<T>& startDir, Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+MonteCarlo<T, Nz, Nr, detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_detectorR, const OpticalFiber<T>& new_detectorT, const DetectorDistances<T> new_dist)
+    : sample(new_sample)
+    , Nphotons(new_Np)
+    , dz(new_z / Nz)
+    , dr(new_r / Nr)
+    , chance(0.1)
+    , threshold(1e-4)
+    , mainFiberR(new_detectorR)
+    , mainFiberT(new_detectorT)
+    , distances(new_dist){
+        GenerateDetectorArrays();
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::GenerateDetectorArrays () {
     using namespace std;
-
-    // cout << "LAUNCH" << endl;
-    /// TODO: better set these parameters to default and use them explicitly only when needed
-    photon = Photon<T>(startCoord, startDir, 1.0, 0.0);
-    photon.alive = 1;
+    int length = (distances.maxDist - distances.minDist) / distances.stepSize + 1;
+    for(int i = 0; i <= length; i++) {
+        if (detector == 1) {
+            SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.minDist + i*distances.stepSize));
+            SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.minDist + i*distances.stepSize));
+        }/* else {
+            FibersArrayR.push_back(OpticalFiber<T>(mainFiberR, distances.minDist + i*distances.stepSize));
+            FibersArrayT.push_back(OpticalFiber<T>(mainFiberT, distances.minDist + i*distances.stepSize));
+        }*/
+    }
+   // for (auto x : SpheresArrayR)
+     //   cout << x.getDistance() << endl;
 }
-//*/
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereR (Photon<T>& exit_photon) {
+    for (int i = 0; i < SpheresArrayR.size(); i++) {
+        T step = abs((SpheresArrayR[i].getDistance() - abs(exit_photon.coordinate.z))/ exit_photon.direction.z);
+        exit_photon.coordinate += step * exit_photon.direction;
+        if (debug && exit_photon.number == debugPhoton)
+            std::cout << exit_photon << std::endl;
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)){
+            T stepSphere = abs(mainSphereR.getDSphere()/ exit_photon.direction.z);
+            exit_photon.coordinate += stepSphere * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << exit_photon << std::endl;
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() /2)) {
+                SpheresArrayR[i].totalLight += exit_photon.weight;
+                if (debug && exit_photon.number == debugPhoton)
+                    std::cout << "caught by R sphere " << i << std::endl;
+            }
+            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << exit_photon << std::endl;
+        } else
+            continue;
+    }
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereT (Photon<T>& exit_photon) {
+    for (int i = 0; i < SpheresArrayT.size(); i++) {
+        T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
+         exit_photon.coordinate += step * exit_photon.direction;
+         if (debug && exit_photon.number == debugPhoton)
+            std::cout << exit_photon << std::endl;
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)){
+            T stepSphere = abs(mainSphereT.getDSphere() / exit_photon.direction.z);
+            exit_photon.coordinate += stepSphere * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << exit_photon << std::endl;
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
+                SpheresArrayT[i].totalLight += exit_photon.weight;
+                if (debug && exit_photon.number == debugPhoton)
+                    std::cout << "caught by T sphere " << i << std::endl;
+            }
+            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << exit_photon << std::endl;
+        } else
+            break;
+    }
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::FirstReflection(Photon<T>& photon) {
     using namespace std;
 
     const auto ni = sample.getNvacUpper();
@@ -154,14 +262,16 @@ void MonteCarlo<T, Nz, Nr>::FirstReflection(Photon<T>& photon) {
     auto exitCoord = photon.coordinate; //this is for normal incidence only!
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, -photon.direction.z);
     auto exitWeight = Ri * photon.weight;
+    Photon<T> exitPhoton = Photon<T>(exitCoord, exitDir, exitWeight, photon.number);
+    PhotonDetectionSphereR(exitPhoton);
 
     photon.weight *= (1 - Ri);
     photon.direction.z = CosT(ni, nt, cosi);
     // photon.coordinate.z += 1e-9; // crook
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::HopDropSpin(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::HopDropSpin(Photon<T>& photon) {
     if (sample.getMedium(photon.layer).ut == 0)
         HopInGlass(photon);
     else
@@ -169,8 +279,8 @@ void MonteCarlo<T, Nz, Nr>::HopDropSpin(Photon<T>& photon) {
     Roulette(photon);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::HopInGlass(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::HopInGlass(Photon<T>& photon) {
     using namespace std;
 
     if (debug && photon.number == debugPhoton) {
@@ -192,8 +302,8 @@ void MonteCarlo<T, Nz, Nr>::HopInGlass(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::HopDropSpinInTissue(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::HopDropSpinInTissue(Photon<T>& photon) {
     using namespace std;
 
     StepSizeInTissue(photon);
@@ -231,8 +341,8 @@ void MonteCarlo<T, Nz, Nr>::HopDropSpinInTissue(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::StepSizeInGlass(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::StepSizeInGlass(Photon<T>& photon) {
     const auto uz = photon.direction.z;
     photon.step = 0;
     if (uz > 0)
@@ -242,8 +352,8 @@ void MonteCarlo<T, Nz, Nr>::StepSizeInGlass(Photon<T>& photon) {
     /// TODO: doesn't it freeze if uz == 0?
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::StepSizeInTissue(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::StepSizeInTissue(Photon<T>& photon) {
     using namespace std;
 
     const auto mT = sample.getMedium(photon.layer).ut;
@@ -255,8 +365,8 @@ void MonteCarlo<T, Nz, Nr>::StepSizeInTissue(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl, const T& cosT) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::RecordR(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
@@ -272,12 +382,14 @@ void MonteCarlo<T, Nz, Nr>::RecordR(Photon<T>& photon, const T& FRefl, const T& 
     auto exitCoord = photon.coordinate;
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
     auto exitWeight = (1 - FRefl) * photon.weight;
+    Photon<T> exitPhoton = Photon<T>(exitCoord, exitDir, exitWeight, photon.number);
+    PhotonDetectionSphereR(exitPhoton);
 
     photon.weight *= FRefl;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl, const T& cosT) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::RecordT(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
@@ -293,17 +405,19 @@ void MonteCarlo<T, Nz, Nr>::RecordT(Photon<T>& photon, const T& FRefl, const T& 
     auto exitCoord = photon.coordinate;
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, cosT);
     auto exitWeight = (1 - FRefl) * photon.weight;
+    Photon<T> exitPhoton = Photon<T>(exitCoord, exitDir, exitWeight, photon.number);
+    PhotonDetectionSphereT(exitPhoton);
 
     photon.weight *= FRefl;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Hop(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::Hop(Photon<T>& photon) {
     photon.coordinate += photon.step * photon.direction;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Drop(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::Drop(Photon<T>& photon) {
     using namespace std;
 
     const int layer = photon.layer;
@@ -319,8 +433,8 @@ void MonteCarlo<T, Nz, Nr>::Drop(Photon<T>& photon) {
     photon.weight *= sample.getMedium(layer).us / sample.getMedium(layer).ut;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::Spin(Photon<T>& photon) {
     using namespace std;
 
     const int layer = photon.layer;
@@ -361,8 +475,8 @@ void MonteCarlo<T, Nz, Nr>::Spin(Photon<T>& photon) {
     photon.direction.z = uzz;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-bool MonteCarlo<T, Nz, Nr>::HitBoundary(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+bool MonteCarlo<T, Nz, Nr, detector>::HitBoundary(Photon<T>& photon) {
     const auto uz = photon.direction.z;
 
     T distToBnd = 0;
@@ -379,13 +493,13 @@ bool MonteCarlo<T, Nz, Nr>::HitBoundary(Photon<T>& photon) {
     return false;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::CrossOrNot(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::CrossOrNot(Photon<T>& photon) {
     return photon.direction.z < 0 ? CrossUpOrNot(photon) : CrossDownOrNot(photon);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::CrossUpOrNot(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::CrossUpOrNot(Photon<T>& photon) {
     using namespace std;
 
     if (debug && photon.number == debugPhoton)
@@ -421,8 +535,8 @@ void MonteCarlo<T, Nz, Nr>::CrossUpOrNot(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::CrossDownOrNot(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::CrossDownOrNot(Photon<T>& photon) {
     using namespace std;
 
     if (debug && photon.number == debugPhoton)
@@ -457,8 +571,8 @@ void MonteCarlo<T, Nz, Nr>::CrossDownOrNot(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Roulette(Photon<T>& photon) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::Roulette(Photon<T>& photon) {
     using namespace std;
 
     if (photon.weight < threshold) {
@@ -472,8 +586,8 @@ void MonteCarlo<T, Nz, Nr>::Roulette(Photon<T>& photon) {
     }
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr>::Simulation(Photon<T>& photon, const int& num) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector>::Simulation(Photon<T>& photon, const int& num) {
     const auto startCoord = Vector3D<T>(0, 0, 0);
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
@@ -487,18 +601,18 @@ void MonteCarlo<T, Nz, Nr>::Simulation(Photon<T>& photon, const int& num) {
        HopDropSpin(photon);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-T MonteCarlo<T, Nz, Nr>::Volume(const T& ir) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+T MonteCarlo<T, Nz, Nr, detector>::Volume(const T& ir) {
     return Area(ir) * dz;
 }
 
-template < typename T, size_t Nz, size_t Nr >
-T MonteCarlo<T, Nz, Nr>::Area(const T& ir) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+T MonteCarlo<T, Nz, Nr, detector>::Area(const T& ir) {
     return 2 * M_PI * (ir - 0.5) * sqr(dr);
 }
 
-template < typename T, size_t Nz, size_t Nr >
-void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& res) {
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
         Simulation(myPhoton, i);
@@ -515,6 +629,25 @@ void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
     results.diffuseTransmission = TT.sum() / Nphotons;
     results.absorbed = A.sum() / Nphotons;
 
+    if (sample.getNlayers() == 1)
+        results.BugerTransmission = BugerLambert(sample.getMedium(0).tau, sample.getMedium(0).n, sample.getNvacLower(), sample.getNvacLower());
+    else
+        results.BugerTransmission = BugerLambert(sample.getMedium(1).tau, sample.getMedium(1).n, sample.getMedium(0).n, sample.getMedium(2).n);
+
+    if (detector == 1) {
+        results.SpheresArrayR = SpheresArrayR;
+        results.SpheresArrayT = SpheresArrayT;
+        for (int i = 0; i < SpheresArrayR.size(); i++) {
+            results.detectedR.push_back(std::make_pair(SpheresArrayR[i].getDistance(), SpheresArrayR[i].totalLight / Nphotons));
+            results.detectedT.push_back(std::make_pair(SpheresArrayT[i].getDistance(), SpheresArrayT[i].totalLight / Nphotons));
+        }
+    } /*else {
+        for (int i = 0; i < FibersArrayR.size(); i++) {
+            results.detectedR.push_back(std::make_pair(FibersArrayR[i].getDistance(), FibersArrayR[i].totalLight / Nphotons));
+            results.detectedT.push_back(std::make_pair(FibersArrayT[i].getDistance(), FibersArrayT[i].totalLight / Nphotons));
+        }
+    }*/
+
     res = results;
 
     /*
@@ -529,9 +662,9 @@ void MonteCarlo<T, Nz, Nr >::Calculate(MCresults<T,Nz,Nr>& res) {
     //*/
 }
 
-template < typename T, size_t Nz, size_t Nr >
-MCresults<T,Nz,Nr> MonteCarlo<T, Nz, Nr >::CalculateResult() {
-    MCresults<T,Nz,Nr> res;
+template < typename T, size_t Nz, size_t Nr, bool detector>
+MCresults<T,Nz,Nr,detector> MonteCarlo<T, Nz, Nr, detector >::CalculateResult() {
+    MCresults<T,Nz,Nr,detector> res;
     Calculate(res);
     return res;
 }

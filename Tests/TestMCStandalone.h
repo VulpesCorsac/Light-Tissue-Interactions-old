@@ -19,6 +19,9 @@ constexpr float TOTAL_TOLERANCE = 1e-4;
 void TestsMC::SingleLayerAbsorptionOnly() {
     using T = double;
 
+    SphereOnePort<T> SphereT(0.1, 0.01);
+    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+
     cout << "Single layer, absorption only" << endl;
 
     constexpr int Nz = 1000;
@@ -37,9 +40,9 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius);
+    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
 
     MCresults<T, Nz, Nr> res1, res2, res3;
     MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
@@ -98,6 +101,9 @@ void TestsMC::SingleLayerAbsorptionOnly() {
 void TestsMC::MultiLayerAbsorptionOnly() {
     using T = double;
 
+    SphereOnePort<T> SphereT(0.1, 0.01);
+    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+
     cout << "Glass-tissue-glass, absorption only" << endl;
 
     constexpr int Nz = 1000;
@@ -120,9 +126,9 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius);
+    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
 
     MCresults<T, Nz, Nr> res1, res2, res3;
     MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
@@ -181,6 +187,9 @@ void TestsMC::MultiLayerAbsorptionOnly() {
 void TestsMC::SingleLayerAbsorptionScattering() {
     using T = double;
 
+    SphereOnePort<T> SphereT(0.1, 0.01);
+    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+
     cout << "Single layer, absorption & scattering" << endl;
 
     constexpr int Nz = 1000;
@@ -199,9 +208,9 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 5e5, sample1.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 5e5, sample2.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius);
+    MonteCarlo<T, Nz, Nr> mc1(sample1, 5e5, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc2(sample2, 5e5, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
 
     MCresults<T, Nz, Nr> res1, res2, res3;
     MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
@@ -254,6 +263,9 @@ void TestsMC::SingleLayerAbsorptionScattering() {
 void TestsMC::MultiLayerAbsorptionScattering() {
     using T = double;
 
+    SphereOnePort<T> SphereT(0.1, 0.01);
+    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+
     cout << "Glass-Tissue-Glass, absorption & scattering" << endl;
 
     constexpr int Nz = 1000;
@@ -276,9 +288,9 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius);
+    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
 
     MCresults<T, Nz, Nr> res1, res2, res3;
     MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;

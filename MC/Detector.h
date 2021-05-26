@@ -3,50 +3,53 @@
 #include "Photon.h"
 
 template <typename T>
-class Detector {
+struct DetectorDistances {
+    T minDist = 0.0;
+    T maxDist = 0.0;
+    T stepSize = 0.0;
+};
+
+template <typename T>
+class IntegratingSphere {
 public:
-    Detector() noexcept = default;
-    Detector(const T& new_dist) : distance(new_dist) {};
-    ~Detector() noexcept = default;
+    IntegratingSphere() noexcept = default;
+    IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2, const T& new_dist) :
+        distance(new_dist),
+        dSphere(new_dSphere),
+        dPort1(new_dPort1),
+        dPort2(new_dPort2){}; // constructor with distance
+    IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2) :
+        dSphere(new_dSphere),
+        dPort1(new_dPort1),
+        dPort2(new_dPort2){}; // constructor without distance
+    IntegratingSphere(const IntegratingSphere<T>& new_sphere, const T& new_dist) :
+        distance(new_dist),
+        dSphere(new_sphere.dSphere),
+        dPort1(new_sphere.dPort1),
+        dPort2(new_sphere.dPort2) {}; // constructor from mother-sphere with distance
+    ~IntegratingSphere() noexcept = default;
+
+    T getDistance() {return distance;};
+    T getDSphere() {return dSphere;};
+    T getDPort1() {return dPort1;};
+    T getDPort2() {return dPort2;};
+
+    T totalLight = 0.0;
 
 protected:
     T distance = 0.0;
-    void movePhotons (std::vector<Photon<T>>& photons, const T& dist);
-};
-
-template <typename T>
-class SphereOnePort : public Detector<T> {
-public:
-    SphereOnePort() noexcept = default;
-    SphereOnePort(const T& new_dSphere, const T& new_dPort, const T& new_dist) : Detector<T> (new_dist),
-        dSphere(new_dSphere),
-        dPort(new_dPort){};
-    ~SphereOnePort() noexcept = default;
-    T dataOnePort (std::vector<Photon<T>>& photons, const int& Nphotons);
-
-protected:
-    T dSphere = 0.0;
-    T dPort = 0.0;
-};
-
-template <typename T>
-class SphereTwoPorts : public Detector<T> {
-public:
-    SphereTwoPorts() noexcept = default;
-    SphereTwoPorts(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2, const T& new_dist) : Detector<T> (new_dist),
-        dSphere(new_dSphere),
-        dPort1(new_dPort1),
-        dPort2(new_dPort2){};
-    ~SphereTwoPorts() noexcept = default;
-
-    T dataTwoPorts (std::vector<Photon<T>>& photons, const int& Nphotons);
-
-protected:
     T dSphere = 0.0;
     T dPort1 = 0.0;
     T dPort2 = 0.0;
+
 };
 
+template <typename T>
+class OpticalFiber { // to be implemented...
+
+};
+
+/*
 template <typename T>
 void Detector<T>::movePhotons (std::vector<Photon<T>>& photons, const T& dist) {
     using namespace std;
@@ -55,8 +58,8 @@ void Detector<T>::movePhotons (std::vector<Photon<T>>& photons, const T& dist) {
         T stepSize = abs(dist / photons[i].direction.z);
         photons[i].coordinate += stepSize * photons[i].direction;
     }
-}
-
+}*/
+/*
 template <typename T>
 T SphereOnePort<T>::dataOnePort (std::vector<Photon<T>>& photons, const int& Nphotons) {
     using namespace std;
@@ -74,6 +77,7 @@ T SphereOnePort<T>::dataOnePort (std::vector<Photon<T>>& photons, const int& Nph
 }
 
 template <typename T>
+
 T SphereTwoPorts<T>::dataTwoPorts (std::vector<Photon<T>>& photons, const int& Nphotons) {
     using namespace std;
 
@@ -101,3 +105,4 @@ T SphereTwoPorts<T>::dataTwoPorts (std::vector<Photon<T>>& photons, const int& N
 
     return totalWeight / Nphotons;
 }
+*/
