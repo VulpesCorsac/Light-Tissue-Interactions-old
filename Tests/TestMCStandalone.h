@@ -19,8 +19,13 @@ constexpr float TOTAL_TOLERANCE = 1e-4;
 void TestsMC::SingleLayerAbsorptionOnly() {
     using T = double;
 
-    SphereOnePort<T> SphereT(0.1, 0.01);
-    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+    constexpr bool detector = 1;
+    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    DetectorDistances<T> dist;
+    dist.maxDist = 0.3;
+    dist.minDist = 0.0;
+    dist.stepSize = 0.05;
 
     cout << "Single layer, absorption only" << endl;
 
@@ -40,12 +45,12 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr, detector> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
 
-    MCresults<T, Nz, Nr> res1, res2, res3;
-    MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
+    MCresults<T, Nz, Nr, detector> res1, res2, res3;
+    MCresults<T, Nz, Nr, detector> MTres1, MTres2, MTres3;
 
     mc1.Calculate(res1);
     assert(abs(res1.specularReflection - 0.04) < 1e-4);
@@ -55,7 +60,7 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     assert(abs(res1.diffuseTransmission + res1.diffuseReflection + res1.specularReflection + res1.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 1 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1);
+    MCmultithread<T, Nz, Nr, detector>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1, SphereR, SphereT, dist);
     assert(abs(MTres1.specularReflection - 0.04) < 1e-4);
     assert(abs(MTres1.diffuseReflection - 0.004989) < 1e-3);
     assert(abs(MTres1.diffuseTransmission - 0.3390) < 2e-3);
@@ -71,7 +76,7 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     assert(abs(res2.diffuseTransmission + res2.diffuseReflection + res2.specularReflection + res2.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 2 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2);
+    MCmultithread<T, Nz, Nr, detector>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2, SphereR, SphereT, dist);
     assert(abs(MTres2.specularReflection - 0.0170132) < 1e-4);
     assert(abs(MTres2.diffuseReflection - 0.01346) < 1e-3);
     assert(abs(MTres2.diffuseTransmission - 0.8743) < 2e-3);
@@ -87,7 +92,7 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample3, 2e7, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
+    MCmultithread<T, Nz, Nr, detector>(sample3, 2e7, 4, sample3.getTotalThickness(), selectedRadius, MTres3, SphereR, SphereT, dist);
     assert(abs(MTres3.specularReflection - 0.05325) < 1e-4);
     assert(abs(MTres3.diffuseReflection - 0.0) < 1e-3);
     assert(abs(MTres3.diffuseTransmission - 0.00004069) < 5e-6);
@@ -101,8 +106,13 @@ void TestsMC::SingleLayerAbsorptionOnly() {
 void TestsMC::MultiLayerAbsorptionOnly() {
     using T = double;
 
-    SphereOnePort<T> SphereT(0.1, 0.01);
-    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+    constexpr bool detector = 1;
+    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    DetectorDistances<T> dist;
+    dist.maxDist = 0.3;
+    dist.minDist = 0.0;
+    dist.stepSize = 0.05;
 
     cout << "Glass-tissue-glass, absorption only" << endl;
 
@@ -126,12 +136,12 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr, detector> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc3(sample3, 5e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
 
-    MCresults<T, Nz, Nr> res1, res2, res3;
-    MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
+    MCresults<T, Nz, Nr, detector> res1, res2, res3;
+    MCresults<T, Nz, Nr, detector> MTres1, MTres2, MTres3;
 
     mc1.Calculate(res1);
     assert(abs(res1.specularReflection - 0.05419) < 1e-4);
@@ -141,7 +151,7 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     assert(abs(res1.diffuseTransmission + res1.diffuseReflection + res1.specularReflection + res1.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 1 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1);
+    MCmultithread<T, Nz, Nr, detector>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1, SphereR, SphereT, dist);
     assert(abs(MTres1.specularReflection - 0.05419) < 1e-4);
     assert(abs(MTres1.diffuseReflection - 0.00656) < 1e-3);
     assert(abs(MTres1.diffuseTransmission - 0.3292) < 2e-3);
@@ -157,7 +167,7 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     assert(abs(res2.diffuseTransmission + res2.diffuseReflection + res2.specularReflection + res2.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 2 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2);
+    MCmultithread<T, Nz, Nr, detector>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2, SphereR, SphereT, dist);
     assert(abs(MTres2.specularReflection - 0.02907) < 1e-4);
     assert(abs(MTres2.diffuseReflection - 0.02244) < 1e-3);
     assert(abs(MTres2.diffuseTransmission - 0.853) < 2e-3);
@@ -173,7 +183,7 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample3, 20e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
+    MCmultithread<T, Nz, Nr, detector>(sample3, 20e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3, SphereR, SphereT, dist);
     assert(abs(MTres3.specularReflection - 0.06037) < 1e-4);
     assert(abs(MTres3.diffuseReflection - 0.0) < 1e-3);
     assert(abs(MTres3.diffuseTransmission - 0.00004008) < 4e-6);
@@ -187,8 +197,13 @@ void TestsMC::MultiLayerAbsorptionOnly() {
 void TestsMC::SingleLayerAbsorptionScattering() {
     using T = double;
 
-    SphereOnePort<T> SphereT(0.1, 0.01);
-    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+    constexpr bool detector = 1;
+    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    DetectorDistances<T> dist;
+    dist.maxDist = 0.3;
+    dist.minDist = 0.0;
+    dist.stepSize = 0.05;
 
     cout << "Single layer, absorption & scattering" << endl;
 
@@ -208,12 +223,12 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 5e5, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 5e5, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr, detector> mc1(sample1, 5e5, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc2(sample2, 5e5, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
 
-    MCresults<T, Nz, Nr> res1, res2, res3;
-    MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
+    MCresults<T, Nz, Nr, detector> res1, res2, res3;
+    MCresults<T, Nz, Nr, detector> MTres1, MTres2, MTres3;
 
     mc1.Calculate(res1);
     assert(abs(res1.specularReflection - 0.04) < 1e-4);
@@ -222,7 +237,7 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     assert(abs(res1.diffuseTransmission + res1.diffuseReflection + res1.specularReflection + res1.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 1 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample1, 5e5, 4, sample1.getTotalThickness(), selectedRadius, MTres1);
+    MCmultithread<T, Nz, Nr, detector>(sample1, 5e5, 4, sample1.getTotalThickness(), selectedRadius, MTres1, SphereR, SphereT, dist);
     assert(abs(MTres1.specularReflection - 0.04) < 1e-4);
     assert(abs(MTres1.diffuseReflection - 0.0435) < 1e-3);
     assert(abs(MTres1.diffuseTransmission - 0.767) < 2e-3);
@@ -236,7 +251,7 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     assert(abs(res2.diffuseTransmission + res2.diffuseReflection + res2.specularReflection + res2.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 2 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample2, 5e5, 4, sample2.getTotalThickness(), selectedRadius, MTres2);
+    MCmultithread<T, Nz, Nr, detector>(sample2, 5e5, 4, sample2.getTotalThickness(), selectedRadius, MTres2, SphereR, SphereT, dist);
     assert(abs(MTres2.specularReflection - 0.01701) < 1e-4);
     assert(abs(MTres2.diffuseReflection - 0.0272) < 1e-3);
     assert(abs(MTres2.diffuseTransmission - 0.9206) < 1e-3);
@@ -250,7 +265,7 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample3, 2e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
+    MCmultithread<T, Nz, Nr, detector>(sample3, 2e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3, SphereR, SphereT, dist);
     assert(abs(MTres3.specularReflection - 0.05325) < 2e-4);
     assert(abs(MTres3.diffuseReflection - 0.0175) < 1e-3);
     assert(abs(MTres3.diffuseTransmission - 0.0000549) < 2e-5);
@@ -263,8 +278,13 @@ void TestsMC::SingleLayerAbsorptionScattering() {
 void TestsMC::MultiLayerAbsorptionScattering() {
     using T = double;
 
-    SphereOnePort<T> SphereT(0.1, 0.01);
-    SphereTwoPorts<T> SphereR(0.1, 0.01, 0.01);
+    constexpr bool detector = 1;
+    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    DetectorDistances<T> dist;
+    dist.maxDist = 0.3;
+    dist.minDist = 0.0;
+    dist.stepSize = 0.05;
 
     cout << "Glass-Tissue-Glass, absorption & scattering" << endl;
 
@@ -288,12 +308,12 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     const Sample<T> sample2(layer2, 1.0, 1.0);
     const Sample<T> sample3(layer3, 1.0, 1.0);
 
-    MonteCarlo<T, Nz, Nr> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT);
-    MonteCarlo<T, Nz, Nr> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT);
+    MonteCarlo<T, Nz, Nr, detector> mc1(sample1, 1e6, sample1.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc2(sample2, 1e6, sample2.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
+    MonteCarlo<T, Nz, Nr, detector> mc3(sample3, 1e6, sample3.getTotalThickness(), selectedRadius, SphereR, SphereT, dist);
 
-    MCresults<T, Nz, Nr> res1, res2, res3;
-    MCresults<T, Nz, Nr> MTres1, MTres2, MTres3;
+    MCresults<T, Nz, Nr, detector> res1, res2, res3;
+    MCresults<T, Nz, Nr, detector> MTres1, MTres2, MTres3;
 
     mc1.Calculate(res1);
     assert(abs(res1.specularReflection - 0.05419) < 1e-4);
@@ -302,7 +322,7 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     assert(abs(res1.diffuseTransmission + res1.diffuseReflection + res1.specularReflection + res1.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 1 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1);
+    MCmultithread<T, Nz, Nr, detector>(sample1, 1e6, 4, sample1.getTotalThickness(), selectedRadius, MTres1, SphereR, SphereT, dist);
     assert(abs(MTres1.specularReflection - 0.05419) < 1e-4);
     assert(abs(MTres1.diffuseReflection - 0.05813) < 5e-3);
     assert(abs(MTres1.diffuseTransmission - 0.7394) < 2e-3);
@@ -316,7 +336,7 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     assert(abs(res2.diffuseTransmission + res2.diffuseReflection + res2.specularReflection + res2.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 2 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2);
+    MCmultithread<T, Nz, Nr, detector>(sample2, 1e6, 4, sample2.getTotalThickness(), selectedRadius, MTres2, SphereR, SphereT, dist);
     assert(abs(MTres2.specularReflection - 0.02907) < 1e-4);
     assert(abs(MTres2.diffuseReflection - 0.03695) < 1e-3);
     assert(abs(MTres2.diffuseTransmission - 0.8987) < 1e-3);
@@ -330,7 +350,7 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     assert(abs(res3.diffuseTransmission + res3.diffuseReflection + res3.specularReflection + res3.absorbed - 1.0) < TOTAL_TOLERANCE);
     cout << "Test 3 OK: single thread" << endl;
 
-    MCmultithread<T, Nz, Nr>(sample3, 10e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3);
+    MCmultithread<T, Nz, Nr, detector>(sample3, 10e6, 4, sample3.getTotalThickness(), selectedRadius, MTres3, SphereR, SphereT, dist);
     assert(abs(MTres3.specularReflection - 0.06037) < 1e-4);
     assert(abs(MTres3.diffuseReflection - 0.01718) < 1e-3);
     assert(abs(MTres3.diffuseTransmission - 0.0000541) < 5e-6);

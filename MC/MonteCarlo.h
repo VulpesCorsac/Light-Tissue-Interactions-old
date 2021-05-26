@@ -182,8 +182,6 @@ void MonteCarlo<T, Nz, Nr, detector>::GenerateDetectorArrays () {
             FibersArrayT.push_back(OpticalFiber<T>(mainFiberT, distances.minDist + i*distances.stepSize));
         }*/
     }
-   // for (auto x : SpheresArrayR)
-     //   cout << x.getDistance() << endl;
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>

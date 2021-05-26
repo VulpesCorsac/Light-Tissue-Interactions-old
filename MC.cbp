@@ -42,7 +42,6 @@
 		<Unit filename="MC/MCmultithread.h" />
 		<Unit filename="MC/Medium.h" />
 		<Unit filename="MC/MonteCarlo.h" />
-		<Unit filename="MC/MovingSpheresTable.h" />
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="MC/Vector3.h" />
