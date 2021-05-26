@@ -4,6 +4,7 @@
 #include "../MC/BugerLambert.h"
 #include "../MC/MonteCarlo.h"
 #include "../MC/MCmultithread.h"
+#include "../MC/Detector.h"
 
 #include <gtest/gtest.h>
 
@@ -27,9 +28,9 @@ public:
     static constexpr int single_thread = 1;
     static constexpr int multi_thread  = 4;
 
-    const IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
-    const IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
-    const DetectorDistances<T> dist;
+    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    DetectorDistances<T> dist;
     dist.maxDist = 0.3;
     dist.minDist = 0.0;
     dist.stepSize = 0.05;
