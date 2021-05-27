@@ -28,8 +28,8 @@ public:
     static constexpr int single_thread = 1;
     static constexpr int multi_thread  = 4;
 
-    IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
-    IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
+    IntegratingSphere<T> SphereT{0.1, 0.01, 0.00};
+    IntegratingSphere<T> SphereR{0.1, 0.01, 0.01};
     DetectorDistances<T> dist{0.0,0.3,0.05};
 
 public:
