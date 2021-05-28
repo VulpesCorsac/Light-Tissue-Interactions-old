@@ -13,10 +13,10 @@ bool sortSimplex(const std::pair<Matrix<T, 1, N>, T> &a, const std::pair<Matrix<
 }
 
 template <typename T, size_t N>
-int checkConvergence(const Matrix<T, 1, N>& currentVec, const Matrix<T, 1, N>& prevVec) {
+int checkConvergence(const Matrix<T, 1, N>& currentVec, const Matrix<T, 1, N>& prevVec, const T& eps) {
     int checksum = 0;
         for (size_t m = 0; m < N; m++)
-            if (std::abs(currentVec(m) - prevVec(m)) < 1E-5)
+            if (std::abs(currentVec(m) - prevVec(m)) < eps)
                 checksum += 1;
     return checksum;
 }
@@ -58,6 +58,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
+        T eps = 1e-5; // for checking convergence
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++){
@@ -89,7 +90,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[N].first = ve;
                 simplex[N].second = f.funcToMinimize3args(ve);
 
-                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious, eps);
                 if (checksum == N)
                     break;
 
@@ -99,7 +100,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[N].first = vr;
                 simplex[N].second = fvr;
 
-                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+                int checksum = checkConvergence<T,N>(simplex[N].first, vprevious, eps);
                 if (checksum == N)
                     break;
 
@@ -110,7 +111,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             simplex[N].first = vr;
             simplex[N].second = f.funcToMinimize3args(vr);
 
-            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious, eps);
             if (checksum == N)
                 break;
 
@@ -127,7 +128,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             simplex[N].first = vs;
             simplex[N].second = f.funcToMinimize3args(vs);
 
-            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious);
+            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious, eps);
             if (checksum == N)
                 break;
 
@@ -139,6 +140,13 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[i].first = simplex[0].first + (simplex[i].first - simplex[0].first)/2;
                 simplex[i].second = f.funcToMinimize3args(simplex[i].first);
             }
+
+            int checksum = checkConvergence<T,N>(simplex[N].first, vprevious, eps);
+            if (checksum == N)
+                break;
+
+            vprevious = simplex[N].first;
+            continue;
         }
     }
 

@@ -41,6 +41,7 @@
 		<Unit filename="MC/BugerLambert.h" />
 		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/Fresnel.h" />
+		<Unit filename="MC/IMC.h" />
 		<Unit filename="MC/MCmultithread.h" />
 		<Unit filename="MC/Medium.h" />
 		<Unit filename="MC/MonteCarlo.h" />
@@ -52,7 +53,6 @@
 		<Unit filename="Tests/Thresholds.h" />
 		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/Utils.h" />
-		<Unit filename="include/IMC.h" />
 		<Unit filename="main_mc.cpp" />
 		<Extensions />
 	</Project>

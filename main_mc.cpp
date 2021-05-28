@@ -22,9 +22,7 @@ int main(int argc, char **argv) {
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
-
     constexpr int Nphotons = 1e6;
-
     constexpr T selectedRadius = 10e-2;
 
 //    auto tissue = Medium<T>::fromCoeffs(1.5, 100, 900, 1e-3, 0.9);
@@ -63,9 +61,13 @@ int main(int argc, char **argv) {
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
     vector<Medium<T>> slides = {};
 
-    T aOut, gOut, tauOut;
+    T aOutAD, gOut, tauOut;
 
-    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aOut, tauOut, gOut);
+    T aStart = 0.833451;
+    T gStart = 0.904972;
+    T tStart = 0.997383;
+
+    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aStart, tStart, gStart, aOut, tauOut, gOut);
 
     cout << aOut << " " << tauOut << " " << gOut << endl;
 

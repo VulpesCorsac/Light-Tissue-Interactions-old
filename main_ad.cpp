@@ -96,7 +96,7 @@ int main (int argc, char **argv) {
 
      T aOut, tauOut, gOut;
 
-     IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom,aOut, tauOut, gOut);
+     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
      std::cout << "a = " << aOut << ", tau = " << tauOut << ", g = " << gOut <<  std::endl;
 
  /*   TestsIAD test;
