@@ -43,9 +43,12 @@ int main(int argc, char **argv) {
     ///CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     auto tissue = Medium<T>::fromAlbedo(1.5, 0.9, 1.0, 1e-3, 0.9);
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
-    vector<Medium<T>> layers = {tissue};
+    auto glass = Medium<T>::fromCoeffs(1.6, 0.0, 0.0, 1e-3, 0.0);
+    vector<Medium<T>> layers = {glass, tissue, glass};
     Sample<T> mySample(layers, 1.0, 1.0);
-    vector<Medium<T>> slides = {};
+    vector<Medium<T>> slides = {glass, glass};
+    vector<Medium<T>> emptyLayers = {glass, emptyTissue, glass};
+    Sample<T> emptySample (emptyLayers, 1.0, 1.0);
 
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
@@ -53,7 +56,7 @@ int main(int argc, char **argv) {
 
     auto rsmeas = myResultsMT.detectedR;
     auto tsmeas = myResultsMT.detectedT;
-    T tcmeas = 0.34;
+    T tcmeas = myResultsMT.BugerTransmission;
     T rStart = rsmeas[0].second + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
     T tStart = tsmeas[0].second + tcmeas;
 
@@ -71,12 +74,12 @@ int main(int argc, char **argv) {
 
     IAD<T,M,N,fix>(rStart, tStart, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
 
-    cout << "First approximation: Inverse Adding-Doubling";
+    cout << "First approximation: Inverse Adding-Doubling" << endl;
     cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
 
     T aOutIMC, tauOutIMC, gOutIMC; // IMC result will be recorded here
 
-    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, aOutIMC, tauOutIMC, gOutIMC);
+    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, aOutIMC, tauOutIMC, gOutIMC);
 
     return 0;
 }
