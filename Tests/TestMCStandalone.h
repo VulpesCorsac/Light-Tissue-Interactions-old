@@ -33,9 +33,9 @@ void TestsMC::SingleLayerAbsorptionOnly() {
     constexpr int Nr = 10000;
     constexpr T selectedRadius = 10e-2;
 
-    const Medium<T> tissue1(1.5, 1000, 0,  1e-3, 0.9); // MFP == D
-    const Medium<T> tissue2(1.3,  100, 0,  1e-3, 0.5); // MFP == 10*D
-    const Medium<T> tissue3(1.6, 1000, 0, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
+    const auto tissue1 = Medium<T>::fromCoeffs(1.5, 1000, 0,  1e-3, 0.9); // MFP == D
+    const auto tissue2 = Medium<T>::fromCoeffs(1.3,  100, 0,  1e-3, 0.5); // MFP == 10*D
+    const auto tissue3 = Medium<T>::fromCoeffs(1.6, 1000, 0, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
 
     const vector<Medium<T>> layer1 = {tissue1};
     const vector<Medium<T>> layer2 = {tissue2};
@@ -120,13 +120,13 @@ void TestsMC::MultiLayerAbsorptionOnly() {
     constexpr int Nr = 10000;
     constexpr T selectedRadius = 10e-2;
 
-    const Medium<T> tissue1(1.5, 1000, 0,  1e-3, 0.9); // MFP == D
-    const Medium<T> tissue2(1.3,  100, 0,  1e-3, 0.5); // MFP == 10*D
-    const Medium<T> tissue3(1.6, 1000, 0, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
+    const auto tissue1 = Medium<T>::fromCoeffs(1.5, 1000, 0,  1e-3, 0.9); // MFP == D
+    const auto tissue2 = Medium<T>::fromCoeffs(1.3,  100, 0,  1e-3, 0.5); // MFP == 10*D
+    const auto tissue3 = Medium<T>::fromCoeffs(1.6, 1000, 0, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
 
-    const Medium<T> glass1 (1.6 , 0.0, 0.0, 1e-3, 0.0);
-    const Medium<T> glass2 (1.4 , 0.0, 0.0, 1e-3, 0.0);
-    const Medium<T> glass3 (1.65, 0.0, 0.0, 1e-3, 0.0);
+    const auto glass1 = Medium<T>::fromCoeffs (1.6 , 0.0, 0.0, 1e-3, 0.0);
+    const auto glass2 = Medium<T>::fromCoeffs (1.4 , 0.0, 0.0, 1e-3, 0.0);
+    const auto glass3 = Medium<T>::fromCoeffs (1.65, 0.0, 0.0, 1e-3, 0.0);
 
     const vector<Medium<T>> layer1 = {glass1, tissue1, glass1};
     const vector<Medium<T>> layer2 = {glass2, tissue2, glass2};
@@ -211,9 +211,9 @@ void TestsMC::SingleLayerAbsorptionScattering() {
     constexpr int Nr = 10000;
     constexpr T selectedRadius = 10e-2;
 
-    const Medium<T> tissue1(1.5, 100, 900,  1e-3, 0.9); // MFP == D
-    const Medium<T> tissue2(1.3,  20,  80,  1e-3, 0.5); // MFP == 10*D
-    const Medium<T> tissue3(1.6, 700, 300, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
+    const auto tissue1 = Medium<T>::fromCoeffs(1.5, 100, 900,  1e-3, 0.9); // MFP == D
+    const auto tissue2 = Medium<T>::fromCoeffs(1.3,  20,  80,  1e-3, 0.5); // MFP == 10*D
+    const auto tissue3 = Medium<T>::fromCoeffs(1.6, 700, 300, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
 
     const vector<Medium<T>> layer1 = {tissue1};
     const vector<Medium<T>> layer2 = {tissue2};
@@ -292,13 +292,13 @@ void TestsMC::MultiLayerAbsorptionScattering() {
     constexpr int Nr = 10000;
     constexpr T selectedRadius = 10e-2;
 
-    const Medium<T> tissue1(1.5, 100, 900,  1e-3, 0.9); // MFP == D
-    const Medium<T> tissue2(1.3,  20,  80,  1e-3, 0.5); // MFP == 10*D
-    const Medium<T> tissue3(1.6, 700, 300, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
+    const auto tissue1 = Medium<T>::fromCoeffs(1.5, 100, 900,  1e-3, 0.9); // MFP == D
+    const auto tissue2 = Medium<T>::fromCoeffs(1.3,  20,  80,  1e-3, 0.5); // MFP == 10*D
+    const auto tissue3 = Medium<T>::fromCoeffs(1.6, 700, 300, 10e-3, 0.0); // MFP == 0.1*D, it will need more photons
 
-    const Medium<T> glass1 (1.6 , 0.0, 0.0, 1e-3, 0.0);
-    const Medium<T> glass2 (1.4 , 0.0, 0.0, 1e-3, 0.0);
-    const Medium<T> glass3 (1.65, 0.0, 0.0, 1e-3, 0.0);
+    const auto glass1 = Medium<T>::fromCoeffs (1.6 , 0.0, 0.0, 1e-3, 0.0);
+    const auto glass2 = Medium<T>::fromCoeffs (1.4 , 0.0, 0.0, 1e-3, 0.0);
+    const auto glass3 = Medium<T>::fromCoeffs (1.65, 0.0, 0.0, 1e-3, 0.0);
 
     const vector<Medium<T>> layer1 = {glass1, tissue1, glass3}; /// TODO: recalculate for glass 1
     const vector<Medium<T>> layer2 = {glass2, tissue2, glass2};

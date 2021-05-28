@@ -935,17 +935,16 @@
 	"../MC/MCmultithread.h"
 	<iostream>
 
-1622033018 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mc.cpp
-	"MC/Photon.h"
+1622188896 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_mc.cpp
 	"MC/Medium.h"
-	"MC/Fresnel.h"
-	"MC/MonteCarlo.h"
 	"MC/BugerLambert.h"
+	"MC/Photon.h"
+	"MC/Fresnel.h"
 	"MC/Sample.h"
 	"MC/Detector.h"
+	"MC/MonteCarlo.h"
 	"MC/MCmultithread.h"
-	"Tests/TestMCStandalone.h"
-	"Tests/Thresholds.h"
+	"MC/IMC.h"
 
 1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\photon.h
 	"Vector3.h"
@@ -957,7 +956,7 @@
 	<string>
 	<iostream>
 
-1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
+1622145482 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
 
 1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\fresnel.h
 	"../Utils/Utils.h"
@@ -966,7 +965,7 @@
 1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\utils.h
 	<cmath>
 
-1622032916 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
+1622094918 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
 	"Photon.h"
 	"Medium.h"
 	"Fresnel.h"
@@ -1855,11 +1854,11 @@
 
 1614330303 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\eigen\eigen\src\eigenvalues\selfadjointeigensolver_lapacke.h
 
-1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\bugerlambert.h
+1622115799 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\bugerlambert.h
 	"Fresnel.h"
 	<cmath>
 
-1622029803 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\mcmultithread.h
+1622092387 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\mcmultithread.h
 	"MonteCarlo.h"
 	<thread>
 
@@ -1882,4 +1881,73 @@
 
 1621853060 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\movingspherestable.h
 	"Detector.h"
+
+1622191108 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\imc.h
+	<utility>
+	<stdexcept>
+	"MonteCarlo.h"
+	"MCmultithread.h"
+	"../AD/NelderMead.h"
+
+1622187739 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\neldermead.h
+	"IAD.h"
+	"../eigen/Eigen/Dense"
+	<iostream>
+	<utility>
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\iad.h
+	"Quadrature.h"
+	"RT.h"
+	<utility>
+	<stdexcept>
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
+	"Angles.h"
+	"../Utils/Utils.h"
+	<iostream>
+	<cmath>
+	<algorithm>
+	<array>
+	<stdexcept>
+
+1615271944 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\angles.h
+	"../Utils/Utils.h"
+	<cmath>
+	<complex>
+
+1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
+	"Fresnel.h"
+	"AddingDoubling.h"
+	"../Utils/Utils.h"
+	"../eigen/Eigen/Dense"
+	<array>
+
+1620987034 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\fresnel.h
+	"Angles.h"
+	"../Utils/Utils.h"
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoubling.h
+	"LayerInit.h"
+	"../eigen/Eigen/Dense"
+	"../eigen/Eigen/LU"
+	<array>
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerinit.h
+	"RedistributionFunction.h"
+	"../eigen/Eigen/LU"
+	<array>
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\redistributionfunction.h
+	"DMmethod.h"
+	"../eigen/Eigen/Dense"
+	<iostream>
+	<cmath>
+	<algorithm>
+	<array>
+	<numeric>
+
+1618396255 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\dmmethod.h
+	"Quadrature.h"
+	<algorithm>
+	<cmath>
 

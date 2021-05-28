@@ -19,9 +19,9 @@ int main (int argc, char **argv) {
     T tau = 1.0; // optical thickness
     T g = 0.9; // anisotropy
     //
-    T n_slab = 1.3; // refraction index of sample
-    T n_slide_top = 1.4; // refraction index of slide
-    T n_slide_bottom = 1.4;
+    T n_slab = 1.5; // refraction index of sample
+    T n_slide_top = 1.5; // refraction index of slide
+    T n_slide_bottom = 1.5;
 
     Quadrature<T,M> quadrature(n_slab);
 
@@ -90,17 +90,17 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;
     //
 
-     T rsmeas = 0.03278;
-     T tsmeas = 0.34684;
-     T tcmeas = 0.346838;
+     T rsmeas = 0.0729565;
+     T tsmeas = 0.708979;
+     T tcmeas = 0.34;
 
      T aOut, tauOut, gOut;
 
      IAD<T,M,N,fix>(rsmeas,tsmeas,tcmeas,n_slab,n_slide_top,n_slide_bottom,aOut, tauOut, gOut);
      std::cout << "a = " << aOut << ", tau = " << tauOut << ", g = " << gOut <<  std::endl;
 
-    TestsIAD test;
+ /*   TestsIAD test;
     test.RunAllTests();
-
+*/
     return 0;
 }

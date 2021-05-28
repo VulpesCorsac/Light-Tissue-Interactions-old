@@ -173,7 +173,7 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T, Nz, Nr, detector>::GenerateDetectorArrays () {
     using namespace std;
     int length = (distances.maxDist - distances.minDist) / distances.stepSize + 1;
-    for(int i = 0; i <= length; i++) {
+    for(int i = 0; i < length; i++) {
         if (detector == 1) {
             SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.minDist + i*distances.stepSize));
             SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.minDist + i*distances.stepSize));

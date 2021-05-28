@@ -14,17 +14,17 @@ public:
         return Medium(new_n, new_tau * (1 - new_a) / new_D, new_tau * new_a / new_D, new_a, new_tau, new_D, new_g);
     }
 
-    T n;   // refraction coeff
-    T ua;  // absorption coeff
-    T us;  // absorption coeff
-    T D;   // thickness/depth
-    T g;   // scattering anisotropy
-    T ut;  // total attenuation coeff
-    T a;   // albedo
-    T tau; // optical thickness
+    const T n;   // refraction coeff
+    const T ua;  // absorption coeff
+    const T us;  // absorption coeff
+    const T D;   // thickness/depth
+    const T g;   // scattering anisotropy
+    const T ut;  // total attenuation coeff
+    const T a;   // albedo
+    const T tau; // optical thickness
 
 private:
-    Medium(const T& new_n, const T& new_ua, const T& new_us, const T& new_a, const T& new_tau, const T& new_D, const T& new_g)
+    Medium(const T& new_n, const T& new_ua, const T& new_us, const T& new_a, const T& new_tau, const T& new_D, const T& new_g) :
     : n(new_n)
     , ua(new_ua)
     , us(new_us)
@@ -32,7 +32,7 @@ private:
     , g(new_g)
     , ut(ua + us)
     , a(new_a)
-    , tau(new_tau){}
+    , tau(new_tau){
 };
 
 

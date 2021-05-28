@@ -22,7 +22,7 @@ int checkConvergence(const Matrix<T, 1, N>& currentVec, const Matrix<T, 1, N>& p
 }
 
 template <typename T, size_t M, size_t N, bool fix>
-void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T, 1, N>& vecMin, T& fmin, int& iters) {
+void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T, 1, N>& vecMin, T& fmin, int& iters) {
     Matrix<T, 1, N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
@@ -135,8 +135,8 @@ void NelderMeadMin(func<T, M, N, fix> f, int maxIter, T astart, T tstart, T gsta
             continue;
         } else {
             /// GLOBAL SHRINK;
-            for (size_t i = 1; i < N; i++) {
-                simplex[i].first = simplex[0].first + (simplex[i].first + simplex[0].first)/2;
+            for (size_t i = 1; i <= N; i++) {
+                simplex[i].first = simplex[0].first + (simplex[i].first - simplex[0].first)/2;
                 simplex[i].second = f.funcToMinimize3args(simplex[i].first);
             }
         }

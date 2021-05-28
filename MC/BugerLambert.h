@@ -18,3 +18,4 @@ T BugerLambert(T tau, T n_slab, T n_slide_top, T n_slide_bottom) {
     const auto Rbbottom = Rborder<T>(n_slab, n_slide_bottom);
     return ((1 - Rbtop) * (1 - Rbbottom) * exp(-tau)) / (1 - Rbtop * Rbbottom * exp(-2 * tau));
 }
+
