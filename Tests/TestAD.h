@@ -5,6 +5,8 @@
 
 #include <gtest/gtest.h>
 
+constexpr float TOLERANCE = 1e-4;
+
 template < typename T, size_t M >
 class testDataRT {
 public:
@@ -48,30 +50,28 @@ protected:
     std::array<T, M> v, w;
 };
 
-constexpr float TOLERANCE = 1e-4;
-
-TEST(AD_FinalRT, RTtest1) {
+TEST(AD, Test1) {
     testDataRT<double, 32> test(0.9, 1.0, 0.9, 1.4, 1.5, 1.5);
     EXPECT_NEAR(test.getRs(), 0.08531 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.77350 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
-TEST(AD_FinalRT, RTtest2) {
+TEST(AD, Test2) {
     testDataRT<float, 16> test(0.9, 2.0, 0.99, 1.5, 1.5, 1.5);
     EXPECT_NEAR(test.getRs(), 0.06548 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.74409 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.124729, TOLERANCE);
 }
 
-TEST(AD_FinalRT, RTtestG0) {
+TEST(AD, G0) {
     testDataRT<double, 4> test(0.95, 5.0, 0.0, 1.4, 1.4, 1.4);
     EXPECT_NEAR(test.getRs(), 0.38911 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.11869 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.006369, TOLERANCE);
 }
 
-TEST(AD_FinalRT, RTtestA0) {
+TEST(AD, A0) {
     testDataRT<float, 8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
     EXPECT_NEAR(test.getRs(), 0.07204 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.54314 , TOLERANCE);
@@ -79,7 +79,7 @@ TEST(AD_FinalRT, RTtestA0) {
     EXPECT_NEAR(test.getTc(), test.getTs(), 1e-3);
 }
 
-TEST(AD_FinalRT, RTtestA0G0) {
+TEST(AD, A0G0) {
     testDataRT<double, 32> test(0.0, 1.0, 0.0, 1.3, 1.4, 1.4);
     EXPECT_NEAR(test.getRs(), 0.03278 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.34684 , TOLERANCE);
