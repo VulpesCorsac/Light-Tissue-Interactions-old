@@ -1,7 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include "MC/Photon.h"
 #include "MC/Medium.h"
@@ -17,21 +15,27 @@
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+
 int main(int argc, char **argv) {
     using namespace std;
     using T = double;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    const int M = 32; // matrix size in Adding-Doubling
+    constexpr int M = 32; // matrix size in Adding-Doubling
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
     constexpr int Nphotons = 1e6;
     constexpr T selectedRadius = 10e-2;
 
-    const bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
+    /// TODO: make something like enum - no detector \ spheres \ fiber
+    constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
     IntegratingSphere<T> SphereT(0.1, 0.013, 0.013); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.1, 0.013, 0.013);
 
@@ -40,7 +44,7 @@ int main(int argc, char **argv) {
     distances.minDist = 0.0;
     distances.stepSize = 0.02; // please, enter correct step for your borders
 
-    ///CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
+    /// CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     auto tissue = Medium<T>::fromAlbedo(1.5, 0.9, 1.0, 1e-3, 0.9);
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
     auto glass = Medium<T>::fromCoeffs(1.6, 0.0, 0.0, 1e-3, 0.0);

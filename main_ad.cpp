@@ -4,7 +4,6 @@
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
-#include "Tests/TestIAD.h"
 
 #include <iostream>
 #include <fstream>
@@ -13,15 +12,15 @@
 
 int main (int argc, char **argv) {
     using T = float;
-    const int M = 4;
+    constexpr int M = 4;
 
-    T a = 0.9; // albedo
-    T tau = 1.0; // optical thickness
-    T g = 0.9; // anisotropy
+    constexpr T a = 0.9; // albedo
+    constexpr T tau = 1.0; // optical thickness
+    constexpr T g = 0.9; // anisotropy
     //
-    T n_slab = 1.5; // refraction index of sample
-    T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
+    constexpr T n_slab = 1.5; // refraction index of sample
+    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slide_bottom = 1.5;
 
     Quadrature<T,M> quadrature(n_slab);
 
@@ -35,8 +34,8 @@ int main (int argc, char **argv) {
     quadrature.printQuadrature(w);
     //*/
 
-     const int N = 2; // minimize 2 parameters
-     const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    const int N = 2; // minimize 2 parameters
+    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
     /*
     std::ofstream myfileIAD;
@@ -90,17 +89,14 @@ int main (int argc, char **argv) {
     std::cout << "T collimated = " << tc << std::endl;
     //
 
-     T rsmeas = 0.0729565;
-     T tsmeas = 0.708979;
-     T tcmeas = 0.34;
+    constexpr T rsmeas = 0.0729565;
+    constexpr T tsmeas = 0.708979;
+    constexpr T tcmeas = 0.34;
 
-     T aOut, tauOut, gOut;
+    T aOut, tauOut, gOut;
 
-     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
-     std::cout << "a = " << aOut << ", tau = " << tauOut << ", g = " << gOut <<  std::endl;
+    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
+    std::cout << "a = " << aOut << ", tau = " << tauOut << ", g = " << gOut <<  std::endl;
 
- /*   TestsIAD test;
-    test.RunAllTests();
-*/
     return 0;
 }

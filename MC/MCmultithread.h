@@ -32,7 +32,7 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
         if (detector == 1) {
             finalResults.detectedR.resize(result.detectedR.size());
             finalResults.detectedT.resize(result.detectedR.size());
-            for (int i = 0; i < finalResults.detectedR.size(); i++) {
+            for (size_t i = 0; i < finalResults.detectedR.size(); i++) {
                 finalResults.detectedR[i].second += result.detectedR[i].second;
                 finalResults.detectedT[i].second += result.detectedT[i].second;
             }
@@ -50,7 +50,7 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
     finalResults.diffuseTransmission = finalResults.arrayT.sum() / Np;
     finalResults.absorbed = finalResults.matrixA.sum() / Np;
 
-    for (int i = 0; i < finalResults.detectedR.size(); i++) {
+    for (size_t i = 0; i < finalResults.detectedR.size(); i++) {
         finalResults.detectedR[i].first = mcResults[0].detectedR[i].first;
         finalResults.detectedT[i].first = mcResults[0].detectedT[i].first;
         finalResults.detectedR[i].second /= threads;

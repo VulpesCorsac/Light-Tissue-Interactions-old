@@ -51,10 +51,10 @@ std::ostream& operator << (std::ostream& os, const MCresults<T,Nz,Nr,detector>& 
     os << "Absorbed fraction = "    << results.absorbed            << endl;
     os << "Unscattered transmission = " << results.BugerTransmission << endl;
     os << "Detected R" << endl;
-    for (int i = 0; i < results.detectedR.size(); i++)
+    for (size_t i = 0; i < results.detectedR.size(); i++)
         os << results.detectedR[i].first << " " << results.detectedR[i].second << endl;
     os << "Detected T" << endl;
-    for (int i = 0; i < results.detectedT.size(); i++)
+    for (size_t i = 0; i < results.detectedT.size(); i++)
         os << results.detectedT[i].first << " " << results.detectedT[i].second << endl;
 
     return os;
@@ -151,7 +151,7 @@ MonteCarlo<T, Nz, Nr, detector>::MonteCarlo(const Sample<T>& new_sample, const i
     , threshold(1e-4)
     , mainSphereR(new_detectorR)
     , mainSphereT(new_detectorT)
-    , distances(new_dist){
+    , distances(new_dist) {
         GenerateDetectorArrays();
 }
 
@@ -165,7 +165,7 @@ MonteCarlo<T, Nz, Nr, detector>::MonteCarlo(const Sample<T>& new_sample, const i
     , threshold(1e-4)
     , mainFiberR(new_detectorR)
     , mainFiberT(new_detectorT)
-    , distances(new_dist){
+    , distances(new_dist) {
         GenerateDetectorArrays();
 }
 
@@ -191,7 +191,7 @@ void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereR (Photon<T>& exit_ph
         exit_photon.coordinate += step * exit_photon.direction;
         if (debug && exit_photon.number == debugPhoton)
             std::cout << exit_photon << std::endl;
-        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)){
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
             T stepSphere = abs(mainSphereR.getDSphere()/ exit_photon.direction.z);
             exit_photon.coordinate += stepSphere * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
@@ -216,7 +216,7 @@ void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereT (Photon<T>& exit_ph
          exit_photon.coordinate += step * exit_photon.direction;
          if (debug && exit_photon.number == debugPhoton)
             std::cout << exit_photon << std::endl;
-        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)){
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
             T stepSphere = abs(mainSphereT.getDSphere() / exit_photon.direction.z);
             exit_photon.coordinate += stepSphere * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
