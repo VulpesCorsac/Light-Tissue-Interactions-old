@@ -72,7 +72,7 @@ template < typename T, size_t M >
 Matrix<T,M,M> HPN(const std::array<T,M>& a, T g) {
     const int m = M;
     Matrix<T,M,M> hpn;
-    // TODO: comparing float against zero is not a good option, some EPS is needed
+    /// TODO: comparing float against zero is not a good option, some EPS is needed
     if (g == 0)
         hpn = Matrix<T,M,M>::Constant(1.0);
     else {

@@ -22,7 +22,7 @@
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
 
-template <typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector>
+template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -38,11 +38,8 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
     IntegratingSphere<T> SphereR(0.1, 0.013, 0.013);
 
     DetectorDistances<T> distances;
-    if (moveable)
-        distances.maxDist = 0.02;
-    else
-        distances.maxDist = 0.00;
-    distances.minDist = 0.0;
+    distances.maxDist  = moveable ? 0.02 : 0.00;
+    distances.minDist  = 0.0;
     distances.stepSize = 0.002; // please, enter correct step for your borders
 
     constexpr int Nphotons = 1e6;
@@ -84,27 +81,29 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
     fout << "a \t tau \t g \t time" << endl;
 
     for (int i = 0; i < 20; i++) {
-
         clock_t begin = clock();
 
         T diff = 0;
 
-        for (auto x : rsmeas){
+        for (auto x : rsmeas) {
             T e1 = distribution(generator);
             rSpoilt.push_back(make_pair(x.first, x.second + e1));
             diff += e1;
         }
+
         for (auto x : tsmeas){
             T e2 = distribution(generator);
             tSpoilt.push_back(make_pair(x.first, x.second + e2));
             diff += e2;
         }
+
         T tcSpoilt = tcmeas + distribution(generator);
 
         cout << diff << endl;
 
         for (auto x : rSpoilt)
             cout << x.first << " " << x.second << endl;
+
         for (auto x : tSpoilt)
             cout << x.first << " " << x.second << endl;
 
@@ -113,8 +112,10 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
 
         cout << "rStart = " << rStart << " tStart = " << tStart << " tc = " << tcSpoilt << endl;
 
- //       T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
- //       T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
+        /*
+        T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
+        T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
+        //*/
 
         IAD<T,M,N,fix>(rStart, tStart, tcSpoilt, n_slab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
 
@@ -126,9 +127,7 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 
-
         fout << aOutIMC << "\t" << tauOutIMC << "\t" << gOutIMC << "\t" << elapsed_secs << endl;
-
 
         rSpoilt.clear();
         tSpoilt.clear();
@@ -201,7 +200,7 @@ int main(int argc, char **argv) {
         int kt;
         cout << "Enter number of tau to begin with" << endl;
         cin >> kt;
-        for (int i = kt; i < 6; i++){
+        for (int i = kt; i < 6; i++) {
             inT = gridT(i);
             calcAll<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, err);
         }

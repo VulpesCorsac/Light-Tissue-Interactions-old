@@ -47,7 +47,7 @@ Matrix<T,M,M> I(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::
 
 template < typename T, size_t M >
 Matrix<T,M,M> G(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::array<T,M>& w) {
-    auto b = B<T,M>(a, tau, g, n_slab, v, w);
+    const auto b = B<T,M>(a, tau, g, n_slab, v, w);
     return (E<T,M>() + A<T,M>(a, tau, g, n_slab, v, w) - b * I<T,M>(a, tau, g, n_slab, v, w) * b).inverse();
 }
 

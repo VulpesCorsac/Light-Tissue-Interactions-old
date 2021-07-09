@@ -9,17 +9,17 @@ template < typename T, size_t Nz, size_t Nr, bool detector >
 void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr,detector>& finalResults, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistances<T> new_dist) {
     using namespace std;
 
-    vector<MonteCarlo<T, Nz, Nr, detector>> mcDivided;
+    vector<MonteCarlo<T,Nz,Nr,detector>> mcDivided;
     vector<thread> mcThreads;
-    vector<MCresults<T, Nz, Nr, detector>> mcResults;
-    // MonteCarlo<T, Nz, Nr, detector> mc(sample, (Np / threads), z, r);
+    vector<MCresults<T,Nz,Nr,detector>> mcResults;
+    // MonteCarlo<T,Nz,Nr,detector> mc(sample, (Np / threads), z, r);
     for (int i = 0; i < threads; i++) {
-        mcDivided.push_back(MonteCarlo<T, Nz, Nr, detector>(sample, (Np / threads), z, r, new_sphereR, new_sphereT, new_dist));
-        mcResults.push_back(MCresults<T, Nz, Nr, detector>());
+        mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, new_sphereR, new_sphereT, new_dist));
+        mcResults.push_back(MCresults<T,Nz,Nr,detector>());
     }
 
     for (int i = 0; i < threads; i++)
-        mcThreads.push_back(thread(&MonteCarlo<T, Nz, Nr, detector>::Calculate, ref(mcDivided[i]), ref(mcResults[i])));
+        mcThreads.push_back(thread(&MonteCarlo<T,Nz,Nr,detector>::Calculate, ref(mcDivided[i]), ref(mcResults[i])));
     for (auto& thread: mcThreads)
         thread.join();
 
