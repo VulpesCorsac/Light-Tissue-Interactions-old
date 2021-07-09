@@ -22,6 +22,8 @@
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
 
+#include "Tests/TestIADStandalone.h"
+
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
@@ -137,6 +139,8 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
 }
 
 int main(int argc, char **argv) {
+    TestsIAD::RunAllTests();
+
     using namespace std;
     using T = double;
 
