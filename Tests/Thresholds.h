@@ -20,13 +20,14 @@ class MC_General {
 public:
     static constexpr T selectedRadius = 1e-1;
 
-/*    static constexpr IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
+    /*
+    static constexpr IntegratingSphere<T> SphereT(0.1, 0.01, 0.00);
     static constexpr IntegratingSphere<T> SphereR(0.1, 0.01, 0.01);
     static constexpr DetectorDistances<T> dist;
     static constexpr dist.maxDist = 0.3;
     static constexpr dist.minDist = 0.0;
     static constexpr dist.stepSize = 0.05;
-*/
+    //*/
 
     static constexpr int single_thread = 1;
     static constexpr int multi_thread  = 4;
@@ -178,6 +179,7 @@ Deviation Max(const Deviation& d, const MCresults<T,Nz,Nr,detector>& r, const MC
     ans.diffuseTransmissionDeviation = max(abs(r.diffuseTransmission - expected.DIFFUSE_TRANSMISSION), d.diffuseTransmissionDeviation);
     return ans;
 }
+
 /*
 #define RUNS 100
 #define FUNC(Fixture) {                                                            \
@@ -187,13 +189,13 @@ Deviation Max(const Deviation& d, const MCresults<T,Nz,Nr,detector>& r, const MC
         if (i % 100 == 0)                                                          \
             cout << #Fixture << ", run " << i << ", " << ans << endl;              \
         ans = Max(ans,                                                             \
-                  MonteCarlo<T, Nz, Nr, detector>(fixture.sample,                            \
+                  MonteCarlo<T, Nz, Nr, detector>(fixture.sample,                  \
                                         fixture.photons,                           \
                                         fixture.sample.getTotalThickness(),        \
-                                        fixture.selectedRadius,                     \
-                                        fixture.SphereR,                     \
-                                        fixture.SphereT,                     \
-                                        fixture.dist).CalculateResult(), \
+                                        fixture.selectedRadius,                    \
+                                        fixture.SphereR,                           \
+                                        fixture.SphereT,                           \
+                                        fixture.dist).CalculateResult(),           \
                   fixture.EXPECTED);                                               \
     }                                                                              \
     cout << #Fixture << " " << ans << endl;                                        \
@@ -213,4 +215,4 @@ void evaluateThresholds() {
     FUNC(MC_MultiLayerAbsorptionScattering_MFP_GREATER_THAN_D)
     FUNC(MC_MultiLayerAbsorptionScattering_MFP_LESS_THAN_D)
 }
-*/
+//*/

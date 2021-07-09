@@ -3,182 +3,139 @@
 #include "../AD/NelderMead.h"
 #include "../AD/IAD.h"
 
-using namespace std;
+#include <gtest/gtest.h>
 
-class TestsIAD {
-public:
-    void Test1();
-    void Test2();
-    void Test3();
-    void Test4();
-    void Test5();
-    void Test6();
-    void RunAllTests();
-};
+/// TODO: make some statistics as in MC tests
+/// TODO: extract tolerance
 
-constexpr float TOTAL_TOLERANCE = 1e-4;
-
-void TestsIAD::Test1() {
-
+TEST(IAD, Test1) {
     using T = float;
-    const int M = 4;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 4;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.4; // refraction index of sample
-    T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
-    T rsmeas = 0.08624;
-    T tsmeas = 0.76446;
-    T tcmeas = 0.338341;
+    constexpr T n_slab = 1.4; // refraction index of sample
+    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slide_bottom = 1.5;
+    constexpr T rsmeas = 0.08624;
+    constexpr T tsmeas = 0.76446;
+    constexpr T tcmeas = 0.338341;
     T aOut, tauOut, gOut;
-
-    cout << "Test 1 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.9) < TOTAL_TOLERANCE);
-    cout << "Test 1 passed" << endl;
+    EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
+    EXPECT_NEAR(tauOut, 1  , TOLERANCE);
+    EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
 }
 
-void TestsIAD::Test2() {
-
+TEST(IAD, Test2) {
     using T = float;
-    const int M = 32;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 32;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.4; // refraction index of sample
-    T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
-    T rsmeas = 0.08531;
-    T tsmeas = 0.77350;
-    T tcmeas = 0.338341;
+    constexpr T n_slab = 1.4; // refraction index of sample
+    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slide_bottom = 1.5;
+    constexpr T rsmeas = 0.08531;
+    constexpr T tsmeas = 0.77350;
+    constexpr T tcmeas = 0.338341;
     T aOut, tauOut, gOut;
-
-    cout << "Test 2 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.9) < TOTAL_TOLERANCE);
-    cout << "Test 2 passed" << endl;
+    EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
+    EXPECT_NEAR(tauOut, 1  , TOLERANCE);
+    EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
 }
 
-void TestsIAD::Test3() {
-
+TEST(IAD, Test3) {
     using T = float;
-    const int M = 16;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 16;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.5; // refraction index of sample
-    T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
-    T rsmeas = 0.06548;
-    T tsmeas = 0.74409;
-    T tcmeas = 0.124729;
+    constexpr T n_slab = 1.5; // refraction index of sample
+    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slide_bottom = 1.5;
+    constexpr T rsmeas = 0.06548;
+    constexpr T tsmeas = 0.74409;
+    constexpr T tcmeas = 0.124729;
     T aOut, tauOut, gOut;
-
-    cout << "Test 3 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.9) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 2.0) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.99) < TOTAL_TOLERANCE);
-    cout << "Test 3 passed" << endl;
+    EXPECT_NEAR(aOut  , 0.9 , TOLERANCE);
+    EXPECT_NEAR(tauOut, 2   , TOLERANCE);
+    EXPECT_NEAR(gOut  , 0.99, TOLERANCE);
 }
 
-void TestsIAD::Test4() {
-
+TEST(IAD, G0) {
     using T = float;
-    const int M = 4;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 4;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.4; // refraction index of sample
-    T n_slide_top = 1.4; // refraction index of slide
-    T n_slide_bottom = 1.4;
-    T rsmeas = 0.38911;
-    T tsmeas = 0.11869;
-    T tcmeas = 0.006369;
+    constexpr T n_slab = 1.4; // refraction index of sample
+    constexpr T n_slide_top = 1.4; // refraction index of slide
+    constexpr T n_slide_bottom = 1.4;
+    constexpr T rsmeas = 0.38911;
+    constexpr T tsmeas = 0.11869;
+    constexpr T tcmeas = 0.006369;
     T aOut, tauOut, gOut;
-
-    cout << "Test 4 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.95) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 5.0) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.0) < TOTAL_TOLERANCE);
-    cout << "Test 4 passed" << endl;
+    EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
+    EXPECT_NEAR(tauOut, 5   , TOLERANCE);
+    EXPECT_NEAR(gOut  , 0   , TOLERANCE);
 }
 
-void TestsIAD::Test5() {
-
+TEST(IAD, A0_G0_Tau_05) {
     using T = float;
-    const int M = 8;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 8;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.5; // refraction index of sample
-    T n_slide_top = 1.6; // refraction index of slide
-    T n_slide_bottom = 1.6;
-    T rsmeas = 0.07204;
-    T tsmeas = 0.54314;
-    T tcmeas = 0.543166;
+    constexpr T n_slab = 1.5; // refraction index of sample
+    constexpr T n_slide_top = 1.6; // refraction index of slide
+    constexpr T n_slide_bottom = 1.6;
+    constexpr T rsmeas = 0.07204;
+    constexpr T tsmeas = 0.54314;
+    constexpr T tcmeas = 0.543166;
     T aOut, tauOut, gOut;
-
-    cout << "Test 5 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.0) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 0.5) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.0) < 10*TOTAL_TOLERANCE);
-    cout << "Test 5 passed" << endl;
+    EXPECT_NEAR(aOut  , 0  ,      TOLERANCE);
+    EXPECT_NEAR(tauOut, 0.5,      TOLERANCE);
+    EXPECT_NEAR(gOut  , 0  , 10 * TOLERANCE);
 }
 
-void TestsIAD::Test6() {
-
+TEST(IAD, A0_G0_Tau1) {
     using T = float;
-    const int M = 32;
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr int M = 32;
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
 
-    T n_slab = 1.3; // refraction index of sample
-    T n_slide_top = 1.4; // refraction index of slide
-    T n_slide_bottom = 1.4;
-    T rsmeas = 0.03278;
-    T tsmeas = 0.34684;
-    T tcmeas = 0.346838;
+    constexpr T n_slab = 1.3; // refraction index of sample
+    constexpr T n_slide_top = 1.4; // refraction index of slide
+    constexpr T n_slide_bottom = 1.4;
+    constexpr T rsmeas = 0.03278;
+    constexpr T tsmeas = 0.34684;
+    constexpr T tcmeas = 0.346838;
     T aOut, tauOut, gOut;
-
-    cout << "Test 6 start" << endl;
 
     IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, n_slab, n_slide_top, n_slide_bottom, aOut, tauOut, gOut);
 
-    assert(abs(aOut - 0.0) < TOTAL_TOLERANCE);
-    assert(abs(tauOut - 1.0) < TOTAL_TOLERANCE);
-    assert(abs(gOut - 0.0) < 5*TOTAL_TOLERANCE);
-    cout << "Test 6 passed" << endl;
-}
-
-void TestsIAD::RunAllTests() {
-    Test1();
-    Test2();
-    Test3();
-    Test4();
-    Test5();
-    Test6();
+    EXPECT_NEAR(aOut  , 0,     TOLERANCE);
+    EXPECT_NEAR(tauOut, 1,     TOLERANCE);
+    EXPECT_NEAR(gOut  , 0, 5 * TOLERANCE);
 }

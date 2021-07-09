@@ -4,7 +4,7 @@
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
-#include "Tests/TestIAD.h"
+//#include "Tests/TestIAD.h"
 
 #include <iostream>
 #include <fstream>

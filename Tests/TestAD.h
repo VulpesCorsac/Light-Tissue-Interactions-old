@@ -5,6 +5,9 @@
 
 #include <gtest/gtest.h>
 
+constexpr double TOLERANCE = 1e-4;
+constexpr double TOLERANCE_T = 1e-3;
+
 template < typename T, size_t M >
 class testDataRT {
 public:
@@ -39,9 +42,6 @@ protected:
     T myA, myTau, myG, myN_slab, myN_slide_top, myN_slide_bottom, ts, rs, tc;
     std::array<T,M> v, w;
 };
-
-constexpr double TOLERANCE = 1e-4;
-constexpr double TOLERANCE_T = 1e-4;
 
 TEST(AD, Test1) {
     testDataRT<double,32> test(0.9, 1.0, 0.9, 1.4, 1.5, 1.5);
