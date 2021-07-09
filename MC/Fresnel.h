@@ -2,7 +2,6 @@
 
 #include "../Utils/Utils.h"
 
-/// TODO: remove if not used
 // #include <complex>
 #include <cmath>
 
@@ -15,7 +14,7 @@ T CosT(T ni, T nt, T cosi) {
         return 0;
 
     return cosi > 0 ? sqrt(cached) : -sqrt(cached);
-    // return real(sqrt(complex<T>(1 - sqr(ni / nt) * (1 - sqr(cosi)))));
+   // return real(sqrt(complex<T>(1 - sqr(ni / nt) * (1 - sqr(cosi)))));
 }
 
 template < typename T >

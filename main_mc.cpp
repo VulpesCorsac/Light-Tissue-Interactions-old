@@ -54,19 +54,20 @@ int main(int argc, char **argv) {
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
+    //
 
     auto rsmeas = myResultsMT.detectedR;
     auto tsmeas = myResultsMT.detectedT;
-    constexpr T tcmeas = 0.34;
+    T tcmeas = 0.34;
 
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
     vector<Medium<T>> slides = {};
 
     T aOut, gOut, tauOut;
 
-    constexpr T aStart = 0.833451;
-    constexpr T gStart = 0.904972;
-    constexpr T tStart = 0.997383;
+    T aStart = 0.833451;
+    T gStart = 0.904972;
+    T tStart = 0.997383;
 
     IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aStart, tStart, gStart, aOut, tauOut, gOut);
 
@@ -74,10 +75,8 @@ int main(int argc, char **argv) {
 
     /*
     evaluateThresholds();
-    return 0;
-    //*/
+    // return 0;
 
-    /*
     TestsMC test;
     constexpr int runs = 1;
     for (int i = 0; i < runs; ++i) {

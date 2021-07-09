@@ -25,50 +25,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="-pthread" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wnon-virtual-dtor" />
-			<Add option="-Wshadow" />
-			<Add option="-Winit-self" />
-			<Add option="-Wredundant-decls" />
-			<Add option="-Wcast-align" />
-			<Add option="-Wundef" />
-			<Add option="-Wfloat-equal" />
-			<Add option="-Winline" />
-			<Add option="-Wunreachable-code" />
-			<Add option="-Wmissing-include-dirs" />
-			<Add option="-Wswitch-enum" />
-			<Add option="-Wswitch-default" />
-			<Add option="-Wzero-as-null-pointer-constant" />
-			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-std=c++17" />
 		</Compiler>
-		<Unit filename="AD/AddingDoubling.h" />
-		<Unit filename="AD/Angles.h" />
-		<Unit filename="AD/DMmethod.h" />
-		<Unit filename="AD/Fresnel.h" />
-		<Unit filename="AD/IAD.h" />
-		<Unit filename="AD/LayerInit.h" />
-		<Unit filename="AD/NelderMead.h" />
-		<Unit filename="AD/Quadrature.h" />
-		<Unit filename="AD/RT.h" />
-		<Unit filename="AD/RedistributionFunction.h" />
-		<Unit filename="MC/BugerLambert.h" />
-		<Unit filename="MC/Detector.h" />
-		<Unit filename="MC/Fresnel.h" />
-		<Unit filename="MC/IMC.h" />
-		<Unit filename="MC/MCmultithread.h" />
-		<Unit filename="MC/Medium.h" />
-		<Unit filename="MC/MonteCarlo.h" />
-		<Unit filename="MC/Photon.h" />
-		<Unit filename="MC/Sample.h" />
-		<Unit filename="MC/Vector3.h" />
-		<Unit filename="Utils/Random.h" />
-		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_admc.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

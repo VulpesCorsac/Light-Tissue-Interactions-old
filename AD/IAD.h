@@ -1,6 +1,5 @@
 #pragma once
 
-/// TODO: delete if not needed
 //#include "NelderMead.h"
 #include "Quadrature.h"
 #include "RT.h"
@@ -8,14 +7,14 @@
 #include <utility>
 #include <stdexcept>
 
-template < typename T, size_t M >
+template <typename T, size_t M>
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
     T Rb1 = Rborder<T, M>(n_slab, n_slide_top);
     T Rb2 = Rborder<T, M>(n_slab, n_slide_bottom);
     return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
 }
 
-template < typename T, size_t M >
+template <typename T, size_t M>
 T funcToMinimize(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, T rmeas, T tmeas) {
     Quadrature<T,M> quadrature(n_slab);
     const auto v = quadrature.getV();
@@ -23,20 +22,18 @@ T funcToMinimize(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, T r
 
     T ts, rs;
     RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
-    /// TODO: WHAT IS THIS 1E-6?
+    // TODO: WHAT IS THIS 1E-6?
     constexpr auto eps = 1E-6;
     return fabs((rs - rmeas)/(rmeas + eps)) + fabs((ts - tmeas)/(tmeas + eps));
 }
 
-template < typename T, size_t M, size_t N, bool fix >
+template <typename T, size_t M, size_t N, bool fix>
 class Minimizable {
 public:
     virtual T funcToMinimize3args(Matrix<T, 1, N> vec) const = 0;
-
-    virtual ~Minimizable() {}
 };
 
-template < typename T, size_t M, size_t N, bool fix >
+template <typename T, size_t M, size_t N, bool fix>
 class func: public Minimizable<T, M, N, fix> {
 public:
     func(T fixed_param, T n_slab_new, T n_slide_top_new, T n_slide_bottom_new, T rmeas_new, T tmeas_new, T tcmeas_new) noexcept
@@ -80,7 +77,7 @@ protected:
     T tau, g;
 };
 
-template < typename T, size_t M, size_t N, bool fix >
+template <typename T, size_t M, size_t N, bool fix>
 T fixParam (T newG, T n_slab, T n_slide_top, T n_slide_bottom, T tcmeas) {
     if (fix) // fixed tau
         return tauCalc<T, M>(n_slab, n_slide_top, n_slide_bottom, tcmeas); // tau
@@ -88,7 +85,7 @@ T fixParam (T newG, T n_slab, T n_slide_top, T n_slide_bottom, T tcmeas) {
         return newG; // g
 }
 
-template < typename T, size_t gSize >
+template <typename T, size_t gSize>
 void constructGrid(Matrix<T, 1, gSize>& gridA, Matrix<T, 1, gSize>& gridT, Matrix<T, 1, gSize>& gridG) {
     T tMin = pow(2, -7);
     T tMax = pow(2, +7);
@@ -106,7 +103,7 @@ void constructGrid(Matrix<T, 1, gSize>& gridA, Matrix<T, 1, gSize>& gridT, Matri
     }
 }
 
-template < typename T, size_t M, size_t N, size_t gSize, bool fix >
+template <typename T, size_t M, size_t N, size_t gSize, bool fix>
 Matrix<T, gSize, gSize> distances(func<T, M, N, fix> f, Matrix<T, 1, gSize> gridA, Matrix<T, 1, gSize> gridT, Matrix<T, 1, gSize> gridG) {
     Matrix<T, gSize, gSize> dist;
 
@@ -118,7 +115,7 @@ Matrix<T, gSize, gSize> distances(func<T, M, N, fix> f, Matrix<T, 1, gSize> grid
         for (size_t j = 0; j < gSize; j++) {
             T ts0 = 0;
             T rs0 = 0;
-            /// TODO: WHAT IS THIS 1E-6?
+            // TODO: WHAT IS THIS 1E-6?
             constexpr auto eps = 1E-6;
             if (fix) { // tau fixed
                 RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslide_top(), f.getNslide_bottom(), vStart, wStart, rs0, ts0);
@@ -132,7 +129,7 @@ Matrix<T, gSize, gSize> distances(func<T, M, N, fix> f, Matrix<T, 1, gSize> grid
     return dist;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
+template <typename T, size_t M, size_t N, bool fix>
 void startingPoints(func<T, M, N, fix> f, T& aStart, T& tStart, T& gStart) {
     constexpr int gridSize = 15;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
@@ -141,7 +138,7 @@ void startingPoints(func<T, M, N, fix> f, T& aStart, T& tStart, T& gStart) {
     Matrix<T, gridSize, gridSize> distancesMatrix = distances<T, M, N, gridSize, fix>(f, gridA, gridT, gridG);
 
     int minRow, minCol;
-    /// TODO: Unused variable?
+    // TODO: Unused variable?
     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
 
     if (fix) {

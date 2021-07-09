@@ -7,15 +7,13 @@
 #include <iostream>
 #include <utility>
 
-/// TODO: add consts and other stuff
-
-template < typename T, size_t N >
-bool sortSimplex(const std::pair<Matrix<T,1,N>, T> &a, const std::pair<Matrix<T,1,N>, T> &b) {
+template <typename T, size_t N>
+bool sortSimplex(const std::pair<Matrix<T, 1, N>, T> &a, const std::pair<Matrix<T, 1, N>, T> &b) {
     return (a.second < b.second);
 }
 
-template < typename T, size_t N >
-int checkConvergence(const Matrix<T,1,N>& currentVec, const Matrix<T,1,N>& prevVec, const T& eps) {
+template <typename T, size_t N>
+int checkConvergence(const Matrix<T, 1, N>& currentVec, const Matrix<T, 1, N>& prevVec, const T& eps) {
     int checksum = 0;
         for (size_t m = 0; m < N; m++)
             if (std::abs(currentVec(m) - prevVec(m)) < eps)
@@ -23,23 +21,24 @@ int checkConvergence(const Matrix<T,1,N>& currentVec, const Matrix<T,1,N>& prevV
     return checksum;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
-void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters) {
-    Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
+template <typename T, size_t M, size_t N, bool fix>
+void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T, 1, N>& vecMin, T& fmin, int& iters) {
+    Matrix<T, 1, N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
     T gamma = 2.0;
+
 
     /// INITIALIZING STARTING SIMPLEX
     if (N == 3)
         vstart << astart, tstart, gstart;
     else if (N == 2)
         vstart << astart, gstart;
-    std::array<Matrix<T,1,N>, N> basis;
-    std::array<Matrix<T,1,N>, N+1> start;
-    std::array<std::pair<Matrix<T,1,N>, T>, N+1> simplex;
+    std::array<Matrix<T, 1, N>, N> basis;
+    std::array<Matrix<T, 1, N>, N+1> start;
+    std::array<std::pair<Matrix<T, 1, N>, T>, N+1> simplex;
     for (size_t i = 0; i < N; i++) {
-        basis[i] = Matrix<T,1,N>::Zero();
+        basis[i] = Matrix<T, 1, N>::Zero();
         basis[i](i) = 1.0;
     }
 
@@ -47,7 +46,6 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
     simplex[0].first = start[0];
     for (size_t i = 1; i < N + 1; i++) {
         T h = 0;
-        /// TODO: comparing floats with == is bad
         if (vstart(i-1) == 0)
             h = 0.0025;
         else
@@ -63,7 +61,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         T eps = 1e-5; // for checking convergence
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
-        for (size_t i = 0; i < N + 1; i++) {
+        for (size_t i = 0; i < N + 1; i++){
             simplex[i].second = f.funcToMinimize3args(simplex[i].first);
             // std::cout << simplex[i].first << " " << simplex[i].second << std::endl;
         }
@@ -73,8 +71,8 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         vw = simplex[N].first;
 
         /// FIND CENTER OF MASS OF EVERYTHING EXCEPT WORST VERTEX
-        vmid = Matrix<T,1,N>::Zero();
-        for (size_t i = 0; i < N; i++) {
+        vmid = Matrix<T, 1, N>::Zero();
+        for (size_t i = 0; i < N; i++){
             T sum = 0;
             for (size_t j = 0; j < N; j++)
                 sum += simplex[j].first(i);
@@ -85,7 +83,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         vr = (1 + alpha) * vmid - alpha*vw;
         /// IS VR A GOOD VERTEX?
         T fvr = f.funcToMinimize3args(vr);
-        if (fvr < f.funcToMinimize3args(vb)) {
+        if (fvr < f.funcToMinimize3args(vb)){
             /// EXPANSION
             ve = (1 - gamma)*vmid + gamma*vr;
             if (f.funcToMinimize3args(ve) < fvr) {
@@ -120,7 +118,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             vprevious = simplex[N].first;
             continue;
         } else if (f.funcToMinimize3args(vg) < fvr && fvr < f.funcToMinimize3args(vw)) {
-            Matrix<T,1,N> cache = vr;
+            Matrix<T, 1, N> cache = vr;
             vr = vw;
             vw = cache;
         }
@@ -158,7 +156,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
     fmin = simplex[0].second;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
+template <typename T, size_t M, size_t N, bool fix>
 void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom, T& aOut, T& tauOut, T& gOut) {
     T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     func<T, M, N, fix> toMinimize(fixedParam, n_slab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
@@ -167,28 +165,26 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom
     T astart, tstart, gstart;
     startingPoints(toMinimize, astart, tstart, gstart);
 
-    /*
     if (fix)
         std::cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << std::endl;
     else
         std::cout << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << std::endl;
-    //*/
 
     // std::cout << astart << " " << gstart << std::endl;
 
     int maxIter = 50;
 
     T fmin;
-    Matrix<T,1,N> vecMin;
+    Matrix<T, 1, N> vecMin;
 
     int itersMade;
 
     NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
 
-    // std::cout << "Iterations made " << itersMade << std::endl;
+    std::cout << "Iterations made " << itersMade << std::endl;
 
     if (itersMade == maxIter - 1) { //RESTART
-        // std::cout << "Restart" << std::endl;
+        std::cout << "Restart" << std::endl;
         if (fix) {
             astart = vecMin(0)+0.05;
             gstart = vecMin(1)-0.05;
@@ -197,16 +193,16 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom
             tstart = vecMin(1)+1;
         }
         NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
-        // std::cout << "Iterations made " << itersMade << std::endl;
+        std::cout << "Iterations made " << itersMade << std::endl;
     }
 
-    if (fix) {
-        // std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << std::endl;
+    if (fix){
+     //   std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << std::endl;
         aOut = vecMin(0);
         tauOut = fixedParam;
         gOut = vecMin(1);
     } else {
-        // std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<std::endl;
+    //    std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<std::endl;
         aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = fixedParam;

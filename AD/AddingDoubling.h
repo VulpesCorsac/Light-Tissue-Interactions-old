@@ -31,14 +31,12 @@ Matrix<T,M,M> star(const std::array<T,M>& v, const std::array<T,M>& w) {
 
 template < typename T, size_t M >
 void adding(Matrix<T,M,M> R01, Matrix<T,M,M> R12, Matrix<T,M,M>& R02, Matrix<T,M,M> T01, Matrix<T,M,M> T12, Matrix<T,M,M>& T02, std::array<T,M> v, std::array<T,M> w) {
-    /// TODO: cache evaluated expression
     T02 = T12 * (newE<T,M>(v, w) - R01 * star<T,M>(v, w) * R12).inverse() * T01;
     R02 = T12 * (newE<T,M>(v, w) - R01 * star<T,M>(v, w) * R12).inverse() * R01 * star<T,M>(v, w) * T12 + R12;
 }
 
 template < typename T, size_t M >
 void addingBounds(const Matrix<T,M,M>& R01, const Matrix<T,M,M>& R12, Matrix<T,M,M>& R02, const Matrix<T,M,M>& T01, const Matrix<T,M,M>& T12, Matrix<T,M,M>& T02) {
-    /// TODO: cache evaluated expression
     T02 = T12 * (E<T,M>() - R01 * R12).inverse() * T01;
     R02 = T12 * (E<T,M>() - R01 * R12).inverse() * R01 * T12 + R12;
 }
@@ -48,9 +46,7 @@ void doubling(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const std::ar
     const int n = n1<T,M>(a, tau, g, n_slab);
     auto myR = Rd1<T,M>(a, tau, g, n_slab, v, w);
     auto myT = Td1<T,M>(a, tau, g, n_slab, v, w);
-    /// TODO: maybe use different params for odd and even calls to avoid copying
     for (int i = 0; i < n; i ++) {
-        /// TODO: auto
         Matrix<T,M,M> oldT = myT;
         Matrix<T,M,M> oldR = myR;
         adding<T,M>(oldR, oldR, myR, oldT, oldT, myT, v, w);
