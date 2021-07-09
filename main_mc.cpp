@@ -61,13 +61,15 @@ int main(int argc, char **argv) {
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
     vector<Medium<T>> slides = {};
 
-    T aOutAD, gOut, tauOut;
+    T aOut, gOut, tauOut;
 
     T aStart = 0.833451;
     T gStart = 0.904972;
     T tStart = 0.997383;
 
-    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aStart, tStart, gStart, aOut, tauOut, gOut);
+    T checkConvEps = 1e-4;
+
+    IMC<T,Nz,Nr,detector,N,fix>(rsmeas, tsmeas, tcmeas, emptyTissue, std::move(slides), Nphotons, 4, emptyTissue.D, selectedRadius, SphereR, SphereT, distances, aStart, tStart, gStart, checkConvEps, aOut, tauOut, gOut);
 
     cout << aOut << " " << tauOut << " " << gOut << endl;
 

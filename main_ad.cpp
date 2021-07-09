@@ -15,13 +15,18 @@ int main (int argc, char **argv) {
     using T = float;
     const int M = 4;
 
-    T a = 0.9; // albedo
+    T a, tau, g, n_slab, n_slide_top, n_slide_bottom;
+
+/*    T a = 0.9; // albedo
     T tau = 1.0; // optical thickness
     T g = 0.9; // anisotropy
     //
     T n_slab = 1.5; // refraction index of sample
     T n_slide_top = 1.5; // refraction index of slide
-    T n_slide_bottom = 1.5;
+    T n_slide_bottom = 1.5;*/
+
+    std::cout << "Enter sample parameters: a tau g n_slab n_slide_top n_slide_bottom" << std::endl;
+    std::cin >> a >> tau >> g >> n_slab >> n_slide_top >> n_slide_bottom;
 
     Quadrature<T,M> quadrature(n_slab);
 
@@ -86,13 +91,13 @@ int main (int argc, char **argv) {
     std::cout << "T scattered = " << ts << std::endl;
     std::cout << "R scattered = " << rs << std::endl;
 
-    T tc = Tc<T,M>(1.0, n_slab, n_slide_top, n_slide_bottom);
+    T tc = Tc<T,M>(tau, n_slab, n_slide_top, n_slide_bottom);
     std::cout << "T collimated = " << tc << std::endl;
     //
 
-     T rsmeas = 0.0729565;
-     T tsmeas = 0.708979;
-     T tcmeas = 0.34;
+     T rsmeas = rs;
+     T tsmeas = ts;
+     T tcmeas = tc;
 
      T aOut, tauOut, gOut;
 

@@ -93,13 +93,13 @@ void constructGrid(Matrix<T, 1, gSize>& gridA, Matrix<T, 1, gSize>& gridT, Matri
         T j = i;
         T x = j / (gSize - 1.0);
         if (x < 0.25)
-            gridA(i) = 1 - x;
+            gridA(i) = 0.9999*(1 - x)+0.00001;
         else if (x > 0.75)
-            gridA(i) = 1 - x;
+            gridA(i) = 0.9999*(1 - x)+0.00001;
         else
-            gridA(i) = sqr(1 - x);
+            gridA(i) = 0.9999*sqr(1 - x)+0.00001;
         gridT(i) = exp(tMin + (tMax - tMin) * x);
-        gridG(i) = 0.9999 * i / (gSize - 1);
+        gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;
     }
 }
 
@@ -131,15 +131,20 @@ Matrix<T, gSize, gSize> distances(func<T, M, N, fix> f, Matrix<T, 1, gSize> grid
 
 template <typename T, size_t M, size_t N, bool fix>
 void startingPoints(func<T, M, N, fix> f, T& aStart, T& tStart, T& gStart) {
-    constexpr int gridSize = 15;
+    constexpr int gridSize = 20;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
 
     constructGrid<T,gridSize>(gridA, gridT, gridG);
     Matrix<T, gridSize, gridSize> distancesMatrix = distances<T, M, N, gridSize, fix>(f, gridA, gridT, gridG);
 
+ //   std::cout << distancesMatrix << std::endl;
+
     int minRow, minCol;
     // TODO: Unused variable?
     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
+ /*   std::cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << std::endl;
+    std::cout << gridA << std::endl;
+    std::cout << gridG << std::endl;*/
 
     if (fix) {
         aStart = gridA(minRow);
