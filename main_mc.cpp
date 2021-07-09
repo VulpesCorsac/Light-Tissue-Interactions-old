@@ -25,13 +25,12 @@ int main(int argc, char **argv) {
     constexpr int Nphotons = 1e6;
     constexpr T selectedRadius = 10e-2;
 
-    // auto tissue = Medium<T>::fromCoeffs(1.5, 100, 900, 1e-3, 0.9);
+//    auto tissue = Medium<T>::fromCoeffs(1.5, 100, 900, 1e-3, 0.9);
     auto tissue = Medium<T>::fromAlbedo(1.5, 0.9, 1.0, 1e-3, 0.9);
 
-    // Medium<T> tissue(1.5, 100, 900, 1e-3, 0.9);
-    /// TODO: unused variables
-    auto glass1 = Medium<T>::fromCoeffs(1.5 , 0, 0, 1e-3, 0);
-    auto glass2 = Medium<T>::fromCoeffs(1.65, 0, 0, 1e-3, 0);
+ //   Medium<T> tissue(1.5, 100, 900, 1e-3, 0.9);
+    auto glass1 = Medium<T>::fromCoeffs(1.5, 0.0, 0.0, 1e-3, 0.0);
+    auto glass2 = Medium<T>::fromCoeffs(1.65,    0, 0, 1e-3,   0);
 
     vector<Medium<T>> layers = {tissue};
     Sample<T> mySample(layers, 1.0, 1.0);
@@ -45,16 +44,15 @@ int main(int argc, char **argv) {
     distances.minDist = 0.0;
     distances.stepSize = 0.02; // please, enter correct step for your borders
 
-    /*
-    MonteCarlo<T, Nz, Nr, detector> mc(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances);
+  /*  MonteCarlo<T, Nz, Nr, detector> mc(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances);
     MCresults<T,Nz,Nr,detector> myResults;
     mc.Calculate(myResults);
     cout << myResults << endl;
-    //*/
+*/
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, 4, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
-    //
+//
 
     auto rsmeas = myResultsMT.detectedR;
     auto tsmeas = myResultsMT.detectedT;
@@ -63,7 +61,7 @@ int main(int argc, char **argv) {
     auto emptyTissue = Medium<T>::fromAlbedo(1.5, 0.0, 0.0, 1e-3, 0.0);
     vector<Medium<T>> slides = {};
 
-    T aOut, gOut, tauOut;
+    T aOutAD, gOut, tauOut;
 
     T aStart = 0.833451;
     T gStart = 0.904972;
@@ -73,9 +71,8 @@ int main(int argc, char **argv) {
 
     cout << aOut << " " << tauOut << " " << gOut << endl;
 
-    /*
-    evaluateThresholds();
-    // return 0;
+ /*   evaluateThresholds();
+//    return 0;
 
     TestsMC test;
     constexpr int runs = 1;
@@ -94,8 +91,7 @@ int main(int argc, char **argv) {
     for (int i = 0; i < runs; ++i) {
         cout << "MultiLayerAbsorptionScattering: " << i+1 << endl;
         test.MultiLayerAbsorptionScattering();
-    }
-    //*/
+    }//*/
 
     return 0;
 }
