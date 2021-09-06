@@ -12,6 +12,11 @@ inline T sqr(T x) noexcept {
 }
 
 template < typename T >
-T degrees_to_radians(T degrees) {
+T degrees_to_radians(T degrees) noexcept {
     return degrees * M_PI / 180;
+}
+
+template < typename Container >
+int isize(const Container& c) noexcept {
+    return static_cast<int>(c.size());
 }

@@ -14,19 +14,19 @@ bool sortSimplex(const std::pair<Matrix<T,1,N>, T> &a, const std::pair<Matrix<T,
 
 template < typename T, size_t N >
 int checkConvergence(const Matrix<T,1,N>& currentVec, const Matrix<T,1,N>& prevVec, const T& eps) {
-    int checksum = 0;
     if (currentVec == prevVec)
         return 0;
-    for (size_t m = 0; m < N; m++){
+
+    int checksum = 0;
+    for (size_t m = 0; m < N; m++)
         if (std::abs(currentVec(m) - prevVec(m)) < eps)
              checksum += 1;
-    }
     return checksum;
 }
 
 template < typename T >
 T a2aComp(T a) {
-    return (2*a - 1)/(a * (1 - a));
+    return (2 * a - 1) / (a * (1 - a));
 }
 
 template < typename T >
@@ -37,7 +37,7 @@ T tau2tauComp(T tau) {
 template < typename T >
 T g2gComp(T g) {
     return (g /(1 - std::abs(g)));
-//    return (2*g - 1)/(g * (1 - g));
+    // return (2*g - 1)/(g * (1 - g));
 }
 
 template < typename T >
@@ -53,9 +53,10 @@ T tauComp2tau(T tauC) {
 template < typename T >
 T gComp2g(T gC) {
     return (gC/(1 + std::abs(gC)));
- //   return (std::sqrt(sqr(gC) + 4) + gC - 2) / (2 * gC);
+    // return (std::sqrt(sqr(gC) + 4) + gC - 2) / (2 * gC);
 }
 
+/// TODO: use some other thing, that bool for fix
 template < typename T, size_t N, bool fix >
 Matrix<T,1,N> v2vComp (Matrix<T,1,N> v) {
     Matrix<T,1,N> vComp;
@@ -70,6 +71,7 @@ Matrix<T,1,N> v2vComp (Matrix<T,1,N> v) {
     return vComp;
 }
 
+/// TODO: use some other thing, that bool for fix
 template < typename T, size_t N, bool fix >
 Matrix<T,1,N> vComp2v (Matrix<T,1,N> vComp) {
     Matrix<T,1,N> v;
@@ -84,6 +86,7 @@ Matrix<T,1,N> vComp2v (Matrix<T,1,N> vComp) {
     return v;
 }
 
+/// TODO: use some other thing, that bool for fix
 template <typename T, size_t M, size_t N, bool fix>
 void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters) {
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
@@ -128,7 +131,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
-        T eps = 1e-5; // for checking convergence
+        T eps = 1E-5; // for checking convergence
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
@@ -260,6 +263,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
     fmin = simplex[0].second;
 }
 
+/// TODO: use some other thing, that bool for fix
 template <typename T, size_t M, size_t N, bool fix>
 void IAD(T rsmeas, T tsmeas, T tcmeas, T n_slab, T n_slide_top, T n_slide_bottom, T& aOut, T& tauOut, T& gOut) {
     T fixedParam = fixParam<T,M,N,fix>(0.0, n_slab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g

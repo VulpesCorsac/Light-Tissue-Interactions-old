@@ -40,13 +40,13 @@ protected:
  ******************/
 
 template < typename T, size_t M >
-Quadrature<T,M>::Quadrature(T n_slab)  {
+Quadrature<T,M>::Quadrature(T n_slab) {
     setValues(n_slab);
     calculateQuadrature();
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::setValues(const T& n_slab)  {
+void Quadrature<T,M>::setValues(const T& n_slab) {
     vc = Vc(n_slab);
 }
 
@@ -70,7 +70,7 @@ std::array<T,M> Quadrature<T,M>::getW() const  {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::calculateQuadrature()  {
+void Quadrature<T,M>::calculateQuadrature() {
     gaussQuadrature();
     radauQuadrature();
     mergeQuadratures();
@@ -84,7 +84,7 @@ T Quadrature<T,M>::dLegendre(int n, T x) const  {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::gaussQuadrature()  {
+void Quadrature<T,M>::gaussQuadrature() {
     using namespace std;
     const int n = M/2;
     for (int i = 1; i <= n; i++) {
@@ -108,7 +108,7 @@ void Quadrature<T,M>::gaussQuadrature()  {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::radauQuadrature()  {
+void Quadrature<T,M>::radauQuadrature() {
     if (M % 2)
         throw std::invalid_argument("Quadrature should take even M as parameter");
     if (M < 4)
@@ -170,7 +170,7 @@ void Quadrature<T,M>::radauQuadrature()  {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::mergeQuadratures ()  {
+void Quadrature<T,M>::mergeQuadratures () {
     // v = v_g;
     // w = w_g;
     // v.insert(v.end(), v_r.begin(), v_r.end());

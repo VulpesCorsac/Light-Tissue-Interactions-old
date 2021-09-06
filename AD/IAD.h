@@ -9,10 +9,11 @@
 
 template < typename T, size_t M >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
-    T Rb1 = Rborder<T,M>(n_slab, n_slide_top);
-    T Rb2 = Rborder<T,M>(n_slab, n_slide_bottom);
-    /// TODO: cache
-    return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
+    const T Rb1 = Rborder<T,M>(n_slab, n_slide_top);
+    const T Rb2 = Rborder<T,M>(n_slab, n_slide_bottom);
+    const auto cached1 = Rb1 * Rb2;
+    const auto cached2 = cached1 - Rb1 - Rb2 + 1;
+    return log((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol));
 }
 
 template < typename T, size_t M >
@@ -28,6 +29,7 @@ T funcToMinimize(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, T r
     return fabs((rs - rmeas)/(rmeas + eps)) + fabs((ts - tmeas)/(tmeas + eps));
 }
 
+/// TODO: use some other thing, that bool for fix
 template < typename T, size_t M, size_t N, bool fix >
 class Minimizable {
 public:
@@ -102,12 +104,14 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
         gridT(i) = exp(tMin + (tMax - tMin) * x);
         gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;
 
-  /*      if (x < 0.25)
+        /*
+        if (x < 0.25)
             gridG(i) = 0.9999*(1 - x)+0.00001;
         else if (x > 0.75)
             gridG(i) = 0.9999*(1 - x)+0.00001;
         else
-            gridG(i) = 0.9999*sqr(1 - x)+0.00001;*/
+            gridG(i) = 0.9999*sqr(1 - x)+0.00001;
+        //*/
     }
 }
 

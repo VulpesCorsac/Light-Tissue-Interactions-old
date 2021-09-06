@@ -29,18 +29,18 @@ public:
         dPort2(new_sphere.dPort2) {} // constructor from mother-sphere with distance
     ~IntegratingSphere() noexcept = default;
 
-    T getDistance() { return distance; }
-    T getDSphere() { return dSphere; }
-    T getDPort1() { return dPort1; }
-    T getDPort2() { return dPort2; }
+    T getDistance() const noexcept { return distance; }
+    T getDSphere() const noexcept { return dSphere; }
+    T getDPort1() const noexcept { return dPort1; }
+    T getDPort2() const noexcept { return dPort2; }
 
-    T totalLight = 0.0;
+    T totalLight = 0;
 
 protected:
-    T distance = 0.0;
-    T dSphere = 0.0;
-    T dPort1 = 0.0;
-    T dPort2 = 0.0;
+    T distance = 0;
+    T dSphere  = 0;
+    T dPort1   = 0;
+    T dPort2   = 0;
 };
 
 template < typename T >
