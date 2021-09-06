@@ -1,0 +1,158 @@
+
+-------------- Build: Release in ADMC (compiler: GNU GCC Compiler)---------------
+
+g++.exe -Wall -std=c++17 -O2 -std=gnu++17 -ggdb -static-libgcc -static-libstdc++ -Iinclude -c C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp -o obj\Release\main_admc.o
+g++.exe  -o bin\Release\ADMC.exe obj\Release\main_admc.o  -static-libstdc++ -static-libgcc -static -s  
+In file included from C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:3,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:9,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:19:
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In instantiation of 'void startingPoints(func<T, M, N, fix>, T&, T&, T&) [with T = float; long long unsigned int M = 4; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:265:19:   required from 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 4; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\Tests/TestIADStandalone.h:37:99:   required from here
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:145:7: warning: unused variable 'mins' [-Wunused-variable]
+     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
+       ^~~~
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In instantiation of 'void startingPoints(func<T, M, N, fix>, T&, T&, T&) [with T = float; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:265:19:   required from 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\Tests/TestIADStandalone.h:63:99:   required from here
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:145:7: warning: unused variable 'mins' [-Wunused-variable]
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In instantiation of 'void startingPoints(func<T, M, N, fix>, T&, T&, T&) [with T = float; long long unsigned int M = 16; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:265:19:   required from 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 16; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\Tests/TestIADStandalone.h:89:99:   required from here
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:145:7: warning: unused variable 'mins' [-Wunused-variable]
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In instantiation of 'void startingPoints(func<T, M, N, fix>, T&, T&, T&) [with T = float; long long unsigned int M = 8; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:265:19:   required from 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 8; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\Tests/TestIADStandalone.h:141:99:   required from here
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:145:7: warning: unused variable 'mins' [-Wunused-variable]
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:18:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h: In instantiation of 'void MCmultithread(const Sample<T>&, int, int, T, T, MCresults<T, Nz, Nr, detector>&, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:51:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h:35:31: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::pair<double, double>, std::allocator<std::pair<double, double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+             for (int i = 0; i < finalResults.detectedR.size(); i++) {
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h:53:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::pair<double, double>, std::allocator<std::pair<double, double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < finalResults.detectedR.size(); i++) {
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:14:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h: In instantiation of 'std::ostream& operator<<(std::ostream&, const MCresults<T, Nz, Nr, detector>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; std::ostream = std::basic_ostream<char>]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:52:10:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:54:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::pair<double, double>, std::allocator<std::pair<double, double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < results.detectedR.size(); i++)
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:57:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::pair<double, double>, std::allocator<std::pair<double, double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < results.detectedT.size(); i++)
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:14:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h: In instantiation of 'void MonteCarlo<T, Nz, Nr, detector>::Calculate(MCresults<T, Nz, Nr, detector>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h:22:36:   required from 'void MCmultithread(const Sample<T>&, int, int, T, T, MCresults<T, Nz, Nr, detector>&, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:51:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:712:27: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<IntegratingSphere<double>, std::allocator<IntegratingSphere<double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+         for (int i = 0; i < SpheresArrayR.size(); i++) {
+In file included from C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:3,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:9,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:19:
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In instantiation of 'void startingPoints(func<T, M, N, fix>, T&, T&, T&) [with T = double; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:265:19:   required from 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = double; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:170:23:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:145:7: warning: unused variable 'mins' [-Wunused-variable]
+     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
+       ^~~~
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:19:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h: In instantiation of 'funcMC<T, Nz, Nr, detector, N, fix>::funcMC(T, const Medium<T>&, const std::vector<Medium<T> >&, int, int, T, T, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>, const std::vector<std::pair<_FIter, _FIter> >&, const std::vector<std::pair<_FIter, _FIter> >&, const T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:367:36:   required from 'void IMC(const std::vector<std::pair<_FIter, _FIter> >&, const std::vector<std::pair<_FIter, _FIter> >&, T, const Medium<T>&, const std::vector<Medium<T> >&, int, int, T, T, const IntegratingSphere<T>&, const IntegratingSphere<T>&, const DetectorDistances<T>&, const T&, const T&, const T&, const T&, T&, T&, T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:175:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:109:40: warning: 'funcMC<double, 1000, 10000, true, 2, true>::tmeas' will be initialized after [-Wreorder]
+     std::vector<std::pair<T,T>> rmeas, tmeas;
+                                        ^~~~~
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:106:13: warning:   'double funcMC<double, 1000, 10000, true, 2, true>::tcmeas' [-Wreorder]
+     T z, r, tcmeas;
+             ^~~~~~
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:52:5: warning:   when initialized here [-Wreorder]
+     funcMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
+     ^~~~~~
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h: In instantiation of 'void NelderMeadMin(funcMC<T, Nz, Nr, detector, N, fix>, int, T, T, T, Eigen::Matrix<T, 1, N>&, T&, int&, const T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:384:42:   required from 'void IMC(const std::vector<std::pair<_FIter, _FIter> >&, const std::vector<std::pair<_FIter, _FIter> >&, T, const Medium<T>&, const std::vector<Medium<T> >&, int, int, T, T, const IntegratingSphere<T>&, const IntegratingSphere<T>&, const DetectorDistances<T>&, const T&, const T&, const T&, const T&, T&, T&, T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:175:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:321:11: warning: unused variable 'fve' [-Wunused-variable]
+         T fve = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(ve));
+           ^~~
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h: In instantiation of 'T funcToMinimizeMC(const T&, const T&, const T&, const Medium<T>&, const std::vector<Medium<T> >&, int, int, T, T, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>, const std::vector<std::pair<_FIter, _FIter> >&, const std::vector<std::pair<_FIter, _FIter> >&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:75:58:   required from 'T funcMC<T, Nz, Nr, detector, N, fix>::funcToMinimize3argsMC(Eigen::Matrix<T, 1, N>) const [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:239:31:   required from 'void NelderMeadMin(funcMC<T, Nz, Nr, detector, N, fix>, int, T, T, T, Eigen::Matrix<T, 1, N>&, T&, int&, const T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:384:42:   required from 'void IMC(const std::vector<std::pair<_FIter, _FIter> >&, const std::vector<std::pair<_FIter, _FIter> >&, T, const Medium<T>&, const std::vector<Medium<T> >&, int, int, T, T, const IntegratingSphere<T>&, const IntegratingSphere<T>&, const DetectorDistances<T>&, const T&, const T&, const T&, const T&, T&, T&, T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:175:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:38:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<std::pair<double, double>, std::allocator<std::pair<double, double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < rMC.size(); i++)
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:14:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h: In instantiation of 'void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereR(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:338:5:   required from 'void MonteCarlo<T, Nz, Nr, detector>::FirstReflection(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:666:5:   required from 'void MonteCarlo<T, Nz, Nr, detector>::Simulation(Photon<T>&, const int&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:690:9:   required from 'void MonteCarlo<T, Nz, Nr, detector>::Calculate(MCresults<T, Nz, Nr, detector>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h:22:36:   required from 'void MCmultithread(const Sample<T>&, int, int, T, T, MCresults<T, Nz, Nr, detector>&, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:51:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:218:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<IntegratingSphere<double>, std::allocator<IntegratingSphere<double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < SpheresArrayR.size(); i++) {
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h: In instantiation of 'void MonteCarlo<T, Nz, Nr, detector>::PhotonDetectionSphereT(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]':
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:481:5:   required from 'void MonteCarlo<T, Nz, Nr, detector>::RecordT(Photon<T>&, const T&, const T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:630:9:   required from 'void MonteCarlo<T, Nz, Nr, detector>::CrossDownOrNot(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:570:60:   required from 'void MonteCarlo<T, Nz, Nr, detector>::CrossOrNot(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:368:9:   required from 'void MonteCarlo<T, Nz, Nr, detector>::HopInGlass(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:348:9:   required from 'void MonteCarlo<T, Nz, Nr, detector>::HopDropSpin(Photon<T>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:673:8:   required from 'void MonteCarlo<T, Nz, Nr, detector>::Simulation(Photon<T>&, const int&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:690:9:   required from 'void MonteCarlo<T, Nz, Nr, detector>::Calculate(MCresults<T, Nz, Nr, detector>&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MCmultithread.h:22:36:   required from 'void MCmultithread(const Sample<T>&, int, int, T, T, MCresults<T, Nz, Nr, detector>&, const IntegratingSphere<T>&, const IntegratingSphere<T>&, DetectorDistances<T>) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:51:36:   required from 'void calcAll(T, T, T, T, T, T, T, bool, int, double) [with T = double; long long unsigned int N = 2; bool fix = true; long long unsigned int M = 32; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true]'
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:232:109:   required from here
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:277:23: warning: comparison of integer expressions of different signedness: 'int' and 'std::vector<IntegratingSphere<double>, std::allocator<IntegratingSphere<double> > >::size_type' {aka 'long long unsigned int'} [-Wsign-compare]
+     for (int i = 0; i < SpheresArrayT.size(); i++) {
+In file included from C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen/Eigen/Core:280,
+                 from C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen/Eigen/Dense:1,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/MonteCarlo.h:12,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:14:
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseStorage.h: In function 'void NelderMeadMin(funcMC<T, Nz, Nr, detector, N, fix>, int, T, T, T, Eigen::Matrix<T, 1, N>&, T&, int&, const T&) [with T = double; long long unsigned int Nz = 1000; long long unsigned int Nr = 10000; bool detector = true; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseStorage.h:194:66: warning: 've' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     DenseStorage(const DenseStorage& other) : m_data(other.m_data) {
+                                                                  ^
+In file included from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:19:
+C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:131:49: note: 've' was declared here
+     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
+                                                 ^~
+In file included from C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/NelderMead.h:3,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\MC/IMC.h:9,
+                 from C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\main_admc.cpp:19:
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In function 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 4; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:38:7: warning: 'toMinimize.func<float, 4, 2, true>::g' is used uninitialized in this function [-Wuninitialized]
+ class func: public Minimizable<T,M,N,fix> {
+       ^~~~
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In function 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = float; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:38:7: warning: 'toMinimize.func<float, 32, 2, true>::g' is used uninitialized in this function [-Wuninitialized]
+ class func: public Minimizable<T,M,N,fix> {
+       ^~~~
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In static member function 'static void TestsIAD::Test3()':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:38:7: warning: 'toMinimize.func<float, 16, 2, true>::g' is used uninitialized in this function [-Wuninitialized]
+ class func: public Minimizable<T,M,N,fix> {
+       ^~~~
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In static member function 'static void TestsIAD::Test5()':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:38:7: warning: 'toMinimize.func<float, 8, 2, true>::g' is used uninitialized in this function [-Wuninitialized]
+ class func: public Minimizable<T,M,N,fix> {
+       ^~~~
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h: In function 'void IAD(T, T, T, T, T, T, T&, T&, T&) [with T = double; long long unsigned int M = 32; long long unsigned int N = 2; bool fix = true]':
+C:/Users/tatki/Documents/PHOTONICS/Biophotonics/Light-Tissue-Interactions/AD/IAD.h:38:7: warning: 'toMinimize.func<double, 32, 2, true>::g' is used uninitialized in this function [-Wuninitialized]
+ class func: public Minimizable<T,M,N,fix> {
+       ^~~~
+Output file is bin\Release\ADMC.exe with size 1.15 MB
+Process terminated with status 0 (14 minute(s), 18 second(s))
+0 error(s), 81 warning(s) (14 minute(s), 18 second(s))
+ 
+
+-------------- Run: Release in ADMC (compiler: GNU GCC Compiler)---------------
+
+Checking for existence: C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\bin\Release\ADMC.exe
+Set variable: PATH=.;C:\Program Files\CodeBlocks\MinGW\bin;C:\Program Files\CodeBlocks\MinGW;C:\Windows\System32;C:\Windows;C:\Windows\System32\wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\Wolfram Research\WolframScript;C:\Program Files\Git\cmd;C:\Python27;C:\Users\tatki\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Dr. Memory\bin
+Executing: "C:\Program Files\CodeBlocks/cb_console_runner.exe" "C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\bin\Release\ADMC.exe"  (in C:\Users\tatki\Documents\PHOTONICS\Biophotonics\Light-Tissue-Interactions\.)
+Process terminated with status -1073741510 (1 minute(s), 27 second(s))
+ 

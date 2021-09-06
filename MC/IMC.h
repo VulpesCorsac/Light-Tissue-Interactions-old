@@ -36,7 +36,7 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
 
     constexpr auto eps = 1E-6;
     for (int i = 0; i < rMC.size(); i++)
-        func2min += fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
+        func2min += std::fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
     return func2min;
 }
 

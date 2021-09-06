@@ -5,7 +5,7 @@
 template < typename T >
 class Sample {
 public:
-    Sample() noexcept = delete;
+    Sample() noexcept = default;
     Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, const T& vacLower);
     ~Sample() noexcept = default;
 

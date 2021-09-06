@@ -101,6 +101,13 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
             gridA(i) = 0.9999*sqr(1 - x)+0.00001;
         gridT(i) = exp(tMin + (tMax - tMin) * x);
         gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;
+
+  /*      if (x < 0.25)
+            gridG(i) = 0.9999*(1 - x)+0.00001;
+        else if (x > 0.75)
+            gridG(i) = 0.9999*(1 - x)+0.00001;
+        else
+            gridG(i) = 0.9999*sqr(1 - x)+0.00001;*/
     }
 }
 

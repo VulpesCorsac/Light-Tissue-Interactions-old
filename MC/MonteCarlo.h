@@ -88,7 +88,7 @@ protected:
     const T threshold;
 
     bool debug = 0;
-    int debugPhoton = 4;
+    int debugPhoton = 2;
 
     Matrix<T,Dynamic,Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);
     Matrix<T,1,Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
@@ -172,12 +172,16 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
     using namespace std;
-    int length;
+    double length;
     if (distances.maxDist == distances.minDist)
         length = 1;
-    else
-        length = (distances.maxDist - distances.minDist) / distances.stepSize + 1;
-    for(int i = 0; i < length; i++) {
+    else {
+        length = ((T(distances.maxDist) - T(distances.minDist)) / T(distances.stepSize)) * 1.0 + 1;
+    }
+    length = length + 0.5 - (length<0);
+    int nLength = (int)length;
+
+    for(int i = 0; i < nLength; i++) {
         if (detector == 1) {
             SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.minDist + i*distances.stepSize));
             SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.minDist + i*distances.stepSize));
@@ -192,7 +196,7 @@ void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photon) {
-    for (int i = 0; i < SpheresArrayR.size(); i++) {
+/*    for (int i = 0; i < SpheresArrayR.size(); i++) {
         T step = abs((SpheresArrayR[i].getDistance() - abs(exit_photon.coordinate.z))/ exit_photon.direction.z);
         exit_photon.coordinate += step * exit_photon.direction;
         if (debug && exit_photon.number == debugPhoton)
@@ -211,13 +215,73 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
             if (debug && exit_photon.number == debugPhoton)
                 std::cout << exit_photon << std::endl;
         } else
-            continue;
+            break;
+    }*/
+
+    ///weird thorlabs sphere
+  //  std::cout << SpheresArrayR.size() << std::endl;
+    for (int i = 0; i < SpheresArrayR.size(); i++) {
+        T step = abs((SpheresArrayR[i].getDistance() - abs(exit_photon.coordinate.z))/ exit_photon.direction.z);
+        exit_photon.coordinate += step * exit_photon.direction;
+        if (debug && exit_photon.number == debugPhoton)
+            std::cout << "to sphere \n" << exit_photon << std::endl;
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) { // gets inside tunnel
+            T stepDarkTunnel = abs(0.003 / exit_photon.direction.z); // black part of tunnel is 3mm long
+            exit_photon.coordinate += stepDarkTunnel * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << "in tunnel \n"<< exit_photon << std::endl;
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
+                T stepLightTunnel = abs(0.009 / exit_photon.direction.z);
+                exit_photon.coordinate += stepLightTunnel * exit_photon.direction;
+                if (debug && exit_photon.number == debugPhoton)
+                    std::cout << "in light tunnel \n"<< exit_photon << std::endl;
+                if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
+                    T stepSphere = abs(mainSphereR.getDSphere() / exit_photon.direction.z);
+                    exit_photon.coordinate += stepSphere * exit_photon.direction;
+                    if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() / 2)) {
+                        SpheresArrayR[i].totalLight += exit_photon.weight;
+                        if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "caught by R sphere \n" << exit_photon << std::endl;
+                        exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                        exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                        exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                    } else {
+                        T stepLightTunnel2 = abs(0.009 / exit_photon.direction.z);
+                        exit_photon.coordinate += stepLightTunnel2 * exit_photon.direction;
+                        if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "in light tunnel2 \n"<< exit_photon << std::endl;
+                        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() / 2)) {
+                            SpheresArrayR[i].totalLight += 0.3 * exit_photon.weight;
+                            if (debug && exit_photon.number == debugPhoton)
+                                std::cout << "caught by tunnel \n" << exit_photon << std::endl;
+                            exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel2 * exit_photon.direction;
+                        } else {
+                            exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel2 * exit_photon.direction;
+                        }
+                    }
+                } else {
+                    SpheresArrayR[i].totalLight += 0.3 * exit_photon.weight;
+                    if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "caught by tunnel \n" << exit_photon << std::endl;
+                    exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                    exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                }
+            } else
+                exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+        } else
+            break;
     }
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photon) {
-    for (int i = 0; i < SpheresArrayT.size(); i++) {
+/*    for (int i = 0; i < SpheresArrayT.size(); i++) {
         T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
          exit_photon.coordinate += step * exit_photon.direction;
          if (debug && exit_photon.number == debugPhoton)
@@ -235,6 +299,65 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
             exit_photon.coordinate -= stepSphere * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
                 std::cout << exit_photon << std::endl;
+        } else
+            break;
+    }*/
+
+    ///weird thorlabs spheres with long tunnel
+    for (int i = 0; i < SpheresArrayT.size(); i++) {
+        T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
+        exit_photon.coordinate += step * exit_photon.direction;
+        if (debug && exit_photon.number == debugPhoton)
+            std::cout << "to sphere \n" << exit_photon << std::endl;
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) { // gets inside tunnel
+            T stepDarkTunnel = abs(0.003 / exit_photon.direction.z); // black part of tunnel is 3mm long
+            exit_photon.coordinate += stepDarkTunnel * exit_photon.direction;
+            if (debug && exit_photon.number == debugPhoton)
+                std::cout << "in tunnel \n"<< exit_photon << std::endl;
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
+                T stepLightTunnel = abs(0.009 / exit_photon.direction.z);
+                exit_photon.coordinate += stepLightTunnel * exit_photon.direction;
+                if (debug && exit_photon.number == debugPhoton)
+                    std::cout << "in light tunnel \n"<< exit_photon << std::endl;
+                if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
+                    T stepSphere = abs(mainSphereT.getDSphere() / exit_photon.direction.z);
+                    exit_photon.coordinate += stepSphere * exit_photon.direction;
+                    if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
+                        SpheresArrayT[i].totalLight += exit_photon.weight;
+                        if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "caught by R sphere \n" << exit_photon << std::endl;
+                        exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                        exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                        exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                    } else {
+                        T stepLightTunnel2 = abs(0.009 / exit_photon.direction.z);
+                        exit_photon.coordinate += stepLightTunnel2 * exit_photon.direction;
+                        if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "in light tunnel2 \n"<< exit_photon << std::endl;
+                        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
+                            SpheresArrayT[i].totalLight += 0.3 * exit_photon.weight;
+                            if (debug && exit_photon.number == debugPhoton)
+                                std::cout << "caught by tunnel \n" << exit_photon << std::endl;
+                            exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel2 * exit_photon.direction;
+                        } else {
+                            exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                            exit_photon.coordinate -= stepSphere * exit_photon.direction;
+                            exit_photon.coordinate -= stepLightTunnel2 * exit_photon.direction;
+                        }
+                    }
+                } else {
+                    SpheresArrayT[i].totalLight += 0.3 * exit_photon.weight;
+                    if (debug && exit_photon.number == debugPhoton)
+                            std::cout << "caught by tunnel \n" << exit_photon << std::endl;
+                    exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
+                    exit_photon.coordinate -= stepLightTunnel * exit_photon.direction;
+                }
+            } else
+                exit_photon.coordinate -= stepDarkTunnel * exit_photon.direction;
         } else
             break;
     }

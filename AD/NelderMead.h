@@ -15,9 +15,12 @@ bool sortSimplex(const std::pair<Matrix<T,1,N>, T> &a, const std::pair<Matrix<T,
 template < typename T, size_t N >
 int checkConvergence(const Matrix<T,1,N>& currentVec, const Matrix<T,1,N>& prevVec, const T& eps) {
     int checksum = 0;
-        for (size_t m = 0; m < N; m++)
-            if (std::abs(currentVec(m) - prevVec(m)) < eps)
-                checksum += 1;
+    if (currentVec == prevVec)
+        return 0;
+    for (size_t m = 0; m < N; m++){
+        if (std::abs(currentVec(m) - prevVec(m)) < eps)
+             checksum += 1;
+    }
     return checksum;
 }
 
@@ -34,6 +37,7 @@ T tau2tauComp(T tau) {
 template < typename T >
 T g2gComp(T g) {
     return (g /(1 - std::abs(g)));
+//    return (2*g - 1)/(g * (1 - g));
 }
 
 template < typename T >
@@ -49,6 +53,7 @@ T tauComp2tau(T tauC) {
 template < typename T >
 T gComp2g(T gC) {
     return (gC/(1 + std::abs(gC)));
+ //   return (std::sqrt(sqr(gC) + 4) + gC - 2) / (2 * gC);
 }
 
 template < typename T, size_t N, bool fix >
