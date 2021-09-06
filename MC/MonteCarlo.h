@@ -148,7 +148,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , dz(new_z / Nz)
     , dr(new_r / Nr)
     , chance(0.1)
-    , threshold(1e-4)
+    , threshold(1E-4)
     , mainSphereR(new_detectorR)
     , mainSphereT(new_detectorT)
     , distances(new_dist) {
@@ -162,7 +162,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , dz(new_z / Nz)
     , dr(new_r / Nr)
     , chance(0.1)
-    , threshold(1e-4)
+    , threshold(1E-4)
     , mainFiberR(new_detectorR)
     , mainFiberT(new_detectorT)
     , distances(new_dist) {
@@ -394,7 +394,7 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
 
     photon.weight *= (1 - Ri);
     photon.direction.z = CosT(ni, nt, cosi);
-    // photon.coordinate.z += 1e-9; // crook
+    // photon.coordinate.z += 1E-9; // crook
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
@@ -591,7 +591,7 @@ void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
     T uyy = +sinHG * (uy * uz * cos(phi) + ux * sin(phi)) / temp + uy * cosHG;
     T uzz = -sinHG *            cos(phi)                  * temp + uz * cosHG;
 
-    if (abs(abs(uz) - 1)  < 1e-6) {
+    if (abs(abs(uz) - 1)  < 1E-6) {
         uxx = sinHG * cos(phi);
         uyy = sinHG * sin(phi);
         uzz = uz >= 0 ? cosHG : -cosHG;

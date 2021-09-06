@@ -1,13 +1,6 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <sstream>
-#include <ctime>
-#include <random>
-
 #include "MC/Photon.h"
 #include "MC/Medium.h"
 #include "MC/Fresnel.h"
@@ -25,12 +18,20 @@
 
 //#include "Tests/TestIADStandalone.h"
 
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <ctime>
+#include <random>
+
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
+void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
-    auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
-    auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
-    auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
+
+    const auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
+    const auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
+    const auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
     vector<Medium<T>> layers = {glass, tissue, glass};
     Sample<T> mySample(layers, 1.0, 1.0);
     vector<Medium<T>> slides = {glass, glass};
@@ -42,50 +43,45 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
 
     DetectorDistances<T> distances;
     distances.maxDist  = moveable ? 0.04 : 0.00;
-    distances.minDist  = 0.0;
+    distances.minDist  = 0;
     distances.stepSize = 0.002; // please, enter correct step for your borders
 
-    constexpr int Nphotons = 1e6;
-//    int Nphotons = 1e6;
-    constexpr T selectedRadius = 10e-2;
+    constexpr int Nphotons = 1E6;
+    constexpr T selectedRadius = 10E-2;
 
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
 
+    /// TODO: Utils\Random.h
     static default_random_engine generator(time(0));
-    normal_distribution<T> distribution(0.0, err);
+    normal_distribution<T> distribution(0, err);
 
-    auto rsmeas = myResultsMT.detectedR;
-    auto tsmeas = myResultsMT.detectedT;
+    const auto rsmeas = myResultsMT.detectedR;
+    const auto tsmeas = myResultsMT.detectedT;
     T tcmeas = myResultsMT.BugerTransmission;
 
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
 
+    Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
 
-    Rdfile.open ("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-    Tdfile.open ("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-    Tcfile.open ("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-
-    if (!Rdfile.is_open()){
+    /// TODO: throw exception if can't open. Anyway you try to do something with the file.
+    if (!Rdfile.is_open())
         cout << "Failed to open file Rd" << endl;
-    }
-    if (!Tdfile.is_open()){
+    if (!Tdfile.is_open())
         cout << "Failed to open file Td" << endl;
-    }
-    if (!Tcfile.is_open()){
+    if (!Tcfile.is_open())
         cout << "Failed to open file Tc" << endl;
-    }
 
-    for (auto x : rsmeas) {
-        Rdfile << x.first << "\t" << x.second << endl;
-    }
-    for (auto x : tsmeas) {
-        Tdfile << x.first << "\t" << x.second << endl;
-    }
-    Tcfile << 0.000 << "\t" << tcmeas << endl;
+    for (const auto& x: rsmeas)
+        Rdfile << x.first << "\t" << x.second << '\n';
+    for (const auto& x: tsmeas)
+        Tdfile << x.first << "\t" << x.second << '\n';
+    Tcfile << 0.000 << "\t" << tcmeas << '\n';
 
     Rdfile.close();
     Tdfile.close();
@@ -107,26 +103,26 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
 
     T aOutIAD, tauOutIAD, gOutIAD; // IAD result will be recorded here
     T aOutIMC, tauOutIMC, gOutIMC; // IMC result will be recorded here
-    T checkConvEps = 1e-3;
+    T checkConvEps = 1E-3;
 
     if (moveable)
         fout.open("Output files/" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + "_" + to_string(err) + "_moveable.txt");
     else
         fout.open("Output files/" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + "_" + to_string(err) + "_fixed.txt");
-    fout << "a \t tau \t g \t time" << endl;
+    fout << "a \t tau \t g \t time" << '\n';
 
     for (int i = 0; i < 20; i++) {
         clock_t begin = clock();
 
         T diff = 0;
 
-        for (auto x : rsmeas) {
+        for (const auto& x: rsmeas) {
             T e1 = distribution(generator);
             rSpoilt.push_back(make_pair(x.first, x.second + e1));
             diff += e1;
         }
 
-        for (auto x : tsmeas){
+        for (const auto& x: tsmeas){
             T e2 = distribution(generator);
             tSpoilt.push_back(make_pair(x.first, x.second + e2));
             diff += e2;
@@ -136,10 +132,10 @@ void calcAll (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, 
 
         cout << diff << endl;
 
-        for (auto x : rSpoilt)
+        for (const auto& x: rSpoilt)
             cout << x.first << " " << x.second << endl;
 
-        for (auto x : tSpoilt)
+        for (const auto& x: tSpoilt)
             cout << x.first << " " << x.second << endl;
 
         T rStart = rSpoilt[0].second + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
@@ -188,18 +184,18 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 
     DetectorDistances<T> distances;
     distances.maxDist  = moveable ? 0.04 : 0.00;
-    distances.minDist  = 0.0;
+    distances.minDist  = 0;
     distances.stepSize = 0.002; // please, enter correct step for your borders
 
-    constexpr int Nphotons = 1e6;
-    constexpr T selectedRadius = 10e-2;
+    constexpr int Nphotons = 1E6;
+    constexpr T selectedRadius = 10E-2;
 
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
 
     static default_random_engine generator(time(0));
-    normal_distribution<T> distribution(0.0, err);
+    normal_distribution<T> distribution(0, err);
 
     auto rsmeas = myResultsMT.detectedR;
     auto tsmeas = myResultsMT.detectedT;
@@ -209,28 +205,23 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     ofstream Tdfile;
     ofstream Tcfile;
 
+    Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
 
-    Rdfile.open ("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-    Tdfile.open ("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-    Tcfile.open ("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-
-    if (!Rdfile.is_open()){
+    /// TODO: throw exception if can't open. Anyway you try to do something with the file.
+    if (!Rdfile.is_open())
         cout << "Failed to open file Rd" << endl;
-    }
-    if (!Tdfile.is_open()){
+    if (!Tdfile.is_open())
         cout << "Failed to open file Td" << endl;
-    }
-    if (!Tcfile.is_open()){
+    if (!Tcfile.is_open())
         cout << "Failed to open file Tc" << endl;
-    }
 
-    for (auto x : rsmeas) {
-        Rdfile << x.first << "\t" << x.second << endl;
-    }
-    for (auto x : tsmeas) {
-        Tdfile << x.first << "\t" << x.second << endl;
-    }
-    Tcfile << 0.000 << "\t" << tcmeas << endl;
+    for (const auto& x: rsmeas)
+        Rdfile << x.first << "\t" << x.second << '\n';
+    for (const auto& x: tsmeas)
+        Tdfile << x.first << "\t" << x.second << '\n';
+    Tcfile << 0.000 << "\t" << tcmeas << '\n';
 
     Rdfile.close();
     Tdfile.close();
@@ -241,7 +232,8 @@ template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool 
 void calcInverse (const string& settingsFile, int Nthreads) {
     using namespace std;
 
- /*   auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
+    /*
+    auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
     auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
     auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
     vector<Medium<T>> layers = {glass, tissue, glass};
@@ -258,10 +250,11 @@ void calcInverse (const string& settingsFile, int Nthreads) {
     } else {
         n_slide_top = slides[0].n;
         n_slide_bottom = slides[1].n;
-    }*/
+    }
+    //*/
 
     int Nphotons;
-    constexpr T selectedRadius = 10e-2;
+    constexpr T selectedRadius = 10E-2;
 
     Sample<T> emptySample;
     IntegratingSphere<T> SphereR, SphereT;
@@ -297,13 +290,15 @@ void calcInverse (const string& settingsFile, int Nthreads) {
 
     T aOutIAD, tauOutIAD, gOutIAD; // IAD result will be recorded here
     T aOutIMC, tauOutIMC, gOutIMC; // IMC result will be recorded here
-    T checkConvEps = 1e-3;
+    T checkConvEps = 1E-3;
 
-/*    cout << "Enter starting points R T" << endl;
+    /*
+    cout << "Enter starting points R T" << endl;
     T inRstart, inTstart;
     cin >> inRstart >> inTstart;
     T rStart = inRstart + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
-    T tStart = inTstart + Tc[0].second;*/
+    T tStart = inTstart + Tc[0].second;
+    //*/
 
     T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
     T tStart = Td[0].second + Tc[0].second;
@@ -320,11 +315,10 @@ void calcInverse (const string& settingsFile, int Nthreads) {
 
     auto tissueFin = Medium<T>::fromAlbedo(n_slab, aOutIMC, tauOutIMC, emptyTissue.D, gOutIMC);
     vector<Medium<T>> layersFin;
-    if (emptySample.getNlayers() == 1) {
+    if (emptySample.getNlayers() == 1)
         layersFin = {tissueFin};
-    } else {
+    else
         layersFin = {emptySample.getMedium(0), tissueFin, emptySample.getMedium(emptySample.getNlayers() - 1)};
-    }
     Sample<T> mySampleFin(layersFin, 1.0, 1.0);
 
     MCresults<T,Nz,Nr,detector> myResultsMTfin;
@@ -335,33 +329,27 @@ void calcInverse (const string& settingsFile, int Nthreads) {
     auto TdFin = myResultsMTfin.detectedT;
     T TcFin = myResultsMTfin.BugerTransmission;
 
-
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
 
+    Rdfile.open("Rd_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
+    Tdfile.open("Td_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
+    Tcfile.open("Tc_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
 
-    Rdfile.open ("Rd_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
-    Tdfile.open ("Td_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
-    Tcfile.open ("Tc_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
-
-    if (!Rdfile.is_open()){
+    /// TODO: throw exception if can't open. Anyway you try to do something with the file.
+    if (!Rdfile.is_open())
         cout << "Failed to open file Rd" << endl;
-    }
-    if (!Tdfile.is_open()){
+    if (!Tdfile.is_open())
         cout << "Failed to open file Td" << endl;
-    }
-    if (!Tcfile.is_open()){
+    if (!Tcfile.is_open())
         cout << "Failed to open file Tc" << endl;
-    }
 
-    for (auto x : RdFin) {
-        Rdfile << x.first << "\t" << x.second << endl;
-    }
-    for (auto x : TdFin) {
-        Tdfile << x.first << "\t" << x.second << endl;
-    }
-    Tcfile << 0.000 << "\t" << TcFin << endl;
+    for (const auto& x: RdFin)
+        Rdfile << x.first << "\t" << x.second << '\n';
+    for (const auto& x: TdFin)
+        Tdfile << x.first << "\t" << x.second << '\n';
+    Tcfile << 0.000 << "\t" << TcFin << '\n';
 
     Rdfile.close();
     Tdfile.close();
@@ -369,7 +357,7 @@ void calcInverse (const string& settingsFile, int Nthreads) {
 }
 
 int main(int argc, char **argv) {
- //   TestsIAD::RunAllTests();
+    // TestsIAD::RunAllTests();
 
     using namespace std;
     using T = double; //
@@ -482,4 +470,3 @@ int main(int argc, char **argv) {
 
     return 0;
 }
-

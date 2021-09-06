@@ -128,7 +128,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
-        T eps = 1e-5; // for checking convergence
+        T eps = 1E-5; // for checking convergence
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
