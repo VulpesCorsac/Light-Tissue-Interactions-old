@@ -116,7 +116,7 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
-T fixParam (T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
+T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
     T n_slab = empty_tissue.n;
     T n_slide_top, n_slide_bottom;
     if (slides.empty()) {
