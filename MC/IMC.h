@@ -34,8 +34,8 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(sample, Np, threads, z, r, myResultsMT, new_sphereR, new_sphereT, new_dist);
 
-    auto rMC = myResultsMT.detectedR;
-    auto tMC = myResultsMT.detectedT;
+    const auto rMC = myResultsMT.detectedR;
+    const auto tMC = myResultsMT.detectedT;
     T func2min = 0;
 
     constexpr auto eps = 1E-6;
