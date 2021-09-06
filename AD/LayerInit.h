@@ -11,7 +11,7 @@ Matrix<T,M,M> E() {
     return Matrix<T,M,M>::Identity();
 }
 
-int kd(int i, int j) {
+int kd(int i, int j) noexcept {
     return i == j ? 1 : 0;
 }
 

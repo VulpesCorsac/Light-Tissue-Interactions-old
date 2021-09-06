@@ -6,6 +6,8 @@
 #include "MonteCarlo.h"
 #include "MCmultithread.h"
 
+#include "../Utils/Utils.h"
+
 #include "../AD/NelderMead.h"
 
 template < typename T >
@@ -19,8 +21,10 @@ template < typename T, size_t Nz, size_t Nr, bool detector >
 T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides, int Np, int threads,
                    T z, T r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
                    const DetectorDistances<T> new_dist, const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas) {
+    using namespace std;
+
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
-    std::vector<Medium<T>> layers;
+    vector<Medium<T>> layers;
     if (slides.empty())
         layers = {Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g)};
     else
@@ -35,8 +39,8 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
     T func2min = 0;
 
     constexpr auto eps = 1E-6;
-    for (int i = 0; i < rMC.size(); i++)
-        func2min += std::fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
+    for (int i = 0; i < isize(rMC); i++)
+        func2min += fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
     return func2min;
 }
 
@@ -70,6 +74,8 @@ public:
     }
 
     T funcToMinimize3argsMC(Matrix<T,1,N> vec) const {
+        using namespace std;
+
         if (N == 2) {
             if (fix)
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), this->tau, vec(1), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
@@ -78,7 +84,7 @@ public:
         } else if (N == 3)
             return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), vec(2), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
         else
-            throw std::invalid_argument("N should be in range [2, 3]");
+            throw invalid_argument("N should be in range [2, 3]");
     }
 
     Medium<T> getEmptyTissue() const noexcept {return empty_tissue;}
@@ -128,6 +134,8 @@ T fixParam (T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcm
 
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps) {
+    using namespace std;
+
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
@@ -162,9 +170,10 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             vstart << astart, tstart;
     }
 
-    std::array<Matrix<T,1,N>, N> basis;
-    std::array<Matrix<T,1,N>, N+1> start;
-    std::array<std::pair<Matrix<T,1,N>,T>,N+1> simplex;
+    array<Matrix<T,1,N>, N> basis;
+    array<Matrix<T,1,N>, N+1> start;
+    /// TODO: Don't use pairs, use structs insted
+    array<pair<Matrix<T,1,N>,T>,N+1> simplex;
     for (size_t i = 0; i < N; i++) {
         basis[i] = Matrix<T,1,N>::Zero();
         basis[i](i) = 1.0;
@@ -178,17 +187,17 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             h = 0.0025;
         else if (N == 2 && fix) {
             if (vstart(0) <= 0.05) {
-                if (std::abs(vstart(1)) >= 0.95)
-                    h = -0.05 * std::pow(-1, i);
+                if (abs(vstart(1)) >= 0.95)
+                    h = -0.05 * pow(-1, i);
                 else
                     h = +0.05;
             } else if (vstart(0) >= 0.95) {
-                  if (std::abs(vstart(1)) <= 0.05)
-                      h = +0.05 * std::pow(-1, i);
+                  if (abs(vstart(1)) <= 0.05)
+                      h = +0.05 * pow(-1, i);
                   else
                       h = -0.05;
             } else if (vstart(0) < 0.95 && vstart(0) > 0.05) {
-                if (std::abs(vstart(1)) >= 0.95)
+                if (abs(vstart(1)) >= 0.95)
                     h = -0.05;
                 else
                     h = +0.05;
@@ -198,9 +207,9 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             if (vstart(0) >= 0.95 && vstart(1) >= 0.95)
                 h = -0.05;
             else if (vstart(0) <= 0.05 && vstart(1) >= 0.95)
-                h = -0.05 * std::pow(-1, i);
+                h = -0.05 * pow(-1, i);
             else if (vstart(0) >= 0.95 && vstart(1) <= 0.05)
-                h = 0.05 * std::pow(-1, i);
+                h = 0.05 * pow(-1, i);
             else if (vstart(0) >= 0.95 && vstart(0) <= 0.95)
                 h = -0.05;
             else if (vstart(0) <= 0.95 && vstart(0) >= 0.95)
@@ -225,28 +234,29 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
     simplex[2].first << 0.857088, 0.902761;
     //*/
 
-    std::cout << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << std::endl;
-    std::cout << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << std::endl;
-    std::cout << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << std::endl;
+    cout << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+    cout << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+    cout << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
         T eps = checkConvEps;
-        std::cout << k << std::endl;
+        cout << k << endl;
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
             simplex[i].second = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(simplex[i].first));
-            // std::cout << simplex[i].first << " " << simplex[i].second << std::endl;
+            // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
-        std::sort(begin(simplex), end(simplex), sortSimplex<T, N>);
+
+        sort(AllContainer(simplex), sortSimplex<T, N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
 
-        std::cout << simplex[0].first << " " << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << std::endl;
-        std::cout << simplex[1].first << " " << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << std::endl;
-        std::cout << simplex[2].first << " " << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << std::endl;
+        cout << simplex[0].first << " " << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+        cout << simplex[1].first << " " << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+        cout << simplex[2].first << " " << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
 
         /// FIND CENTER OF MASS OF EVERYTHING EXCEPT WORST VERTEX
         vmid = Matrix<T,1,N>::Zero();
@@ -265,14 +275,14 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         T fvg = simplex[1].second;
         T fvw = simplex[2].second;
         /*
-        std::cout << "Vmid " << vmid << " " << vComp2v<T,N,fix>(vmid) << std::endl;
-        std::cout << "VR " << vr << " " << vComp2v<T,N,fix>(vr) << " " << fvr << std::endl;
+        cout << "Vmid " << vmid << " " << vComp2v<T,N,fix>(vmid) << endl;
+        cout << "VR " << vr << " " << vComp2v<T,N,fix>(vr) << " " << fvr << endl;
         //*/
         if (fvr < fvb) {
             /// EXPANSION
             ve = (1 - gamma)*vmid + gamma*vr;
             T fve = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(ve));
-            // std::cout << "VE " << ve << " " << vComp2v<T,N,fix>(ve) << " " << fve << std::endl;
+            // cout << "VE " << ve << " " << vComp2v<T,N,fix>(ve) << " " << fve << endl;
             if (fve < fvr) {
                 simplex[N].first = ve;
                 simplex[N].second = fve;
@@ -282,8 +292,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                     break;
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
-                std::cout << "v previous " << vprevious << std::endl;
-                // std::cout << "expanded" << std::endl;
+                cout << "v previous " << vprevious << endl;
+                // cout << "expanded" << endl;
                 continue;
             } else {
                 simplex[N].first = vr;
@@ -294,8 +304,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                     break;
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
-                std::cout << "v previous " << vprevious << std::endl;
-                // std::cout << "1" << std::endl;
+                cout << "v previous " << vprevious << endl;
+                // cout << "1" << endl;
                 continue;
             }
         } else if (fvb < fvr && fvr < fvg) {
@@ -307,8 +317,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 break;
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
-            // std::cout << "2" << std::endl;
+            cout << "v previous " << vprevious << endl;
+            // cout << "2" << endl;
             continue;
         } else if (fvg < fvr && fvr < fvw) {
             Matrix<T,1,N> cache = vr;
@@ -320,8 +330,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         T fvs = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(vs));
         T fve = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(ve));
         /*
-        std::cout << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << fvs << std::endl;
-        std::cout << vComp2v<T,N,fix>(vs) << " " << fvs << std::endl;
+        cout << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << fvs << endl;
+        cout << vComp2v<T,N,fix>(vs) << " " << fvs << endl;
         //*/
         if (fvs < f.funcToMinimize3argsMC(vComp2v<T,N,fix>(vw))) {
             simplex[N].first = vs;
@@ -332,8 +342,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 break;
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
-            // std::cout << "shrink" << std::endl;
+            cout << "v previous " << vprevious << endl;
+            // cout << "shrink" << endl;
             continue;
         } else {
             /// GLOBAL SHRINK;
@@ -342,8 +352,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[i].second = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(simplex[i].first));
             }
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
-            // std::cout << "global shrink" << std::endl;
+            cout << "v previous " << vprevious << endl;
+            // cout << "global shrink" << endl;
 
             int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
             if (checksum == N)
@@ -353,8 +363,8 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         }
     }
 
-    std::sort(begin(simplex), end(simplex), sortSimplex<T, N>);
-    // std::cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << std::endl;
+    sort(AllContainer(simplex), sortSimplex<T, N>);
+    // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
 }
@@ -362,17 +372,19 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 void IMC(const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas, T tcmeas, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides,
          int Np, int threads, T z, T r, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT,
-           const DetectorDistances<T>& dist, const T& aStart, const T& tStart, const T& gStart, const T& checkConvEps, T& aOut, T& tauOut, T& gOut) {
+         const DetectorDistances<T>& dist, const T& aStart, const T& tStart, const T& gStart, const T& checkConvEps, T& aOut, T& tauOut, T& gOut) {
+    using namespace std;
+
     T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(0.0, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     funcMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
 
 
     if (fix)
-        std::cout << "Inverse Monte Carlo, fixed optical thickness = " << tStart << std::endl;
+        cout << "Inverse Monte Carlo, fixed optical thickness = " << tStart << endl;
     else
-        std::cout << "Inverse Monte Carlo, fixed anisotropy = " << gStart << std::endl;
+        cout << "Inverse Monte Carlo, fixed anisotropy = " << gStart << endl;
 
-    // std::cout << astart << " " << gstart << std::endl;
+    // cout << astart << " " << gstart << endl;
 
     int maxIter = 50;
 
@@ -383,11 +395,11 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T
 
     NelderMeadMin<T,Nz,Nr,detector,N,fix>(toMinimize, maxIter, aStart, tStart, gStart, vecMin, fmin, itersMade, checkConvEps);
 
-    std::cout << "Iterations made " << itersMade << std::endl;
+    cout << "Iterations made " << itersMade << endl;
 
     /*
     if (itersMade == maxIter - 1) { //RESTART
-        std::cout << "Restart" << std::endl;
+        cout << "Restart" << endl;
         if (fix) {
             aStart = vecMin(0)+0.05;
             gStart = vecMin(1)-0.05;
@@ -396,17 +408,17 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T
             tStart = vecMin(1)+1;
         }
         NelderMeadMin<T,Nz,Nr,detector,N,fix>(toMinimize, maxIter, aStart, tStart, gStart, vecMin, fmin, itersMade);
-        std::cout << "Iterations made " << itersMade << std::endl;
+        cout << "Iterations made " << itersMade << endl;
     }
     //*/
 
     if (fix) {
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << std::endl;
+        cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << endl;
         aOut = vecMin(0);
         tauOut = fixedParam;
         gOut = vecMin(1);
     } else {
-        std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<std::endl;
+        cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam << endl;
         aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = fixedParam;
