@@ -1,25 +1,25 @@
 #pragma once
 
-#include "../MC/Medium.h"
-#include "../MC/MonteCarlo.h"
-#include "../MC/Sample.h"
-#include "../MC/Detector.h"
-
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <sstream>
 #include <vector>
 
-template < typename T >
-void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) {
-    using namespace std;
+#include "../MC/Medium.h"
+#include "../MC/MonteCarlo.h"
+#include "../MC/Sample.h"
+#include "../MC/Detector.h"
 
+using namespace std;
+
+
+template < typename T >
+void readTable (vector<pair<T,T>>& table, const string& fileName ) {
     ifstream myFileStream(fileName);
-    /// TODO: throw exception or do something else - you can't process
-    if (!myFileStream.is_open())
+    if (!myFileStream.is_open()){
         cout << "Failed to open file " << fileName << endl;
-    /// TODO: unused variable?
+    }
     T z, val;
     string line, zString, valString;
     while(getline(myFileStream, line)) {
@@ -28,27 +28,23 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
         getline(ss, valString, '\n');
         table.push_back(make_pair(T(stod(zString)), T(stod(valString))));
     }
-    /*
-    for (auto x : table)
-        cout << x.first << " " << x.second << endl;
-    //*/
+ /*   for (auto x : table)
+        cout << x.first << " " << x.second << endl;*/
     myFileStream.close();
 }
 
 template < typename T >
-void readSettings(const std::string& fileName, Sample<T>& emptySample, IntegratingSphere<T>& SphereR, IntegratingSphere<T>& SphereT,
-                  bool& moveable, int& Np, std::vector<std::pair<T,T>>& Rd, std::vector<std::pair<T,T>>& Td, std::vector<std::pair<T,T>>& Tc) {
-    using namespace std;
-
+void readSettings (const string& fileName, Sample<T>& emptySample, IntegratingSphere<T>& SphereR, IntegratingSphere<T>& SphereT,
+                   bool& moveable, int& Np, vector<pair<T,T>>& Rd, vector<pair<T,T>>& Td, vector<pair<T,T>>& Tc) {
     ifstream myFileStream(fileName);
-    /// TODO: throw exception or do something else - you can't process
-    if (!myFileStream.is_open())
+    if (!myFileStream.is_open()){
         cout << "Failed to open settings file " << fileName << endl;
+    }
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
     string RdFname, TdFname, TcFname;
-    /// TODO: you never use Nphotons
-    int nLayers = 0, Nphotons;
+    int nLayers, Nphotons;
     vector<Medium<T>> emptyLayers;
+
 
     for (int lineno = 0; getline (myFileStream,line) && lineno < 40; ++lineno) {
         stringstream ss(line);
@@ -59,22 +55,20 @@ void readSettings(const std::string& fileName, Sample<T>& emptySample, Integrati
         if (lineno > 9 && lineno < 9 + nLayers + 1) {
             getline(ss, dLine, '\t');
             getline(ss, nLine, '\n');
-            emptyLayers.push_back(Medium<T>::fromAlbedo(static_cast<T>(stod(nLine)), 0, 0, static_cast<T>(stod(dLine)), 0));
-            emptySample = Sample<T>(emptyLayers, 1, 1);
+            emptyLayers.push_back(Medium<T>::fromAlbedo(T(stod(nLine)), 0.0, 0.0, T(stod(dLine)), 0.0));
+            emptySample = Sample<T>(emptyLayers, 1.0, 1.0);
         }
         if (lineno == 13 + nLayers) {
             getline(ss, DLine, '\t');
             getline(ss, d1Line, '\t');
             getline(ss, d2Line, '\n');
-            /// TODO: do you really need * 1.0 here?
-            SphereR = IntegratingSphere<T>(static_cast<T>(stod(DLine)) * 1.0, static_cast<T>(stod(d1Line)) * 1.0, static_cast<T>(stod(d2Line)) * 1.0);
+            SphereR = IntegratingSphere<T>(T(stod(DLine))*1.0, T(stod(d1Line))*1.0, T(stod(d2Line))*1.0);
         }
         if (lineno == 15 + nLayers) {
             getline(ss, DLine, '\t');
             getline(ss, d1Line, '\t');
             getline(ss, d2Line, '\n');
-            /// TODO: do you really need * 1.0 here?
-            SphereT = IntegratingSphere<T>(static_cast<T>(stod(DLine)) * 1.0, static_cast<T>(stod(d1Line)) * 1.0, static_cast<T>(stod(d2Line)) * 1.0);
+            SphereT = IntegratingSphere<T>(T(stod(DLine))*1.0, T(stod(d1Line))*1.0, T(stod(d2Line))*1.0);
         }
         if (lineno == 18 + nLayers) {
             getline(ss, mLine, '\n');
@@ -95,8 +89,8 @@ void readSettings(const std::string& fileName, Sample<T>& emptySample, Integrati
         if (lineno == 29 + nLayers)
             getline(ss, TcFname, '\n');
     }
-    /// TODO: Don't use special symbols for folder names!
     readTable(Rd, "Settings & input files/" + RdFname);
     readTable(Td, "Settings & input files/" + TdFname);
     readTable(Tc, "Settings & input files/" + TcFname);
 }
+

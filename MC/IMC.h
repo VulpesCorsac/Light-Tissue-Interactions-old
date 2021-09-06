@@ -15,15 +15,12 @@ T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
     return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
 }
 
-/// TODO: use some other thing, that bool for detector
 template < typename T, size_t Nz, size_t Nr, bool detector >
 T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides, int Np, int threads,
                    T z, T r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
                    const DetectorDistances<T> new_dist, const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas) {
-    using namespace std;
-
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
-    vector<Medium<T>> layers;
+    std::vector<Medium<T>> layers;
     if (slides.empty())
         layers = {Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g)};
     else
@@ -37,21 +34,18 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
     auto tMC = myResultsMT.detectedT;
     T func2min = 0;
 
-    /// TODO: why do you need eps here?
     constexpr auto eps = 1E-6;
-    for (int i = 0; i < isize(rMC); i++)
-        func2min += fabs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + eps));
+    for (int i = 0; i < rMC.size(); i++)
+        func2min += std::fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
     return func2min;
 }
 
-/// TODO: use some other thing, that bool for detector and fix
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 class MinimizableMC {
 public:
     virtual T funcToMinimize3argsMC(Matrix<T,1,N> vec) const = 0;
 };
 
-/// TODO: use some other thing, that bool for detector and fix
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 class funcMC: public MinimizableMC<T,Nz,Nr,detector,N,fix> {
 public:
@@ -115,9 +109,8 @@ protected:
     std::vector<std::pair<T,T>> rmeas, tmeas;
 };
 
-/// TODO: use some other thing, that bool for detector and fix
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
-T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
+T fixParam (T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
     T n_slab = empty_tissue.n;
     T n_slide_top, n_slide_bottom;
     if (slides.empty()) {
@@ -325,7 +318,6 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         /// SHRINK
         vs = v2vComp<T,N,fix>(beta*vComp2v<T,N,fix>(vw) + (1 - beta)*vComp2v<T,N,fix>(vmid));
         T fvs = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(vs));
-        /// TODO: unused variable
         T fve = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(ve));
         /*
         std::cout << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << fvs << std::endl;
@@ -367,7 +359,6 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
     fmin = simplex[0].second;
 }
 
-/// TODO: use some other thing, that bool for detector and fix
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 void IMC(const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas, T tcmeas, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides,
          int Np, int threads, T z, T r, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT,

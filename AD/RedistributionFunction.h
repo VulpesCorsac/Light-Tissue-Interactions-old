@@ -49,7 +49,7 @@ template < typename T, size_t M >
 Matrix<T,M,M> HPP(const std::array<T,M>& a, T g) {
     const int m = M;
     Matrix<T,M,M> hpp;
-    /// TODO: comparing float against zero is not a good option, some EPS is needed
+    // TODO: comparing float against zero is not a good option, some EPS is needed
     if (g == 0)
         hpp = Matrix<T,M,M>::Constant(1.0);
     else {
