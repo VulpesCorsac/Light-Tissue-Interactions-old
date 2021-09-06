@@ -29,7 +29,7 @@ int n1(T a, T tau, T g, T n_slab) {
     const auto v = quadrature.getV();
     const auto treshold = taus<T,M>(a, tau, g);
     /// TODO: EXTRACT TO ANOTHER VARIABLE MIN_ELEMENT CALL?
-    while (*min_element(begin(v), end(v)) * pow(2, n) < treshold)
+    while (*min_element(AllContainer(v)) * pow(2, n) < treshold)
         n++;
     return n;
 }

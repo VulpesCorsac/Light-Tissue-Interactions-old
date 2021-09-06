@@ -31,16 +31,16 @@ Matrix<T,M,M> star(const std::array<T,M>& v, const std::array<T,M>& w) {
 
 template < typename T, size_t M >
 void adding(Matrix<T,M,M> R01, Matrix<T,M,M> R12, Matrix<T,M,M>& R02, Matrix<T,M,M> T01, Matrix<T,M,M> T12, Matrix<T,M,M>& T02, std::array<T,M> v, std::array<T,M> w) {
-    /// TODO: cache
-    T02 = T12 * (newE<T,M>(v, w) - R01 * star<T,M>(v, w) * R12).inverse() * T01;
-    R02 = T12 * (newE<T,M>(v, w) - R01 * star<T,M>(v, w) * R12).inverse() * R01 * star<T,M>(v, w) * T12 + R12;
+    const auto cache = T12 * (newE<T,M>(v, w) - R01 * star<T,M>(v, w) * R12).inverse();
+    T02 = cache * T01;
+    R02 = cache * R01 * star<T,M>(v, w) * T12 + R12;
 }
 
 template < typename T, size_t M >
 void addingBounds(const Matrix<T,M,M>& R01, const Matrix<T,M,M>& R12, Matrix<T,M,M>& R02, const Matrix<T,M,M>& T01, const Matrix<T,M,M>& T12, Matrix<T,M,M>& T02) {
-    /// TODO: cache
-    T02 = T12 * (E<T,M>() - R01 * R12).inverse() * T01;
-    R02 = T12 * (E<T,M>() - R01 * R12).inverse() * R01 * T12 + R12;
+    const auto cache = T12 * (E<T,M>() - R01 * R12).inverse();
+    T02 = cache * T01;
+    R02 = cache * R01 * T12 + R12;
 }
 
 template < typename T, size_t M >
