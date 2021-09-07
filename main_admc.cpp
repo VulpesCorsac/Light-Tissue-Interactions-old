@@ -229,7 +229,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 }
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcInverse (const string& settingsFile, int Nthreads) {
+void calcInverse (const std::string& settingsFile, int Nthreads) {
     using namespace std;
 
     /*
