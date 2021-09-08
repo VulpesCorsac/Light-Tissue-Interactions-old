@@ -12,8 +12,8 @@
 
 #include "../eigen/Eigen/Dense"
 
-#include <cmath>
 #include <iostream>
+#include <math.h>
 #include <tgmath.h>
 
 using namespace Eigen;

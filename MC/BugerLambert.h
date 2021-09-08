@@ -2,7 +2,7 @@
 
 #include "Fresnel.h"
 
-#include <cmath>
+#include <math.h>
 
 template < typename T >
 T Rborder(T n_slab, T n_slide) {

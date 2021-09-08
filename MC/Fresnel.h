@@ -3,7 +3,7 @@
 #include "../Utils/Utils.h"
 
 // #include <complex>
-#include <cmath>
+#include <math.h>
 
 template < typename T >
 T CosT(T ni, T nt, T cosi) {

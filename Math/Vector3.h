@@ -1,9 +1,9 @@
 #pragma once
 
+#include <iostream>
 #include <math.h>
 #include <stdexcept>
 #include <string>
-#include <iostream>
 
 template < typename T >
 class Vector3D  {

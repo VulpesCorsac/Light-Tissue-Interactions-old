@@ -4,8 +4,8 @@
 #include "Quadrature.h"
 #include "RT.h"
 
-#include <utility>
 #include <stdexcept>
+#include <utility>
 
 template < typename T, size_t M >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {

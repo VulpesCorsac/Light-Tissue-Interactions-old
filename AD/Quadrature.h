@@ -4,10 +4,10 @@
 
 #include "../Utils/Utils.h"
 
-#include <iostream>
-#include <cmath>
 #include <algorithm>
 #include <array>
+#include <iostream>
+#include <math.h>
 #include <stdexcept>
 
 #define _USE_MATH_DEFINES

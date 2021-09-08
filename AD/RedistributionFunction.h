@@ -4,10 +4,10 @@
 
 #include "../eigen/Eigen/Dense"
 
-#include <iostream>
-#include <cmath>
 #include <algorithm>
 #include <array>
+#include <iostream>
+#include <math.h>
 #include <numeric>
 
 using namespace Eigen;
