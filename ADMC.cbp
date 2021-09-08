@@ -58,9 +58,9 @@
 		<Unit filename="MC/MonteCarlo.h" />
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
-		<Unit filename="MC/Vector3.h" />
+		<Unit filename="Math/Random.h" />
+		<Unit filename="Math/Vector3.h" />
 		<Unit filename="TODO" />
-		<Unit filename="Utils/Random.h" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_admc.cpp" />
