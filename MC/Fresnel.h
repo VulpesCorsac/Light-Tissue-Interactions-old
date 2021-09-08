@@ -8,6 +8,7 @@
 template < typename T >
 T CosT(T ni, T nt, T cosi) {
     using namespace std;
+    using namespace Utils_NS;
 
     const T cached = 1 - sqr(ni / nt) * (1 - sqr(cosi));
     if (cached < 0)
@@ -19,6 +20,8 @@ T CosT(T ni, T nt, T cosi) {
 
 template < typename T >
 T FresnelR(T ni, T nt, T cosi) {
+    using namespace Utils_NS;
+
     const T cost = CosT(ni, nt, cosi);
     // std::cout << cost << std::endl;
     const T cached1 = (nt * cosi - ni * cost) / (nt * cosi + ni * cost);

@@ -43,7 +43,10 @@ T g2gComp(T g) {
 
 template < typename T >
 T aComp2a(T aC) {
-    return (std::sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
+    using namespace std;
+    using namespace Utils_NS;
+
+    return (sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
 }
 
 template < typename T >
@@ -138,7 +141,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             simplex[i].second = f.funcToMinimize3args(vComp2v<T,N,fix>(simplex[i].first));
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
-        sort(AllContainer(simplex), sortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;

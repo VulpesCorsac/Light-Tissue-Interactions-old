@@ -8,8 +8,9 @@
 
 /// TODO: why not return result?
 template < typename T, size_t Nz, size_t Nr, bool detector >
-void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr,detector>& finalResults, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistances<T> new_dist) {
+void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr,detector>& finalResults, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist) {
     using namespace std;
+    using namespace Utils_NS;
 
     vector<MonteCarlo<T,Nz,Nr,detector>> mcDivided;
     vector<thread> mcThreads;
@@ -61,7 +62,7 @@ void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCres
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
-MCresults<T,Nz,Nr,detector> MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistances<T> new_dist) {
+MCresults<T,Nz,Nr,detector> MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist) {
     MCresults<T,Nz,Nr,detector> finalResults;
     MCmultithread(sample, Np, threads, z, r, finalResults, new_sphereR, new_sphereT, new_dist);
     return finalResults;

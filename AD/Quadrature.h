@@ -79,6 +79,7 @@ void Quadrature<T,M>::calculateQuadrature() {
 template < typename T, size_t M >
 T Quadrature<T,M>::dLegendre(int n, T x) const  {
     using namespace std;
+    using namespace Utils_NS;
 
     return n * (legendre(n - 1, x) - x * legendre(n, x)) / (1 - sqr(x));
 }
@@ -86,6 +87,7 @@ T Quadrature<T,M>::dLegendre(int n, T x) const  {
 template < typename T, size_t M >
 void Quadrature<T,M>::gaussQuadrature() {
     using namespace std;
+    using namespace Utils_NS;
 
     const int n = M/2;
     for (int i = 1; i <= n; i++) {
@@ -111,6 +113,7 @@ void Quadrature<T,M>::gaussQuadrature() {
 template < typename T, size_t M >
 void Quadrature<T,M>::radauQuadrature() {
     using namespace std;
+    using namespace Utils_NS;
 
     if (M % 2)
         throw invalid_argument("Quadrature should take even M as parameter");
@@ -157,7 +160,7 @@ void Quadrature<T,M>::radauQuadrature() {
         roots[15] = -1.0;
     }
 
-    sort(AllContainer(roots), greater<T>());
+    sort(ALL_CONTAINER(roots), greater<T>());
 
     /*
     for (const auto& x : roots) {

@@ -12,6 +12,8 @@
 
 template < typename T >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
+    using namespace Utils_NS;
+
     const auto Rb1 = Rborder<T>(n_slab, n_slide_top);
     const auto Rb2 = Rborder<T>(n_slab, n_slide_bottom);
     return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
@@ -20,8 +22,9 @@ T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
 template < typename T, size_t Nz, size_t Nr, bool detector >
 T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides, int Np, int threads,
                    T z, T r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
-                   const DetectorDistances<T> new_dist, const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas) {
+                   const DetectorDistance<T> new_dist, const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas) {
     using namespace std;
+    using namespace Utils_NS;
 
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
     vector<Medium<T>> layers;
@@ -55,7 +58,7 @@ class funcMC: public MinimizableMC<T,Nz,Nr,detector,N,fix> {
 public:
     funcMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
            int new_threads, T new_z, T new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
-           const DetectorDistances<T> new_dist, const std::vector<std::pair<T,T>>& new_rmeas, const std::vector<std::pair<T,T>>& new_tmeas, const T& new_tcmeas) noexcept
+           const DetectorDistance<T> new_dist, const std::vector<std::pair<T,T>>& new_rmeas, const std::vector<std::pair<T,T>>& new_tmeas, const T& new_tcmeas) noexcept
         : empty_tissue(new_empty_tissue)
         , slides(new_slides)
         , Np(new_Np)
@@ -95,7 +98,7 @@ public:
     T getR() const noexcept { return r; }
     IntegratingSphere<T> getSphereR() const noexcept { return SphereR; }
     IntegratingSphere<T> getSphereT() const noexcept { return SphereT; }
-    DetectorDistances<T> getDist() const noexcept { return dist; }
+    DetectorDistance<T> getDist() const noexcept { return dist; }
     std::vector<std::pair<T,T>> getRmeas() const noexcept { return rmeas; }
     std::vector<std::pair<T,T>> getTmeas() const noexcept { return tmeas; }
     T getTcmeas() const noexcept { return tcmeas; }
@@ -111,7 +114,7 @@ protected:
     int Np, threads;
     T z, r, tcmeas;
     IntegratingSphere<T> SphereR, SphereT;
-    DetectorDistances<T> dist;
+    DetectorDistance<T> dist;
     std::vector<std::pair<T,T>> rmeas, tmeas;
 };
 
@@ -249,7 +252,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
 
-        sort(AllContainer(simplex), sortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
@@ -363,7 +366,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         }
     }
 
-    sort(AllContainer(simplex), sortSimplex<T, N>);
+    sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
     // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
@@ -372,7 +375,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 void IMC(const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas, T tcmeas, const Medium<T>& empty_tissue, const std::vector<Medium<T>>& slides,
          int Np, int threads, T z, T r, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT,
-         const DetectorDistances<T>& dist, const T& aStart, const T& tStart, const T& gStart, const T& checkConvEps, T& aOut, T& tauOut, T& gOut) {
+         const DetectorDistance<T>& dist, const T& aStart, const T& tStart, const T& gStart, const T& checkConvEps, T& aOut, T& tauOut, T& gOut) {
     using namespace std;
 
     T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(0.0, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g

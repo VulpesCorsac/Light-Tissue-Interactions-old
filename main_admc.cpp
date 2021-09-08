@@ -41,10 +41,10 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     IntegratingSphere<T> SphereT(0.1, 0.013, 0.013); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.1, 0.013, 0.013);
 
-    DetectorDistances<T> distances;
-    distances.maxDist  = moveable ? 0.04 : 0.00;
-    distances.minDist  = 0;
-    distances.stepSize = 0.002; // please, enter correct step for your borders
+    DetectorDistance<T> distances;
+    distances.max  = moveable ? 0.04 : 0.00;
+    distances.min  = 0;
+    distances.step = 0.002; // please, enter correct step for your borders
 
     constexpr int Nphotons = 1E6;
     constexpr T selectedRadius = 10E-2;
@@ -182,10 +182,10 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     IntegratingSphere<T> SphereT(0.1, 0.013, 0.013); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.1, 0.013, 0.013);
 
-    DetectorDistances<T> distances;
-    distances.maxDist  = moveable ? 0.04 : 0.00;
-    distances.minDist  = 0;
-    distances.stepSize = 0.002; // please, enter correct step for your borders
+    DetectorDistance<T> distances;
+    distances.max  = moveable ? 0.04 : 0.00;
+    distances.min  = 0;
+    distances.step = 0.002; // please, enter correct step for your borders
 
     constexpr int Nphotons = 1E6;
     constexpr T selectedRadius = 10E-2;
@@ -262,10 +262,10 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
     vector<pair<T,T>> Rd, Td, Tc;
     readSettings<T>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc);
 
-    DetectorDistances<T> distances;
-    distances.maxDist  = T(Rd[Rd.size()-1].first);
-    distances.minDist  = T(Rd[0].first);
-    distances.stepSize = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
+    DetectorDistance<T> distances;
+    distances.max  = T(Rd[Rd.size()-1].first);
+    distances.min  = T(Rd[0].first);
+    distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
 
     Medium<T> emptyTissue = Medium<T>::fromAlbedo(0.0, 0.0, 0.0, 0.0, 0.0);
     T rSpec, n_slab, n_slide_top, n_slide_bottom;

@@ -9,6 +9,8 @@
 
 template < typename T, size_t M >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
+    using namespace Utils_NS;
+
     const T Rb1 = Rborder<T,M>(n_slab, n_slide_top);
     const T Rb2 = Rborder<T,M>(n_slab, n_slide_bottom);
     const auto cache1 = Rb1 * Rb2;
@@ -89,6 +91,8 @@ T fixParam (T newG, T n_slab, T n_slide_top, T n_slide_bottom, T tcmeas) {
 
 template < typename T, size_t gSize >
 void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,1,gSize>& gridG) {
+    using namespace Utils_NS;
+
     T tMin = pow(2, -7);
     T tMax = pow(2, +7);
     for (size_t i = 0; i < gSize; i++) {

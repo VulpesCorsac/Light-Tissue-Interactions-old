@@ -28,7 +28,7 @@ int n1(T a, T tau, T g, T n_slab) {
     int n = 0;
     const auto v = quadrature.getV();
     const auto treshold = taus<T,M>(a, tau, g);
-    const auto minElement = *min_element(AllContainer(v));
+    const auto minElement = *min_element(ALL_CONTAINER(v));
     while (minElement * pow(2, n) < treshold)
         n++;
     return n;

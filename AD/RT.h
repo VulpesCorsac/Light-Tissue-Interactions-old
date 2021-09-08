@@ -63,6 +63,8 @@ Matrix<T,M,M> Tbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>
 
 template < typename T, size_t M >
 void RTtotal(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::array<T,M>& v, const std::array<T,M>& w, Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal) {
+    using namespace Utils_NS;
+
     const int m = M;
     Matrix<T,M,M> T02, R20, T03, R30, myRslab, myTslab, R30mod;
     RTslab<T,M>(a, tau, g, n_slab, v, w, myRslab, myTslab);

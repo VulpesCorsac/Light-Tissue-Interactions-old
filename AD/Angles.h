@@ -15,6 +15,7 @@ T Vc(T n_refr) {
 template < typename T >
 T Vt(T n_i, T n_t, T Vi) {
     using namespace std;
+    using namespace Utils_NS;
 
     return real(sqrt(complex<T>(1 - sqr(n_i / n_t) * (1 - sqr(Vi)))));
 }

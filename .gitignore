@@ -8,6 +8,8 @@ bin/*
 lib/*
 pvs/*
 CMakeFiles/*
+Utils/CMakeFiles/*
+Math/CMakeFiles/*
 AD/CMakeFiles/*
 MC/CMakeFiles/*
 Tests/CMakeFiles/*

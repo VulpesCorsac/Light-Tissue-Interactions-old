@@ -7,7 +7,7 @@
 #include "Detector.h"
 #include "BugerLambert.h"
 
-#include "../Utils/Random.h"
+#include "../Math/Random.h"
 #include "../Utils/Utils.h"
 
 #include "../eigen/Eigen/Dense"
@@ -66,8 +66,8 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
-    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistances<T> new_dist);
-    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistances<T> new_dist);
+    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist);
+    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistance<T> new_dist);
     ~MonteCarlo() noexcept = default;
 
     /// TODO: Why not return result?
@@ -107,7 +107,7 @@ protected:
     std::vector<OpticalFiber<T>> FibersArrayR;
     std::vector<OpticalFiber<T>> FibersArrayT;
 
-    DetectorDistances<T> distances;
+    DetectorDistance<T> distances;
 
     void GenerateDetectorArrays ();
     void PhotonDetectionSphereR (Photon<T>& exit_photon);
@@ -144,7 +144,7 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_detectorR, const IntegratingSphere<T>& new_detectorT, const DetectorDistances<T> new_dist)
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_detectorR, const IntegratingSphere<T>& new_detectorT, const DetectorDistance<T> new_dist)
     : sample(new_sample)
     , Nphotons(new_Np)
     , dz(new_z / Nz)
@@ -158,7 +158,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_detectorR, const OpticalFiber<T>& new_detectorT, const DetectorDistances<T> new_dist)
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_detectorR, const OpticalFiber<T>& new_detectorT, const DetectorDistance<T> new_dist)
     : sample(new_sample)
     , Nphotons(new_Np)
     , dz(new_z / Nz)
@@ -175,25 +175,23 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
     using namespace std;
 
-    double length;
-    if (distances.maxDist == distances.minDist)
-        length = 1;
-    else
-        /// TODO: you need * 1.0 ?
-        length = ((static_cast<T>(distances.maxDist) - static_cast<T>(distances.minDist)) / static_cast<T>(distances.stepSize)) * 1.0 + 1;
+    /// TODO: you need * 1.0 ?
+    double length = distances.max == distances.min ?
+        1 :
+        ((static_cast<T>(distances.max) - static_cast<T>(distances.min)) / static_cast<T>(distances.step)) * 1.0 + 1;
 
     length = length + 0.5 - (length < 0 ? 1 : 0);
     int nLength = length;
 
     for(int i = 0; i < nLength; i++) {
         if (detector == 1) {
-            SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.minDist + i*distances.stepSize));
-            SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.minDist + i*distances.stepSize));
+            SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.min + i*distances.step));
+            SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.min + i*distances.step));
         }
         /*
         else {
-            FibersArrayR.push_back(OpticalFiber<T>(mainFiberR, distances.minDist + i*distances.stepSize));
-            FibersArrayT.push_back(OpticalFiber<T>(mainFiberT, distances.minDist + i*distances.stepSize));
+            FibersArrayR.push_back(OpticalFiber<T>(mainFiberR, distances.min + i*distances.step));
+            FibersArrayT.push_back(OpticalFiber<T>(mainFiberT, distances.min + i*distances.step));
         }
         //*/
     }
@@ -202,6 +200,7 @@ void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photon) {
     using namespace std;
+    using namespace Utils_NS;
 
     /*
     for (int i = 0; i < isize(SpheresArrayR); i++) {
@@ -291,6 +290,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photon) {
     using namespace std;
+    using namespace Utils_NS;
 
     /*
     for (int i = 0; i < isize(SpheresArrayT); i++) {
@@ -379,6 +379,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
     using namespace std;
+    using namespace Utils_NS;
 
     const auto ni = sample.getNvacUpper();
     const auto nt = sample.getMedium(0).n;
@@ -495,6 +496,7 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInGlass(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
     using namespace std;
+    using namespace Math_NS;
 
     const auto mT = sample.getMedium(photon.layer).ut;
     if (photon.stepLeft == 0) // new step
@@ -508,6 +510,7 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::RecordR(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
+    using namespace Utils_NS;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r/dr);
@@ -531,6 +534,7 @@ void MonteCarlo<T,Nz,Nr,detector>::RecordR(Photon<T>& photon, const T& FRefl, co
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::RecordT(Photon<T>& photon, const T& FRefl, const T& cosT) {
     using namespace std;
+    using namespace Utils_NS;
 
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r/dr);
@@ -559,6 +563,7 @@ void MonteCarlo<T,Nz,Nr,detector>::Hop(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
     using namespace std;
+    using namespace Utils_NS;
 
     const int layer = photon.layer;
     const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
@@ -576,6 +581,8 @@ void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
     using namespace std;
+    using namespace Utils_NS;
+    using namespace Math_NS;
 
     const int layer = photon.layer;
     const T g = sample.getMedium(layer).g;
@@ -641,6 +648,7 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossOrNot(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
     using namespace std;
+    using namespace Math_NS;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossUpOrNot" << endl;
@@ -678,6 +686,7 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
     using namespace std;
+    using namespace Math_NS;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossDownOrNot" << endl;
@@ -714,6 +723,7 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Roulette(Photon<T>& photon) {
     using namespace std;
+    using namespace Math_NS;
 
     if (photon.weight < threshold) {
         const auto RND = random<T>(0, 1);
@@ -754,6 +764,7 @@ T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& res) {
     using namespace std;
+    using namespace Utils_NS;
 
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
