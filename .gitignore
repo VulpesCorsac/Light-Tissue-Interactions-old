@@ -18,6 +18,7 @@ Testing/*
 
 main_ad
 main_mc
+main_admc
 Tests/unit_tests
 
 strace_out
@@ -26,4 +27,3 @@ tasks/*
 
 Makefile
 CMakeCache.txt
-
