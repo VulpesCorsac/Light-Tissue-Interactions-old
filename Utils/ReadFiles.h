@@ -1,9 +1,9 @@
 #pragma once
 
+#include "../MC/Detector.h"
 #include "../MC/Medium.h"
 #include "../MC/MonteCarlo.h"
 #include "../MC/Sample.h"
-#include "../MC/Detector.h"
 
 #include <iostream>
 #include <fstream>

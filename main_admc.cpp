@@ -1,15 +1,17 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include "MC/Photon.h"
-#include "MC/Medium.h"
-#include "MC/Fresnel.h"
-#include "MC/MonteCarlo.h"
-#include "MC/BugerLambert.h"
-#include "MC/Sample.h"
 #include "MC/Detector.h"
-#include "MC/MCmultithread.h"
 #include "MC/IMC.h"
+#include "MC/MCmultithread.h"
+#include "MC/Medium.h"
+#include "MC/MonteCarlo.h"
+#include "MC/Photon.h"
+#include "MC/Sample.h"
+
+#include "Physics/Angles.h"
+#include "Physics/BugerLambert.h"
+#include "Physics/Reflectance.h"
 #include "Utils/ReadFiles.h"
 
 #include "AD/NelderMead.h"
@@ -22,7 +24,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include <ctime>
+#include <time.h>
 #include <random>
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
@@ -231,6 +233,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcInverse (const std::string& settingsFile, int Nthreads) {
     using namespace std;
+    using namespace Physics_NS;
 
     /*
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -272,15 +275,15 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
     vector<Medium<T>> slides = {};
 
     if (emptySample.getNlayers() == 1) {
-        rSpec = FresnelR(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
+        rSpec = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
         emptyTissue = emptySample.getMedium(0);
         n_slab = emptyTissue.n;
         n_slide_top = emptyTissue.n;
         n_slide_bottom = emptyTissue.n;
     } else {
         slides = {emptySample.getMedium(0), emptySample.getMedium(emptySample.getNlayers() - 1)};
-        T r1 = FresnelR(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
-        T r2 = FresnelR(emptySample.getMedium(0).n, emptySample.getMedium(1).n, 1.0);
+        T r1 = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
+        T r2 = FresnelReflectance(emptySample.getMedium(0).n, emptySample.getMedium(1).n, 1.0);
         rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
         emptyTissue = emptySample.getMedium(1); //yeah i need to make several layers possible
         n_slab = emptyTissue.n;

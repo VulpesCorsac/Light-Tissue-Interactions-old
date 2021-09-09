@@ -1,11 +1,11 @@
 #pragma once
 
-#include "MonteCarlo.h"
 #include "MCmultithread.h"
-
-#include "../Utils/Utils.h"
+#include "MonteCarlo.h"
 
 #include "../AD/NelderMead.h"
+#include "../Physics/Angles.h"
+#include "../Utils/Utils.h"
 
 #include <stdexcept>
 #include <utility>
@@ -13,9 +13,10 @@
 template < typename T >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
     using namespace Utils_NS;
+    using namespace Physics_NS;
 
-    const auto Rb1 = Rborder<T>(n_slab, n_slide_top);
-    const auto Rb2 = Rborder<T>(n_slab, n_slide_bottom);
+    const auto Rb1 = BorderReflectance<T>(n_slab, n_slide_top);
+    const auto Rb2 = BorderReflectance<T>(n_slab, n_slide_bottom);
     return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
 }
 

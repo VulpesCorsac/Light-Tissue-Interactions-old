@@ -2,14 +2,15 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include "MC/Medium.h"
-#include "MC/BugerLambert.h"
 #include "MC/Photon.h"
-#include "MC/Fresnel.h"
 #include "MC/Sample.h"
 #include "MC/Detector.h"
 #include "MC/MonteCarlo.h"
 #include "MC/MCmultithread.h"
 #include "MC/IMC.h"
+#include "Physics/Angles.h"
+#include "Physics/BugerLambert.h"
+#include "Physics/Reflectance.h"
 //#include "Tests/TestMCStandalone.h"
 //#include "Tests/Thresholds.h"
 

@@ -3,7 +3,7 @@
 #include "Quadrature.h"
 
 #include <algorithm>
-#include <cmath>
+#include <math.h>
 
 template < typename T, size_t M >
 T taus(T a, T tau, T g) {

@@ -10,6 +10,7 @@
 template < typename T, size_t Nz, size_t Nr, bool detector >
 void MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, MCresults<T,Nz,Nr,detector>& finalResults, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist) {
     using namespace std;
+    using namespace Physics_NS;
     using namespace Utils_NS;
 
     vector<MonteCarlo<T,Nz,Nr,detector>> mcDivided;

@@ -1,16 +1,17 @@
 #pragma once
 
 #include "../MC/Medium.h"
-#include "../MC/BugerLambert.h"
 #include "../MC/MonteCarlo.h"
 #include "../MC/MCmultithread.h"
 #include "../MC/Detector.h"
+#include "../Physics/BugerLambert.h"
 
 #include <gtest/gtest.h>
 
 #include <optional>
 
 using namespace std;
+using namespace Physics_NS;
 
 /************
  * FIXTURES *

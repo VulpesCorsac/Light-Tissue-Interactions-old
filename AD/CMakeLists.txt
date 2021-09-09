@@ -1,5 +1,4 @@
 add_library(AddingDoubling.h INTERFACE)
-add_library(Angles.h INTERFACE)
 add_library(DMmethod.h INTERFACE)
 add_library(IAD.h INTERFACE)
 add_library(LayerInit.h INTERFACE)

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Photon.h"
-#include "Medium.h"
-#include "Fresnel.h"
-#include "Sample.h"
 #include "Detector.h"
-#include "BugerLambert.h"
+#include "Medium.h"
+#include "Photon.h"
+#include "Sample.h"
 
 #include "../Math/Random.h"
+#include "../Physics/BugerLambert.h"
+#include "../Physics/Reflectance.h"
 #include "../Utils/Utils.h"
 
 #include "../eigen/Eigen/Dense"
@@ -378,20 +378,21 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
-    using namespace std;
+    using namespace Physics_NS;
     using namespace Utils_NS;
+    using namespace std;
 
     const auto ni = sample.getNvacUpper();
     const auto nt = sample.getMedium(0).n;
     const auto cosi = abs(photon.direction.z);
-    const auto cost = CosT(ni, nt, cosi);
+    const auto cost = TransmittanceCos(ni, nt, cosi);
 
-    T Ri = FresnelR(ni, nt, cosi);
+    T Ri = FresnelReflectance(ni, nt, cosi);
 
     if (sample.getMedium(0).ut == 0) { // specular from glass
-        const auto R1 = FresnelR(ni, nt, cosi);
+        const auto R1 = FresnelReflectance(ni, nt, cosi);
         const auto n3 = sample.getMedium(1).n;
-        const auto R2 = FresnelR(nt, n3, cost);
+        const auto R2 = FresnelReflectance(nt, n3, cost);
         Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
     }
 
@@ -407,7 +408,7 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
     PhotonDetectionSphereR(exitPhoton);
 
     photon.weight *= (1 - Ri);
-    photon.direction.z = CosT(ni, nt, cosi);
+    photon.direction.z = TransmittanceCos(ni, nt, cosi);
     // photon.coordinate.z += 1E-9; // crook
 }
 
@@ -649,6 +650,7 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
     using namespace std;
     using namespace Math_NS;
+    using namespace Physics_NS;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossUpOrNot" << endl;
@@ -657,12 +659,12 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
     const int layer = photon.layer;
     const auto ni = sample.getMedium(layer).n;
     const auto nt = layer == 0 ? sample.getNvacUpper() : sample.getMedium(layer - 1).n;
-    const auto cost = CosT(ni, nt, cosi);
-    const auto Ri = FresnelR(ni, nt, cosi);
+    const auto cost = TransmittanceCos(ni, nt, cosi);
+    const auto Ri = FresnelReflectance(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton)
-        cout << "cost = " << cost << " FresnelR = " << Ri << " RND = " << RND << endl;
+        cout << "cost = " << cost << " FresnelReflectance = " << Ri << " RND = " << RND << endl;
 
     if (layer == 0 && Ri < 1) { // partially transmitted -- only on sample border
         if (debug && photon.number == debugPhoton)
@@ -687,6 +689,7 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
     using namespace std;
     using namespace Math_NS;
+    using namespace Physics_NS;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossDownOrNot" << endl;
@@ -694,12 +697,12 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
     const int layer = photon.layer;
     const auto ni = sample.getMedium(layer).n;
     const auto nt = layer == sample.getNlayers()-1 ? sample.getNvacLower() : sample.getMedium(layer + 1).n;
-    const auto cost = CosT(ni, nt, cosi);
-    const auto Ri = FresnelR(ni, nt, cosi);
+    const auto cost = TransmittanceCos(ni, nt, cosi);
+    const auto Ri = FresnelReflectance(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton)
-        cout << "cost = " << cost << " FresnelR = "<< Ri << " RND = "<< RND << endl;
+        cout << "cost = " << cost << " FresnelReflectance = "<< Ri << " RND = "<< RND << endl;
 
     if (layer == (sample.getNlayers() - 1) && Ri < 1) { // partially transmitted -- only on sample border
         if (debug && photon.number == debugPhoton)
@@ -764,6 +767,7 @@ T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& res) {
     using namespace std;
+    using namespace Physics_NS;
     using namespace Utils_NS;
 
     for (int i = 0; i < Nphotons; i++) {

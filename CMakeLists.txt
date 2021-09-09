@@ -17,8 +17,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -O2 -std=c++17")
 
 enable_testing()
 
-add_subdirectory(Utils)
-add_subdirectory(Math)
 add_subdirectory(AD)
+add_subdirectory(Physics)
+add_subdirectory(Math)
 add_subdirectory(MC)
 add_subdirectory(Tests)
+add_subdirectory(Utils)
+

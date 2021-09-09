@@ -1,7 +1,6 @@
 #pragma once
 
-#include "Angles.h"
-
+#include "../Physics/Angles.h"
 #include "../Utils/Utils.h"
 
 #include <algorithm>
@@ -47,7 +46,9 @@ Quadrature<T,M>::Quadrature(T n_slab) {
 
 template < typename T, size_t M >
 void Quadrature<T,M>::setValues(const T& n_slab) {
-    vc = Vc(n_slab);
+    using namespace Physics_NS;
+
+    vc = CriticalCos(n_slab);
 }
 
 template < typename T, size_t M >
