@@ -2,63 +2,6 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Release" />
-	<File name="AD/DMmethod.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="432" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="MC/Sample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="938" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC/Detector.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="101" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="AD/RedistributionFunction.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1127" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Utils/ReadFiles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="42" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="AD/AddingDoubling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1574" topLine="11" />
-		</Cursor>
-	</File>
-	<File name="Physics/Angles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1581" topLine="16" />
-		</Cursor>
-	</File>
-	<File name="MC/MonteCarlo.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="198" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC/IMC.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="127" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="23" />
-			<Collapse line="51" />
-			<Collapse line="57" />
-			<Collapse line="122" />
-			<Collapse line="139" />
-		</Folding>
-	</File>
-	<File name="TODO" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1132" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="main_admc.cpp" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="434" topLine="0" />
@@ -69,71 +12,123 @@
 			<Collapse line="361" />
 		</Folding>
 	</File>
-	<File name="MC/Medium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/DMmethod.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="633" topLine="0" />
+			<Cursor1 position="432" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="Physics/BugerLambert.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/MCmultithread.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="46" topLine="0" />
+			<Cursor1 position="1693" topLine="33" />
 		</Cursor>
 	</File>
-	<File name="AD/Quadrature.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Angles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="45" topLine="0" />
+			<Cursor1 position="1581" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AD/LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="331" topLine="58" />
 		</Cursor>
 	</File>
 	<File name="AD/RT.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="78" topLine="0" />
+			<Cursor1 position="78" topLine="90" />
 		</Cursor>
 	</File>
-	<File name="AD/NelderMead.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Medium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8878" topLine="13" />
+			<Cursor1 position="633" topLine="10" />
 		</Cursor>
-		<Folding>
-			<Collapse line="10" />
-			<Collapse line="15" />
-			<Collapse line="28" />
-			<Collapse line="33" />
-			<Collapse line="38" />
-			<Collapse line="52" />
-			<Collapse line="57" />
-			<Collapse line="63" />
-			<Collapse line="77" />
-			<Collapse line="91" />
-		</Folding>
+	</File>
+	<File name="Utils/ReadFiles.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="42" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TODO" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1556" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AD/AddingDoubling.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1574" topLine="0" />
+		</Cursor>
 	</File>
 	<File name="Utils/Utils.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="311" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="AD/IAD.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/Quadrature.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="174" topLine="0" />
+			<Cursor1 position="1747" topLine="96" />
 		</Cursor>
 	</File>
-	<File name="AD/LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Sample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="331" topLine="0" />
+			<Cursor1 position="938" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/MonteCarlo.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6007" topLine="312" />
+		</Cursor>
+	</File>
+	<File name="AD/NelderMead.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="851" topLine="6" />
+		</Cursor>
+		<Folding>
+			<Collapse line="10" />
+			<Collapse line="15" />
+			<Collapse line="27" />
+			<Collapse line="32" />
+			<Collapse line="37" />
+			<Collapse line="43" />
+			<Collapse line="51" />
+			<Collapse line="56" />
+			<Collapse line="62" />
+			<Collapse line="76" />
+			<Collapse line="90" />
+			<Collapse line="268" />
+		</Folding>
+	</File>
+	<File name="Math/Random.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="300" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="MC/IMC.h" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="5050" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="101" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="AD/RedistributionFunction.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1127" topLine="56" />
 		</Cursor>
 	</File>
 	<File name="Physics/Reflectance.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="33" topLine="0" />
+			<Cursor1 position="1035" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Math/Random.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/BugerLambert.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="300" topLine="0" />
+			<Cursor1 position="583" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="MC/MCmultithread.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/IAD.h" open="0" top="0" tabpos="10" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="476" topLine="22" />
+			<Cursor1 position="944" topLine="138" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

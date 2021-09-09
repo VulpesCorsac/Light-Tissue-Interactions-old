@@ -29,8 +29,8 @@ T Physics_NS::FresnelReflectance(T incidenceRefractionIndex, T transmittanceRefr
     assert(incidenceCos >= -1);
 
     const T transmittanceCos = TransmittanceCos(incidenceRefractionIndex, transmittanceRefractionIndex, incidenceCos);
-    const T cached1 = (transmittanceRefractionIndex * incidenceCos - incidenceRefractionIndex * transmittanceCos) / (transmittanceRefractionIndex * incidenceCos + incidenceRefractionIndex * transmittanceCos);
-    const T cached2 = (incidenceRefractionIndex * incidenceCos - transmittanceRefractionIndex * transmittanceCos) / (incidenceRefractionIndex * incidenceCos + transmittanceRefractionIndex * transmittanceCos);
+    const T cached1 = (transmittanceRefractionIndex * incidenceCos -     incidenceRefractionIndex * transmittanceCos) / (transmittanceRefractionIndex * incidenceCos +     incidenceRefractionIndex * transmittanceCos);
+    const T cached2 = (    incidenceRefractionIndex * incidenceCos - transmittanceRefractionIndex * transmittanceCos) / (    incidenceRefractionIndex * incidenceCos + transmittanceRefractionIndex * transmittanceCos);
     return 0.5 * (sqr(cached1) + sqr(cached2));
 }
 

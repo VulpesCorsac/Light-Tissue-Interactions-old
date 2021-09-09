@@ -168,7 +168,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , mainFiberR(new_detectorR)
     , mainFiberT(new_detectorT)
     , distances(new_dist) {
-        GenerateDetectorArrays();
+    GenerateDetectorArrays();
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>

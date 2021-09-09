@@ -90,7 +90,7 @@ void Quadrature<T,M>::gaussQuadrature() {
     using namespace std;
     using namespace Utils_NS;
 
-    const int n = M/2;
+    const int n = M / 2;
     for (int i = 1; i <= n; i++) {
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;

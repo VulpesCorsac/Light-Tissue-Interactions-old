@@ -15,9 +15,11 @@ T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
     using namespace Utils_NS;
     using namespace Physics_NS;
 
-    const auto Rb1 = BorderReflectance<T>(n_slab, n_slide_top);
-    const auto Rb2 = BorderReflectance<T>(n_slab, n_slide_bottom);
-    return log((sqrt(4 * Rb1 * Rb2 * sqr(Tcol) + sqr(Rb1 * Rb2 - Rb1 - Rb2 + 1)) + Rb1 * Rb2 - Rb1 - Rb2 + 1)/(2 * Tcol));
+    const auto rb1 = BorderReflectance<T>(n_slab, n_slide_top);
+    const auto rb2 = BorderReflectance<T>(n_slab, n_slide_bottom);
+    const auto cached1 = rb1 * rb2;
+    const auto cached2 = cached1 - rb1 - rb2 + 1;
+    return log((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol));
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
@@ -30,9 +32,9 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
     vector<Medium<T>> layers;
     if (slides.empty())
-        layers = {Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g)};
+        layers = { Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g) };
     else
-        layers = {slides[0], Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g), slides[1]};
+        layers = { slides[0], Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g), slides[1] };
     Sample<T> sample(layers, 1.0, 1.0);
 
     MCresults<T,Nz,Nr,detector> myResultsMT;
@@ -44,7 +46,7 @@ T funcToMinimizeMC(const T& a, const T& tau, const T& g, const Medium<T>& empty_
 
     constexpr auto eps = 1E-6;
     for (int i = 0; i < isize(rMC); i++)
-        func2min += fabs((rMC[i].second - rmeas[i].second)/(rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second)/(tmeas[i].second + eps));
+        func2min += fabs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + eps));
     return func2min;
 }
 
@@ -91,7 +93,7 @@ public:
             throw invalid_argument("N should be in range [2, 3]");
     }
 
-    Medium<T> getEmptyTissue() const noexcept {return empty_tissue;}
+    Medium<T> getEmptyTissue() const noexcept { return empty_tissue; }
     std::vector<Medium<T>> getSlides() const noexcept { return slides; }
     int getNp() const noexcept { return Np; }
     int getThreads() const noexcept { return threads; }
@@ -107,7 +109,8 @@ public:
     T getG() const noexcept { return g; }
 
 protected:
-    T tau, g;
+    T tau;
+    T g;
 
     // Sample<T> sample;
     Medium<T> empty_tissue;
@@ -330,7 +333,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             vw = cache;
         }
         /// SHRINK
-        vs = v2vComp<T,N,fix>(beta*vComp2v<T,N,fix>(vw) + (1 - beta)*vComp2v<T,N,fix>(vmid));
+        vs = v2vComp<T,N,fix>(beta * vComp2v<T,N,fix>(vw) + (1 - beta) * vComp2v<T,N,fix>(vmid));
         T fvs = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(vs));
         T fve = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(ve));
         /*
@@ -352,7 +355,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         } else {
             /// GLOBAL SHRINK;
             for (size_t i = 1; i <= N; i++) {
-                simplex[i].first = simplex[0].first + (simplex[i].first - simplex[0].first)/2;
+                simplex[i].first = simplex[0].first + (simplex[i].first - simplex[0].first) / 2;
                 simplex[i].second = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(simplex[i].first));
             }
             vprevious = vComp2v<T,N,fix>(simplex[N].first);

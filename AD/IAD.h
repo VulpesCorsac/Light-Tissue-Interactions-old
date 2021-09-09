@@ -28,7 +28,7 @@ T funcToMinimize(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, T r
     RTs<T,M>(a, tau, g, n_slab, n_slide_top, n_slide_bottom, v, w, rs, ts);
     /// TODO: WHAT IS THIS 1E-6?
     constexpr auto eps = 1E-6;
-    return fabs((rs - rmeas)/(rmeas + eps)) + fabs((ts - tmeas)/(tmeas + eps));
+    return fabs((rs - rmeas) / (rmeas + eps)) + fabs((ts - tmeas) / (tmeas + eps));
 }
 
 template < typename T, size_t M, size_t N, bool fix >
