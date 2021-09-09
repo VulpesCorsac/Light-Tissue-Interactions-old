@@ -40,18 +40,14 @@
 			<Add option="-static" />
 		</Linker>
 		<Unit filename="AD/AddingDoubling.h" />
-		<Unit filename="AD/Angles.h" />
 		<Unit filename="AD/DMmethod.h" />
-		<Unit filename="AD/Fresnel.h" />
 		<Unit filename="AD/IAD.h" />
 		<Unit filename="AD/LayerInit.h" />
 		<Unit filename="AD/NelderMead.h" />
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
-		<Unit filename="MC/BugerLambert.h" />
 		<Unit filename="MC/Detector.h" />
-		<Unit filename="MC/Fresnel.h" />
 		<Unit filename="MC/IMC.h" />
 		<Unit filename="MC/MCmultithread.h" />
 		<Unit filename="MC/Medium.h" />
@@ -60,6 +56,9 @@
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="Math/Random.h" />
 		<Unit filename="Math/Vector3.h" />
+		<Unit filename="Physics/Angles.h" />
+		<Unit filename="Physics/BugerLambert.h" />
+		<Unit filename="Physics/Reflectance.h" />
 		<Unit filename="TODO" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/Utils.h" />
