@@ -1,2 +1,4 @@
-Settings:
-    FeatureFlagEnabled: 1
+SettingsExample:
+    FeatureFlagEnabled:
+        description: "Well, here should be brief description of the setting"
+        value: 1

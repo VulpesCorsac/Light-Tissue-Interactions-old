@@ -1840,29 +1840,31 @@
 	<algorithm>
 	<cmath>
 
-1625836322 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
+1631292551 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
+	"MC/Detector.h"
+	"MC/IMC.h"
+	"MC/MCmultithread.h"
+	"MC/Medium.h"
+	"MC/MonteCarlo.h"
+	"MC/Photon.h"
+	"MC/Sample.h"
+	"Physics/Angles.h"
+	"Physics/BugerLambert.h"
+	"Physics/Reflectance.h"
+	"Settings/SettingsImporter.h"
+	"Utils/ReadFiles.h"
+	"AD/NelderMead.h"
+	"AD/Quadrature.h"
+	"AD/RT.h"
 	<iostream>
 	<fstream>
 	<string>
 	<sstream>
-	<ctime>
+	<time.h>
 	<random>
-	"MC/Photon.h"
-	"MC/Medium.h"
-	"MC/Fresnel.h"
-	"MC/MonteCarlo.h"
-	"MC/BugerLambert.h"
-	"MC/Sample.h"
-	"MC/Detector.h"
-	"MC/MCmultithread.h"
-	"MC/IMC.h"
-	"AD/NelderMead.h"
-	"AD/Quadrature.h"
-	"AD/RT.h"
-	"Tests/TestIADStandalone.h"
 
-1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Photon.h
-	"Vector3.h"
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Photon.h
+	"../Math/Vector3.h"
 	<iostream>
 
 1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Vector3.h
@@ -1871,32 +1873,33 @@
 	<string>
 	<iostream>
 
-1625828595 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Medium.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Medium.h
 
 1625828120 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Fresnel.h
 	"../Utils/Utils.h"
 	<cmath>
 
-1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
-	<cmath>
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
+	<math.h>
 
-1625828738 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MonteCarlo.h
-	"Photon.h"
-	"Medium.h"
-	"Fresnel.h"
-	"Sample.h"
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MonteCarlo.h
 	"Detector.h"
-	"BugerLambert.h"
-	"../Utils/Random.h"
+	"Medium.h"
+	"Photon.h"
+	"Sample.h"
+	"../Math/Random.h"
+	"../Physics/BugerLambert.h"
+	"../Physics/Reflectance.h"
+	"../Utils/Utils.h"
 	"../eigen/Eigen/Dense"
-	<cmath>
 	<iostream>
+	<math.h>
 	<tgmath.h>
 
-1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Sample.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Sample.h
 	<vector>
 
-1625828071 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Detector.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/Detector.h
 	"Photon.h"
 
 1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/BugerLambert.h
@@ -1909,7 +1912,7 @@
 	<stdlib.h>
 	<time.h>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Dense
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Dense
 	"Core"
 	"LU"
 	"Cholesky"
@@ -1918,7 +1921,7 @@
 	"Geometry"
 	"Eigenvalues"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Core
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Core
 	"src/Core/util/DisableStupidWarnings.h"
 	"src/Core/util/Macros.h"
 	"src/Core/util/ConfigureVectorization.h"
@@ -2119,16 +2122,16 @@
 	"src/Core/GlobalFunctions.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/DisableStupidWarnings.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/DisableStupidWarnings.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Macros.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Macros.h
 	<cuda.h>
 	<hip/hip_runtime.h>
 	<cmath>
 	<cstdlib>
 	<iostream>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ConfigureVectorization.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ConfigureVectorization.h
 	<malloc.h>
 	<immintrin.h>
 	<mmintrin.h>
@@ -2153,118 +2156,118 @@
 	<hip/hip_vector_types.h>
 	<hip/hip_fp16.h>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/MKL_support.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/MKL_support.h
 	<mkl.h>
 	"../../misc/blas.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/blas.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/blas.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Constants.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Constants.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Meta.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Meta.h
 	<cfloat>
 	<math_constants.h>
 	"Eigen/src/Core/arch/HIP/hcc/math_constants.h"
 	<cstdint>
 	<stdint.h>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ForwardDeclarations.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ForwardDeclarations.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/StaticAssert.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/StaticAssert.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/XprHelper.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/XprHelper.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Memory.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/Memory.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/IntegralConstant.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/IntegralConstant.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/SymbolicIndex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/SymbolicIndex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NumTraits.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NumTraits.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GenericPacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GenericPacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MathFunctionsImpl.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MathFunctionsImpl.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/ConjHelper.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/ConjHelper.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/Half.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/Half.h
 	<sstream>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/BFloat16.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/BFloat16.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SSE/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AVX512/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SVE/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/ZVector/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/PacketMath.h
 	<iostream>
 	<string>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/MSA/Complex.h
 	<iostream>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/PacketMath.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/GPU/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/SyclMemoryModel.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/SyclMemoryModel.h
 	<CL/sycl.hpp>
 	<stdexcept>
 	<cstddef>
@@ -2272,262 +2275,262 @@
 	<set>
 	<unordered_map>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/InteropHeaders.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/InteropHeaders.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/PacketMath.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/PacketMath.h
 	<type_traits>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/MathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/MathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/TypeCasting.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/SYCL/TypeCasting.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/Settings.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/Settings.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/TernaryFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/TernaryFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/BinaryFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/BinaryFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/UnaryFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/UnaryFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/NullaryFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/NullaryFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/StlFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/StlFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/AssignmentFunctors.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/functors/AssignmentFunctors.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/CUDA/Complex.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/CUDA/Complex.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/IndexedViewHelper.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/IndexedViewHelper.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ReshapedHelper.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ReshapedHelper.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArithmeticSequence.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArithmeticSequence.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/IO.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/IO.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseCoeffsBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseCoeffsBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseBase.h
 	"../plugins/CommonCwiseUnaryOps.h"
 	"../plugins/BlockMethods.h"
 	"../plugins/IndexedViewMethods.h"
 	"../plugins/ReshapedMethods.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/CommonCwiseUnaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/BlockMethods.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/BlockMethods.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/IndexedViewMethods.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/IndexedViewMethods.h
 	"IndexedViewMethods.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ReshapedMethods.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ReshapedMethods.h
 	"ReshapedMethods.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MatrixBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MatrixBase.h
 	"../plugins/CommonCwiseBinaryOps.h"
 	"../plugins/MatrixCwiseUnaryOps.h"
 	"../plugins/MatrixCwiseBinaryOps.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/CommonCwiseBinaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/MatrixCwiseBinaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/EigenBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/EigenBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Product.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Product.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CoreEvaluators.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CoreEvaluators.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/AssignEvaluator.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/AssignEvaluator.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Assign.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Assign.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArrayBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArrayBase.h
 	"../plugins/MatrixCwiseUnaryOps.h"
 	"../plugins/ArrayCwiseUnaryOps.h"
 	"../plugins/CommonCwiseBinaryOps.h"
 	"../plugins/MatrixCwiseBinaryOps.h"
 	"../plugins/ArrayCwiseBinaryOps.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ArrayCwiseUnaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/plugins/ArrayCwiseBinaryOps.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/BlasUtil.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/BlasUtil.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseStorage.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DenseStorage.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NestByValue.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NestByValue.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ReturnByValue.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ReturnByValue.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NoAlias.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/NoAlias.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PlainObjectBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PlainObjectBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Matrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Matrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Array.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Array.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseTernaryOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseTernaryOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseBinaryOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseBinaryOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseUnaryOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseUnaryOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseNullaryOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseNullaryOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseUnaryView.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CwiseUnaryView.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SelfCwiseBinaryOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SelfCwiseBinaryOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Dot.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Dot.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/StableNorm.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/StableNorm.h
 	<atomic>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Stride.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Stride.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MapBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/MapBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Map.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Map.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Ref.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Ref.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Block.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Block.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/VectorBlock.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/VectorBlock.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/IndexedView.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/IndexedView.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Reshaped.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Reshaped.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Transpose.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Transpose.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DiagonalMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DiagonalMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Diagonal.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Diagonal.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DiagonalProduct.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/DiagonalProduct.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Redux.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Redux.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Visitor.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Visitor.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Fuzzy.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Fuzzy.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Swap.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Swap.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CommaInitializer.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CommaInitializer.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GeneralProduct.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GeneralProduct.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Solve.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Solve.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Inverse.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Inverse.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SolverBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SolverBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PermutationMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PermutationMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Transpositions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Transpositions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/TriangularMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/TriangularMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SelfAdjointView.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SelfAdjointView.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralBlockPanelKernel.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/Parallelizer.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/Parallelizer.h
 	<atomic>
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ProductEvaluators.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ProductEvaluators.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixVector.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixVector.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SolveTriangular.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/SolveTriangular.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixVector.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointProduct.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointProduct.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointRank2Update.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointRank2Update.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixVector.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixVector.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverVector.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverVector.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/BandMatrix.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/BandMatrix.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CoreIterators.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/CoreIterators.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ConditionEstimator.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ConditionEstimator.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProduct.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProduct.h
 	"MatrixProductCommon.h"
 	"MatrixProductMMA.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProductCommon.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProductCommon.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProductMMA.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/AltiVec/MatrixProductMMA.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/GeneralBlockPanelKernel.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/arch/NEON/GeneralBlockPanelKernel.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/BooleanRedux.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/BooleanRedux.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Select.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Select.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/VectorwiseOp.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/VectorwiseOp.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PartialReduxEvaluator.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/PartialReduxEvaluator.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Random.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Random.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Replicate.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Replicate.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Reverse.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Reverse.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArrayWrapper.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/ArrayWrapper.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/StlIterators.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/StlIterators.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrix_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixVector_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/GeneralMatrixMatrixTriangular_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixMatrix_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/SelfadjointMatrixVector_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixMatrix_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularMatrixVector_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/products/TriangularSolverMatrix_BLAS.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Assign_MKL.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/Assign_MKL.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GlobalFunctions.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/GlobalFunctions.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ReenableStupidWarnings.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Core/util/ReenableStupidWarnings.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/LU
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/LU
 	"Core"
 	"src/Core/util/DisableStupidWarnings.h"
 	"src/misc/Kernel.h"
@@ -2542,32 +2545,32 @@
 	"src/LU/arch/InverseSize4.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/Kernel.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/Kernel.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/Image.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/Image.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/FullPivLU.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/FullPivLU.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/PartialPivLU.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/PartialPivLU.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/lapacke.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/lapacke.h
 	"lapacke_config.h"
 	<stdlib.h>
 	<complex.h>
 	<complex.h>
 	"lapacke_mangling.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/lapacke_mangling.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/lapacke_mangling.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/PartialPivLU_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/PartialPivLU_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/Determinant.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/Determinant.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/InverseImpl.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/InverseImpl.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/arch/InverseSize4.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/LU/arch/InverseSize4.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Cholesky
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Cholesky
 	"Core"
 	"Jacobi"
 	"src/Core/util/DisableStupidWarnings.h"
@@ -2578,21 +2581,21 @@
 	"src/Cholesky/LLT_LAPACKE.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Jacobi
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Jacobi
 	"Core"
 	"src/Core/util/DisableStupidWarnings.h"
 	"src/Jacobi/Jacobi.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Jacobi/Jacobi.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Jacobi/Jacobi.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LLT.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LLT.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LDLT.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LDLT.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LLT_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Cholesky/LLT_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/QR
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/QR
 	"Core"
 	"Cholesky"
 	"Jacobi"
@@ -2608,7 +2611,7 @@
 	"src/QR/ColPivHouseholderQR_LAPACKE.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Householder
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Householder
 	"Core"
 	"src/Core/util/DisableStupidWarnings.h"
 	"src/Householder/Householder.h"
@@ -2616,25 +2619,25 @@
 	"src/Householder/BlockHouseholder.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/Householder.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/Householder.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/HouseholderSequence.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/HouseholderSequence.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/BlockHouseholder.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Householder/BlockHouseholder.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/HouseholderQR.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/HouseholderQR.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/FullPivHouseholderQR.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/FullPivHouseholderQR.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/ColPivHouseholderQR.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/ColPivHouseholderQR.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/CompleteOrthogonalDecomposition.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/HouseholderQR_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/HouseholderQR_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/QR/ColPivHouseholderQR_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/SVD
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/SVD
 	"QR"
 	"Householder"
 	"Jacobi"
@@ -2649,19 +2652,19 @@
 	"src/SVD/JacobiSVD_LAPACKE.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/RealSvd2x2.h
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/misc/RealSvd2x2.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/UpperBidiagonalization.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/UpperBidiagonalization.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/SVDBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/SVDBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/JacobiSVD.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/JacobiSVD.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/BDCSVD.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/BDCSVD.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/JacobiSVD_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/SVD/JacobiSVD_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Geometry
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Geometry
 	"Core"
 	"SVD"
 	"LU"
@@ -2684,37 +2687,37 @@
 	"src/Geometry/arch/Geometry_SIMD.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/OrthoMethods.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/OrthoMethods.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/EulerAngles.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/EulerAngles.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Homogeneous.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Homogeneous.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/RotationBase.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/RotationBase.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Rotation2D.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Rotation2D.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Quaternion.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Quaternion.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/AngleAxis.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/AngleAxis.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Transform.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Transform.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Translation.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Translation.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Scaling.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Scaling.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Hyperplane.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Hyperplane.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/ParametrizedLine.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/ParametrizedLine.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/AlignedBox.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/AlignedBox.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Umeyama.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/Umeyama.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Geometry/arch/Geometry_SIMD.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Eigenvalues
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/Eigenvalues
 	"Core"
 	"Cholesky"
 	"Jacobi"
@@ -2741,71 +2744,74 @@
 	"src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h"
 	"src/Core/util/ReenableStupidWarnings.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/Tridiagonalization.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealSchur.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealSchur.h
 	"./HessenbergDecomposition.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/HessenbergDecomposition.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/EigenSolver.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/EigenSolver.h
 	"./RealSchur.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver.h
 	"./Tridiagonalization.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/GeneralizedSelfAdjointEigenSolver.h
 	"./Tridiagonalization.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexSchur.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexSchur.h
 	"./HessenbergDecomposition.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexEigenSolver.h
 	"./ComplexSchur.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealQZ.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealQZ.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/GeneralizedEigenSolver.h
 	"./RealQZ.h"
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/MatrixBaseEigenvalues.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/RealSchur_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/ComplexSchur_LAPACKE.h
 
-1625826202 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
+1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
 
-1625828547 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MCmultithread.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MCmultithread.h
 	"MonteCarlo.h"
+	"../Utils/Utils.h"
 	<thread>
 
-1625828544 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/IMC.h
-	<utility>
-	<stdexcept>
-	"MonteCarlo.h"
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/IMC.h
 	"MCmultithread.h"
+	"MonteCarlo.h"
 	"../AD/NelderMead.h"
+	"../Physics/Angles.h"
+	"../Utils/Utils.h"
+	<stdexcept>
+	<utility>
 
-1625827896 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/NelderMead.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/NelderMead.h
 	"IAD.h"
 	"../eigen/Eigen/Dense"
 	<iostream>
 	<utility>
 
-1625828846 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/IAD.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/IAD.h
 	"Quadrature.h"
 	"RT.h"
-	<utility>
 	<stdexcept>
+	<utility>
 
-1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/Quadrature.h
-	"Angles.h"
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/Quadrature.h
+	"../Physics/Angles.h"
 	"../Utils/Utils.h"
-	<iostream>
-	<cmath>
 	<algorithm>
 	<array>
+	<iostream>
+	<math.h>
 	<stdexcept>
 
 1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/Angles.h
@@ -2813,9 +2819,9 @@
 	<cmath>
 	<complex>
 
-1625826187 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RT.h
-	"Fresnel.h"
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RT.h
 	"AddingDoubling.h"
+	"../Physics/Reflectance.h"
 	"../Utils/Utils.h"
 	"../eigen/Eigen/Dense"
 	<array>
@@ -2824,30 +2830,30 @@
 	"Angles.h"
 	"../Utils/Utils.h"
 
-1625827009 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/AddingDoubling.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/AddingDoubling.h
 	"LayerInit.h"
 	"../eigen/Eigen/Dense"
 	"../eigen/Eigen/LU"
 	<array>
 
-1625827569 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/LayerInit.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/LayerInit.h
 	"RedistributionFunction.h"
 	"../eigen/Eigen/LU"
 	<array>
 
-1625827985 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RedistributionFunction.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RedistributionFunction.h
 	"DMmethod.h"
 	"../eigen/Eigen/Dense"
-	<iostream>
-	<cmath>
 	<algorithm>
 	<array>
+	<iostream>
+	<math.h>
 	<numeric>
 
-1625827036 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/DMmethod.h
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/DMmethod.h
 	"Quadrature.h"
 	<algorithm>
-	<cmath>
+	<math.h>
 
 1625836370 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Tests/TestIADStandalone.h
 	"../AD/NelderMead.h"
@@ -2878,4 +2884,251 @@
 	"../MC/MonteCarlo.h"
 	"../MC/Sample.h"
 	"../MC/Detector.h"
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Vector3.h
+	<iostream>
+	<math.h>
+	<stdexcept>
+	<string>
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Random.h
+	<random>
+	<stdlib.h>
+	<time.h>
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/BugerLambert.h
+	"../Physics/Reflectance.h"
+	<assert.h>
+	<math.h>
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Reflectance.h
+	"Angles.h"
+	"../Utils/Utils.h"
+	<assert.h>
+	<math.h>
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Angles.h
+	"../Utils/Utils.h"
+	<assert.h>
+	<math.h>
+
+1631293386 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Settings/SettingsImporter.h
+	<yaml-cpp/yaml.h>
+	<stdexcept>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/yaml.h
+	"yaml-cpp/parser.h"
+	"yaml-cpp/emitter.h"
+	"yaml-cpp/emitterstyle.h"
+	"yaml-cpp/stlemitter.h"
+	"yaml-cpp/exceptions.h"
+	"yaml-cpp/node/node.h"
+	"yaml-cpp/node/impl.h"
+	"yaml-cpp/node/convert.h"
+	"yaml-cpp/node/iterator.h"
+	"yaml-cpp/node/detail/impl.h"
+	"yaml-cpp/node/parse.h"
+	"yaml-cpp/node/emit.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/parser.h
+	<ios>
+	<memory>
+	"yaml-cpp/dll.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/dll.h
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/emitter.h
+	<cmath>
+	<cstddef>
+	<limits>
+	<memory>
+	<sstream>
+	<string>
+	<type_traits>
+	"yaml-cpp/binary.h"
+	"yaml-cpp/dll.h"
+	"yaml-cpp/emitterdef.h"
+	"yaml-cpp/emittermanip.h"
+	"yaml-cpp/null.h"
+	"yaml-cpp/ostream_wrapper.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/binary.h
+	<string>
+	<vector>
+	"yaml-cpp/dll.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/emitterdef.h
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/emittermanip.h
+	<string>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/null.h
+	"yaml-cpp/dll.h"
+	<string>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/ostream_wrapper.h
+	<string>
+	<vector>
+	"yaml-cpp/dll.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/emitterstyle.h
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/stlemitter.h
+	<vector>
+	<list>
+	<set>
+	<map>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/exceptions.h
+	"yaml-cpp/mark.h"
+	"yaml-cpp/noexcept.h"
+	"yaml-cpp/traits.h"
+	<sstream>
+	<stdexcept>
+	<string>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/mark.h
+	"yaml-cpp/dll.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/noexcept.h
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/traits.h
+	<type_traits>
+	<utility>
+	<string>
+	<sstream>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/node.h
+	<stdexcept>
+	<string>
+	"yaml-cpp/dll.h"
+	"yaml-cpp/emitterstyle.h"
+	"yaml-cpp/mark.h"
+	"yaml-cpp/node/detail/iterator_fwd.h"
+	"yaml-cpp/node/ptr.h"
+	"yaml-cpp/node/type.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/iterator_fwd.h
+	"yaml-cpp/dll.h"
+	<list>
+	<utility>
+	<vector>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/ptr.h
+	"yaml-cpp/dll.h"
+	<memory>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/type.h
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/impl.h
+	"yaml-cpp/exceptions.h"
+	"yaml-cpp/node/detail/memory.h"
+	"yaml-cpp/node/detail/node.h"
+	"yaml-cpp/node/iterator.h"
+	"yaml-cpp/node/node.h"
+	<sstream>
+	<string>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/memory.h
+	<set>
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/ptr.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/node.h
+	"yaml-cpp/dll.h"
+	"yaml-cpp/emitterstyle.h"
+	"yaml-cpp/node/detail/node_ref.h"
+	"yaml-cpp/node/ptr.h"
+	"yaml-cpp/node/type.h"
+	<set>
+	<atomic>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/node_ref.h
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/type.h"
+	"yaml-cpp/node/ptr.h"
+	"yaml-cpp/node/detail/node_data.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/node_data.h
+	<list>
+	<map>
+	<string>
+	<utility>
+	<vector>
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/detail/node_iterator.h"
+	"yaml-cpp/node/iterator.h"
+	"yaml-cpp/node/ptr.h"
+	"yaml-cpp/node/type.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/node_iterator.h
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/ptr.h"
+	<cstddef>
+	<iterator>
+	<memory>
+	<map>
+	<utility>
+	<vector>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/iterator.h
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/node.h"
+	"yaml-cpp/node/detail/iterator_fwd.h"
+	"yaml-cpp/node/detail/iterator.h"
+	<list>
+	<utility>
+	<vector>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/iterator.h
+	"yaml-cpp/dll.h"
+	"yaml-cpp/node/detail/node_iterator.h"
+	"yaml-cpp/node/node.h"
+	"yaml-cpp/node/ptr.h"
+	<cstddef>
+	<iterator>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/convert.h
+	<array>
+	<cmath>
+	<limits>
+	<list>
+	<map>
+	<sstream>
+	<type_traits>
+	<vector>
+	"yaml-cpp/binary.h"
+	"yaml-cpp/node/impl.h"
+	"yaml-cpp/node/iterator.h"
+	"yaml-cpp/node/node.h"
+	"yaml-cpp/node/type.h"
+	"yaml-cpp/null.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/detail/impl.h
+	"yaml-cpp/node/detail/node.h"
+	"yaml-cpp/node/detail/node_data.h"
+	<algorithm>
+	<type_traits>
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/parse.h
+	<iosfwd>
+	<string>
+	<vector>
+	"yaml-cpp/dll.h"
+
+1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/node/emit.h
+	<string>
+	<iosfwd>
+	"yaml-cpp/dll.h"
+
+1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/ReadFiles.h
+	"../MC/Detector.h"
+	"../MC/Medium.h"
+	"../MC/MonteCarlo.h"
+	"../MC/Sample.h"
+	<iostream>
+	<fstream>
+	<string>
+	<sstream>
+	<vector>
 
