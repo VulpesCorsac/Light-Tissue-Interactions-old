@@ -33,11 +33,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-std=c++2a" />
+			<Add directory="yaml-cpp/include" />
 		</Compiler>
 		<Linker>
 			<Add option="-static-libstdc++" />
 			<Add option="-static-libgcc" />
 			<Add option="-static" />
+			<Add library="yaml-cpp/libyaml-cpp.a" />
 		</Linker>
 		<Unit filename="AD/AddingDoubling.h" />
 		<Unit filename="AD/DMmethod.h" />
@@ -59,6 +61,8 @@
 		<Unit filename="Physics/Angles.h" />
 		<Unit filename="Physics/BugerLambert.h" />
 		<Unit filename="Physics/Reflectance.h" />
+		<Unit filename="Settings/SettingsImporter.h" />
+		<Unit filename="Settings/settings.yaml" />
 		<Unit filename="TODO" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/Utils.h" />

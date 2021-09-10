@@ -12,6 +12,7 @@
 #include "Physics/Angles.h"
 #include "Physics/BugerLambert.h"
 #include "Physics/Reflectance.h"
+#include "Settings/SettingsImporter.h"
 #include "Utils/ReadFiles.h"
 
 #include "AD/NelderMead.h"
@@ -360,6 +361,11 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
 }
 
 int main(int argc, char **argv) {
+    bool ff = false;
+    readFromYaml(ff);
+    std::cout << ff;
+    return 0;
+
     // TestsIAD::RunAllTests();
 
     using namespace std;
