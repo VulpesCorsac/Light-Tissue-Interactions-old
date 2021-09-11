@@ -10,11 +10,11 @@ build_script:
 
     make
 
-    g++ -std=c++17 -O2 -Ieigen main_ad.cpp -o main_ad
+    g++ -std=c++2a -O2 -Ieigen main_ad.cpp -o main_ad
 
-    g++ -std=c++17 -O2 -pthread main_mc.cpp -o main_mc
+    g++ -std=c++2a -O2 -pthread main_mc.cpp -o main_mc
     
-    g++ -std=c++2a -O2 -Iyaml-cpp/include -Ieigen main_admc.cpp -o main_admc -pthread yaml-cpp/libyaml-cpp.a
+    g++ -std=c++2a -O2 -Ieigen -Iyaml-cpp/include main_admc.cpp -o main_admc -pthread yaml-cpp/libyaml-cpp.a
 
 test_script:
 - sh: >-
