@@ -17,7 +17,6 @@ public:
 constexpr float TOTAL_TOLERANCE = 1e-4;
 
 void TestsIAD::Test1() {
-
     using T = float;
     const int M = 4;
 
@@ -43,7 +42,6 @@ void TestsIAD::Test1() {
 }
 
 void TestsIAD::Test2() {
-
     using T = float;
     const int M = 32;
 
@@ -69,7 +67,6 @@ void TestsIAD::Test2() {
 }
 
 void TestsIAD::Test3() {
-
     using T = float;
     const int M = 16;
 
@@ -95,7 +92,6 @@ void TestsIAD::Test3() {
 }
 
 void TestsIAD::Test4() {
-
     using T = float;
     const int M = 4;
 
@@ -121,7 +117,6 @@ void TestsIAD::Test4() {
 }
 
 void TestsIAD::Test5() {
-
     using T = float;
     const int M = 8;
 
@@ -147,7 +142,6 @@ void TestsIAD::Test5() {
 }
 
 void TestsIAD::Test6() {
-
     using T = float;
     const int M = 32;
 

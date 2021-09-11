@@ -1840,7 +1840,7 @@
 	<algorithm>
 	<cmath>
 
-1631292551 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
+1631377493 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
 	"MC/Detector.h"
 	"MC/IMC.h"
 	"MC/MCmultithread.h"
@@ -1879,14 +1879,14 @@
 	"../Utils/Utils.h"
 	<cmath>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
-	<math.h>
+1631379563 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/Utils.h
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MonteCarlo.h
+1631380000 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MonteCarlo.h
 	"Detector.h"
 	"Medium.h"
 	"Photon.h"
 	"Sample.h"
+	"../Math/Basic.h"
 	"../Math/Random.h"
 	"../Physics/BugerLambert.h"
 	"../Physics/Reflectance.h"
@@ -2779,12 +2779,12 @@
 
 1631290856 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/eigen/Eigen/src/Eigenvalues/SelfAdjointEigenSolver_LAPACKE.h
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MCmultithread.h
+1631379849 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/MCmultithread.h
 	"MonteCarlo.h"
 	"../Utils/Utils.h"
 	<thread>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/IMC.h
+1631379697 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/MC/IMC.h
 	"MCmultithread.h"
 	"MonteCarlo.h"
 	"../AD/NelderMead.h"
@@ -2793,19 +2793,21 @@
 	<stdexcept>
 	<utility>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/NelderMead.h
+1631380930 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/NelderMead.h
 	"IAD.h"
+	"../Math/Basic.h"
 	"../eigen/Eigen/Dense"
 	<iostream>
 	<utility>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/IAD.h
+1631381444 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/IAD.h
 	"Quadrature.h"
 	"RT.h"
 	<stdexcept>
 	<utility>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/Quadrature.h
+1631381544 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/Quadrature.h
+	"../Math/Basic.h"
 	"../Physics/Angles.h"
 	"../Utils/Utils.h"
 	<algorithm>
@@ -2819,7 +2821,7 @@
 	<cmath>
 	<complex>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RT.h
+1631381223 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RT.h
 	"AddingDoubling.h"
 	"../Physics/Reflectance.h"
 	"../Utils/Utils.h"
@@ -2830,7 +2832,7 @@
 	"Angles.h"
 	"../Utils/Utils.h"
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/AddingDoubling.h
+1631380580 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/AddingDoubling.h
 	"LayerInit.h"
 	"../eigen/Eigen/Dense"
 	"../eigen/Eigen/LU"
@@ -2841,7 +2843,7 @@
 	"../eigen/Eigen/LU"
 	<array>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RedistributionFunction.h
+1631381568 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/RedistributionFunction.h
 	"DMmethod.h"
 	"../eigen/Eigen/Dense"
 	<algorithm>
@@ -2850,9 +2852,11 @@
 	<math.h>
 	<numeric>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/DMmethod.h
+1631380679 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/AD/DMmethod.h
 	"Quadrature.h"
+	"../Utils/Utils.h"
 	<algorithm>
+	<assert.h>
 	<math.h>
 
 1625836370 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Tests/TestIADStandalone.h
@@ -2891,29 +2895,29 @@
 	<stdexcept>
 	<string>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Random.h
+1631378028 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Random.h
 	<random>
 	<stdlib.h>
 	<time.h>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/BugerLambert.h
+1631350701 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/BugerLambert.h
 	"../Physics/Reflectance.h"
 	<assert.h>
 	<math.h>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Reflectance.h
+1631378918 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Reflectance.h
 	"Angles.h"
 	"../Utils/Utils.h"
 	<assert.h>
 	<math.h>
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Angles.h
-	"../Utils/Utils.h"
+1631380045 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Angles.h
+	"../Math/Basic.h"
 	<assert.h>
 	<math.h>
 
-1631293386 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Settings/SettingsImporter.h
-	<yaml-cpp/yaml.h>
+1631387596 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Settings/SettingsImporter.h
+	"../yaml-cpp/include/yaml-cpp/yaml.h"
 	<stdexcept>
 
 1631290857 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/yaml-cpp/include/yaml-cpp/yaml.h
@@ -3121,7 +3125,7 @@
 	<iosfwd>
 	"yaml-cpp/dll.h"
 
-1631290839 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/ReadFiles.h
+1631377596 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Utils/ReadFiles.h
 	"../MC/Detector.h"
 	"../MC/Medium.h"
 	"../MC/MonteCarlo.h"
@@ -3131,4 +3135,7 @@
 	<string>
 	<sstream>
 	<vector>
+
+1631379055 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Basic.h
+	<math.h>
 
