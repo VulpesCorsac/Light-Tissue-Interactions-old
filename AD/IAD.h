@@ -35,6 +35,8 @@ template < typename T, size_t M, size_t N, bool fix >
 class Minimizable {
 public:
     virtual T funcToMinimize3args(Matrix<T,1,N> vec) const = 0;
+
+    virtual ~Minimizable() = default;
 };
 
 template < typename T, size_t M, size_t N, bool fix >
@@ -155,9 +157,8 @@ void startingPoints(func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
     // std::cout << distancesMatrix << std::endl;
 
     int minRow, minCol;
-    /// TODO: Unused variable?
-    /// however commenting it out fails the tests!
     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
+    std::ignore = mins;
     /*
     std::cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << std::endl;
     std::cout << gridA << std::endl;

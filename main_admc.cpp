@@ -57,7 +57,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     cout << myResultsMT << endl;
 
     /// TODO: Utils\Random.h
-    static default_random_engine generator(time(0));
+    static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
 
     const auto rsmeas = myResultsMT.detectedR;
@@ -197,7 +197,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
 
-    static default_random_engine generator(time(0));
+    static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
 
     auto rsmeas = myResultsMT.detectedR;
@@ -360,7 +360,7 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
     Tcfile.close();
 }
 
-int main(int argc, char **argv) {
+int main() {
     bool ff = false;
     readFromYaml(ff, "Settings/settings.yaml");
     std::cout << ff;

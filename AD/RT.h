@@ -36,6 +36,11 @@ Matrix<T,M,M> Tslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const s
 
 template < typename T, size_t M >
 Matrix<T,M,M> Rbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
+    /// TODO: a, tau, g - unused!
+    std::ignore = a;
+    std::ignore = tau;
+    std::ignore = g;
+
     const int m = M;
     Matrix<T,M,M> myRb = E<T,M>();
     for (int i = 0; i < m; i++) {
@@ -49,6 +54,12 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>
 
 template < typename T, size_t M >
 Matrix<T,M,M> Tbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
+    /// TODO: a, tau, g, w - unused!
+    std::ignore = a;
+    std::ignore = tau;
+    std::ignore = g;
+    std::ignore = w;
+
     const int m = M;
     Matrix<T,M,M> myTb = E<T,M>();
     for (int i = 0; i < m; i++) {

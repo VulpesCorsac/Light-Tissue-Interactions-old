@@ -2,6 +2,8 @@
 
 #include "Photon.h"
 
+#include <tuple>
+
 template < typename T >
 struct DetectorDistance {
     T min  = 0;
@@ -54,6 +56,7 @@ class OpticalFiber : public DetectorInterface<T> {
 public:
     /// just not to be pure virtual
     void detectPhoton(const Photon<T>& photon) noexcept override {
+        std::ignore = photon;
         return;
     }
 };

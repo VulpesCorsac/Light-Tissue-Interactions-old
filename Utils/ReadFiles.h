@@ -40,7 +40,7 @@ void readSettings(const std::string& fileName,
                   IntegratingSphere<T>& SphereR,
                   IntegratingSphere<T>& SphereT,
                   bool& moveable,
-                  int& Np,
+                  int& Nphotons,
                   std::vector<std::pair<T,T>>& Rd,
                   std::vector<std::pair<T,T>>& Td,
                   std::vector<std::pair<T,T>>& Tc) {
@@ -52,7 +52,6 @@ void readSettings(const std::string& fileName,
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
     string RdFname, TdFname, TcFname;
     int nLayers;
-    int Nphotons;
     vector<Medium<T>> emptyLayers;
 
     for (int lineno = 0; getline(myFileStream,line) && lineno < 40; ++lineno) {
@@ -105,6 +104,7 @@ void readSettings(const std::string& fileName,
         if (lineno == 29 + nLayers)
             getline(ss, TcFname, '\n');
     }
+
     readTable(Rd, "Settings & input files/" + RdFname);
     readTable(Td, "Settings & input files/" + TdFname);
     readTable(Tc, "Settings & input files/" + TcFname);

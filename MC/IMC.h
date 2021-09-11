@@ -60,6 +60,8 @@ template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 class MinimizableMC {
 public:
     virtual T funcToMinimize3argsMC(Matrix<T,1,N> vec) const = 0;
+
+    virtual ~MinimizableMC() = default;
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >

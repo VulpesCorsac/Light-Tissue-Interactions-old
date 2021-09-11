@@ -31,6 +31,12 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wnon-virtual-dtor" />
+			<Add option="-Wshadow" />
+			<Add option="-Winit-self" />
+			<Add option="-Wundef" />
+			<Add option="-Wunreachable-code" />
+			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-std=c++2a" />
 			<Add directory="yaml-cpp/include" />
