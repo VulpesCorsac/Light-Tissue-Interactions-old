@@ -20,11 +20,9 @@ namespace Math_NS {
 
 template < typename T >
 T Math_NS::random(T min, T max) {
-    using namespace std;
-
-    static random_device rd;
-    static thread_local default_random_engine generator(rd());
-    static uniform_real_distribution<T> distribution(min, max);
+    static std::random_device rd;
+    static thread_local std::default_random_engine generator(rd());
+    static std::uniform_real_distribution<T> distribution(min, max);
     return distribution(generator);
 }
 

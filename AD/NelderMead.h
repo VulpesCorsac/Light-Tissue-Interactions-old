@@ -2,6 +2,8 @@
 
 #include "IAD.h"
 
+#include "../Math/Basic.h"
+
 #include "../eigen/Eigen/Dense"
 
 #include <iostream>
@@ -42,10 +44,7 @@ T g2gComp(T g) {
 
 template < typename T >
 T aComp2a(T aC) {
-    using namespace std;
-    using namespace Utils_NS;
-
-    return (sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
+    return (sqrt(Math_NS::sqr(aC) + 4) + aC - 2) / (2 * aC);
 }
 
 template < typename T >

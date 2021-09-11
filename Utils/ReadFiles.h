@@ -19,7 +19,7 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
     if (!myFileStream.is_open())
         cout << "Failed to open file " << fileName << endl;
 
-    T z, val;
+    // T z, val;
     string line, zString, valString;
     while(getline(myFileStream, line)) {
         stringstream ss(line);
@@ -51,7 +51,8 @@ void readSettings(const std::string& fileName,
         cout << "Failed to open settings file " << fileName << endl;
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
     string RdFname, TdFname, TcFname;
-    int nLayers, Nphotons;
+    int nLayers;
+    int Nphotons;
     vector<Medium<T>> emptyLayers;
 
     for (int lineno = 0; getline(myFileStream,line) && lineno < 40; ++lineno) {

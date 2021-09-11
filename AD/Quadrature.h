@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Math/Basic.h"
 #include "../Physics/Angles.h"
 #include "../Utils/Utils.h"
 
@@ -46,18 +47,14 @@ Quadrature<T,M>::Quadrature(T n_slab) {
 
 template < typename T, size_t M >
 void Quadrature<T,M>::setValues(const T& n_slab) {
-    using namespace Physics_NS;
-
-    vc = CriticalCos(n_slab);
+    vc = Physics_NS::CriticalCos(n_slab);
 }
 
 template < typename T, size_t M >
 void Quadrature<T,M>::printQuadrature(std::array<T,M> arr) const  {
-    using namespace std;
-
     for (const auto& x : arr)
-        cout << x << ' ';
-    cout << endl;
+        std::cout << x << ' ';
+    std::cout << std::endl;
 }
 
 template < typename T, size_t M >
@@ -79,25 +76,19 @@ void Quadrature<T,M>::calculateQuadrature() {
 
 template < typename T, size_t M >
 T Quadrature<T,M>::dLegendre(int n, T x) const  {
-    using namespace std;
-    using namespace Utils_NS;
-
-    return n * (legendre(n - 1, x) - x * legendre(n, x)) / (1 - sqr(x));
+    return n * (std::legendre(n - 1, x) - x * std::legendre(n, x)) / (1 - Math_NS::sqr(x));
 }
 
 template < typename T, size_t M >
 void Quadrature<T,M>::gaussQuadrature() {
-    using namespace std;
-    using namespace Utils_NS;
-
     const int n = M / 2;
     for (int i = 1; i <= n; i++) {
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;
-        T xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
+        T xn1 = xn - std::legendre(n, xn) / dLegendre(n,xn);
         while (fabs(xn1 - xn) > 1E-7) {
             xn = xn1;
-            xn1 = xn - legendre(n, xn) / dLegendre(n,xn);
+            xn1 = xn - std::legendre(n, xn) / dLegendre(n,xn);
         }
 
         // v_g.push_back(xn1);
@@ -106,25 +97,22 @@ void Quadrature<T,M>::gaussQuadrature() {
     }
     for (int i = 0; i < n; i++) {
         // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(dLegendre(n, v_g[i]))));
-        w_g[i] = vc / ((1 - sqr(v_g[i])) * sqr(dLegendre(n, v_g[i])));
+        w_g[i] = vc / ((1 - Math_NS::sqr(v_g[i])) * Math_NS::sqr(dLegendre(n, v_g[i])));
         v_g[i] = vc * (1 - v_g[i]) / 2;
     }
 }
 
 template < typename T, size_t M >
 void Quadrature<T,M>::radauQuadrature() {
-    using namespace std;
-    using namespace Utils_NS;
-
     if (M % 2)
-        throw invalid_argument("Quadrature should take even M as parameter");
+        throw std::invalid_argument("Quadrature should take even M as parameter");
     if (M < 4)
-        throw invalid_argument("Such small M are not supported in Quadrature");
+        throw std::invalid_argument("Such small M are not supported in Quadrature");
     if (M > 32)
-        throw invalid_argument("Such big M are not yet supported in Quadrature");
+        throw std::invalid_argument("Such big M are not yet supported in Quadrature");
 
     const int n = M / 2;
-    array<T, n> roots;
+    std::array<T,n> roots;
     if (n == 2) {
         roots[0] = 0.3333333333333333;
         roots[1] = -1.0;
@@ -161,7 +149,7 @@ void Quadrature<T,M>::radauQuadrature() {
         roots[15] = -1.0;
     }
 
-    sort(ALL_CONTAINER(roots), greater<T>());
+    std::sort(ALL_CONTAINER(roots), std::greater<T>());
 
     /*
     for (const auto& x : roots) {
@@ -170,12 +158,12 @@ void Quadrature<T,M>::radauQuadrature() {
     }
     //*/
     for (int i = 0; i < n; i++) {
-        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * sqr(dLegendre(n-1, roots[i])));
+        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * Math_NS::sqr(dLegendre(n-1, roots[i])));
         v_r[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
     }
     // w_r.erase(w_r.begin() + (n - 1));
     // w_r.push_back((1 - vc) / sqr(n));
-    w_r[n-1] = (1 - vc) / sqr(n);
+    w_r[n-1] = (1 - vc) / Math_NS::sqr(n);
 }
 
 template < typename T, size_t M >

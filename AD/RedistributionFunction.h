@@ -14,28 +14,22 @@ using namespace Eigen;
 
 template < typename T, size_t M >
 T chi(T g, int k) {
-    using namespace std;
-
     const auto gPowM = pow(g, M);
     return (pow(g, k) - gPowM) / (1 - gPowM);
 }
 
 template < typename T, size_t M >
 Matrix<T,M,M> PP(const std::array<T,M>& a) {
-    using namespace std;
-
     const int m = M;
     Matrix<T,M,M> pp;
     for (int i = 0; i < m; i++) // row
         for (int j = 0; j < m; j++) // col
-            pp(i, j) = legendre(i, a[j]);
+            pp(i, j) = std::legendre(i, a[j]);
     return pp;
 }
 
 template < typename T, size_t M >
 Matrix<T,M,M> PN(const std::array<T,M>& a) {
-    using namespace std;
-
     const int m = M;
     const auto cachedPP = PP<T,M>(a);
     Matrix<T,M,M> pn;

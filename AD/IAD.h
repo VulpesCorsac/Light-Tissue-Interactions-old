@@ -9,7 +9,7 @@
 
 template < typename T, size_t M >
 T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
-    using namespace Utils_NS;
+    using namespace Math_NS;
 
     const T Rb1 = Rborder<T,M>(n_slab, n_slide_top);
     const T Rb2 = Rborder<T,M>(n_slab, n_slide_bottom);
@@ -91,7 +91,7 @@ T fixParam (T newG, T n_slab, T n_slide_top, T n_slide_bottom, T tcmeas) {
 
 template < typename T, size_t gSize >
 void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,1,gSize>& gridG) {
-    using namespace Utils_NS;
+    using namespace Math_NS;
 
     T tMin = pow(2, -7);
     T tMax = pow(2, +7);
@@ -156,6 +156,7 @@ void startingPoints(func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
 
     int minRow, minCol;
     /// TODO: Unused variable?
+    /// however commenting it out fails the tests!
     T mins = distancesMatrix.minCoeff(&minRow, &minCol);
     /*
     std::cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << std::endl;

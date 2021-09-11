@@ -178,7 +178,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
     vector<Medium<T>> layers = {glass, tissue, glass};
     Sample<T> mySample(layers, 1.0, 1.0);
-    vector<Medium<T>> slides = {glass, glass};
+    // vector<Medium<T>> slides = {glass, glass};
     vector<Medium<T>> emptyLayers = {glass, emptyTissue, glass};
     Sample<T> emptySample (emptyLayers, 1.0, 1.0);
 

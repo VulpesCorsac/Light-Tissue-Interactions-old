@@ -36,32 +36,26 @@ Matrix<T,M,M> Tslab(T a, T tau, T g, T n_slab, const std::array<T,M>& v, const s
 
 template < typename T, size_t M >
 Matrix<T,M,M> Rbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
-    using namespace std;
-    using namespace Physics_NS;
-
     const int m = M;
     Matrix<T,M,M> myRb = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = FresnelReflectance(n_slide, static_cast<T>(1), TransmittanceCos(n_slab, n_slide, v[i]));
-        const auto cached2 = FresnelReflectance(n_slab, n_slide, v[i]);
+        const auto cached1 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), Physics_NS::TransmittanceCos(n_slab, n_slide, v[i]));
+        const auto cached2 = Physics_NS::FresnelReflectance(n_slab , n_slide          , v[i]                                               );
         const auto cached3 = cached1 * cached2;
-        myRb(i, i) = real(twoaw<T,M>(v, w)(i) * (cached2 + cached1 - 2 * cached3)) / (1 - cached3);
+        myRb(i, i) = std::real(twoaw<T,M>(v, w)(i) * (cached2 + cached1 - 2 * cached3)) / (1 - cached3);
     }
     return myRb;
 }
 
 template < typename T, size_t M >
 Matrix<T,M,M> Tbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
-    using namespace std;
-    using namespace Physics_NS;
-
     const int m = M;
     Matrix<T,M,M> myTb = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = FresnelReflectance(n_slide, static_cast<T>(1), TransmittanceCos(n_slab, n_slide, v[i]));
-        const auto cached2 = FresnelReflectance(n_slab, n_slide, v[i]);
+        const auto cached1 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), Physics_NS::TransmittanceCos(n_slab, n_slide, v[i]));
+        const auto cached2 = Physics_NS::FresnelReflectance(n_slab , n_slide          , v[i]                                               );
         const auto cached3 = cached1 * cached2;
-        myTb(i, i) = real(1 - (cached2 + cached1 - 2 * cached3) / (1 - cached3));
+        myTb(i, i) = std::real(1 - (cached2 + cached1 - 2 * cached3) / (1 - cached3));
     }
     return myTb;
 }
@@ -69,7 +63,7 @@ Matrix<T,M,M> Tbound(T a, T tau, T g, T n_slab, T n_slide, const std::array<T,M>
 
 template < typename T, size_t M >
 void RTtotal(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::array<T,M>& v, const std::array<T,M>& w, Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal) {
-    using namespace Utils_NS;
+    using namespace Math_NS;
 
     const int m = M;
     Matrix<T,M,M> T02, R20, T03, R30, myRslab, myTslab, R30mod;
@@ -140,17 +134,15 @@ T Rs(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom, const std::arra
 
 template < typename T, size_t M >
 T Rborder(T n_slab, T n_slide) {
-    using namespace Physics_NS;
-
-    const auto cached1 = FresnelReflectance(n_slab, n_slide, static_cast<T>(1));
-    const auto cached2 = FresnelReflectance(n_slide, static_cast<T>(1), static_cast<T>(1));
+    const auto cached1 = Physics_NS::FresnelReflectance(n_slab , n_slide          , static_cast<T>(1));
+    const auto cached2 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), static_cast<T>(1));
     const auto cached3 = cached1 * cached2;
     return (cached1 + cached2 - 2 * cached3) / (1 - cached3);
 }
 
 template < typename T, size_t M >
 T Tc(T tau, T n_slab, T n_slide_top, T n_slide_bottom) {
-    auto Rbtop = Rborder<T,M>(n_slab, n_slide_top);
-    auto Rbbottom = Rborder<T,M>(n_slab, n_slide_bottom);
+    const auto Rbtop = Rborder<T,M>(n_slab, n_slide_top);
+    const auto Rbbottom = Rborder<T,M>(n_slab, n_slide_bottom);
     return ((1 - Rbtop) * (1 - Rbbottom) * exp(-tau)) / (1 - Rbtop * Rbbottom * exp(-2 * tau));
 }

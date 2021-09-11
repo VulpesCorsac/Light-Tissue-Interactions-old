@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
     auto tissue = Medium<T>::fromAlbedo(1.5, 0.9, 1.0, 1e-3, 0.9);
 
     // Medium<T> tissue(1.5, 100, 900, 1e-3, 0.9);
-    auto glass1 = Medium<T>::fromCoeffs(1.5, 0.0, 0.0, 1e-3, 0.0);
-    auto glass2 = Medium<T>::fromCoeffs(1.65,    0, 0, 1e-3,   0);
+    // auto glass1 = Medium<T>::fromCoeffs(1.5, 0.0, 0.0, 1e-3, 0.0);
+    // auto glass2 = Medium<T>::fromCoeffs(1.65,    0, 0, 1e-3,   0);
 
     vector<Medium<T>> layers = {tissue};
     Sample<T> mySample(layers, 1.0, 1.0);
