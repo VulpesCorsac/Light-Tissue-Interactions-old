@@ -11,9 +11,9 @@
 #include <utility>
 
 template < typename T >
-T tauCalc(T n_slab, T n_slide_top, T n_slide_bottom, T Tcol) {
-    const auto rb1 = Physics_NS::BorderReflectance<T>(n_slab, n_slide_top   );
-    const auto rb2 = Physics_NS::BorderReflectance<T>(n_slab, n_slide_bottom);
+T tauCalc(T nSlab, T n_slide_top, T n_slide_bottom, T Tcol) {
+    const auto rb1 = Physics_NS::BorderReflectance<T>(nSlab, n_slide_top   );
+    const auto rb2 = Physics_NS::BorderReflectance<T>(nSlab, n_slide_bottom);
     const auto cached1 = rb1 * rb2;
     const auto cached2 = cached1 - rb1 - rb2 + 1;
     return log((sqrt(4 * cached1 * Math_NS::sqr(Tcol) + Math_NS::sqr(cached2)) + cached2) / (2 * Tcol));
@@ -133,17 +133,17 @@ protected:
 
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
 T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
-    T n_slab = empty_tissue.n;
+    T nSlab = empty_tissue.n;
     T n_slide_top, n_slide_bottom;
     if (slides.empty()) {
-        n_slide_top = n_slab;
-        n_slide_bottom = n_slab;
+        n_slide_top = nSlab;
+        n_slide_bottom = nSlab;
     } else {
         n_slide_top = slides[0].n;
         n_slide_bottom = slides[1].n;
     }
     if (fix) // fixed tau
-        return tauCalc<T>(n_slab, n_slide_top, n_slide_bottom, tcmeas); // tau
+        return tauCalc<T>(nSlab, n_slide_top, n_slide_bottom, tcmeas); // tau
     else // fixed g
         return newG; // g
 }

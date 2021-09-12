@@ -16,12 +16,13 @@ T taus(T a, T tau, T g) {
 template < typename T, size_t M >
 T as(T a, T g) {
     const auto gPowM = pow(g, M);
+    assert(a * gPowM != 1);
     return a * (1 - gPowM) / (1 - a * gPowM);
 }
 
 template < typename T, size_t M >
-int n1(T a, T tau, T g, T n_slab) {
-    Quadrature<T,M> quadrature(n_slab);
+int n1(T a, T tau, T g, T nSlab) {
+    Quadrature<T,M> quadrature(nSlab);
     const auto v = quadrature.getV();
     assert(Utils_NS::isize(v) > 0);
 
@@ -29,18 +30,20 @@ int n1(T a, T tau, T g, T n_slab) {
     const auto minElement = *std::min_element(ALL_CONTAINER(v));
 
     int n = 0;
-    while (minElement * pow(2, n) < treshold)
+    while (minElement * (1 << n) < treshold)
         n++;
 
     return n;
 }
 
 template < typename T, size_t M >
-T dtaus(T a, T tau, T g, T n_slab) {
-    return taus<T,M>(a, tau, g) / pow(2, n1<T,M>(a, tau, g, n_slab));
+T dtaus(T a, T tau, T g, T nSlab) {
+    return taus<T,M>(a, tau, g) / (1 << n1<T,M>(a, tau, g, nSlab));
 }
 
 template < typename T, size_t M >
-T dtau(T a, T tau, T g, T n_slab) {
-    return dtaus<T,M>(a, tau, g, n_slab) / (1 - a * pow(g, M));
+T dtau(T a, T tau, T g, T nSlab) {
+    const auto gPowM = pow(g, M);
+    assert(a * gPowM != 1);
+    return dtaus<T,M>(a, tau, g, nSlab) / (1 - a * gPowM);
 }

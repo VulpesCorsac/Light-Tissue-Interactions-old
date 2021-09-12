@@ -15,6 +15,9 @@ namespace Math_NS {
 
     template < typename T >
     T radiansToDegrees(T radians) noexcept;
+
+    template < typename T >
+    T legendreDerivative(int n, T x);
 }
 
 /******************
@@ -34,4 +37,9 @@ T Math_NS::degreesToRadians(T degrees) noexcept {
 template < typename T >
 T Math_NS::radiansToDegrees(T radians) noexcept {
     return radians * 180 / M_PI;
+}
+
+template < typename T >
+T Math_NS::legendreDerivative(int n, T x) {
+    return n * (std::legendre(n - 1, x) - x * std::legendre(n, x)) / (1 - sqr(x));
 }

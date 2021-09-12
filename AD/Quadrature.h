@@ -15,20 +15,18 @@
 template < typename T, size_t M >
 class Quadrature {
 public:
-    Quadrature(T n_slab);
-    std::array<T,M> getV() const;
-    std::array<T,M> getW() const;
+    Quadrature(T nSlab);
+    std::array<T,M> getV() const noexcept;
+    std::array<T,M> getW() const noexcept;
 
-    void setValues(const T& n_slab);
-    void printQuadrature(std::array<T,M> arr) const;
+    void setValues(const T& nSlab) noexcept;
+    void printQuadrature(std::array<T,M> arr) const noexcept;
 
 protected:
     void calculateQuadrature();
     void gaussQuadrature();
     void radauQuadrature();
     void mergeQuadratures();
-
-    T dLegendre(int n, T x) const;
 
     T vc;
     std::array<T,M/2> v_g, v_r, w_g, w_r;
@@ -40,30 +38,30 @@ protected:
  ******************/
 
 template < typename T, size_t M >
-Quadrature<T,M>::Quadrature(T n_slab) {
-    setValues(n_slab);
+Quadrature<T,M>::Quadrature(T nSlab) {
+    setValues(nSlab);
     calculateQuadrature();
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::setValues(const T& n_slab) {
-    vc = Physics_NS::CriticalCos(n_slab);
+void Quadrature<T,M>::setValues(const T& nSlab) noexcept {
+    vc = Physics_NS::CriticalCos(nSlab);
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::printQuadrature(std::array<T,M> arr) const  {
+void Quadrature<T,M>::printQuadrature(std::array<T,M> arr) const noexcept {
     for (const auto& x : arr)
         std::cout << x << ' ';
     std::cout << std::endl;
 }
 
 template < typename T, size_t M >
-std::array<T,M> Quadrature<T,M>::getV() const  {
+std::array<T,M> Quadrature<T,M>::getV() const noexcept {
     return v;
 }
 
 template < typename T, size_t M >
-std::array<T,M> Quadrature<T,M>::getW() const  {
+std::array<T,M> Quadrature<T,M>::getW() const noexcept {
     return w;
 }
 
@@ -75,29 +73,24 @@ void Quadrature<T,M>::calculateQuadrature() {
 }
 
 template < typename T, size_t M >
-T Quadrature<T,M>::dLegendre(int n, T x) const  {
-    return n * (std::legendre(n - 1, x) - x * std::legendre(n, x)) / (1 - Math_NS::sqr(x));
-}
-
-template < typename T, size_t M >
 void Quadrature<T,M>::gaussQuadrature() {
     const int n = M / 2;
     for (int i = 1; i <= n; i++) {
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;
-        T xn1 = xn - std::legendre(n, xn) / dLegendre(n,xn);
+        T xn1 = xn - std::legendre(n, xn) / Math_NS::legendreDerivative(n,xn);
         while (fabs(xn1 - xn) > 1E-7) {
             xn = xn1;
-            xn1 = xn - std::legendre(n, xn) / dLegendre(n,xn);
+            xn1 = xn - std::legendre(n, xn) / Math_NS::legendreDerivative(n,xn);
         }
 
         // v_g.push_back(xn1);
         v_g[i-1] = xn1;
-        // w.push_back(2 / ((1 - sqr(xn1)) * sqr(dLegendre(n, xn1))));
+        // w.push_back(2 / ((1 - sqr(xn1)) * sqr(Math_NS::legendreDerivative(n, xn1))));
     }
     for (int i = 0; i < n; i++) {
-        // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(dLegendre(n, v_g[i]))));
-        w_g[i] = vc / ((1 - Math_NS::sqr(v_g[i])) * Math_NS::sqr(dLegendre(n, v_g[i])));
+        // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(Math_NS::legendreDerivative(n, v_g[i]))));
+        w_g[i] = vc / ((1 - Math_NS::sqr(v_g[i])) * Math_NS::sqr(Math_NS::legendreDerivative(n, v_g[i])));
         v_g[i] = vc * (1 - v_g[i]) / 2;
     }
 }
@@ -153,12 +146,12 @@ void Quadrature<T,M>::radauQuadrature() {
 
     /*
     for (const auto& x : roots) {
-        w_r.push_back((1 - vc) / (2 * (1 - x) * sqr(dLegendre(n-1, x))));
+        w_r.push_back((1 - vc) / (2 * (1 - x) * sqr(Math_NS::legendreDerivative(n-1, x))));
         v_r.push_back((1 + vc) / 2 - (1 - vc) * x / 2);
     }
     //*/
     for (int i = 0; i < n; i++) {
-        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * Math_NS::sqr(dLegendre(n-1, roots[i])));
+        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * Math_NS::sqr(Math_NS::legendreDerivative(n-1, roots[i])));
         v_r[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
     }
     // w_r.erase(w_r.begin() + (n - 1));
@@ -173,12 +166,12 @@ void Quadrature<T,M>::mergeQuadratures () {
     // v.insert(v.end(), v_r.begin(), v_r.end());
     // w.insert(w.end(), w_r.begin(), w_r.end());
     const int m = M;
-    for (int i = 0; i < m/2; i++) {
+    for (int i = 0; i < m / 2; i++) {
         v[i] = v_g[i];
         w[i] = w_g[i];
     }
-    for (int i = m/2; i < m; i++) {
-        v[i] = v_r[i - m/2];
-        w[i] = w_r[i - m/2];
+    for (int i = m / 2; i < m; i++) {
+        v[i] = v_r[i - m / 2];
+        w[i] = w_r[i - m / 2];
     }
 }
