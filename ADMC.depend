@@ -1840,7 +1840,7 @@
 	<algorithm>
 	<cmath>
 
-1631463362 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
+1631820716 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/main_admc.cpp
 	"MC/Detector.h"
 	"MC/IMC.h"
 	"MC/MCmultithread.h"
@@ -3139,4 +3139,13 @@
 
 1631463928 /home/corsac/Documents/GitHub/Light-Tissue-Interactions/Math/Basic.h
 	<math.h>
+
+1631821366 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Angles.cpp
+	"Angles.h"
+
+1631821247 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/BugerLambert.cpp
+	"BugerLambert.h"
+
+1631821428 source:/home/corsac/Documents/GitHub/Light-Tissue-Interactions/Physics/Reflectance.cpp
+	"Reflectance.h"
 
