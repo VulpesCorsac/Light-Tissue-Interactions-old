@@ -6,6 +6,7 @@
 build/*
 bin/*
 lib/*
+html/*
 pvs/*
 CMakeFiles/*
 Utils/CMakeFiles/*
