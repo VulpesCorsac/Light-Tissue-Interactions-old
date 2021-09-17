@@ -1,21 +1,26 @@
-*.user
-*.o
 *.cmake
 *.exe
+*.o
+*.user
 
-build/*
+.vs/
 bin/*
-lib/*
+build/*
 html/*
+lib/*
 pvs/*
+tasks/*
+Testing/*
+
+
 CMakeFiles/*
-Utils/CMakeFiles/*
-Math/CMakeFiles/*
 AD/CMakeFiles/*
+Physics/CMakeFiles/*
+Physics/Medium/CMakeFiles/*
+Math/CMakeFiles/*
 MC/CMakeFiles/*
 Tests/CMakeFiles/*
-Testing/*
-.vs/
+Utils/CMakeFiles/*
 
 main_ad
 main_mc
@@ -24,7 +29,6 @@ Tests/unit_tests
 
 strace_out
 log
-tasks/*
 
 Makefile
 CMakeCache.txt

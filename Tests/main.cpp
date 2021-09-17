@@ -1,6 +1,10 @@
+#include "../Physics/Medium/MediumInterfaceTests.h"
+#include "../Physics/Medium/MediumGlassTests.h"
+#include "../Physics/Medium/MediumUtilsTests.h"
+
 #include "TestAD.h"
-#include "TestMC.h"
 #include "TestIAD.h"
+#include "TestMC.h"
 
 #include <gtest/gtest.h>
 

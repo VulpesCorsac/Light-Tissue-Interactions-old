@@ -69,8 +69,13 @@
 		<Unit filename="Physics/Angles.h" />
 		<Unit filename="Physics/BugerLambert.cpp" />
 		<Unit filename="Physics/BugerLambert.h" />
-		<Unit filename="Physics/MediumGlass.h" />
-		<Unit filename="Physics/MediumInterface.h" />
+		<Unit filename="Physics/Medium/MediumGlass.h" />
+		<Unit filename="Physics/Medium/MediumGlassTests.h" />
+		<Unit filename="Physics/Medium/MediumInterface.h" />
+		<Unit filename="Physics/Medium/MediumInterfaceTests.h" />
+		<Unit filename="Physics/Medium/MediumType.h" />
+		<Unit filename="Physics/Medium/MediumUtils.h" />
+		<Unit filename="Physics/Medium/MediumUtilsTests.h" />
 		<Unit filename="Physics/Reflectance.cpp" />
 		<Unit filename="Physics/Reflectance.h" />
 		<Unit filename="Settings/SettingsImporter.h" />
