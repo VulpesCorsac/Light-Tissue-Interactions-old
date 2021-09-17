@@ -1,3 +1,7 @@
+#include "../Physics/AnglesTests.h"
+#include "../Physics/BugerLambertTests.h"
+#include "../Physics/ReflectanceTests.h"
+
 #include "../Physics/Medium/MediumInterfaceTests.h"
 #include "../Physics/Medium/MediumGlassTests.h"
 #include "../Physics/Medium/MediumUtilsTests.h"
