@@ -51,10 +51,10 @@ TEST(BugerLambert, WorksWithZeroAbsorption) {
 }
 
 TEST(BugerLambert, WorksWithNegativeAbsorption) {
-    constexpr float nm = 1;
-    constexpr float nt = 1;
-    constexpr float nb = 1;
-    constexpr float a = -1;
+    constexpr float nm =  1;
+    constexpr float nt =  1;
+    constexpr float nb =  1;
+    constexpr float a  = -1;
     EXPECT_NO_THROW(BugerLambert(a, nm, nt, nb));
 }
 

@@ -32,21 +32,21 @@ TEST(AnglesTests, TransmittanceCos_ThrowsExceptionTransmittanceIncidenceCosLarge
 }
 
 TEST(AnglesTests, TransmittanceCos_ThrowsExceptionTransmittanceIncidenceCosSmall) {
-    constexpr float ni  = 1;
-    constexpr float nt  = 1;
+    constexpr float ni  =  1;
+    constexpr float nt  =  1;
     constexpr float cos = -2;
     EXPECT_THROW(TransmittanceCos(ni, nt, cos), std::invalid_argument);
 }
 
 TEST(AnglesTests, CriticalCos_ThrowsExceptionIncidenceRefractionIndex) {
-    constexpr float ni  = 0;
-    constexpr float nt  = 1;
+    constexpr float ni = 0;
+    constexpr float nt = 1;
     EXPECT_THROW(CriticalCos(ni, nt), std::invalid_argument);
 }
 
 TEST(AnglesTests, CriticalCos_ThrowsExceptionTransmittanceRefractionIndex) {
-    constexpr float ni  = 1;
-    constexpr float nt  = 0;
+    constexpr float ni = 1;
+    constexpr float nt = 0;
     EXPECT_THROW(CriticalCos(ni, nt), std::invalid_argument);
 }
 

@@ -8,7 +8,7 @@ using namespace Physics_NS;
 
 class MediumGlassTests : public ::testing::Test {
 protected:
-    MediumGlass<float>* medium = new MediumGlass<float>();
+    MediumGlass<float>* const medium = new MediumGlass<float>();
 };
 
 TEST_F(MediumGlassTests, TypeIsUnknown) {

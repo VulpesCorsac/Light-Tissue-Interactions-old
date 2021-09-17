@@ -8,7 +8,7 @@ using namespace Physics_NS;
 
 class MediumInterfaceTests : public ::testing::Test {
 protected:
-    MediumInterface<float>* medium = new MediumInterface<float>();
+    MediumInterface<float>* const medium = new MediumInterface<float>();
 };
 
 TEST_F(MediumInterfaceTests, TypeIsUnknown) {
