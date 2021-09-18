@@ -7,6 +7,8 @@
 
 #include "../Physics/Medium/MediumInterfaceTests.h"
 #include "../Physics/Medium/MediumGlassTests.h"
+#include "../Physics/Medium/MediumConstantTests.h"
+#include "../Physics/Medium/MediumLinearTests.h"
 #include "../Physics/Medium/MediumUtilsTests.h"
 
 #include "../Math/Mesh3Tests.h"

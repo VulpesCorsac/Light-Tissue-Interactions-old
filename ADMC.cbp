@@ -48,6 +48,7 @@
 			<Add library="yaml-cpp/libyaml-cpp.a" />
 		</Linker>
 		<Unit filename="AD/AddingDoubling.h" />
+		<Unit filename="AD/CMakeLists.txt" />
 		<Unit filename="AD/DMmethod.h" />
 		<Unit filename="AD/IAD.h" />
 		<Unit filename="AD/LayerInit.h" />
@@ -55,6 +56,8 @@
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
+		<Unit filename="CMakeLists.txt" />
+		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/IMC.h" />
 		<Unit filename="MC/MCmultithread.h" />
@@ -63,6 +66,7 @@
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="Math/Basic.h" />
+		<Unit filename="Math/CMakeLists.txt" />
 		<Unit filename="Math/Mesh3.h" />
 		<Unit filename="Math/Mesh3Tests.h" />
 		<Unit filename="Math/Random.h" />
@@ -71,15 +75,23 @@
 		<Unit filename="Physics/AnglesTests.h" />
 		<Unit filename="Physics/BugerLambert.h" />
 		<Unit filename="Physics/BugerLambertTests.h" />
+		<Unit filename="Physics/CMakeLists.txt" />
+		<Unit filename="Physics/Medium/CMakeLists.txt" />
+		<Unit filename="Physics/Medium/MediumConstant.h" />
+		<Unit filename="Physics/Medium/MediumConstantTests.h" />
 		<Unit filename="Physics/Medium/MediumGlass.h" />
 		<Unit filename="Physics/Medium/MediumGlassTests.h" />
 		<Unit filename="Physics/Medium/MediumInterface.h" />
 		<Unit filename="Physics/Medium/MediumInterfaceTests.h" />
+		<Unit filename="Physics/Medium/MediumLinear.h" />
+		<Unit filename="Physics/Medium/MediumLinearTests.h" />
+		<Unit filename="Physics/Medium/MediumProperties.h" />
 		<Unit filename="Physics/Medium/MediumType.h" />
 		<Unit filename="Physics/Medium/MediumUtils.h" />
 		<Unit filename="Physics/Medium/MediumUtilsTests.h" />
 		<Unit filename="Physics/Reflectance.h" />
 		<Unit filename="Physics/ReflectanceTests.h" />
+		<Unit filename="Settings/CMakeLists.txt" />
 		<Unit filename="Settings/SettingsImporter.h" />
 		<Unit filename="Settings/SettingsImporterErrors.h" />
 		<Unit filename="Settings/SettingsImporterErrorsTests.h" />
@@ -88,6 +100,7 @@
 		<Unit filename="Settings/SettingsImporterTissueTypeTests.h" />
 		<Unit filename="Settings/settings.yaml" />
 		<Unit filename="TODO" />
+		<Unit filename="Utils/CMakeLists.txt" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_admc.cpp" />

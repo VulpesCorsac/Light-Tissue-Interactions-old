@@ -11,11 +11,25 @@ protected:
     MediumGlass<float>* const medium = new MediumGlass<float>();
 };
 
-TEST_F(MediumGlassTests, TypeIsUnknown) {
+TEST_F(MediumGlassTests, ConstructorFromRefractionIndex) {
+    constexpr float refractionIndex = 2;
+    MediumGlass<float>* const medium = new MediumGlass<float>(refractionIndex);
+    EXPECT_EQ(medium->refraction(), refractionIndex);
+}
+
+TEST_F(MediumGlassTests, ConstructorFromMediumProperties) {
+    constexpr float refractionIndex = 2;
+    MediumProperties<float> properties;
+    properties.n0 = refractionIndex;
+    MediumGlass<float>* const medium = new MediumGlass<float>(properties);
+    EXPECT_EQ(medium->refraction(), refractionIndex);
+}
+
+TEST_F(MediumGlassTests, TypeIsGlass) {
     EXPECT_EQ(medium->type, MediumType::Glass);
 }
 
-TEST_F(MediumGlassTests, ThrowsExceptionForRefraction) {
+TEST_F(MediumGlassTests, GetDefaultRefraction) {
     EXPECT_FLOAT_EQ(medium->refraction(), 1);
 }
 

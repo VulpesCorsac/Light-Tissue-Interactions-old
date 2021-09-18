@@ -1,6 +1,8 @@
 #pragma once
 
 #include "MediumInterface.h"
+#include "MediumProperties.h"
+#include "MediumType.h"
 
 namespace Physics_NS {
     /// \brief class for glass Medium
@@ -9,11 +11,13 @@ namespace Physics_NS {
     public:
         /// \param[in] n glass refraction index
         explicit MediumGlass(const T& n = 1) noexcept;
+        /// \param[in] properties glass MediumProperties
+        explicit MediumGlass(const MediumProperties<T>& properties) noexcept;
 
         T refraction(const T& t = 0, const T& d = 0) const override;
 
     protected:
-        T n; ///< Glass refraction index
+        const T n; ///< Glass refraction index
     };
 }
 
@@ -23,8 +27,14 @@ namespace Physics_NS {
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const T& n) noexcept
-    : n(n) {
-    this->type = MediumType::Glass;
+    : MediumInterface<T>(MediumType::Glass)
+    , n(n) {
+}
+
+template < typename T >
+Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) noexcept
+    : MediumInterface<T>(MediumType::Glass)
+    , n(properties.n0) {
 }
 
 template < typename T >

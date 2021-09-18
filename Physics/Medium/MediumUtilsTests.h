@@ -31,6 +31,16 @@ TEST(MediumUtilsTests, MediumTypeFromPtr_MediumGlass) {
     EXPECT_EQ(mediumType<float>(medium), MediumType::Glass);
 }
 
+TEST(MediumUtilsTests, MediumTypeFromPtr_MediumConstant) {
+    auto* const medium = new MediumConstant<float>();
+    EXPECT_EQ(mediumType<float>(medium), MediumType::Constant);
+}
+
+TEST(MediumUtilsTests, MediumTypeFromPtr_MediumLinear) {
+    auto* const medium = new MediumLinear<float>();
+    EXPECT_EQ(mediumType<float>(medium), MediumType::Linear);
+}
+
 TEST(MediumUtilsTests, MediumTypeFromStr_ThrownExceptionForEmptyStr) {
     EXPECT_THROW(mediumType(""), std::invalid_argument);
 }
@@ -43,4 +53,16 @@ TEST(MediumUtilsTests, MediumTypeFromStr_MediumGlass) {
     EXPECT_EQ(mediumType("glass"), MediumType::Glass);
     EXPECT_EQ(mediumType("Glass"), MediumType::Glass);
     EXPECT_EQ(mediumType("GLASS"), MediumType::Glass);
+}
+
+TEST(MediumUtilsTests, MediumTypeFromStr_MediumConstant) {
+    EXPECT_EQ(mediumType("constant"), MediumType::Constant);
+    EXPECT_EQ(mediumType("Constant"), MediumType::Constant);
+    EXPECT_EQ(mediumType("CONSTANT"), MediumType::Constant);
+}
+
+TEST(MediumUtilsTests, MediumTypeFromStr_MediumLinear) {
+    EXPECT_EQ(mediumType("linear"), MediumType::Linear);
+    EXPECT_EQ(mediumType("Linear"), MediumType::Linear);
+    EXPECT_EQ(mediumType("LINEAR"), MediumType::Linear);
 }

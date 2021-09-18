@@ -9,6 +9,9 @@ namespace Physics_NS {
     template < typename T >
     class MediumInterface {
     public:
+        /// \param[in] type is used to set in derived classes
+        MediumInterface(const MediumType& type = MediumType::Unknown) noexcept;
+
         virtual ~MediumInterface() = default;
 
         /// Medium refraction index
@@ -49,13 +52,18 @@ namespace Physics_NS {
         virtual T albedo(const T& t = 0, const T& d = 0) const;
 
     public:
-        MediumType type = MediumType::Unknown; ///< tissue type
+        MediumType type; ///< medium type
     };
 }
 
 /******************
  * IMPLEMENTATION *
  ******************/
+
+template < typename T >
+Physics_NS::MediumInterface<T>::MediumInterface(const MediumType& type) noexcept
+    : type(type) {
+}
 
 template < typename T >
 T Physics_NS::MediumInterface<T>::interaction(const T& t, const T& d) const {
