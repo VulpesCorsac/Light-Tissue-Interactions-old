@@ -11,6 +11,9 @@
 
 #include "../Math/Mesh3Tests.h"
 
+#include "../Settings/SettingsImporterErrorsTests.h"
+#include "../Settings/SettingsImporterTissueTypeTests.h"
+
 #include "TestAD.h"
 #include "TestIAD.h"
 #include "TestMC.h"

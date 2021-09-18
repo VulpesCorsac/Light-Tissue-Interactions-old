@@ -362,7 +362,7 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
 
 int main() {
     bool ff = false;
-    readFromYaml(ff, "Settings/settings.yaml");
+    Settings_NS::readFromYaml(ff, "Settings/settings.yaml");
     std::cout << ff;
     return 0;
 

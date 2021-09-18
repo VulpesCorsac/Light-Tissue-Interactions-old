@@ -26,14 +26,14 @@ namespace Math_NS {
         /// \param[in] j - y-dimension index
         /// \param[in] k - z-dimension index
         /// \return data value at cell data.[i][j][k]
-        /// \return If ASSERT_INPUT_PARAMS is defined and indices are out of corresponding ranges throws std::out_of_range
+        /// \throw std::out_of_range If ASSERT_INPUT_PARAMS is defined and indices are out of corresponding ranges throws std::out_of_range
         T& value(int i, int j, int k);
         /// data value at cell data.[i][j][k]
         /// \param[in] i - x-dimension index
         /// \param[in] j - y-dimension index
         /// \param[in] k - z-dimension index
         /// \return data value at cell data.[i][j][k]
-        /// \return If ASSERT_INPUT_PARAMS is defined and indices are out of corresponding ranges throws std::out_of_range
+        /// \throw std::out_of_range If ASSERT_INPUT_PARAMS is defined and indices are out of corresponding ranges throws std::out_of_range
         const T& value(int i, int j, int k) const;
 
     public:

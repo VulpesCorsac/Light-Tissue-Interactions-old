@@ -81,6 +81,11 @@
 		<Unit filename="Physics/Reflectance.h" />
 		<Unit filename="Physics/ReflectanceTests.h" />
 		<Unit filename="Settings/SettingsImporter.h" />
+		<Unit filename="Settings/SettingsImporterErrors.h" />
+		<Unit filename="Settings/SettingsImporterErrorsTests.h" />
+		<Unit filename="Settings/SettingsImporterStrings.h" />
+		<Unit filename="Settings/SettingsImporterTissueType.h" />
+		<Unit filename="Settings/SettingsImporterTissueTypeTests.h" />
 		<Unit filename="Settings/settings.yaml" />
 		<Unit filename="TODO" />
 		<Unit filename="Utils/ReadFiles.h" />

@@ -26,6 +26,7 @@ add_subdirectory(AD)
 add_subdirectory(Math)
 add_subdirectory(MC)
 add_subdirectory(Physics)
+add_subdirectory(Settings)
 add_subdirectory(Tests)
 add_subdirectory(Utils)
 

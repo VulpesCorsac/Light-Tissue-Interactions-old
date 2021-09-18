@@ -15,26 +15,26 @@ namespace Physics_NS {
         /// \param[in] t tissue temperature
         /// \param[in] d tissue degradation from Arrhenius equation
         /// \return Medium refraction index with corresponding temperature and degradation
-        /// \return Interface throws std::runtime_error
+        /// \throw std::runtime_error Interface throws exception
         virtual T refraction(const T& t = 0, const T& d = 0) const;
 
         /// Medium absorption coefficient
         /// \param[in] t tissue temperature
         /// \param[in] degradation tissue degradation from Arrhenius equation
         /// \return Medium absorption coefficient with corresponding temperature and degradation
-        /// \return Interface throws std::runtime_error
+        /// \throw std::runtime_error Interface throws exception
         virtual T absorption(const T& t = 0, const T& d = 0) const;
         /// Medium scattering coefficient
         /// \param[in] t tissue temperature
         /// \param[in] d tissue degradation from Arrhenius equation
         /// \return Medium scattering coefficient with corresponding temperature and degradation
-        /// \return Interface throws std::runtime_error
+        /// \throw std::runtime_error Interface throws exception
         virtual T scattering(const T& t = 0, const T& d = 0) const;
         /// Medium anisotropy coefficient
         /// \param[in] t tissue temperature
         /// \param[in] d tissue degradation from Arrhenius equation
         /// \return Medium anisotropy coefficient with corresponding temperature and degradation
-        /// \return Interface throws std::runtime_error
+        /// \throw std::runtime_error Interface throws exception
         virtual T anisotropy(const T& t = 0, const T& d = 0) const;
 
         /// Medium interaction coefficient = absorption + scattering
