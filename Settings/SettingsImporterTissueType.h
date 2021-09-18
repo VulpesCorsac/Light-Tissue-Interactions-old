@@ -22,7 +22,7 @@ namespace Settings_NS {
 
 Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
     if (const auto valueNode = node[StringValue])
-        return Physics_NS::mediumType(valueNode.as<string>());
+        return Physics_NS::mediumType(valueNode.as<std::string>());
 
-    return Physics_NS::mediumType(node.as<string>());
+    return Physics_NS::mediumType(node.as<std::string>());
 }

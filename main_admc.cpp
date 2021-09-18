@@ -1,6 +1,15 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
+#include "Physics/Angles.h"
+#include "Physics/BugerLambert.h"
+#include "Physics/Reflectance.h"
+
+#include "Settings/SettingsImporter.h"
+#include "Settings/SettingsImporterTissueType.h"
+
+#include "Utils/ReadFiles.h"
+
 #include "MC/Detector.h"
 #include "MC/IMC.h"
 #include "MC/MCmultithread.h"
@@ -8,12 +17,6 @@
 #include "MC/MonteCarlo.h"
 #include "MC/Photon.h"
 #include "MC/Sample.h"
-
-#include "Physics/Angles.h"
-#include "Physics/BugerLambert.h"
-#include "Physics/Reflectance.h"
-#include "Settings/SettingsImporter.h"
-#include "Utils/ReadFiles.h"
 
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
@@ -361,10 +364,17 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
 }
 
 int main() {
+    /*
+    const std::string configString = "";
+    const auto config = YAML::Load(configString);
+    if (Settings_NS::mediumType(config) != Physics_NS::MediumType::Unknown)
+        throw -1;
+
     bool ff = false;
     Settings_NS::readFromYaml(ff, "Settings/settings.yaml");
-    std::cout << ff;
+    std::cout << ff << std::endl;
     return 0;
+    //*/
 
     // TestsIAD::RunAllTests();
 
