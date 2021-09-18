@@ -6,6 +6,11 @@
 
 using namespace Physics_NS;
 
-TEST(MediumConstantTests, DummyTest) {
+class MediumConstantTests : public ::testing::Test {
+protected:
+    MediumConstant<float>* const medium = new MediumConstant<float>();
+};
 
+TEST_F(MediumConstantTests, TypeIsConstant) {
+    EXPECT_EQ(medium->type, MediumType::Constant);
 }

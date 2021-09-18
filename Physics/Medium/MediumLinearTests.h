@@ -6,6 +6,11 @@
 
 using namespace Physics_NS;
 
-TEST(MediumLinearTests, DummyTest) {
+class MediumLinearTests : public ::testing::Test {
+protected:
+    MediumLinear<float>* const medium = new MediumLinear<float>();
+};
 
+TEST_F(MediumLinearTests, TypeIsLinear) {
+    EXPECT_EQ(medium->type, MediumType::Linear);
 }

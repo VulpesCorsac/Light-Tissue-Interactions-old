@@ -22,10 +22,10 @@ namespace Physics_NS {
 
 template < typename T >
 Physics_NS::MediumLinear<T>::MediumLinear(const T& n) noexcept
-    : MediumInterface<T>(MediumType::Constant) {
+    : MediumInterface<T>(MediumType::Linear) {
 }
 
 template < typename T >
 Physics_NS::MediumLinear<T>::MediumLinear(const MediumProperties<T>& properties) noexcept
-    : MediumInterface<T>(MediumType::Constant) {
+    : MediumInterface<T>(MediumType::Linear) {
 }
