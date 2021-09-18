@@ -3,6 +3,7 @@
 #include "MediumInterface.h"
 
 namespace Physics_NS {
+    /// \brief class for glass Medium
     template < typename T >
     class MediumGlass : public MediumInterface<T> {
     public:

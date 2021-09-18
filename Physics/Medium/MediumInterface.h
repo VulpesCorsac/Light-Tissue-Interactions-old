@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 namespace Physics_NS {
+    /// \brief Interface class for Medium
     template < typename T >
     class MediumInterface {
     public:

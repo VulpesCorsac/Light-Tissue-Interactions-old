@@ -9,6 +9,8 @@
 #include "../Physics/Medium/MediumGlassTests.h"
 #include "../Physics/Medium/MediumUtilsTests.h"
 
+#include "../Math/Mesh3Tests.h"
+
 #include "TestAD.h"
 #include "TestIAD.h"
 #include "TestMC.h"

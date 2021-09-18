@@ -63,6 +63,8 @@
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="Math/Basic.h" />
+		<Unit filename="Math/Mesh3.h" />
+		<Unit filename="Math/Mesh3Tests.h" />
 		<Unit filename="Math/Random.h" />
 		<Unit filename="Math/Vector3.h" />
 		<Unit filename="Physics/Angles.h" />
