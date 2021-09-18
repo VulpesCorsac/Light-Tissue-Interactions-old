@@ -7,7 +7,7 @@ target_compile_features(unit_tests PUBLIC cxx_std_17)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(unit_tests gtest_main TestAD.h TestIAD.h TestMC.h Threads::Threads)
+target_link_libraries(unit_tests PRIVATE gtest_main yaml-cpp Threads::Threads)
 
 add_test(NAME unit_tests COMMAND unit_tests)
 
