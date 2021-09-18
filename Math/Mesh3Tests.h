@@ -40,13 +40,13 @@ TEST_F(Mesh3Tests, Constructor) {
                         if (k < L)
                             ASSERT_EQ(mesh.data.at(i).at(j).at(k), value);
                         else
-                            EXPECT_THROW(mesh.data.at(i).at(j).at(k), std::out_of_range);
+                            EXPECT_THROW(auto val = mesh.data.at(i).at(j).at(k), std::out_of_range);
                     }
                 } else
-                    EXPECT_THROW(mesh.data.at(i).at(j), std::out_of_range);
+                    EXPECT_THROW(auto val = mesh.data.at(i).at(j), std::out_of_range);
             }
         } else
-            EXPECT_THROW(mesh.data.at(i), std::out_of_range);
+            EXPECT_THROW(auto val = mesh.data.at(i), std::out_of_range);
     }
 }
 
@@ -56,9 +56,9 @@ TEST_F(Mesh3Tests, ValueGetter) {
             for (int k = 0; k < L; ++k)
                 ASSERT_EQ(mesh.value(i, j, k), value);
 
-    EXPECT_THROW(mesh.value(N, 0, 0), std::out_of_range);
-    EXPECT_THROW(mesh.value(0, M, 0), std::out_of_range);
-    EXPECT_THROW(mesh.value(0, 0, L), std::out_of_range);
+    EXPECT_THROW(auto val = mesh.value(N, 0, 0), std::out_of_range);
+    EXPECT_THROW(auto val = mesh.value(0, M, 0), std::out_of_range);
+    EXPECT_THROW(auto val = mesh.value(0, 0, L), std::out_of_range);
 }
 
 TEST_F(Mesh3Tests, DataSetter) {

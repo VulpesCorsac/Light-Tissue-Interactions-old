@@ -4,11 +4,13 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 using namespace Physics_NS;
 
 class MediumLinearTests : public ::testing::Test {
 protected:
-    MediumLinear<float>* const medium = new MediumLinear<float>();
+    std::unique_ptr<MediumLinear<float>> medium = std::make_unique<MediumLinear<float>>();
 };
 
 TEST_F(MediumLinearTests, TypeIsLinear) {

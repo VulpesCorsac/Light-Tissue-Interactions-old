@@ -4,25 +4,27 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 using namespace Physics_NS;
 
 class MediumGlassTests : public ::testing::Test {
 protected:
-    MediumGlass<float>* const medium = new MediumGlass<float>();
+    std::unique_ptr<MediumGlass<float>> medium = std::make_unique<MediumGlass<float>>();
 };
 
 TEST_F(MediumGlassTests, ConstructorFromRefractionIndex) {
     constexpr float refractionIndex = 2;
-    MediumGlass<float>* const medium = new MediumGlass<float>(refractionIndex);
-    EXPECT_EQ(medium->refraction(), refractionIndex);
+    auto nondefaultMedium = std::make_unique<MediumGlass<float>>(refractionIndex);
+    EXPECT_EQ(nondefaultMedium->refraction(), refractionIndex);
 }
 
 TEST_F(MediumGlassTests, ConstructorFromMediumProperties) {
     constexpr float refractionIndex = 2;
     MediumProperties<float> properties;
     properties.n0 = refractionIndex;
-    MediumGlass<float>* const medium = new MediumGlass<float>(properties);
-    EXPECT_EQ(medium->refraction(), refractionIndex);
+    auto nondefaultMedium = std::make_unique<MediumGlass<float>>(properties);
+    EXPECT_EQ(nondefaultMedium->refraction(), refractionIndex);
 }
 
 TEST_F(MediumGlassTests, TypeIsGlass) {

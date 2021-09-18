@@ -4,11 +4,13 @@
 
 #include <gtest/gtest.h>
 
+#include <memory>
+
 using namespace Physics_NS;
 
 class MediumInterfaceTests : public ::testing::Test {
 protected:
-    MediumInterface<float>* const medium = new MediumInterface<float>();
+    std::unique_ptr<MediumInterface<float>> medium = std::make_unique<MediumInterface<float>>();
 };
 
 TEST_F(MediumInterfaceTests, TypeIsUnknown) {
