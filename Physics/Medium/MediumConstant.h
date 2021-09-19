@@ -11,7 +11,7 @@ namespace Physics_NS {
     public:
         /// \param[in] n medium refraction index
         explicit MediumConstant(const T& n = 1) noexcept;
-        /// \param[in] properties glass MediumProperties
+        /// \param[in] properties constant medium MediumProperties
         explicit MediumConstant(const MediumProperties<T>& properties) noexcept;
     };
 }

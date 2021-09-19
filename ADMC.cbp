@@ -77,8 +77,12 @@
 		<Unit filename="Physics/BugerLambertTests.h" />
 		<Unit filename="Physics/CMakeLists.txt" />
 		<Unit filename="Physics/Medium/CMakeLists.txt" />
+		<Unit filename="Physics/Medium/MediumArbitrary.h" />
+		<Unit filename="Physics/Medium/MediumArbitraryTests.h" />
 		<Unit filename="Physics/Medium/MediumConstant.h" />
 		<Unit filename="Physics/Medium/MediumConstantTests.h" />
+		<Unit filename="Physics/Medium/MediumFactory.h" />
+		<Unit filename="Physics/Medium/MediumFactoryTests.h" />
 		<Unit filename="Physics/Medium/MediumGlass.h" />
 		<Unit filename="Physics/Medium/MediumGlassTests.h" />
 		<Unit filename="Physics/Medium/MediumInterface.h" />
