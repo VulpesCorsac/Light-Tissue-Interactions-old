@@ -34,7 +34,7 @@ Physics_NS::MediumGlass<T>::MediumGlass(const T& n) noexcept
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) noexcept
     : MediumInterface<T>(MediumType::Glass)
-    , n(properties.n0) {
+    , n(properties.n0.has_value() ? properties.n0.value() : 0) {
 }
 
 template < typename T >
