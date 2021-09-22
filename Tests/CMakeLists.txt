@@ -10,4 +10,3 @@ find_package(Threads REQUIRED)
 target_link_libraries(unit_tests PRIVATE gtest_main yaml-cpp Threads::Threads)
 
 add_test(NAME unit_tests COMMAND unit_tests)
-

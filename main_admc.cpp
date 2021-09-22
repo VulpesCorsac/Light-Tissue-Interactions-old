@@ -6,7 +6,7 @@
 #include "Physics/Reflectance.h"
 
 #include "Settings/SettingsImporter.h"
-#include "Settings/SettingsImporterTissueType.h"
+#include "Settings/SettingsImporterMediumType.h"
 
 #include "Utils/ReadFiles.h"
 
@@ -364,7 +364,7 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
 }
 
 int main() {
-    /*
+    //*
     const std::string configString = "";
     const auto config = YAML::Load(configString);
     if (Settings_NS::mediumType(config) != Physics_NS::MediumType::Unknown)
