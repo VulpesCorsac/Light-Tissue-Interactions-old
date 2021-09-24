@@ -20,11 +20,7 @@ namespace Tests_NS {
     };
 }
 
-#define TEST_AND_BENCHMARK(TEST_CASE_NAME,TEST_NAME,TEST_FUNC_NAME,CNT,DURATION_MS) \
-    TEST(TEST_CASE_NAME, TEST_NAME) {                                               \
-        TEST_FUNC_NAME();                                                           \
-    }                                                                               \
-                                                                                    \
+#define BENCHMARK_TEST(TEST_CASE_NAME,TEST_NAME,TEST_FUNC_NAME,CNT,DURATION_MS)     \
     TEST(TEST_CASE_NAME, TEST_NAME##_Benchmark##_##CNT) {                           \
         Tests_NS::BenchmarkHelper timer;                                            \
         timer.start();                                                              \
