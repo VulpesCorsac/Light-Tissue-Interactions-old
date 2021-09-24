@@ -104,6 +104,7 @@
 		<Unit filename="Settings/SettingsImporterStrings.h" />
 		<Unit filename="Settings/settings.yaml" />
 		<Unit filename="TODO" />
+		<Unit filename="Tests/BenchmarkHelper.h" />
 		<Unit filename="Tests/CMakeLists.txt" />
 		<Unit filename="Tests/TestAD.h" />
 		<Unit filename="Tests/TestIAD.h" />
@@ -113,6 +114,7 @@
 		<Unit filename="Tests/Thresholds.h" />
 		<Unit filename="Utils/CMakeLists.txt" />
 		<Unit filename="Utils/ReadFiles.h" />
+		<Unit filename="Utils/Time.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_admc.cpp" />
 		<Extensions>

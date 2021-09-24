@@ -1,3 +1,5 @@
+add_library(BenchmarkHelper.h INTERFACE)
+
 add_library(TestAD.h INTERFACE)
 add_library(TestIAD.h INTERFACE)
 add_library(TestMC.h INTERFACE)
