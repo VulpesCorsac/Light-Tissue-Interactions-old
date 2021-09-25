@@ -25,11 +25,11 @@ echo ""
 echo ""
 ./Tests/SettingsImporterMediumTypeTests
 echo ""
-./Tests/TestAD
+./Tests/ADTests
 echo ""
-./Tests/TestIAD
+./Tests/IADTests
 echo ""
-./Tests/TestMC
+./Tests/MCTests
 echo ""
 
 ./Tests/unit_tests
