@@ -40,6 +40,7 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++2a" />
 			<Add directory="yaml-cpp/include" />
+			<Add directory="googletest/googletest/include/" />
 		</Compiler>
 		<Linker>
 			<Add option="-static-libstdc++" />
@@ -56,6 +57,8 @@
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
+		<Unit filename="AD/TestAD.h" />
+		<Unit filename="AD/TestIAD.h" />
 		<Unit filename="CMakeLists.txt" />
 		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
@@ -65,6 +68,7 @@
 		<Unit filename="MC/MonteCarlo.h" />
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
+		<Unit filename="MC/TestMC.h" />
 		<Unit filename="Math/Basic.h" />
 		<Unit filename="Math/CMakeLists.txt" />
 		<Unit filename="Math/Mesh3.h" />
@@ -106,12 +110,6 @@
 		<Unit filename="TODO" />
 		<Unit filename="Tests/BenchmarkHelper.h" />
 		<Unit filename="Tests/CMakeLists.txt" />
-		<Unit filename="Tests/TestAD.h" />
-		<Unit filename="Tests/TestIAD.h" />
-		<Unit filename="Tests/TestIADStandalone.h" />
-		<Unit filename="Tests/TestMC.h" />
-		<Unit filename="Tests/TestMCStandalone.h" />
-		<Unit filename="Tests/Thresholds.h" />
 		<Unit filename="Utils/CMakeLists.txt" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/Time.h" />

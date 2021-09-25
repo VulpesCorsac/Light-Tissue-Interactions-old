@@ -1,12 +1,15 @@
 #pragma once
 
-#include "../AD/NelderMead.h"
-#include "../AD/IAD.h"
+#include "NelderMead.h"
+#include "IAD.h"
 
 #include <gtest/gtest.h>
 
 /// TODO: make some statistics as in MC tests
 /// TODO: extract tolerance
+
+constexpr double TOLERANCE = 1e-4;
+constexpr double TOLERANCE_T = 1e-3;
 
 TEST(IAD, Test1) {
     using T = float;

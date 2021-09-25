@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../MC/Medium.h"
-#include "../MC/MonteCarlo.h"
-#include "../MC/MCmultithread.h"
-#include "../MC/Detector.h"
+#include "Medium.h"
+#include "MonteCarlo.h"
+#include "MCmultithread.h"
+#include "Detector.h"
+
 #include "../Physics/BugerLambert.h"
 
 #include <gtest/gtest.h>

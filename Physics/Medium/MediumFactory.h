@@ -4,6 +4,7 @@
 #include "MediumInterface.h"
 #include "MediumGlass.h"
 #include "MediumLinear.h"
+#include "MediumArbitrary.h"
 #include "MediumProperties.h"
 #include "MediumType.h"
 
@@ -22,7 +23,7 @@ namespace Physics_NS {
     /// \return medium of needed type based on properties
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and properties.type is Unknown
     template < typename T >
-    std::unique_ptr<MediumInterface<T>> createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS;
+    std::unique_ptr<Physics_NS::MediumInterface<T>> createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS;
 }
 
 /******************
@@ -30,7 +31,7 @@ namespace Physics_NS {
  ******************/
 
 template < typename T >
-std::unique_ptr<MediumInterface<T>> Physics_NS::createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS {
+std::unique_ptr<Physics_NS::MediumInterface<T>> Physics_NS::createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS {
     switch (properties.type) {
         case Physics_NS::MediumType::Glass:
             return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumGlass<T>(properties));

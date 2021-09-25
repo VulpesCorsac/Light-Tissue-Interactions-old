@@ -6,3 +6,6 @@ add_library(NelderMead.h INTERFACE)
 add_library(Quadrature.h INTERFACE)
 add_library(RedistributionFunction.h INTERFACE)
 add_library(RT.h INTERFACE)
+
+add_library(TestAD.h INTERFACE)
+add_library(TestIAD.h INTERFACE)

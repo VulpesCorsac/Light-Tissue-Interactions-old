@@ -7,6 +7,7 @@
 #include "MediumLinear.h"
 #include "MediumType.h"
 
+#include <algorithm>
 #include <string>
 
 #ifdef ASSERT_INPUT_PARAMS

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "BenchmarkHelper.h"
+#include "RT.h"
+#include "Quadrature.h"
 
-#include "../AD/RT.h"
-#include "../AD/Quadrature.h"
+#include "../Tests/BenchmarkHelper.h"
 
 #include <gtest/gtest.h>
 
