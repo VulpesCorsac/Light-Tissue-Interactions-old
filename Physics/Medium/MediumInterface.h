@@ -3,6 +3,7 @@
 #include "MediumType.h"
 
 #include <stdexcept>
+#include <tuple>
 
 namespace Physics_NS {
     /// \brief Interface class for Medium
@@ -77,20 +78,28 @@ T Physics_NS::MediumInterface<T>::albedo(const T& t, const T& d) const {
 
 template < typename T >
 T Physics_NS::MediumInterface<T>::refraction(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
     throw std::runtime_error("Medium refraction was not implemented");
 }
 
 template < typename T >
 T Physics_NS::MediumInterface<T>::absorption(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
     throw std::runtime_error("Medium absorption was not implemented");
 }
 
 template < typename T >
 T Physics_NS::MediumInterface<T>::scattering(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
     throw std::runtime_error("Medium scattering was not implemented");
 }
 
 template < typename T >
 T Physics_NS::MediumInterface<T>::anisotropy(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
     throw std::runtime_error("Medium anisotropy was not implemented");
 }

@@ -51,7 +51,7 @@ void readSettings(const std::string& fileName,
         cout << "Failed to open settings file " << fileName << endl;
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
     string RdFname, TdFname, TcFname;
-    int nLayers;
+    int nLayers = 0;
     vector<Medium<T>> emptyLayers;
 
     for (int lineno = 0; getline(myFileStream,line) && lineno < 40; ++lineno) {

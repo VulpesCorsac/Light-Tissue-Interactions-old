@@ -28,4 +28,5 @@ Physics_NS::MediumConstant<T>::MediumConstant(const T& n) noexcept
 template < typename T >
 Physics_NS::MediumConstant<T>::MediumConstant(const MediumProperties<T>& properties) noexcept
     : MediumInterface<T>(MediumType::Constant) {
+    std::ignore = properties;
 }

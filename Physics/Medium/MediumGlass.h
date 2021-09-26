@@ -39,5 +39,7 @@ Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) n
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::refraction(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
     return n;
 }

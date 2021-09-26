@@ -28,4 +28,5 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n) noexcept
 template < typename T >
 Physics_NS::MediumArbitrary<T>::MediumArbitrary(const MediumProperties<T>& properties) noexcept
     : MediumInterface<T>(MediumType::Arbitrary) {
+    std::ignore = properties;
 }

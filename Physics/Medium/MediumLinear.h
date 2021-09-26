@@ -28,4 +28,5 @@ Physics_NS::MediumLinear<T>::MediumLinear(const T& n) noexcept
 template < typename T >
 Physics_NS::MediumLinear<T>::MediumLinear(const MediumProperties<T>& properties) noexcept
     : MediumInterface<T>(MediumType::Linear) {
+    std::ignore = properties;
 }
