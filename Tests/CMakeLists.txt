@@ -1,5 +1,7 @@
 add_library(BenchmarkHelper.h INTERFACE)
 
+add_compile_definitions(ASSERT_INPUT_PARAMS)
+
 add_executable(AnglesTests AnglesTests.cpp)
 target_compile_features(AnglesTests PUBLIC cxx_std_17)
 add_executable(BugerLambertTests BugerLambertTests.cpp)
@@ -33,7 +35,9 @@ target_compile_features(IADTests PUBLIC cxx_std_17)
 add_executable(MCTests MCTests.cpp)
 target_compile_features(MCTests PUBLIC cxx_std_17)
 
-add_executable(unit_tests main.cpp)
+file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+add_executable(unit_tests ${sources})
+#add_executable(unit_tests main.cpp)
 target_compile_features(unit_tests PUBLIC cxx_std_17)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)

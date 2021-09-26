@@ -23,13 +23,13 @@ namespace Physics_NS {
     /// \return MediumType, MediumType::Unknown if cannot convert to the known types
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
     template < typename T >
-    MediumType mediumType(MediumInterface<T>* medium) EXCEPT_INPUT_PARAMS;
+    inline MediumType mediumType(MediumInterface<T>* medium) EXCEPT_INPUT_PARAMS;
 
     /// Medium type getter from MediumInterface pointer
     /// \param[in] medium Medium name
     /// \return MediumType, MediumType::Unknown if cannot convert to the known types
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
-    MediumType mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS;
+    inline MediumType mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS;
 }
 
 /******************

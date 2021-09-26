@@ -8,7 +8,7 @@ namespace Settings_NS {
     /// \param[in] path yaml nodes path
     /// \param[in] description yaml node description
     /// \throw std::runtime_error throws exception
-    void throwParsingErrorNoNode(const std::string& path, const std::string& description = "");
+    inline void throwParsingErrorNoNode(const std::string& path, const std::string& description = "");
 }
 
 /******************
