@@ -1,31 +1,31 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-/*
+#define RUN_TEST_TOGETHER
 
-#include "../Physics/AnglesTests.h"
-#include "../Physics/BugerLambertTests.h"
-#include "../Physics/ReflectanceTests.h"
+#ifdef RUN_TEST_TOGETHER
+    #include "../Physics/AnglesTests.h"
+    #include "../Physics/BugerLambertTests.h"
+    #include "../Physics/ReflectanceTests.h"
 
-#include "../Physics/Medium/MediumInterfaceTests.h"
-#include "../Physics/Medium/MediumGlassTests.h"
-#include "../Physics/Medium/MediumConstantTests.h"
-#include "../Physics/Medium/MediumLinearTests.h"
-#include "../Physics/Medium/MediumArbitraryTests.h"
-#include "../Physics/Medium/MediumUtilsTests.h"
-#include "../Physics/Medium/MediumFactoryTests.h"
+    #include "../Physics/Medium/MediumInterfaceTests.h"
+    #include "../Physics/Medium/MediumGlassTests.h"
+    #include "../Physics/Medium/MediumConstantTests.h"
+    #include "../Physics/Medium/MediumLinearTests.h"
+    #include "../Physics/Medium/MediumArbitraryTests.h"
+    #include "../Physics/Medium/MediumUtilsTests.h"
+    #include "../Physics/Medium/MediumFactoryTests.h"
 
-#include "../Math/Mesh3Tests.h"
+    #include "../Math/Mesh3Tests.h"
 
-#include "../Settings/SettingsImporterErrorsTests.h"
-#include "../Settings/SettingsImporterMediumTypeTests.h"
+    #include "../Settings/SettingsImporterErrorsTests.h"
+    #include "../Settings/SettingsImporterMediumTypeTests.h"
 
-#include "../AD/TestAD.h"
-#include "../AD/TestIAD.h"
+    #include "../AD/ADTests.h"
+    #include "../AD/IADTests.h"
 
-#include "../MC/TestMC.h"
-
-//*/
+    #include "../MC/MCTests.h"
+#endif // RUN_TEST_TOGETHER
 
 #include <gtest/gtest.h>
 

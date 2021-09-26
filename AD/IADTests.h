@@ -8,11 +8,10 @@
 /// TODO: make some statistics as in MC tests
 /// TODO: extract tolerance
 
-constexpr double TOLERANCE = 1e-4;
-constexpr double TOLERANCE_T = 1e-3;
-
 TEST(IAD, Test1) {
     using T = float;
+
+    constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 4;
     constexpr int N = 2; // minimize 2 parameters
@@ -36,6 +35,8 @@ TEST(IAD, Test1) {
 TEST(IAD, Test2) {
     using T = float;
 
+    constexpr double TOLERANCE = 1e-4;
+
     constexpr int M = 32;
     constexpr int N = 2; // minimize 2 parameters
     constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
@@ -57,6 +58,8 @@ TEST(IAD, Test2) {
 
 TEST(IAD, Test3) {
     using T = float;
+
+    constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 16;
     constexpr int N = 2; // minimize 2 parameters
@@ -80,6 +83,8 @@ TEST(IAD, Test3) {
 TEST(IAD, G0) {
     using T = float;
 
+    constexpr double TOLERANCE = 1e-4;
+
     constexpr int M = 4;
     constexpr int N = 2; // minimize 2 parameters
     constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
@@ -102,6 +107,8 @@ TEST(IAD, G0) {
 TEST(IAD, A0_G0_Tau_05) {
     using T = float;
 
+    constexpr double TOLERANCE = 1e-4;
+
     constexpr int M = 8;
     constexpr int N = 2; // minimize 2 parameters
     constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
@@ -123,6 +130,8 @@ TEST(IAD, A0_G0_Tau_05) {
 
 TEST(IAD, A0_G0_Tau1) {
     using T = float;
+
+    constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 32;
     constexpr int N = 2; // minimize 2 parameters
