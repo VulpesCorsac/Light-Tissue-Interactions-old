@@ -54,7 +54,6 @@ Math_NS::Mesh3<T>::Mesh3(int N, int M, int L, T defaultValue) noexcept
     : N(N)
     , M(M)
     , L(L) {
-
     N = std::max(N, 0);
     M = std::max(M, 0);
     L = std::max(L, 0);

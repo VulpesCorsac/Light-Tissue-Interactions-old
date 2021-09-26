@@ -13,7 +13,7 @@ build_script:
     g++ -std=c++2a -O2 -Ieigen main_ad.cpp -o main_ad
 
     g++ -std=c++2a -O2 -pthread main_mc.cpp -o main_mc
-    
+
     g++ -std=c++2a -O2 -Ieigen -Iyaml-cpp/include main_admc.cpp -o main_admc -pthread yaml-cpp/libyaml-cpp.a
 
 test_script:
