@@ -18,6 +18,4 @@ build_script:
 
 test_script:
 - sh: >-
-    ./run_tests.sh
-        
     ./Tests/unit_tests
