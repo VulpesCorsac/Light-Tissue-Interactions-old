@@ -48,4 +48,3 @@ std::unique_ptr<Physics_NS::MediumInterface<T>> Physics_NS::createMedium(const P
             return nullptr;
     }
 }
-

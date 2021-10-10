@@ -17,7 +17,7 @@ namespace Physics_NS {
         T refraction(const T& t = 0, const T& d = 0) const override;
 
     protected:
-        const T n; ///< Glass refraction index
+        const T n0; ///< Glass refraction index
     };
 }
 
@@ -28,18 +28,18 @@ namespace Physics_NS {
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const T& n) noexcept
     : MediumInterface<T>(MediumType::Glass)
-    , n(n) {
+    , n0(n) {
 }
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) noexcept
     : MediumInterface<T>(MediumType::Glass)
-    , n(properties.n0.has_value() ? properties.n0.value() : 0) {
+    , n0(properties.n0.has_value() ? properties.n0.value() : 1) {
 }
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::refraction(const T& t, const T& d) const {
     std::ignore = t;
     std::ignore = d;
-    return n;
+    return n0;
 }

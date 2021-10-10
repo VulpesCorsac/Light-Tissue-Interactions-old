@@ -77,3 +77,247 @@ TEST(MediumUtilsTests, MediumTypeFromStr_MediumArbitrary) {
     EXPECT_EQ(mediumType("Arbitrary"), MediumType::Arbitrary);
     EXPECT_EQ(mediumType("ARBITRARY"), MediumType::Arbitrary);
 }
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForUnknownType) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Unknown;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Unknown;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutRefractionIndex) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithoutRefractionIndex) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithRefractionIndexLessThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithRefractionIndexLessThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_NoExceptionForProperGlass) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 2;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperGlass) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 2;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutRefractionIndex) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutRefractionIndex) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithRefractionIndexLessThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 0;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithRefractionIndexLessThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 0;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutAbsorptionCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutAbsorptionCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithAbsorptionCoefficientLessThanZero) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = -1;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithAbsorptionCoefficientLessThanZero) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = -1;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatteringCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutScatteringCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringCoefficientLessThanZero) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = -1;
+    properties.g0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringCoefficientLessThanZero) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = -1;
+    properties.g0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatteringAnisotropyCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutScatteringAnisotropyCoefficient) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAnisotropyCoefficientLessThanMinusOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = -2;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringAnisotropyCoefficientLessThanMinusOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = -2;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAnisotropyCoefficientGreaterThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = +2;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringAnisotropyCoefficientGreaterThanOne) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = +2;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_NoExceptionForProperConstantMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperConstantMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}

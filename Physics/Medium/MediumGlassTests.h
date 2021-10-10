@@ -11,20 +11,20 @@ using namespace Physics_NS;
 class MediumGlassTests : public ::testing::Test {
 protected:
     std::unique_ptr<MediumGlass<float>> medium = std::make_unique<MediumGlass<float>>();
+
+    static constexpr float n0 = 2;
+    std::unique_ptr<MediumGlass<float>> nondefaultMedium = std::make_unique<MediumGlass<float>>(n0);
 };
 
 TEST_F(MediumGlassTests, ConstructorFromRefractionIndex) {
-    constexpr float refractionIndex = 2;
-    auto nondefaultMedium = std::make_unique<MediumGlass<float>>(refractionIndex);
-    EXPECT_EQ(nondefaultMedium->refraction(), refractionIndex);
+    EXPECT_EQ(nondefaultMedium->refraction(), n0);
 }
 
 TEST_F(MediumGlassTests, ConstructorFromMediumProperties) {
-    constexpr float refractionIndex = 2;
     MediumProperties<float> properties;
-    properties.n0 = refractionIndex;
-    auto nondefaultMedium = std::make_unique<MediumGlass<float>>(properties);
-    EXPECT_EQ(nondefaultMedium->refraction(), refractionIndex);
+    properties.n0 = n0;
+    auto generatedMedium = std::make_unique<MediumGlass<float>>(properties);
+    EXPECT_FLOAT_EQ(generatedMedium->refraction(), n0);
 }
 
 TEST_F(MediumGlassTests, TypeIsGlass) {
