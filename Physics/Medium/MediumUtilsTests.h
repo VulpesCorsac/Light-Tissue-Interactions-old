@@ -970,6 +970,34 @@ TEST(MediumUtilsTests, Validate_NoExceptionForProperConstantMedium) {
     EXPECT_NO_THROW(validate(properties));
 }
 
+TEST(MediumUtilsTests, Validate_NoExceptionForProperLinearMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, Validate_NoExceptionForProperArbitraryMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
 TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperConstantMedium) {
     MediumProperties<int> properties;
     properties.type = MediumType::Constant;
@@ -977,5 +1005,33 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperConstantMedium) {
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperLinearMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperArbitraryMedium) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
