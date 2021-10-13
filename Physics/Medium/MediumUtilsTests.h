@@ -1036,12 +1036,6 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperArbitraryMedium) {
     EXPECT_TRUE(validateSafe(properties));
 }
 
-TEST(MediumUtilsTests, ExportMediumProperties_ForMediumInterface) {
-    std::unique_ptr<MediumInterface<float>> medium = std::make_unique<MediumInterface<float>>();
-    const auto& properties = exportMediumProperties(medium.get());
-    EXPECT_EQ(properties.type, MediumType::Unknown);
-}
-
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumGlass) {
     static constexpr float n0 = 2;
     std::unique_ptr<MediumGlass<float>> medium = std::make_unique<MediumGlass<float>>(n0);
