@@ -35,4 +35,3 @@ T Physics_NS::BugerLambert(T absorption, T mediumRefractionIndex, T outerRefract
     const auto reflectanceBottom = BorderReflectance<T>(mediumRefractionIndex, outerRefractionIndexBottom);
     return ((1 - reflectanceTop) * (1 - reflectanceBottom) * exp(-absorption)) / (1 - reflectanceTop * reflectanceBottom * exp(-2 * absorption));
 }
-
