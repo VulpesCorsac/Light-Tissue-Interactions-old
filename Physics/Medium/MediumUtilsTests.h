@@ -1079,7 +1079,7 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumLinear) {
                                                                                         u0, uT, uD,
                                                                                         g0, gT, gD);
     const auto& properties = exportMediumProperties(medium.get());
-    EXPECT_EQ(properties.type, MediumType::Constant);
+    EXPECT_EQ(properties.type, MediumType::Linear);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
     EXPECT_FLOAT_EQ(properties.nT.value(), nT);
     EXPECT_FLOAT_EQ(properties.nD.value(), nD);
