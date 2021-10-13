@@ -237,7 +237,7 @@ bool Physics_NS::validateSafe(const Physics_NS::MediumProperties<T>& properties)
 }
 
 template < typename T >
-Physics_NS::MediumProperties<T> exportMediumProperties(Physics_NS::MediumInterface<T>* const medium) noexcept {
+Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::MediumInterface<T>* const medium) noexcept {
     Physics_NS::MediumProperties<T> result;
     result.type = mediumType(medium);
 
@@ -257,43 +257,43 @@ Physics_NS::MediumProperties<T> exportMediumProperties(Physics_NS::MediumInterfa
     if (result.type == Physics_NS::MediumType::Linear) {
         auto casted_medium = dynamic_cast<Physics_NS::MediumLinear<T>*>(medium);
         result.n0 = casted_medium->refraction(0, 0);
-        result.nT = casted_medium->refraction(1, 0) - result.n0;
-        result.nD = casted_medium->refraction(0, 1) - result.n0;
+        result.nT = casted_medium->refraction(1, 0) - result.n0.value();
+        result.nD = casted_medium->refraction(0, 1) - result.n0.value();
 
         result.a0 = casted_medium->absorption(0, 0);
-        result.aT = casted_medium->absorption(1, 0) - result.a0;
-        result.aD = casted_medium->absorption(0, 1) - result.a0;
+        result.aT = casted_medium->absorption(1, 0) - result.a0.value();
+        result.aD = casted_medium->absorption(0, 1) - result.a0.value();
 
         result.u0 = casted_medium->scattering(0, 0);
-        result.uT = casted_medium->scattering(1, 0) - result.u0;
-        result.uD = casted_medium->scattering(0, 1) - result.u0;
+        result.uT = casted_medium->scattering(1, 0) - result.u0.value();
+        result.uD = casted_medium->scattering(0, 1) - result.u0.value();
 
         result.g0 = casted_medium->anisotropy(0, 0);
-        result.gT = casted_medium->anisotropy(1, 0) - result.g0;
-        result.gD = casted_medium->anisotropy(0, 1) - result.g0;
+        result.gT = casted_medium->anisotropy(1, 0) - result.g0.value();
+        result.gD = casted_medium->anisotropy(0, 1) - result.g0.value();
     }
 
     if (result.type == Physics_NS::MediumType::Arbitrary) {
         auto casted_medium = dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium);
         result.n0  = casted_medium->refraction(0, 0);
-        result.nT  = casted_medium->refraction(1, 0) - result.n0;
-        result.nD  = casted_medium->refraction(0, 1) - result.n0;
-        result.nDT = casted_medium->refraction(1, 1) - result.n0 - result.nT - result.nD;
+        result.nT  = casted_medium->refraction(1, 0) - result.n0.value();
+        result.nD  = casted_medium->refraction(0, 1) - result.n0.value();
+        result.nDT = casted_medium->refraction(1, 1) - result.n0.value() - result.nT.value() - result.nD.value();
 
         result.a0  = casted_medium->absorption(0, 0);
-        result.aT  = casted_medium->absorption(1, 0) - result.a0;
-        result.aD  = casted_medium->absorption(0, 1) - result.a0;
-        result.aDT = casted_medium->absorption(1, 1) - result.a0 - result.aT - result.aD;
+        result.aT  = casted_medium->absorption(1, 0) - result.a0.value();
+        result.aD  = casted_medium->absorption(0, 1) - result.a0.value();
+        result.aDT = casted_medium->absorption(1, 1) - result.a0.value() - result.aT.value() - result.aD.value();
 
         result.u0  = casted_medium->scattering(0, 0);
-        result.uT  = casted_medium->scattering(1, 0) - result.u0;
-        result.uD  = casted_medium->scattering(0, 1) - result.u0;
-        result.uDT = casted_medium->scattering(1, 1) - result.u0 - result.uT - result.uD;
+        result.uT  = casted_medium->scattering(1, 0) - result.u0.value();
+        result.uD  = casted_medium->scattering(0, 1) - result.u0.value();
+        result.uDT = casted_medium->scattering(1, 1) - result.u0.value() - result.uT.value() - result.uD.value();
 
         result.g0  = casted_medium->anisotropy(0, 0);
-        result.gT  = casted_medium->anisotropy(1, 0) - result.g0;
-        result.gD  = casted_medium->anisotropy(0, 1) - result.g0;
-        result.gDT = casted_medium->anisotropy(1, 1) - result.g0 - result.gT - result.gD;
+        result.gT  = casted_medium->anisotropy(1, 0) - result.g0.value();
+        result.gD  = casted_medium->anisotropy(0, 1) - result.g0.value();
+        result.gDT = casted_medium->anisotropy(1, 1) - result.g0.value() - result.gT.value() - result.gD.value();
     }
 
     return result;
