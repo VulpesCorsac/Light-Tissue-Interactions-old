@@ -6,3 +6,5 @@ add_library(Photon.h INTERFACE)
 add_library(Sample.h INTERFACE)
 
 add_library(MCTests.h INTERFACE)
+
+add_subdirectory(Detectors)

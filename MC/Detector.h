@@ -12,17 +12,6 @@ struct DetectorDistance {
 };
 
 template < typename T >
-class DetectorInterface {
-public:
-    DetectorInterface() noexcept = default;
-
-    virtual ~DetectorInterface() noexcept = default;
-
-    /// TODO: detector writes all the data it needs in this function
-    virtual void detectPhoton(const Photon<T>& photon) noexcept = 0;
-};
-
-template < typename T >
 class IntegratingSphere {
 public:
     IntegratingSphere() noexcept = default;
@@ -48,17 +37,6 @@ protected:
     T dSphere  = 0;
     T dPort1   = 0;
     T dPort2   = 0;
-};
-
-/// TODO: implement
-template < typename T >
-class OpticalFiber : public DetectorInterface<T> {
-public:
-    /// just not to be pure virtual
-    void detectPhoton(const Photon<T>& photon) noexcept override {
-        std::ignore = photon;
-        return;
-    }
 };
 
 /******************
