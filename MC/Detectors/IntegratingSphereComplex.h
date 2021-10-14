@@ -4,7 +4,7 @@
 
 namespace MonteCarlo_NS {
     template < typename T >
-    class OpticalFiber : public DetectorInterface<T> {
+    class IntegratingSphereComplex : public DetectorInterface<T> {
 
     };
 }

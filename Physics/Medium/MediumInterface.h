@@ -13,6 +13,7 @@ namespace Physics_NS {
         /// \param[in] type is used to set in derived classes
         MediumInterface(const MediumType& type = MediumType::Unknown) noexcept;
 
+        /// virtual destructor for interface
         virtual ~MediumInterface() = default;
 
         /// Medium refraction index
