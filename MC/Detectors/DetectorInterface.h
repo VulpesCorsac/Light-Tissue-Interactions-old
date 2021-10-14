@@ -1,7 +1,10 @@
 #pragma once
 
 #include "DetectorTypes.h"
-#include "Photon.h"
+
+#include "../Photon.h"
+
+#include <memory>
 
 namespace MonteCarlo_NS {
     /// \brief Interface class for Detector
