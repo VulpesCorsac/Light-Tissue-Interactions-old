@@ -35,8 +35,8 @@ struct MCresults {
     std::vector<IntegratingSphere<T>> SpheresArrayR;
     std::vector<IntegratingSphere<T>> SpheresArrayT;
 
-    std::vector<OpticalFiber<T>> FibersArrayR;
-    std::vector<OpticalFiber<T>> FibersArrayT;
+    //std::vector<OpticalFiber<T>> FibersArrayR;
+    //std::vector<OpticalFiber<T>> FibersArrayT;
 
     /// TODO: structs instead of pair
     std::vector<std::pair<T,T>> detectedR;
@@ -66,7 +66,7 @@ class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
     MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist);
-    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistance<T> new_dist);
+    //MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistance<T> new_dist);
     ~MonteCarlo() noexcept = default;
 
     /// TODO: Why not return result?
@@ -101,16 +101,16 @@ protected:
     std::vector<IntegratingSphere<T>> SpheresArrayR;
     std::vector<IntegratingSphere<T>> SpheresArrayT;
 
-    OpticalFiber<T> mainFiberR;
-    OpticalFiber<T> mainFiberT;
-    std::vector<OpticalFiber<T>> FibersArrayR;
-    std::vector<OpticalFiber<T>> FibersArrayT;
+    //OpticalFiber<T> mainFiberR;
+    //OpticalFiber<T> mainFiberT;
+    //std::vector<OpticalFiber<T>> FibersArrayR;
+    //std::vector<OpticalFiber<T>> FibersArrayT;
 
     DetectorDistance<T> distances;
 
-    void GenerateDetectorArrays ();
-    void PhotonDetectionSphereR (Photon<T>& exit_photon);
-    void PhotonDetectionSphereT (Photon<T>& exit_photon);
+    void GenerateDetectorArrays();
+    void PhotonDetectionSphereR(Photon<T>& exit_photon);
+    void PhotonDetectionSphereT(Photon<T>& exit_photon);
 
     void FirstReflection(Photon<T>& photon);
 
@@ -156,6 +156,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
         GenerateDetectorArrays();
 }
 
+/*
 template < typename T, size_t Nz, size_t Nr, bool detector>
 MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_detectorR, const OpticalFiber<T>& new_detectorT, const DetectorDistance<T> new_dist)
     : sample(new_sample)
@@ -169,6 +170,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , distances(new_dist) {
     GenerateDetectorArrays();
 }
+//*/
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
