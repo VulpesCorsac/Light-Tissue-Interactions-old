@@ -21,6 +21,10 @@ namespace MonteCarlo_NS {
         /// \param[in] photon Photon that should be detected
         virtual void detect(const Photon<T>& photon);
 
+        /// Calibrate results
+        /// \param[in] totalWeights total weights for all simulated photons
+        virtual void calibrate(const T& totalWeights);
+
     public:
         DetectorType type; ///< detector type
     };
@@ -39,4 +43,11 @@ template < typename T >
 void MonteCarlo_NS::DetectorInterface<T>::detect(const Photon<T>& photon) {
     std::ignore = photon;
     throw std::runtime_error("Detector detect was not implemented");
+
+}
+
+template < typename T >
+void MonteCarlo_NS::DetectorInterface<T>::calibrate(const T& totalWeights) {
+    std::ignore = totalWeights;
+    throw std::runtime_error("Detector calibrate was not implemented");
 }
