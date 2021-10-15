@@ -6,6 +6,7 @@
 #include <iostream>
 
 namespace MonteCarlo_NS {
+    /// \brief Full absorbing detector, e.g. power meter
     template < typename T >
     class FullAbsorber : public DetectorInterface<T> {
     public:

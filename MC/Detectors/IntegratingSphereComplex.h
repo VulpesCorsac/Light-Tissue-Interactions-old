@@ -4,6 +4,7 @@
 #include "DetectorProperties.h"
 
 namespace MonteCarlo_NS {
+    /// \brief Complex integrating sphere
     template < typename T >
     class IntegratingSphereComplex : public DetectorInterface<T> {
     public:

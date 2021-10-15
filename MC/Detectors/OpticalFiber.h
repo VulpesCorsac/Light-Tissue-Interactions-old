@@ -4,6 +4,7 @@
 #include "DetectorProperties.h"
 
 namespace MonteCarlo_NS {
+    /// \brief Optical fiber detector
     template < typename T >
     class OpticalFiber : public DetectorInterface<T> {
     public:
