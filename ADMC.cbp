@@ -66,7 +66,7 @@
 		<Unit filename="MC/Detectors/DetectorInterface.h" />
 		<Unit filename="MC/Detectors/DetectorInterfaceTests.h" />
 		<Unit filename="MC/Detectors/DetectorProperties.h" />
-		<Unit filename="MC/Detectors/DetectorTypes.h" />
+		<Unit filename="MC/Detectors/DetectorType.h" />
 		<Unit filename="MC/Detectors/DetectorUtils.h" />
 		<Unit filename="MC/Detectors/DetectorUtilsTests.h" />
 		<Unit filename="MC/Detectors/DistancesSweep.h" />
