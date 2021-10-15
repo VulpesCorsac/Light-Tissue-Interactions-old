@@ -39,8 +39,8 @@ MonteCarlo_NS::FullAbsorber<T>::FullAbsorber(const T& collimatedCosine) noexcept
 }
 
 template < typename T >
-MonteCarlo_NS::FullAbsorber<T>::FullAbsorber(const DetectorProperties<T>& properties) noexcept
-    : MonteCarlo_NS::FullAbsorber<T>::Base(DetectorType::FullAbsorber)
+MonteCarlo_NS::FullAbsorber<T>::FullAbsorber(const MonteCarlo_NS::DetectorProperties<T>& properties) noexcept
+    : MonteCarlo_NS::FullAbsorber<T>::Base(MonteCarlo_NS::DetectorType::FullAbsorber)
     , collimatedCosine(properties.collimatedCosine.has_value() ? properties.collimatedCosine.value() : 1) {
 }
 
