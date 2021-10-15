@@ -21,6 +21,11 @@ TEST_F(MediumInterfaceTests, TypeIsUnknown) {
     EXPECT_EQ(medium->type, MediumType::Unknown);
 }
 
+TEST_F(MediumInterfaceTests, Constructor) {
+    std::unique_ptr<MediumInterface<float>> generatedMedium = std::make_unique<MediumInterface<float>>(MediumType::Glass);
+    EXPECT_EQ(generatedMedium->type, MediumType::Glass);
+}
+
 TEST_F(MediumInterfaceTests, ThrowsExceptionForRefraction) {
     EXPECT_THROW(medium->refraction(), std::runtime_error);
 }
