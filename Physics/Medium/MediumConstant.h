@@ -9,6 +9,8 @@ namespace Physics_NS {
     template < typename T >
     class MediumConstant : public MediumInterface<T> {
     public:
+        using Base = MediumInterface<T>;
+
         /// \param[in] n medium refraction index
         /// \param[in] a medium absorption coefficient
         /// \param[in] u medium scattering coefficient
@@ -43,7 +45,7 @@ Physics_NS::MediumConstant<T>::MediumConstant(const T& n,
                                               const T& a,
                                               const T& u,
                                               const T& g) noexcept
-    : MediumInterface<T>(MediumType::Constant)
+    : Physics_NS::MediumConstant<T>::Base(MediumType::Constant)
     , n0(n)
     , a0(a)
     , u0(u)
@@ -52,7 +54,7 @@ Physics_NS::MediumConstant<T>::MediumConstant(const T& n,
 
 template < typename T >
 Physics_NS::MediumConstant<T>::MediumConstant(const MediumProperties<T>& properties) noexcept
-    : MediumInterface<T>(MediumType::Constant)
+    : Physics_NS::MediumConstant<T>::Base(MediumType::Constant)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1)
     , a0(properties.a0.has_value() ? properties.a0.value() : 0)
     , u0(properties.u0.has_value() ? properties.u0.value() : 0)

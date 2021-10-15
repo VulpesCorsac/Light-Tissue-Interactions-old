@@ -9,6 +9,8 @@ namespace Physics_NS {
     template < typename T >
     class MediumGlass : public MediumInterface<T> {
     public:
+        using Base = MediumInterface<T>;
+
         /// \param[in] n glass refraction index
         explicit MediumGlass(const T& n = 1) noexcept;
         /// \param[in] properties glass MediumProperties
@@ -27,13 +29,13 @@ namespace Physics_NS {
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const T& n) noexcept
-    : MediumInterface<T>(MediumType::Glass)
+    : Physics_NS::MediumGlass<T>::Base(MediumType::Glass)
     , n0(n) {
 }
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) noexcept
-    : MediumInterface<T>(MediumType::Glass)
+    : Physics_NS::MediumGlass<T>::Base(MediumType::Glass)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1) {
 }
 

@@ -5,7 +5,7 @@
 #include <optional>
 
 namespace Physics_NS {
-    /// \brief Full properties for Medium that is not arbitrary type
+    /// \brief Full properties for Medium
     template < typename T >
     struct MediumProperties {
         /// Medium type

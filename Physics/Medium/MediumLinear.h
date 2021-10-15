@@ -9,6 +9,8 @@ namespace Physics_NS {
     template < typename T >
     class MediumLinear : public MediumInterface<T> {
     public:
+        using Base = MediumInterface<T>;
+
         /// \param[in] n0 medium refraction index for T = 0, D = 0
         /// \param[in] nT d(Medium refraction index)/d(Temperature)
         /// \param[in] nD d(Medium refraction index)/d(Degradation)
@@ -61,7 +63,7 @@ Physics_NS::MediumLinear<T>::MediumLinear(const T& n0, const T& nT, const T& nD,
                                           const T& a0, const T& aT, const T& aD,
                                           const T& u0, const T& uT, const T& uD,
                                           const T& g0, const T& gT, const T& gD) noexcept
-    : MediumInterface<T>(MediumType::Linear)
+    : Physics_NS::MediumLinear<T>::Base(MediumType::Linear)
     , n0(n0), nT(nT), nD(nD)
     , a0(a0), aT(aT), aD(aD)
     , u0(u0), uT(uT), uD(uD)
@@ -70,7 +72,7 @@ Physics_NS::MediumLinear<T>::MediumLinear(const T& n0, const T& nT, const T& nD,
 
 template < typename T >
 Physics_NS::MediumLinear<T>::MediumLinear(const MediumProperties<T>& properties) noexcept
-    : MediumInterface<T>(MediumType::Linear)
+    : Physics_NS::MediumLinear<T>::Base(MediumType::Linear)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1)
     , nT(properties.nT.has_value() ? properties.nT.value() : 0)
     , nD(properties.nD.has_value() ? properties.nD.value() : 0)

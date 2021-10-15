@@ -9,6 +9,8 @@ namespace Physics_NS {
     template < typename T >
     class MediumArbitrary : public MediumInterface<T> {
     public:
+        using Base = MediumInterface<T>;
+
         /// \param[in] n0 medium refraction index for T = 0, D = 0
         /// \param[in] nT d(Medium refraction index)/d(Temperature)
         /// \param[in] nD d(Medium refraction index)/d(Degradation)
@@ -69,7 +71,7 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n0, const T& nT, const 
                                                 const T& a0, const T& aT, const T& aD, const T& aDT,
                                                 const T& u0, const T& uT, const T& uD, const T& uDT,
                                                 const T& g0, const T& gT, const T& gD, const T& gDT) noexcept
-    : MediumInterface<T>(MediumType::Arbitrary)
+    : Physics_NS::MediumArbitrary<T>::Base(MediumType::Arbitrary)
     , n0(n0), nT(nT), nD(nD), nDT(nDT)
     , a0(a0), aT(aT), aD(aD), aDT(aDT)
     , u0(u0), uT(uT), uD(uD), uDT(uDT)
@@ -78,7 +80,7 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n0, const T& nT, const 
 
 template < typename T >
 Physics_NS::MediumArbitrary<T>::MediumArbitrary(const MediumProperties<T>& properties) noexcept
-    : MediumInterface<T>(MediumType::Arbitrary)
+    : Physics_NS::MediumArbitrary<T>::Base(MediumType::Arbitrary)
     , n0 (properties.n0.has_value()  ? properties.n0.value()  : 1)
     , nT (properties.nT.has_value()  ? properties.nT.value()  : 0)
     , nD (properties.nD.has_value()  ? properties.nD.value()  : 0)
