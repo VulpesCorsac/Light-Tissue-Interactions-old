@@ -20,7 +20,7 @@ namespace MonteCarlo_NS {
         void calibrate(const T& totalWeights) override;
 
     public:
-        const T collimatedCosine; ///< minimal absolite cosine to detect photon as collimated
+        const T collimatedCosine; ///< minimal absolute cosine to detect photon as collimated
 
     public:
         T collimatedAbsorbed = 0; ///< total absorbed collimated weights
