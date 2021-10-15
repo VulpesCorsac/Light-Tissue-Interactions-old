@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DetectorTypes.h"
+#include "DetectorType.h"
 
 #include "../Photon.h"
 
