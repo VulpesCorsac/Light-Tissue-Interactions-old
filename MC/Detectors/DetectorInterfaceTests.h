@@ -12,13 +12,13 @@ using namespace MonteCarlo_NS;
 
 class DetectorInterfaceTests : public ::testing::Test {
 protected:
-    std::unique_ptr<DetectorInterface<float>> medium = std::make_unique<DetectorInterface<float>>();
+    std::unique_ptr<DetectorInterface<float>> detector = std::make_unique<DetectorInterface<float>>();
 };
 
 TEST_F(DetectorInterfaceTests, TypeIsUnknown) {
-    EXPECT_EQ(medium->type, DetectorType::Unknown);
+    EXPECT_EQ(detector->type, DetectorType::Unknown);
 }
 
 TEST_F(DetectorInterfaceTests, ThrowsExceptionForDetect) {
-    EXPECT_THROW(medium->detect(Photon<float>()), std::runtime_error);
+    EXPECT_THROW(detector->detect(Photon<float>()), std::runtime_error);
 }
