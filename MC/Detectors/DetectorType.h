@@ -6,7 +6,7 @@ namespace MonteCarlo_NS {
         Unknown,                  ///< unknown detector types e.g. interface
         FullAbsorber,             ///< full absorbing detector, e.g. power meter
         IntegratingSphereSimple,  ///< simple integrating sphere
-        IntegratingSphereComples, ///< integrating sphere with some additional properties
+        IntegratingSphereComplex, ///< integrating sphere with some additional properties
         OpticalFiber              ///< optical fiber detector
     };
 }
