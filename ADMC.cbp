@@ -63,6 +63,8 @@
 		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/Detectors/CMakeLists.txt" />
+		<Unit filename="MC/Detectors/DetectorFactory.h" />
+		<Unit filename="MC/Detectors/DetectorFactoryTests.h" />
 		<Unit filename="MC/Detectors/DetectorInterface.h" />
 		<Unit filename="MC/Detectors/DetectorInterfaceTests.h" />
 		<Unit filename="MC/Detectors/DetectorProperties.h" />
