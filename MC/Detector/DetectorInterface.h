@@ -43,7 +43,6 @@ template < typename T >
 void MonteCarlo_NS::DetectorInterface<T>::detect(const Photon<T>& photon) {
     std::ignore = photon;
     throw std::runtime_error("Detector detect was not implemented");
-
 }
 
 template < typename T >

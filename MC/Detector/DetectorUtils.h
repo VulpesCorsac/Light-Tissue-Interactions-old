@@ -121,15 +121,15 @@ void MonteCarlo_NS::validate(const MonteCarlo_NS::DetectorProperties<T>& propert
     }
 
     if (properties.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
-
+        return;
     }
 
     if (properties.type == MonteCarlo_NS::DetectorType::IntegratingSphereComplex) {
-
+        return;
     }
 
     if (properties.type == MonteCarlo_NS::DetectorType::OpticalFiber) {
-
+        return;
     }
 }
 
