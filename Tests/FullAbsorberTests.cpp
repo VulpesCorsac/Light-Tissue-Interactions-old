@@ -1,1 +1,1 @@
-#include "../MC/Detectors/FullAbsorberTests.h"
+#include "../MC/Detector/FullAbsorberTests.h"

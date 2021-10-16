@@ -1,1 +1,1 @@
-#include "../MC/Detectors/DetectorUtilsTests.h"
+#include "../MC/Detector/DetectorUtilsTests.h"

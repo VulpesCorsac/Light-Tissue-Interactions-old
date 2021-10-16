@@ -7,4 +7,4 @@ add_library(Sample.h INTERFACE)
 
 add_library(MCTests.h INTERFACE)
 
-add_subdirectory(Detectors)
+add_subdirectory(Detector)

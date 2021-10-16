@@ -1,1 +1,1 @@
-#include "../MC/Detectors/IntegratingSphereSimpleTests.h"
+#include "../MC/Detector/IntegratingSphereSimpleTests.h"

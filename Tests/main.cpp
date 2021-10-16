@@ -21,6 +21,14 @@
     #include "../Settings/SettingsImporterErrorsTests.h"
     #include "../Settings/SettingsImporterMediumTypeTests.h"
 
+	#include "../MC/Detector/DetectorInterfaceTests.h"
+	#include "../MC/Detector/FullAbsorberTests.h"
+	#include "../MC/Detector/IntegratingSphereSimple.h"
+	#include "../MC/Detector/IntegratingSphereComplexTests.h"
+	#include "../MC/Detector/OpticalFiberTests.h"
+	#include "../MC/Detector/DetectorUtilsTests.h"
+	#include "../MC/Detector/DetectorFactoryTests.h"
+
     #include "../AD/ADTests.h"
     #include "../AD/IADTests.h"
 

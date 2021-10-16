@@ -1,1 +1,1 @@
-#include "../MC/Detectors/OpticalFiberTests.h"
+#include "../MC/Detector/OpticalFiberTests.h"
