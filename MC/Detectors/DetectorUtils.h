@@ -114,9 +114,9 @@ void MonteCarlo_NS::validate(const MonteCarlo_NS::DetectorProperties<T>& propert
     if (properties.type == MonteCarlo_NS::DetectorType::FullAbsorber) {
         if (!properties.collimatedCosine.has_value())
             throw std::logic_error("Validation fails for DetectorType::FullAbsorber because there is no collimatedCosine property");
-        if (properties.collimatedCosine.value() < -1)
+        if (properties.collimatedCosine.value() < 0)
             throw std::logic_error("Validation fails for DetectorType::FullAbsorber because collimatedCosine property is less than 0");
-        if (properties.collimatedCosine.value() > +1)
+        if (properties.collimatedCosine.value() > 1)
             throw std::logic_error("Validation fails for DetectorType::FullAbsorber because collimatedCosine property is greater than +1");
     }
 
@@ -150,7 +150,7 @@ MonteCarlo_NS::DetectorProperties<T> MonteCarlo_NS::exportDetectorProperties(Mon
 
     if (result.type == MonteCarlo_NS::DetectorType::FullAbsorber) {
         auto casted_detector = dynamic_cast<MonteCarlo_NS::FullAbsorber<T>*>(detector);
-        result.collimatedCosine = casted_detector.collimatedCosine;
+        result.collimatedCosine = casted_detector->collimatedCosine;
     }
 
     if (result.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
