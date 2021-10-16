@@ -1038,7 +1038,7 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperArbitraryMedium) {
 
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumGlass) {
     static constexpr float n0 = 2;
-    std::unique_ptr<MediumGlass<float>> medium = std::make_unique<MediumGlass<float>>(n0);
+    auto medium = std::make_unique<MediumGlass<float>>(n0);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Glass);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
@@ -1049,10 +1049,7 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumConstant) {
     static constexpr float a0 = 3;
     static constexpr float u0 = 4;
     static constexpr float g0 = 5;
-    std::unique_ptr<MediumConstant<float>> medium = std::make_unique<MediumConstant<float>>(n0,
-                                                                                            a0,
-                                                                                            u0,
-                                                                                            g0);
+    auto medium = std::make_unique<MediumConstant<float>>(n0, a0, u0, g0);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Constant);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
@@ -1074,10 +1071,10 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumLinear) {
     static constexpr float g0 = 11;
     static constexpr float gT = 12;
     static constexpr float gD = 13;
-    std::unique_ptr<MediumLinear<float>> medium = std::make_unique<MediumLinear<float>>(n0, nT, nD,
-                                                                                        a0, aT, aD,
-                                                                                        u0, uT, uD,
-                                                                                        g0, gT, gD);
+    auto medium = std::make_unique<MediumLinear<float>>(n0, nT, nD,
+                                                        a0, aT, aD,
+                                                        u0, uT, uD,
+                                                        g0, gT, gD);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Linear);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
@@ -1111,10 +1108,10 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumArbitrary) {
     static constexpr float gT  = 15;
     static constexpr float gD  = 16;
     static constexpr float gDT = 17;
-    std::unique_ptr<MediumArbitrary<float>> medium = std::make_unique<MediumArbitrary<float>>(n0, nT, nD, nDT,
-                                                                                              a0, aT, aD, aDT,
-                                                                                              u0, uT, uD, uDT,
-                                                                                              g0, gT, gD, gDT);
+    auto medium = std::make_unique<MediumArbitrary<float>>(n0, nT, nD, nDT,
+                                                           a0, aT, aD, aDT,
+                                                           u0, uT, uD, uDT,
+                                                           g0, gT, gD, gDT);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Arbitrary);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
