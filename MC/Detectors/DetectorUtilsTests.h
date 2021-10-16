@@ -125,3 +125,65 @@ TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
     properties.type = DetectorType::Unknown;
     EXPECT_FALSE(validateSafe(properties));
 }
+
+TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithoutCollimatedCosine) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithoutCollimatedCosine) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCosineLessThanZero) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = -1;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineLessThanZero) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = -1;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCosineGreaterThanOne) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = 2;
+    EXPECT_THROW(validate(properties), std::logic_error);
+}
+
+TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineGreaterThanOne) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = 2;
+    EXPECT_FALSE(validateSafe(properties));
+}
+
+TEST(DetectorUtilsTests, Validate_NoExceptionForProperFullAbsorber) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(DetectorUtilsTests, ValidateSafe_ReturnsTrueForProperFullAbsorber) {
+    DetectorProperties<int> properties;
+    properties.type = DetectorType::FullAbsorber;
+    properties.collimatedCosine = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(DetectorUtilsTests, ExportDetectorProperties_ForFullAbsorber) {
+    static constexpr float collimatedCosine = 0.9;
+    auto detector = std::make_unique<FullAbsorber<float>>(collimatedCosine);
+    const auto& properties = exportDetectorProperties(detector.get());
+    EXPECT_EQ(properties.type, DetectorType::FullAbsorber);
+    EXPECT_FLOAT_EQ(properties.collimatedCosine.value(), collimatedCosine);
+}
