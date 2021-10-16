@@ -20,9 +20,9 @@ TEST(MediumUtilsTests, MediumTypeFromPtr_ThrownExceptionForInterface) {
 }
 
 TEST(MediumUtilsTests, MediumTypeFromPtr_ThrownExceptionForUnknownType) {
-    class MediunDummy: public MediumInterface<float> {};
+    class MediumDummy: public MediumInterface<float> {};
 
-    auto medium = std::make_unique<MediunDummy>();
+    auto medium = std::make_unique<MediumDummy>();
     EXPECT_THROW(mediumType<float>(medium.get()), std::invalid_argument);
 }
 

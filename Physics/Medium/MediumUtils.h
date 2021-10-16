@@ -1,5 +1,11 @@
 #pragma once
 
+#ifdef ASSERT_INPUT_PARAMS
+    #define EXCEPT_INPUT_PARAMS
+#else
+    #define EXCEPT_INPUT_PARAMS noexcept
+#endif // ASSERT_INPUT_PARAMS
+
 #include "MediumArbitrary.h"
 #include "MediumConstant.h"
 #include "MediumGlass.h"
@@ -11,12 +17,6 @@
 #include <algorithm>
 #include <stdexcept>
 #include <string>
-
-#ifdef ASSERT_INPUT_PARAMS
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
 
 namespace Physics_NS {
     /// Medium type getter from MediumInterface pointer
