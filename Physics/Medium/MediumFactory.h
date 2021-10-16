@@ -23,7 +23,7 @@ namespace Physics_NS {
     /// \return medium of needed type based on properties
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and properties.type is Unknown
     template < typename T >
-    std::unique_ptr<Physics_NS::MediumInterface<T>> createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS;
+    std::unique_ptr<MediumInterface<T>> createMedium(const MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS;
 }
 
 /******************
