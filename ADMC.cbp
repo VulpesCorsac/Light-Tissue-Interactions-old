@@ -121,8 +121,8 @@
 		<Unit filename="Settings/SettingsImporter.h" />
 		<Unit filename="Settings/SettingsImporterErrors.h" />
 		<Unit filename="Settings/SettingsImporterErrorsTests.h" />
-		<Unit filename="Settings/SettingsImporterMediumType.h" />
-		<Unit filename="Settings/SettingsImporterMediumTypeTests.h" />
+		<Unit filename="Settings/SettingsImporterMedium.h" />
+		<Unit filename="Settings/SettingsImporterMediumTests.h" />
 		<Unit filename="Settings/SettingsImporterStrings.h" />
 		<Unit filename="Settings/settings.yaml" />
 		<Unit filename="TODO" />

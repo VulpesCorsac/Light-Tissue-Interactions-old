@@ -4,7 +4,7 @@
     #define ASSERT_INPUT_PARAMS
 #endif // ASSERT_INPUT_PARAMS
 
-#include "SettingsImporterMediumType.h"
+#include "SettingsImporterMedium.h"
 
 #include <gtest/gtest.h>
 
