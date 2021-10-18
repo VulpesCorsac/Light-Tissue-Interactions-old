@@ -114,6 +114,38 @@ TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorOpticalFiber) {
     EXPECT_EQ(detectorType("OPTICAL-FIBER"), DetectorType::OpticalFiber);
 }
 
+TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorFullAbsorber) {
+    EXPECT_EQ(to_string(DetectorType::FullAbsorber), "full_absorber");
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorIntegratingSphereSimple) {
+    EXPECT_EQ(to_string(DetectorType::IntegratingSphereSimple), "integrating_sphere_simple");
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorIntegratingSphereComplex) {
+    EXPECT_EQ(to_string(DetectorType::IntegratingSphereComplex), "integrating_sphere_complex");
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorOpticalFiber) {
+    EXPECT_EQ(to_string(DetectorType::OpticalFiber), "optical_fiber");
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorFullAbsorber) {
+    EXPECT_EQ(detectorType(to_string(DetectorType::FullAbsorber)), DetectorType::FullAbsorber);
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorIntegratingSphereSimple) {
+    EXPECT_EQ(detectorType(to_string(DetectorType::IntegratingSphereSimple)), DetectorType::IntegratingSphereSimple);
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorIntegratingSphereComplex) {
+    EXPECT_EQ(detectorType(to_string(DetectorType::IntegratingSphereComplex)), DetectorType::IntegratingSphereComplex);
+}
+
+TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorOpticalFiber) {
+    EXPECT_EQ(detectorType(to_string(DetectorType::OpticalFiber)), DetectorType::OpticalFiber);
+}
+
 TEST(DetectorUtilsTests, Validate_ThrownExceptionForUnknownType) {
     DetectorProperties<int> properties;
     properties.type = DetectorType::Unknown;

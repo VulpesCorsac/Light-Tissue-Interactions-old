@@ -33,6 +33,11 @@ namespace MonteCarlo_NS {
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
     inline DetectorType detectorType(const std::string& detector) EXCEPT_INPUT_PARAMS;
 
+    /// Get detector type string representation
+    /// \param[in] detector DetectorType
+    /// \return string representing detector type
+    inline std::string to_string(const DetectorType& detector) noexcept;
+
     /// Validator for DetectorProperties
     /// \param[in] properties DetectorProperties
     /// \return in case validation succeeded no exception or value is returned
@@ -104,6 +109,21 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detec
     #endif // ASSERT_INPUT_PARAMS
 
     return MonteCarlo_NS::DetectorType::Unknown;
+}
+
+std::string MonteCarlo_NS::to_string(const MonteCarlo_NS::DetectorType& detector) noexcept {
+    switch (detector) {
+    case MonteCarlo_NS::DetectorType::FullAbsorber:
+        return "full_absorber";
+    case MonteCarlo_NS::DetectorType::IntegratingSphereSimple:
+        return "integrating_sphere_simple";
+    case MonteCarlo_NS::DetectorType::IntegratingSphereComplex:
+        return "integrating_sphere_complex";
+    case MonteCarlo_NS::DetectorType::OpticalFiber:
+        return "optical_fiber";
+    default:
+        return "unknown";
+    }
 }
 
 template < typename T >
