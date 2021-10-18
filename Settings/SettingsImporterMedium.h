@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SettingsImporterErrors.h"
-#include "SettingsImporterStrings.h"
+#include "SettingsStrings.h"
 
 #include "../Physics/Medium/MediumProperties.h"
 #include "../Physics/Medium/MediumType.h"

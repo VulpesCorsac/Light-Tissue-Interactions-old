@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SettingsImporterErrors.h"
-#include "SettingsImporterStrings.h"
+#include "SettingsStrings.h"
 
 #include "../yaml-cpp/include/yaml-cpp/yaml.h"
 
