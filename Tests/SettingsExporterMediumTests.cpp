@@ -1,0 +1,1 @@
+#include "../Settings/SettingsExporterMediumTests.h"

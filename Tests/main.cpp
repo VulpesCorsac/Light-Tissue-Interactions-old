@@ -18,6 +18,7 @@
 
     #include "../Math/Mesh3Tests.h"
 
+    #include "../Settings/SettingsExporterMediumTypeTests.h"
     #include "../Settings/SettingsImporterErrorsTests.h"
     #include "../Settings/SettingsImporterMediumTypeTests.h"
 

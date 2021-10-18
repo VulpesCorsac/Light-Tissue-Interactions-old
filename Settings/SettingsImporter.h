@@ -28,5 +28,4 @@ namespace Settings_NS {
         } else
             throwParsingErrorNoNode(SettingsExample);
     }
-
 }
