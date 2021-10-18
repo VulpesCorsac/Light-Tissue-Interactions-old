@@ -9,11 +9,14 @@
 #include "DetectorInterface.h"
 #include "DetectorProperties.h"
 #include "DetectorType.h"
+#include "DetectorTypeStrings.h"
 #include "DistancesSweep.h"
 #include "FullAbsorber.h"
 #include "IntegratingSphereComplex.h"
 #include "IntegratingSphereSimple.h"
 #include "OpticalFiber.h"
+
+#include "../../Utils/Utils.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -83,25 +86,25 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detec
     auto lower = detector;
     std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); } );
 
-    if (lower == "fullabsorber"  ||
-        lower == "full absorber" ||
-        lower == "full_absorber" ||
-        lower == "full-absorber")
+    if (lower == MonteCarlo_NS::DetectorTypeStrings::FullAbsorber ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', ' ') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', '-') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', std::nullopt))
         return MonteCarlo_NS::DetectorType::FullAbsorber;
-    if (lower == "integratingspheresimple"   ||
-        lower == "integrating sphere simple" ||
-        lower == "integrating_sphere_simple" ||
-        lower == "integrating-sphere-simple")
+    if (lower == MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', ' ') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', '-') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', std::nullopt))
         return MonteCarlo_NS::DetectorType::IntegratingSphereSimple;
-    if (lower == "integratingspherecomplex"   ||
-        lower == "integrating sphere complex" ||
-        lower == "integrating_sphere_complex" ||
-        lower == "integrating-sphere-complex")
+    if (lower == MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', ' ') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', '-') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', std::nullopt))
         return MonteCarlo_NS::DetectorType::IntegratingSphereComplex;
-    if (lower == "opticalfiber"  ||
-        lower == "optical fiber" ||
-        lower == "optical_fiber" ||
-        lower == "optical-fiber")
+    if (lower == MonteCarlo_NS::DetectorTypeStrings::OpticalFiber ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', ' ') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', '-') ||
+        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', std::nullopt))
         return MonteCarlo_NS::DetectorType::OpticalFiber;
 
     #ifdef ASSERT_INPUT_PARAMS
@@ -114,15 +117,15 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detec
 std::string MonteCarlo_NS::to_string(const MonteCarlo_NS::DetectorType& detector) noexcept {
     switch (detector) {
     case MonteCarlo_NS::DetectorType::FullAbsorber:
-        return "full_absorber";
+        return MonteCarlo_NS::DetectorTypeStrings::FullAbsorber;
     case MonteCarlo_NS::DetectorType::IntegratingSphereSimple:
-        return "integrating_sphere_simple";
+        return MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple;
     case MonteCarlo_NS::DetectorType::IntegratingSphereComplex:
-        return "integrating_sphere_complex";
+        return MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex;
     case MonteCarlo_NS::DetectorType::OpticalFiber:
-        return "optical_fiber";
+        return MonteCarlo_NS::DetectorTypeStrings::OpticalFiber;
     default:
-        return "unknown";
+        return MonteCarlo_NS::DetectorTypeStrings::Unknown;
     }
 }
 

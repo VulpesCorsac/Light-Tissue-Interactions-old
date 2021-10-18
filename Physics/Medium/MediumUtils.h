@@ -13,6 +13,7 @@
 #include "MediumLinear.h"
 #include "MediumProperties.h"
 #include "MediumType.h"
+#include "MediumTypeStrings.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -82,13 +83,13 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
     auto lower = medium;
     std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); } );
 
-    if (lower == "glass")
+    if (lower == Physics_NS::MediumTypeStrings::Glass)
         return Physics_NS::MediumType::Glass;
-    if (lower == "constant")
+    if (lower == Physics_NS::MediumTypeStrings::Constant)
         return Physics_NS::MediumType::Constant;
-    if (lower == "linear")
+    if (lower == Physics_NS::MediumTypeStrings::Linear)
         return Physics_NS::MediumType::Linear;
-    if (lower == "arbitrary")
+    if (lower == Physics_NS::MediumTypeStrings::Arbitrary)
         return Physics_NS::MediumType::Arbitrary;
 
     #ifdef ASSERT_INPUT_PARAMS
@@ -101,15 +102,15 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
 std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
     switch (medium) {
     case Physics_NS::MediumType::Glass:
-        return "glass";
+        return Physics_NS::MediumTypeStrings::Glass;
     case Physics_NS::MediumType::Constant:
-        return "constant";
+        return Physics_NS::MediumTypeStrings::Constant;
     case Physics_NS::MediumType::Linear:
-        return "linear";
+        return Physics_NS::MediumTypeStrings::Linear;
     case Physics_NS::MediumType::Arbitrary:
-        return "arbitrary";
+        return Physics_NS::MediumTypeStrings::Arbitrary;
     default:
-        return "unknown";
+        return Physics_NS::MediumTypeStrings::Unknown;
     }
 }
 

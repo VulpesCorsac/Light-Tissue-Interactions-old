@@ -6,6 +6,7 @@ add_library(MediumInterface.h INTERFACE)
 add_library(MediumLinear.h INTERFACE)
 add_library(MediumProperties.h INTERFACE)
 add_library(MediumType.h INTERFACE)
+add_library(MediumTypeStrings.h INTERFACE)
 add_library(MediumUtils.h INTERFACE)
 
 add_library(MediumArbitraryTests.h INTERFACE)

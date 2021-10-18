@@ -1,6 +1,7 @@
 add_library(DetectorInterface.h INTERFACE)
 add_library(DetectorProperties.h INTERFACE)
 add_library(DetectorType.h INTERFACE)
+add_library(DetectorTypeStrings.h INTERFACE)
 add_library(DetectorUtils.h INTERFACE)
 add_library(DistancesSweep.h INTERFACE)
 add_library(FullAbsorber.h INTERFACE)

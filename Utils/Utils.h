@@ -1,5 +1,8 @@
 #pragma once
 
+#include <optional>
+#include <string>
+
 #define ALL_CONTAINER(c) begin(c), end(c)
 
 namespace Utils_NS {
@@ -8,6 +11,12 @@ namespace Utils_NS {
     /// \return int size of the container
     template < typename Container >
     int isize(const Container& c) noexcept;
+
+    /// returns string with replaced characters
+    /// \param[in] from character to replace from
+    /// \param[in] to replace found "from" to "to" if needed
+    /// \return std::string result after replacing
+    std::string replace(const std::string& s, char from, std::optional<char> to) noexcept;
 }
 
 /******************
@@ -17,4 +26,19 @@ namespace Utils_NS {
 template < typename Container >
 int Utils_NS::isize(const Container& c) noexcept {
     return static_cast<int>(c.size());
+}
+
+
+std::string Utils_NS::replace(const std::string& s, char from, std::optional<char> to) noexcept {
+    std::string result;
+
+    for (const auto& c: s) {
+        if (c == from) {
+            if (to.has_value())
+                result += to.value();
+        } else
+            result += c;
+    }
+
+    return result;
 }
