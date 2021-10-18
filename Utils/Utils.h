@@ -16,7 +16,7 @@ namespace Utils_NS {
     /// \param[in] from character to replace from
     /// \param[in] to replace found "from" to "to" if needed
     /// \return std::string result after replacing
-    std::string replace(const std::string& s, char from, std::optional<char> to) noexcept;
+    inline std::string replace(const std::string& s, char from, std::optional<char> to) noexcept;
 }
 
 /******************
