@@ -78,6 +78,38 @@ TEST(MediumUtilsTests, MediumTypeFromStr_MediumArbitrary) {
     EXPECT_EQ(mediumType("ARBITRARY"), MediumType::Arbitrary);
 }
 
+TEST(MediumUtilsTests, MediumTypeToStr_MediumGlass) {
+    EXPECT_EQ(to_string(MediumType::Glass), "glass");
+}
+
+TEST(MediumUtilsTests, MediumTypeToStr_MediumConstant) {
+    EXPECT_EQ(to_string(MediumType::Constant), "constant");
+}
+
+TEST(MediumUtilsTests, MediumTypeToStr_MediumLinear) {
+    EXPECT_EQ(to_string(MediumType::Linear), "linear");
+}
+
+TEST(MediumUtilsTests, MediumTypeToStr_MediumArbitrary) {
+    EXPECT_EQ(to_string(MediumType::Arbitrary), "arbitrary");
+}
+
+TEST(MediumUtilsTests, MediumTypeToStrFromStr_MediumGlass) {
+    EXPECT_EQ(mediumType(to_string(MediumType::Glass)), MediumType::Glass);
+}
+
+TEST(MediumUtilsTests, MediumTypeToStrFromStr_MediumConstant) {
+    EXPECT_EQ(mediumType(to_string(MediumType::Constant)), MediumType::Constant);
+}
+
+TEST(MediumUtilsTests, MediumTypeToStrFromStr_MediumLinear) {
+    EXPECT_EQ(mediumType(to_string(MediumType::Linear)), MediumType::Linear);
+}
+
+TEST(MediumUtilsTests, MediumTypeToStrFromStr_MediumArbitrary) {
+    EXPECT_EQ(mediumType(to_string(MediumType::Arbitrary)), MediumType::Arbitrary);
+}
+
 TEST(MediumUtilsTests, Validate_ThrownExceptionForUnknownType) {
     MediumProperties<int> properties;
     properties.type = MediumType::Unknown;

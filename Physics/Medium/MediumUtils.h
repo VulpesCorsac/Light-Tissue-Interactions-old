@@ -32,6 +32,11 @@ namespace Physics_NS {
     /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
     inline MediumType mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS;
 
+    /// Get medium type string representation
+    /// \param[in] medium MediumType
+    /// \return string representing medium type
+    inline std::string to_string(const MediumType& medium) noexcept;
+
     /// Validator for MediumProperties
     /// \param[in] properties MediumProperties
     /// \return in case validation succeeded no exception or value is returned
@@ -91,6 +96,21 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
     #endif // ASSERT_INPUT_PARAMS
 
     return Physics_NS::MediumType::Unknown;
+}
+
+std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
+    switch (medium) {
+    case Physics_NS::MediumType::Glass:
+        return "glass";
+    case Physics_NS::MediumType::Constant:
+        return "constant";
+    case Physics_NS::MediumType::Linear:
+        return "linear";
+    case Physics_NS::MediumType::Arbitrary:
+        return "arbitrary";
+    default:
+        return "unknown";
+    }
 }
 
 template < typename T >
