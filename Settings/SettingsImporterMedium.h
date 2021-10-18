@@ -13,8 +13,6 @@
     #include <stdexcept>
 #endif // ASSERT_INPUT_PARAMS
 
-#include <iostream>
-
 namespace Settings_NS {
     /// Get node with actual data
     /// \param[in] node yaml node to parse
