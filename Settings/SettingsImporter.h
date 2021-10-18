@@ -16,13 +16,13 @@ namespace Settings_NS {
 
         if (const auto settingsExampleNode = config[SettingsExample]) {
             if (const auto featureFlagEnableNode = settingsExampleNode[FeatureFlagEnabled]) {
-                const std::string description = featureFlagEnableNode[Settings_NS::SettingsStrings::StringDescription] ?
-                                                featureFlagEnableNode[Settings_NS::SettingsStrings::StringDescription].as<std::string>() :
+                const std::string description = featureFlagEnableNode[Settings_NS::SettingsStrings::Yaml::Description] ?
+                                                featureFlagEnableNode[Settings_NS::SettingsStrings::Yaml::Description].as<std::string>() :
                                                 "";
-                if (const auto valueNode = featureFlagEnableNode[Settings_NS::SettingsStrings::StringValue])
+                if (const auto valueNode = featureFlagEnableNode[Settings_NS::SettingsStrings::Yaml::Value])
                     flag = valueNode.as<int>();
                 else
-                    throwParsingErrorNoNode(SettingsExample + "/" + FeatureFlagEnabled + "/" + Settings_NS::SettingsStrings::StringValue, description);
+                    throwParsingErrorNoNode(SettingsExample + "/" + FeatureFlagEnabled + "/" + Settings_NS::SettingsStrings::Yaml::Value, description);
             } else
                 throwParsingErrorNoNode(SettingsExample + "/" + FeatureFlagEnabled);
         } else

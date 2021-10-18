@@ -42,7 +42,7 @@ namespace Settings_NS {
 YAML::Node Settings_NS::valueNode(const YAML::Node& node) {
     if (node.Type() == YAML::NodeType::Scalar)
         return node;
-    if (const auto valueNode = node[Settings_NS::SettingsStrings::StringValue])
+    if (const auto valueNode = node[Settings_NS::SettingsStrings::Yaml::Value])
         return valueNode;
     return node;
 }
@@ -59,7 +59,7 @@ Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
     if (node.Type() == YAML::NodeType::Scalar)
         return Physics_NS::mediumType(node.as<std::string>());
 
-    if (const auto valueNode = node[Settings_NS::SettingsStrings::StringValue])
+    if (const auto valueNode = node[Settings_NS::SettingsStrings::Yaml::Value])
         return Physics_NS::mediumType(valueNode.as<std::string>());
 
     #ifdef ASSERT_INPUT_PARAMS
@@ -76,7 +76,7 @@ Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& 
     for (const auto it: valueNode(node)) {
         const auto key = it.first.as<std::string>();
         const auto value = it.second;
-        if (key == Settings_NS::SettingsStrings::StringMediumType) {
+        if (key == Settings_NS::SettingsStrings::Medium::Type) {
             if (result.type == Physics_NS::MediumType::Unknown)
                 result.type = mediumType(value);
             else
@@ -97,22 +97,22 @@ Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& 
                 }
             };
 
-            helper(Settings_NS::SettingsStrings::StringMediumN0 , result.n0 );
-            helper(Settings_NS::SettingsStrings::StringMediumNT , result.nT );
-            helper(Settings_NS::SettingsStrings::StringMediumND , result.nD );
-            helper(Settings_NS::SettingsStrings::StringMediumNDT, result.nDT);
-            helper(Settings_NS::SettingsStrings::StringMediumA0 , result.a0 );
-            helper(Settings_NS::SettingsStrings::StringMediumAT , result.aT );
-            helper(Settings_NS::SettingsStrings::StringMediumAD , result.aD );
-            helper(Settings_NS::SettingsStrings::StringMediumADT, result.aDT);
-            helper(Settings_NS::SettingsStrings::StringMediumU0 , result.u0 );
-            helper(Settings_NS::SettingsStrings::StringMediumUT , result.uT );
-            helper(Settings_NS::SettingsStrings::StringMediumUD , result.uD );
-            helper(Settings_NS::SettingsStrings::StringMediumUDT, result.uDT);
-            helper(Settings_NS::SettingsStrings::StringMediumG0 , result.g0 );
-            helper(Settings_NS::SettingsStrings::StringMediumGT , result.gT );
-            helper(Settings_NS::SettingsStrings::StringMediumGD , result.gD );
-            helper(Settings_NS::SettingsStrings::StringMediumGDT, result.gDT);
+            helper(Settings_NS::SettingsStrings::Medium::N0 , result.n0 );
+            helper(Settings_NS::SettingsStrings::Medium::NT , result.nT );
+            helper(Settings_NS::SettingsStrings::Medium::ND , result.nD );
+            helper(Settings_NS::SettingsStrings::Medium::NDT, result.nDT);
+            helper(Settings_NS::SettingsStrings::Medium::A0 , result.a0 );
+            helper(Settings_NS::SettingsStrings::Medium::AT , result.aT );
+            helper(Settings_NS::SettingsStrings::Medium::AD , result.aD );
+            helper(Settings_NS::SettingsStrings::Medium::ADT, result.aDT);
+            helper(Settings_NS::SettingsStrings::Medium::U0 , result.u0 );
+            helper(Settings_NS::SettingsStrings::Medium::UT , result.uT );
+            helper(Settings_NS::SettingsStrings::Medium::UD , result.uD );
+            helper(Settings_NS::SettingsStrings::Medium::UDT, result.uDT);
+            helper(Settings_NS::SettingsStrings::Medium::G0 , result.g0 );
+            helper(Settings_NS::SettingsStrings::Medium::GT , result.gT );
+            helper(Settings_NS::SettingsStrings::Medium::GD , result.gD );
+            helper(Settings_NS::SettingsStrings::Medium::GDT, result.gDT);
         }
     }
 
