@@ -21,6 +21,10 @@
 
 //#include "Tests/TestIADStandalone.h"
 
+/*
+#include "Settings/SettingsImporter.h"
+//*/
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -362,11 +366,6 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
 
 int main() {
     /*
-    const std::string configString = "";
-    const auto config = YAML::Load(configString);
-    if (Settings_NS::mediumType(config) != Physics_NS::MediumType::Unknown)
-        throw -1;
-
     bool ff = false;
     Settings_NS::readFromYaml(ff, "Settings/settings.yaml");
     std::cout << ff << std::endl;
