@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SettingsImporterMedium.h"
 #include "SettingsStrings.h"
 
 #include "../Physics/Medium/MediumProperties.h"
@@ -8,16 +9,15 @@
 
 #include "../yaml-cpp/include/yaml-cpp/yaml.h"
 
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-#endif // ASSERT_INPUT_PARAMS
-
 namespace Settings_NS {
-    /// Returns MediumType from yaml node
+    /// Returns yaml node based on MediumType
     /// \param[in] node yaml node to parse
     /// \return MediumType from the given node
     /// \throw std::invalid_argument throws same exception as Physics_NS::mediumType(string)
     YAML::Node mediumType(const Physics_NS::MediumType& type);
+
+    template < typename T >
+    YAML::Node mediumProperties(const Physics_NS::MediumProperties<T>& properties);
 }
 
 /******************

@@ -135,6 +135,7 @@
 		<Unit filename="Tests/CMakeLists.txt" />
 		<Unit filename="Utils/CMakeLists.txt" />
 		<Unit filename="Utils/ReadFiles.h" />
+		<Unit filename="Utils/StringUtils.h" />
 		<Unit filename="Utils/Time.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="main_admc.cpp" />

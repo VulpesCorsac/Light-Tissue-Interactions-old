@@ -6,9 +6,13 @@
 
 #include "DetectorUtils.h"
 
+#include "../../Utils/Utils.h"
+#include "../../Utils/StringUtils.h"
+
 #include <gtest/gtest.h>
 
 using namespace MonteCarlo_NS;
+using namespace Utils_NS;
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_ThrownExceptionForNullptr) {
     EXPECT_THROW(detectorType<float>(nullptr), std::invalid_argument);
@@ -55,79 +59,59 @@ TEST(DetectorUtilsTests, DetectorTypeFromStr_ThrownExceptionForUnknownType) {
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorFullAbsorber) {
-    EXPECT_EQ(detectorType("fullabsorber" ), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("FullAbsorber" ), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("FULLABSORBER" ), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("full absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("Full Absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("FULL ABSORBER"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("full_absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("Full_Absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("FULL_ABSORBER"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("full-absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("Full-Absorber"), DetectorType::FullAbsorber);
-    EXPECT_EQ(detectorType("FULL-ABSORBER"), DetectorType::FullAbsorber);
+    auto type = DetectorTypeStrings::FullAbsorber;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(detectorType(item), DetectorType::FullAbsorber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorIntegratingSphereSimple) {
-    EXPECT_EQ(detectorType("integratingspheresimple"  ), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("IntegratingSphereSimple"  ), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("INTEGRATINGSPHERESIMPLE"  ), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("integrating sphere simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("Integrating Sphere Simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("INTEGRATING SPHERE SIMPLE"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("integrating_sphere_simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("Integrating_Sphere_Simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("INTEGRATING_SPHERE_SIMPLE"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("integrating-sphere-simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("Integrating-Sphere-Simple"), DetectorType::IntegratingSphereSimple);
-    EXPECT_EQ(detectorType("INTEGRATING-SPHERE-SIMPLE"), DetectorType::IntegratingSphereSimple);
+    auto type = DetectorTypeStrings::IntegratingSphereSimple;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(detectorType(item), DetectorType::IntegratingSphereSimple);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorIntegratingSphereComplex) {
-    EXPECT_EQ(detectorType("integratingspherecomplex"  ), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("IntegratingSphereComplex"  ), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("INTEGRATINGSPHERECOMPLEX"  ), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("integrating sphere complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("Integrating Sphere Complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("INTEGRATING SPHERE COMPLEX"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("integrating_sphere_complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("Integrating_Sphere_Complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("INTEGRATING_SPHERE_COMPLEX"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("integrating-sphere-complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("Integrating-Sphere-Complex"), DetectorType::IntegratingSphereComplex);
-    EXPECT_EQ(detectorType("INTEGRATING-SPHERE-COMPLEX"), DetectorType::IntegratingSphereComplex);
+    auto type = DetectorTypeStrings::IntegratingSphereComplex;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(detectorType(item), DetectorType::IntegratingSphereComplex);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorOpticalFiber) {
-    EXPECT_EQ(detectorType("opticalfiber" ), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("OpticalFiber" ), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("OPTICALFIBER" ), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("optical fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("Optical Fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("OPTICAL FIBER"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("optical_fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("Optical_Fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("OPTICAL_FIBER"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("optical-fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("Optical-Fiber"), DetectorType::OpticalFiber);
-    EXPECT_EQ(detectorType("OPTICAL-FIBER"), DetectorType::OpticalFiber);
+    auto type = DetectorTypeStrings::OpticalFiber;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(detectorType(item), DetectorType::OpticalFiber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorFullAbsorber) {
-    EXPECT_EQ(to_string(DetectorType::FullAbsorber), "full_absorber");
+    EXPECT_EQ(to_string(DetectorType::FullAbsorber), DetectorTypeStrings::FullAbsorber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorIntegratingSphereSimple) {
-    EXPECT_EQ(to_string(DetectorType::IntegratingSphereSimple), "integrating_sphere_simple");
+    EXPECT_EQ(to_string(DetectorType::IntegratingSphereSimple), DetectorTypeStrings::IntegratingSphereSimple);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorIntegratingSphereComplex) {
-    EXPECT_EQ(to_string(DetectorType::IntegratingSphereComplex), "integrating_sphere_complex");
+    EXPECT_EQ(to_string(DetectorType::IntegratingSphereComplex), DetectorTypeStrings::IntegratingSphereComplex);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeToStr_DetectorOpticalFiber) {
-    EXPECT_EQ(to_string(DetectorType::OpticalFiber), "optical_fiber");
+    EXPECT_EQ(to_string(DetectorType::OpticalFiber), DetectorTypeStrings::OpticalFiber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorFullAbsorber) {

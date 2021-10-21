@@ -17,6 +17,7 @@
 #include "OpticalFiber.h"
 
 #include "../../Utils/Utils.h"
+#include "../../Utils/StringUtils.h"
 
 #include <algorithm>
 #include <stdexcept>
@@ -83,28 +84,15 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(MonteCarlo_NS::DetectorI
 }
 
 MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detector) EXCEPT_INPUT_PARAMS {
-    auto lower = detector;
-    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); } );
+    auto lower = Utils_NS::to_lower(detector);
 
-    if (lower == MonteCarlo_NS::DetectorTypeStrings::FullAbsorber ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', ' ') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', '-') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber, '_', std::nullopt))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber)), lower))
         return MonteCarlo_NS::DetectorType::FullAbsorber;
-    if (lower == MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', ' ') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', '-') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple, '_', std::nullopt))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple)), lower))
         return MonteCarlo_NS::DetectorType::IntegratingSphereSimple;
-    if (lower == MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', ' ') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', '-') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex, '_', std::nullopt))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex)), lower))
         return MonteCarlo_NS::DetectorType::IntegratingSphereComplex;
-    if (lower == MonteCarlo_NS::DetectorTypeStrings::OpticalFiber ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', ' ') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', '-') ||
-        lower == Utils_NS::replace(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber, '_', std::nullopt))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber)), lower))
         return MonteCarlo_NS::DetectorType::OpticalFiber;
 
     #ifdef ASSERT_INPUT_PARAMS

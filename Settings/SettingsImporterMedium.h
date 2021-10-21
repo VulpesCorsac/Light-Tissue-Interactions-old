@@ -17,13 +17,13 @@ namespace Settings_NS {
     /// Get node with actual data
     /// \param[in] node yaml node to parse
     /// \return node with actual data
-    YAML::Node valueNode(const YAML::Node& node);
+    inline YAML::Node valueNode(const YAML::Node& node);
 
     /// Returns MediumType from yaml node
     /// \param[in] node yaml node to parse
     /// \return MediumType from the given node
     /// \throw std::invalid_argument throws same exception as Physics_NS::mediumType(string)
-    Physics_NS::MediumType mediumType(const YAML::Node& node);
+    inline Physics_NS::MediumType mediumType(const YAML::Node& node);
 
     /// Returns MediumProperties from yaml node
     /// \param[in] node yaml node to parse
@@ -59,6 +59,9 @@ Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
 
     if (const auto valueNode = node[Settings_NS::SettingsStrings::Yaml::Value])
         return Physics_NS::mediumType(valueNode.as<std::string>());
+
+    if (const auto value = node[Settings_NS::SettingsStrings::Medium::Type])
+        return Physics_NS::mediumType(value.as<std::string>());
 
     #ifdef ASSERT_INPUT_PARAMS
         throw std::invalid_argument("Not any branch was used for medium evaluation");

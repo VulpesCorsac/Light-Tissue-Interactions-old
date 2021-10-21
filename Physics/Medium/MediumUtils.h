@@ -15,6 +15,9 @@
 #include "MediumType.h"
 #include "MediumTypeStrings.h"
 
+#include "../../Utils/Utils.h"
+#include "../../Utils/StringUtils.h"
+
 #include <algorithm>
 #include <stdexcept>
 #include <string>
@@ -80,16 +83,15 @@ Physics_NS::MediumType Physics_NS::mediumType(Physics_NS::MediumInterface<T>* co
 }
 
 Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS {
-    auto lower = medium;
-    std::transform(lower.begin(), lower.end(), lower.begin(), [](unsigned char c) { return std::tolower(c); } );
+    auto lower = Utils_NS::to_lower(medium);
 
-    if (lower == Physics_NS::MediumTypeStrings::Glass)
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Glass)), lower))
         return Physics_NS::MediumType::Glass;
-    if (lower == Physics_NS::MediumTypeStrings::Constant)
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
         return Physics_NS::MediumType::Constant;
-    if (lower == Physics_NS::MediumTypeStrings::Linear)
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
         return Physics_NS::MediumType::Linear;
-    if (lower == Physics_NS::MediumTypeStrings::Arbitrary)
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
         return Physics_NS::MediumType::Arbitrary;
 
     #ifdef ASSERT_INPUT_PARAMS

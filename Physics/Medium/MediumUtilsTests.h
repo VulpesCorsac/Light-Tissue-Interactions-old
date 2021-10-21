@@ -6,9 +6,13 @@
 
 #include "MediumUtils.h"
 
+#include "../../Utils/Utils.h"
+#include "../../Utils/StringUtils.h"
+
 #include <gtest/gtest.h>
 
 using namespace Physics_NS;
+using namespace Utils_NS;
 
 TEST(MediumUtilsTests, MediumTypeFromPtr_ThrownExceptionForNullptr) {
     EXPECT_THROW(mediumType<float>(nullptr), std::invalid_argument);
@@ -55,43 +59,59 @@ TEST(MediumUtilsTests, MediumTypeFromStr_ThrownExceptionForUnknownType) {
 }
 
 TEST(MediumUtilsTests, MediumTypeFromStr_MediumGlass) {
-    EXPECT_EQ(mediumType("glass"), MediumType::Glass);
-    EXPECT_EQ(mediumType("Glass"), MediumType::Glass);
-    EXPECT_EQ(mediumType("GLASS"), MediumType::Glass);
+    auto type = MediumTypeStrings::Glass;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(mediumType(item), MediumType::Glass);
 }
 
 TEST(MediumUtilsTests, MediumTypeFromStr_MediumConstant) {
-    EXPECT_EQ(mediumType("constant"), MediumType::Constant);
-    EXPECT_EQ(mediumType("Constant"), MediumType::Constant);
-    EXPECT_EQ(mediumType("CONSTANT"), MediumType::Constant);
+    auto type = MediumTypeStrings::Constant;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(mediumType(item), MediumType::Constant);
 }
 
 TEST(MediumUtilsTests, MediumTypeFromStr_MediumLinear) {
-    EXPECT_EQ(mediumType("linear"), MediumType::Linear);
-    EXPECT_EQ(mediumType("Linear"), MediumType::Linear);
-    EXPECT_EQ(mediumType("LINEAR"), MediumType::Linear);
+    auto type = MediumTypeStrings::Linear;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(mediumType(item), MediumType::Linear);
 }
 
 TEST(MediumUtilsTests, MediumTypeFromStr_MediumArbitrary) {
-    EXPECT_EQ(mediumType("arbitrary"), MediumType::Arbitrary);
-    EXPECT_EQ(mediumType("Arbitrary"), MediumType::Arbitrary);
-    EXPECT_EQ(mediumType("ARBITRARY"), MediumType::Arbitrary);
+    auto type = MediumTypeStrings::Arbitrary;
+    auto types = getAllVariants(to_lower(type));
+    auto upper = getAllVariants(to_upper(type));
+    types.insert(ALL_CONTAINER(upper));
+
+    for (const auto& item: types)
+        EXPECT_EQ(mediumType(item), MediumType::Arbitrary);
 }
 
 TEST(MediumUtilsTests, MediumTypeToStr_MediumGlass) {
-    EXPECT_EQ(to_string(MediumType::Glass), "glass");
+    EXPECT_EQ(to_string(MediumType::Glass), MediumTypeStrings::Glass);
 }
 
 TEST(MediumUtilsTests, MediumTypeToStr_MediumConstant) {
-    EXPECT_EQ(to_string(MediumType::Constant), "constant");
+    EXPECT_EQ(to_string(MediumType::Constant), MediumTypeStrings::Constant);
 }
 
 TEST(MediumUtilsTests, MediumTypeToStr_MediumLinear) {
-    EXPECT_EQ(to_string(MediumType::Linear), "linear");
+    EXPECT_EQ(to_string(MediumType::Linear), MediumTypeStrings::Linear);
 }
 
 TEST(MediumUtilsTests, MediumTypeToStr_MediumArbitrary) {
-    EXPECT_EQ(to_string(MediumType::Arbitrary), "arbitrary");
+    EXPECT_EQ(to_string(MediumType::Arbitrary), MediumTypeStrings::Arbitrary);
 }
 
 TEST(MediumUtilsTests, MediumTypeToStrFromStr_MediumGlass) {
