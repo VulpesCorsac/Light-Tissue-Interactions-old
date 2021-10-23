@@ -4,10 +4,12 @@
     #define ASSERT_INPUT_PARAMS
 #endif // ASSERT_INPUT_PARAMS
 
+#include "SettingsExporterMedium.h"
 #include "SettingsImporterMedium.h"
 
 #include <gtest/gtest.h>
 
+using namespace Physics_NS;
 using namespace Settings_NS;
 
 TEST(SettingsImporterMediumTests, MediumType_EmptyString) {
@@ -121,4 +123,59 @@ TEST(SettingsImporterMediumTests, MediumProperties_NDTValueNotScalar) {
 
 TEST(SettingsImporterMediumTests, MediumProperties_NDTSetTwice) {
     EXPECT_THROW(mediumProperties<float>(YAML::Load(SettingsStrings::Medium::NDT + ": 1\n" + SettingsStrings::Medium::NDT + ": 1")), std::logic_error);
+}
+
+TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Full) {
+    constexpr float n0  = 2;
+    constexpr float nT  = 3;
+    constexpr float nD  = 4;
+    constexpr float nDT = 5;
+    constexpr float a0  = 6;
+    constexpr float aT  = 7;
+    constexpr float aD  = 8;
+    constexpr float aDT = 9;
+    constexpr float u0  = 10;
+    constexpr float uT  = 11;
+    constexpr float uD  = 12;
+    constexpr float uDT = 13;
+    constexpr float g0  = 14;
+    constexpr float gT  = 15;
+    constexpr float gD  = 16;
+    constexpr float gDT = 17;
+
+    MediumProperties<float> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0   = n0;
+    properties.nT   = nT;
+    properties.nD   = nD;
+    properties.nDT  = nDT;
+    properties.a0   = a0;
+    properties.aT   = aT;
+    properties.aD   = aD;
+    properties.aDT  = aDT;
+    properties.u0   = u0;
+    properties.uT   = uT;
+    properties.uD   = uD;
+    properties.uDT  = uDT;
+    properties.g0   = g0;
+    properties.gT   = gT;
+    properties.gD   = gD;
+    properties.gDT  = gDT;
+
+    const auto yaml = mediumProperties(properties);
+    const auto result = mediumProperties<float>(yaml);
+
+    EXPECT_EQ      (properties.type       , result.type);
+    EXPECT_FLOAT_EQ(properties.n0.value() , result.n0.value() );
+    EXPECT_FLOAT_EQ(properties.nT.value() , result.nT.value() );
+    EXPECT_FLOAT_EQ(properties.nD.value() , result.nD.value() );
+    EXPECT_FLOAT_EQ(properties.nDT.value(), result.nDT.value());
+    EXPECT_FLOAT_EQ(properties.a0.value() , result.a0.value() );
+    EXPECT_FLOAT_EQ(properties.aT.value() , result.aT.value() );
+    EXPECT_FLOAT_EQ(properties.aD.value() , result.aD.value() );
+    EXPECT_FLOAT_EQ(properties.aDT.value(), result.aDT.value());
+    EXPECT_FLOAT_EQ(properties.g0.value() , result.g0.value() );
+    EXPECT_FLOAT_EQ(properties.gT.value() , result.gT.value() );
+    EXPECT_FLOAT_EQ(properties.gD.value() , result.gD.value() );
+    EXPECT_FLOAT_EQ(properties.gDT.value(), result.gDT.value());
 }
