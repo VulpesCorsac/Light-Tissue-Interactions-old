@@ -127,6 +127,21 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         if (properties.n0.value() < 1)
             throw std::logic_error("Validation fails for MediumType::Glass because n0 property is less than 1");
 
+        if (!properties.r0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Glass because there is no r0 property");
+        if (properties.r0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Glass because r0 property is negative");
+
+        if (!properties.c0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Glass because there is no c0 property");
+        if (properties.c0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Glass because c0 property is negative");
+
+        if (!properties.k0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Glass because there is no k0 property");
+        if (properties.k0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Glass because k0 property is negative");
+
         return;
     }
 
@@ -152,6 +167,21 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
             throw std::logic_error("Validation fails for MediumType::Constant because g0 property is less than -1");
         if (properties.g0.value() > +1)
             throw std::logic_error("Validation fails for MediumType::Constant because g0 property is greater than +1");
+
+        if (!properties.r0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Constant because there is no r0 property");
+        if (properties.r0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Constant because r0 property is negative");
+
+        if (!properties.c0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Constant because there is no c0 property");
+        if (properties.c0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Constant because c0 property is negative");
+
+        if (!properties.k0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Constant because there is no k0 property");
+        if (properties.k0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Constant because k0 property is negative");
 
         return;
     }
@@ -195,55 +225,115 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         if (!properties.gD.has_value())
             throw std::logic_error("Validation fails for MediumType::Linear because there is no gD property");
 
+        if (!properties.r0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no r0 property");
+        if (properties.r0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Linear because r0 property is negative");
+        if (!properties.rT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no rT property");
+        if (!properties.rD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no rD property");
+
+        if (!properties.c0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no c0 property");
+        if (properties.c0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Linear because c0 property is negative");
+        if (!properties.cT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no cT property");
+        if (!properties.cD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no cD property");
+
+        if (!properties.k0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no k0 property");
+        if (properties.k0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Linear because k0 property is negative");
+        if (!properties.kT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no kT property");
+        if (!properties.kD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Linear because there is no kD property");
+
         return;
     }
 
     if (properties.type == Physics_NS::MediumType::Arbitrary) {
         if (!properties.n0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no n0 property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no n0 property");
         if (properties.n0.value() < 1)
-            throw std::logic_error("Validation fails for MediumType::Linear because n0 property is less than 1");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because n0 property is less than 1");
         if (!properties.nT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no nT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nT property");
         if (!properties.nD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no nD property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nD property");
         if (!properties.nDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no nDT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nDT property");
 
         if (!properties.a0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no a0 property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no a0 property");
         if (properties.a0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because a0 property is less than 0");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because a0 property is less than 0");
         if (!properties.aT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no aT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aT property");
         if (!properties.aD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no aD property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aD property");
         if (!properties.aDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no aDT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aDT property");
 
         if (!properties.u0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no u0 property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no u0 property");
         if (properties.u0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because u0 property is less than 0");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because u0 property is less than 0");
         if (!properties.uT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no uT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uT property");
         if (!properties.uD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no uD property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uD property");
         if (!properties.uDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no uDT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uDT property");
 
         if (!properties.g0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no g0 property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no g0 property");
         if (properties.g0.value() < -1)
-            throw std::logic_error("Validation fails for MediumType::Linear because g0 property is less than -1");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because g0 property is less than -1");
         if (properties.g0.value() > +1)
-            throw std::logic_error("Validation fails for MediumType::Linear because g0 property is greater than +1");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because g0 property is greater than +1");
         if (!properties.gT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no gT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gT property");
         if (!properties.gD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no gD property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gD property");
         if (!properties.gDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no gDT property");
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gDT property");
+
+        if (!properties.r0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no r0 property");
+        if (properties.r0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because r0 property is negative");
+        if (!properties.rT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rT property");
+        if (!properties.rD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rD property");
+        if (!properties.rDT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rDT property");
+
+        if (!properties.c0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no c0 property");
+        if (properties.c0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because c0 property is negative");
+        if (!properties.cT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cT property");
+        if (!properties.cD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cD property");
+        if (!properties.cDT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cDT property");
+
+        if (!properties.k0.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no k0 property");
+        if (properties.k0.value() < 0)
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because k0 property is negative");
+        if (!properties.kT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kT property");
+        if (!properties.kD.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kD property");
+        if (!properties.kDT.has_value())
+            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kDT property");
 
         return;
     }
@@ -266,15 +356,21 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
 
     if (result.type == Physics_NS::MediumType::Glass) {
         auto casted_medium = dynamic_cast<Physics_NS::MediumGlass<T>*>(medium);
-        result.n0 = casted_medium->refraction(0, 0);
+        result.n0 = casted_medium->refraction          (0, 0);
+        result.r0 = casted_medium->density             (0, 0);
+        result.c0 = casted_medium->heat_capacity       (0, 0);
+        result.k0 = casted_medium->thermal_conductivity(0, 0);
     }
 
     if (result.type == Physics_NS::MediumType::Constant) {
         auto casted_medium = dynamic_cast<Physics_NS::MediumConstant<T>*>(medium);
-        result.n0 = casted_medium->refraction(0, 0);
-        result.a0 = casted_medium->absorption(0, 0);
-        result.u0 = casted_medium->scattering(0, 0);
-        result.g0 = casted_medium->anisotropy(0, 0);
+        result.n0 = casted_medium->refraction          (0, 0);
+        result.a0 = casted_medium->absorption          (0, 0);
+        result.u0 = casted_medium->scattering          (0, 0);
+        result.g0 = casted_medium->anisotropy          (0, 0);
+        result.r0 = casted_medium->density             (0, 0);
+        result.c0 = casted_medium->heat_capacity       (0, 0);
+        result.k0 = casted_medium->thermal_conductivity(0, 0);
     }
 
     if (result.type == Physics_NS::MediumType::Linear) {
@@ -294,6 +390,18 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
         result.g0 = casted_medium->anisotropy(0, 0);
         result.gT = casted_medium->anisotropy(1, 0) - result.g0.value();
         result.gD = casted_medium->anisotropy(0, 1) - result.g0.value();
+
+        result.r0 = casted_medium->density(0, 0);
+        result.rT = casted_medium->density(1, 0) - result.r0.value();
+        result.rD = casted_medium->density(0, 1) - result.r0.value();
+
+        result.c0 = casted_medium->heat_capacity(0, 0);
+        result.cT = casted_medium->heat_capacity(1, 0) - result.c0.value();
+        result.cD = casted_medium->heat_capacity(0, 1) - result.c0.value();
+
+        result.k0 = casted_medium->thermal_conductivity(0, 0);
+        result.kT = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
+        result.kD = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
     }
 
     if (result.type == Physics_NS::MediumType::Arbitrary) {
@@ -317,6 +425,21 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
         result.gT  = casted_medium->anisotropy(1, 0) - result.g0.value();
         result.gD  = casted_medium->anisotropy(0, 1) - result.g0.value();
         result.gDT = casted_medium->anisotropy(1, 1) - result.g0.value() - result.gT.value() - result.gD.value();
+
+        result.r0  = casted_medium->density(0, 0);
+        result.rT  = casted_medium->density(1, 0) - result.r0.value();
+        result.rD  = casted_medium->density(0, 1) - result.r0.value();
+        result.rDT = casted_medium->density(1, 1) - result.r0.value() - result.rT.value() - result.rD.value();
+
+        result.c0  = casted_medium->heat_capacity(0, 0);
+        result.cT  = casted_medium->heat_capacity(1, 0) - result.c0.value();
+        result.cD  = casted_medium->heat_capacity(0, 1) - result.c0.value();
+        result.cDT = casted_medium->heat_capacity(1, 1) - result.c0.value() - result.cT.value() - result.cD.value();
+
+        result.k0  = casted_medium->thermal_conductivity(0, 0);
+        result.kT  = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
+        result.kD  = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
+        result.kDT = casted_medium->thermal_conductivity(1, 1) - result.k0.value() - result.kT.value() - result.kD.value();
     }
 
     return result;

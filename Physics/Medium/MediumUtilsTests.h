@@ -101,6 +101,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
 TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutRefractionIndex) {
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
@@ -109,6 +112,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutRefractionIndex) {
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithoutRefractionIndex) {
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_TRUE(validateSafe(properties));
@@ -120,6 +126,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutRefractio
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
@@ -131,6 +140,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutRefracti
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_TRUE(validateSafe(properties));
@@ -145,6 +157,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutRefractionI
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -163,6 +181,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutRefraction
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_FALSE(validateSafe(properties));
@@ -181,6 +205,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutRefracti
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -201,6 +231,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutRefract
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_FALSE(validateSafe(properties));
@@ -216,13 +252,21 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithRefractionIndexLessTh
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
     properties.n0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
+    properties.n0 = 1;
+    EXPECT_NO_THROW(validate(properties));
 }
 
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithRefractionIndexLessThanOne) {
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
     properties.n0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_TRUE(validateSafe(properties));
@@ -235,6 +279,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithRefractionIn
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
@@ -247,7 +294,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithRefractionI
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
+    properties.n0 = 1;
+    EXPECT_TRUE(validateSafe(properties));
 }
 
 TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithRefractionIndexLessThanOne) {
@@ -261,6 +313,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithRefractionInde
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
@@ -277,6 +335,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithRefractionInd
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
     EXPECT_TRUE(validateSafe(properties));
@@ -293,6 +357,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithRefractionI
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
@@ -309,8 +379,890 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithRefraction
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.n0 = 1;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.rT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.rD = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.rT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.rD = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.rT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.rD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.rDT = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.rT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.rD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.rDT = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = -1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = -1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = -1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = -1;
+    properties.c0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = -1;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = -1;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = -1;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.r0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithNegativeDensity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = -1;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.r0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.cT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.cD = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.cT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.cD = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.cT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.cD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.cDT = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.cD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.cT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.cDT = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = -1;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = -1;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = -1;
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = -1;
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = -1;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = -1;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = -1;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.c0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithNegativeHeatCapacity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = -1;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.c0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.kT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.kD = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.kT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.kD = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.kT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.kDT = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.kT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.kDT = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = -1;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForGlassWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Glass;
+    properties.n0 = 1;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = -1;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = -1;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Constant;
+    properties.n0 = 1;
+    properties.a0 = 0;
+    properties.u0 = 0;
+    properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = -1;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = -1;
+    properties.kT = properties.kD = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Linear;
+    properties.n0 = 1;
+    properties.nT = properties.nD = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = -1;
+    properties.kT = properties.kD = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
+    EXPECT_TRUE(validateSafe(properties));
+}
+
+TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = -1;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_THROW(validate(properties), std::logic_error);
+    properties.k0 = 0;
+    EXPECT_NO_THROW(validate(properties));
+}
+
+TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithNegativeThermalConductivity) {
+    MediumProperties<int> properties;
+    properties.type = MediumType::Arbitrary;
+    properties.n0 = 1;
+    properties.nT = properties.nD = properties.nDT = 0;
+    properties.a0 = 0;
+    properties.aT = properties.aD = properties.aDT = 0;
+    properties.u0 = 0;
+    properties.uT = properties.uD = properties.uDT = 0;
+    properties.g0 = 0;
+    properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = -1;
+    properties.kT = properties.kD = properties.kDT = 0;
+    EXPECT_FALSE(validateSafe(properties));
+    properties.k0 = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
 
@@ -318,6 +1270,9 @@ TEST(MediumUtilsTests, Validate_NoExceptionForProperGlass) {
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
     properties.n0 = 2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
 
@@ -325,6 +1280,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperGlass) {
     MediumProperties<int> properties;
     properties.type = MediumType::Glass;
     properties.n0 = 2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
 
@@ -334,6 +1292,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutAbsorptio
     properties.n0 = 1;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.a0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -345,6 +1306,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutAbsorpti
     properties.n0 = 1;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -359,6 +1323,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutAbsorptionC
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.a0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -377,6 +1347,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutAbsorption
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -395,6 +1371,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutAbsorpti
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.a0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -415,6 +1397,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutAbsorpt
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -433,7 +1421,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithAbsorptionCo
     properties.a0 = -1;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
+    properties.a0 = 0;
+    EXPECT_NO_THROW(validate(properties));
 }
 
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithAbsorptionCoefficientLessThanZero) {
@@ -443,6 +1436,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithAbsorptionC
     properties.a0 = -1;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -459,7 +1455,15 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithAbsorptionCoef
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
+    properties.a0 = 0;
+    EXPECT_NO_THROW(validate(properties));
 }
 
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithAbsorptionCoefficientLessThanZero) {
@@ -473,6 +1477,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithAbsorptionCoe
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -489,7 +1499,15 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithAbsorptionC
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
+    properties.a0 = 0;
+    EXPECT_NO_THROW(validate(properties));
 }
 
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithAbsorptionCoefficientLessThanZero) {
@@ -503,6 +1521,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithAbsorption
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.a0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -514,6 +1538,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatterin
     properties.n0 = 1;
     properties.a0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -525,6 +1552,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutScatteri
     properties.n0 = 1;
     properties.a0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -539,6 +1569,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutScatteringC
     properties.aT = properties.aD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -557,6 +1593,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutScattering
     properties.aT = properties.aD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -575,6 +1617,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutScatteri
     properties.aT = properties.aD = properties.aDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -595,6 +1643,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutScatter
     properties.aT = properties.aD = properties.aDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -613,6 +1667,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringCo
     properties.a0 = 0;
     properties.u0 = -1;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -625,6 +1682,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringC
     properties.a0 = 0;
     properties.u0 = -1;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -641,6 +1701,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringCoef
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -657,6 +1723,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithScatteringCoe
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -673,6 +1745,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringC
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -689,6 +1767,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithScattering
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.u0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -700,6 +1784,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatterin
     properties.n0 = 1;
     properties.a0 = 0;
     properties.u0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -711,6 +1798,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithoutScatteri
     properties.n0 = 1;
     properties.a0 = 0;
     properties.u0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -725,6 +1815,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutScatteringA
     properties.aT = properties.aD = 0;
     properties.u0 = 0;
     properties.uT = properties.uD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -743,6 +1839,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithoutScattering
     properties.aT = properties.aD = 0;
     properties.u0 = 0;
     properties.uT = properties.uD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -761,6 +1863,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutScatteri
     properties.aT = properties.aD = properties.aDT = 0;
     properties.u0 = 0;
     properties.uT = properties.uD = properties.uDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
@@ -781,6 +1889,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithoutScatter
     properties.aT = properties.aD = properties.aDT = 0;
     properties.u0 = 0;
     properties.uT = properties.uD = properties.uDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_FALSE(validateSafe(properties));
@@ -799,6 +1913,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAn
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = -2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -811,6 +1928,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringA
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = -2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -827,6 +1947,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringAnis
     properties.uT = properties.uD = 0;
     properties.g0 = -2;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -843,6 +1969,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithScatteringAni
     properties.uT = properties.uD = 0;
     properties.g0 = -2;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -859,6 +1991,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringA
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = -2;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -875,6 +2013,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithScattering
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = -2;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -887,6 +2031,9 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAn
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = +2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -899,6 +2046,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForConstantMediumWithScatteringA
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = +2;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -915,6 +2065,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringAnis
     properties.uT = properties.uD = 0;
     properties.g0 = +2;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -931,6 +2087,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForLinearMediumWithScatteringAni
     properties.uT = properties.uD = 0;
     properties.g0 = +2;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -947,6 +2109,12 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringA
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = +2;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_THROW(validate(properties), std::logic_error);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
@@ -963,6 +2131,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForArbitraryMediumWithScattering
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = +2;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_FALSE(validateSafe(properties));
     properties.g0 = 0;
     EXPECT_TRUE(validateSafe(properties));
@@ -975,6 +2149,9 @@ TEST(MediumUtilsTests, Validate_NoExceptionForProperConstantMedium) {
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
 
@@ -985,6 +2162,9 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperConstantMedium) {
     properties.a0 = 0;
     properties.u0 = 0;
     properties.g0 = 0;
+    properties.r0 = 0;
+    properties.c0 = 0;
+    properties.k0 = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
 
@@ -999,6 +2179,12 @@ TEST(MediumUtilsTests, Validate_NoExceptionForProperLinearMedium) {
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
 
@@ -1013,6 +2199,12 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperLinearMedium) {
     properties.uT = properties.uD = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
 
@@ -1027,6 +2219,12 @@ TEST(MediumUtilsTests, Validate_NoExceptionForProperArbitraryMedium) {
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
 
@@ -1041,15 +2239,27 @@ TEST(MediumUtilsTests, ValidateSafe_ReturnsTrueForProperArbitraryMedium) {
     properties.uT = properties.uD = properties.uDT = 0;
     properties.g0 = 0;
     properties.gT = properties.gD = properties.gDT = 0;
+    properties.r0 = 0;
+    properties.rT = properties.rD = properties.rDT = 0;
+    properties.c0 = 0;
+    properties.cT = properties.cD = properties.cDT = 0;
+    properties.k0 = 0;
+    properties.kT = properties.kD = properties.kDT = 0;
     EXPECT_TRUE(validateSafe(properties));
 }
 
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumGlass) {
     constexpr float n0 = 2;
-    auto medium = std::make_unique<MediumGlass<float>>(n0);
+    constexpr float r0 = 3;
+    constexpr float c0 = 4;
+    constexpr float k0 = 5;
+    auto medium = std::make_unique<MediumGlass<float>>(n0, r0, c0, k0);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Glass);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
+    EXPECT_FLOAT_EQ(properties.r0.value(), r0);
+    EXPECT_FLOAT_EQ(properties.c0.value(), c0);
+    EXPECT_FLOAT_EQ(properties.k0.value(), k0);
 }
 
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumConstant) {
@@ -1057,13 +2267,19 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumConstant) {
     constexpr float a0 = 3;
     constexpr float u0 = 4;
     constexpr float g0 = 5;
-    auto medium = std::make_unique<MediumConstant<float>>(n0, a0, u0, g0);
+    constexpr float r0 = 6;
+    constexpr float c0 = 7;
+    constexpr float k0 = 8;
+    auto medium = std::make_unique<MediumConstant<float>>(n0, a0, u0, g0, r0, c0, k0);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Constant);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
     EXPECT_FLOAT_EQ(properties.a0.value(), a0);
     EXPECT_FLOAT_EQ(properties.u0.value(), u0);
     EXPECT_FLOAT_EQ(properties.g0.value(), g0);
+    EXPECT_FLOAT_EQ(properties.r0.value(), r0);
+    EXPECT_FLOAT_EQ(properties.c0.value(), c0);
+    EXPECT_FLOAT_EQ(properties.k0.value(), k0);
 }
 
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumLinear) {
@@ -1079,10 +2295,22 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumLinear) {
     constexpr float g0 = 11;
     constexpr float gT = 12;
     constexpr float gD = 13;
+    constexpr float r0 = 14;
+    constexpr float rT = 15;
+    constexpr float rD = 16;
+    constexpr float c0 = 17;
+    constexpr float cT = 18;
+    constexpr float cD = 19;
+    constexpr float k0 = 20;
+    constexpr float kT = 21;
+    constexpr float kD = 22;
     auto medium = std::make_unique<MediumLinear<float>>(n0, nT, nD,
                                                         a0, aT, aD,
                                                         u0, uT, uD,
-                                                        g0, gT, gD);
+                                                        g0, gT, gD,
+                                                        r0, rT, rD,
+                                                        c0, cT, cD,
+                                                        k0, kT, kD);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Linear);
     EXPECT_FLOAT_EQ(properties.n0.value(), n0);
@@ -1097,6 +2325,15 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumLinear) {
     EXPECT_FLOAT_EQ(properties.g0.value(), g0);
     EXPECT_FLOAT_EQ(properties.gT.value(), gT);
     EXPECT_FLOAT_EQ(properties.gD.value(), gD);
+    EXPECT_FLOAT_EQ(properties.r0.value(), r0);
+    EXPECT_FLOAT_EQ(properties.rT.value(), rT);
+    EXPECT_FLOAT_EQ(properties.rD.value(), rD);
+    EXPECT_FLOAT_EQ(properties.c0.value(), c0);
+    EXPECT_FLOAT_EQ(properties.cT.value(), cT);
+    EXPECT_FLOAT_EQ(properties.cD.value(), cD);
+    EXPECT_FLOAT_EQ(properties.k0.value(), k0);
+    EXPECT_FLOAT_EQ(properties.kT.value(), kT);
+    EXPECT_FLOAT_EQ(properties.kD.value(), kD);
 }
 
 TEST(MediumUtilsTests, ExportMediumProperties_ForMediumArbitrary) {
@@ -1116,26 +2353,53 @@ TEST(MediumUtilsTests, ExportMediumProperties_ForMediumArbitrary) {
     constexpr float gT  = 15;
     constexpr float gD  = 16;
     constexpr float gDT = 17;
+    constexpr float r0  = 18;
+    constexpr float rT  = 19;
+    constexpr float rD  = 20;
+    constexpr float rDT = 21;
+    constexpr float c0  = 22;
+    constexpr float cT  = 23;
+    constexpr float cD  = 24;
+    constexpr float cDT = 25;
+    constexpr float k0  = 26;
+    constexpr float kT  = 27;
+    constexpr float kD  = 28;
+    constexpr float kDT = 29;
     auto medium = std::make_unique<MediumArbitrary<float>>(n0, nT, nD, nDT,
                                                            a0, aT, aD, aDT,
                                                            u0, uT, uD, uDT,
-                                                           g0, gT, gD, gDT);
+                                                           g0, gT, gD, gDT,
+                                                           r0, rT, rD, rDT,
+                                                           c0, cT, cD, cDT,
+                                                           k0, kT, kD, kDT);
     const auto& properties = exportMediumProperties(medium.get());
     EXPECT_EQ(properties.type, MediumType::Arbitrary);
-    EXPECT_FLOAT_EQ(properties.n0.value(), n0);
-    EXPECT_FLOAT_EQ(properties.nT.value(), nT);
-    EXPECT_FLOAT_EQ(properties.nD.value(), nD);
+    EXPECT_FLOAT_EQ(properties.n0.value() , n0 );
+    EXPECT_FLOAT_EQ(properties.nT.value() , nT );
+    EXPECT_FLOAT_EQ(properties.nD.value() , nD );
     EXPECT_FLOAT_EQ(properties.nDT.value(), nDT);
-    EXPECT_FLOAT_EQ(properties.a0.value(), a0);
-    EXPECT_FLOAT_EQ(properties.aT.value(), aT);
-    EXPECT_FLOAT_EQ(properties.aD.value(), aD);
+    EXPECT_FLOAT_EQ(properties.a0.value() , a0 );
+    EXPECT_FLOAT_EQ(properties.aT.value() , aT );
+    EXPECT_FLOAT_EQ(properties.aD.value() , aD );
     EXPECT_FLOAT_EQ(properties.aDT.value(), aDT);
-    EXPECT_FLOAT_EQ(properties.u0.value(), u0);
-    EXPECT_FLOAT_EQ(properties.uT.value(), uT);
-    EXPECT_FLOAT_EQ(properties.uD.value(), uD);
+    EXPECT_FLOAT_EQ(properties.u0.value() , u0 );
+    EXPECT_FLOAT_EQ(properties.uT.value() , uT );
+    EXPECT_FLOAT_EQ(properties.uD.value() , uD );
     EXPECT_FLOAT_EQ(properties.uDT.value(), uDT);
-    EXPECT_FLOAT_EQ(properties.g0.value(), g0);
-    EXPECT_FLOAT_EQ(properties.gT.value(), gT);
-    EXPECT_FLOAT_EQ(properties.gD.value(), gD);
+    EXPECT_FLOAT_EQ(properties.g0.value() , g0 );
+    EXPECT_FLOAT_EQ(properties.gT.value() , gT );
+    EXPECT_FLOAT_EQ(properties.gD.value() , gD );
     EXPECT_FLOAT_EQ(properties.gDT.value(), gDT);
+    EXPECT_FLOAT_EQ(properties.r0.value() , r0 );
+    EXPECT_FLOAT_EQ(properties.rT.value() , rT );
+    EXPECT_FLOAT_EQ(properties.rD.value() , rD );
+    EXPECT_FLOAT_EQ(properties.rDT.value(), rDT);
+    EXPECT_FLOAT_EQ(properties.c0.value() , c0 );
+    EXPECT_FLOAT_EQ(properties.cT.value() , cT );
+    EXPECT_FLOAT_EQ(properties.cD.value() , cD );
+    EXPECT_FLOAT_EQ(properties.cDT.value(), cDT);
+    EXPECT_FLOAT_EQ(properties.k0.value() , k0 );
+    EXPECT_FLOAT_EQ(properties.kT.value() , kT );
+    EXPECT_FLOAT_EQ(properties.kD.value() , kD );
+    EXPECT_FLOAT_EQ(properties.kDT.value(), kDT);
 }
