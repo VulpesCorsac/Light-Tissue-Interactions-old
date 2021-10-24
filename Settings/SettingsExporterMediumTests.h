@@ -67,6 +67,18 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
     constexpr float gT  = 15;
     constexpr float gD  = 16;
     constexpr float gDT = 17;
+    constexpr float r0  = 18;
+    constexpr float rT  = 19;
+    constexpr float rD  = 20;
+    constexpr float rDT = 21;
+    constexpr float c0  = 22;
+    constexpr float cT  = 23;
+    constexpr float cD  = 24;
+    constexpr float cDT = 25;
+    constexpr float k0  = 26;
+    constexpr float kT  = 27;
+    constexpr float kD  = 28;
+    constexpr float kDT = 29;
 
     MediumProperties<float> properties;
     properties.type = MediumType::Arbitrary;
@@ -86,6 +98,18 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
     properties.gT   = gT;
     properties.gD   = gD;
     properties.gDT  = gDT;
+    properties.r0   = r0;
+    properties.rT   = rT;
+    properties.rD   = rD;
+    properties.rDT  = rDT;
+    properties.c0   = c0;
+    properties.cT   = cT;
+    properties.cD   = cD;
+    properties.cDT  = cDT;
+    properties.k0   = k0;
+    properties.kT   = kT;
+    properties.kD   = kD;
+    properties.kDT  = kDT;
 
     const auto result = mediumProperties(properties);
     EXPECT_EQ(
@@ -106,6 +130,18 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
         SettingsStrings::Medium::G0   + ": " + std::to_string(g0)           + "\n" +
         SettingsStrings::Medium::GT   + ": " + std::to_string(gT)           + "\n" +
         SettingsStrings::Medium::GD   + ": " + std::to_string(gD)           + "\n" +
-        SettingsStrings::Medium::GDT  + ": " + std::to_string(gDT)
+        SettingsStrings::Medium::GDT  + ": " + std::to_string(gDT)          + "\n" +
+        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)           + "\n" +
+        SettingsStrings::Medium::RT   + ": " + std::to_string(rT)           + "\n" +
+        SettingsStrings::Medium::RD   + ": " + std::to_string(rD)           + "\n" +
+        SettingsStrings::Medium::RDT  + ": " + std::to_string(rDT)          + "\n" +
+        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)           + "\n" +
+        SettingsStrings::Medium::CT   + ": " + std::to_string(cT)           + "\n" +
+        SettingsStrings::Medium::CD   + ": " + std::to_string(cD)           + "\n" +
+        SettingsStrings::Medium::CDT  + ": " + std::to_string(cDT)          + "\n" +
+        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)           + "\n" +
+        SettingsStrings::Medium::KT   + ": " + std::to_string(kT)           + "\n" +
+        SettingsStrings::Medium::KD   + ": " + std::to_string(kD)           + "\n" +
+        SettingsStrings::Medium::KDT  + ": " + std::to_string(kDT)
     );
 }

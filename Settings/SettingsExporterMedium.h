@@ -76,5 +76,32 @@ YAML::Node Settings_NS::mediumProperties(const Physics_NS::MediumProperties<T>& 
     if (properties.gDT.has_value())
         result[SettingsStrings::Medium::GDT] = std::to_string(properties.gDT.value());
 
+    if (properties.r0.has_value())
+        result[SettingsStrings::Medium::R0 ] = std::to_string(properties.r0.value());
+    if (properties.rT.has_value())
+        result[SettingsStrings::Medium::RT ] = std::to_string(properties.rT.value());
+    if (properties.rD.has_value())
+        result[SettingsStrings::Medium::RD ] = std::to_string(properties.rD.value());
+    if (properties.rDT.has_value())
+        result[SettingsStrings::Medium::RDT] = std::to_string(properties.rDT.value());
+
+    if (properties.c0.has_value())
+        result[SettingsStrings::Medium::C0 ] = std::to_string(properties.c0.value());
+    if (properties.cT.has_value())
+        result[SettingsStrings::Medium::CT ] = std::to_string(properties.cT.value());
+    if (properties.cD.has_value())
+        result[SettingsStrings::Medium::CD ] = std::to_string(properties.cD.value());
+    if (properties.cDT.has_value())
+        result[SettingsStrings::Medium::CDT] = std::to_string(properties.cDT.value());
+
+    if (properties.k0.has_value())
+        result[SettingsStrings::Medium::K0 ] = std::to_string(properties.k0.value());
+    if (properties.kT.has_value())
+        result[SettingsStrings::Medium::KT ] = std::to_string(properties.kT.value());
+    if (properties.kD.has_value())
+        result[SettingsStrings::Medium::KD ] = std::to_string(properties.kD.value());
+    if (properties.kDT.has_value())
+        result[SettingsStrings::Medium::KDT] = std::to_string(properties.kDT.value());
+
     return result;
 }

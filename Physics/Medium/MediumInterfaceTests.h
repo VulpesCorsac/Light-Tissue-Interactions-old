@@ -49,3 +49,19 @@ TEST_F(MediumInterfaceTests, ThrowsExceptionForInteraction) {
 TEST_F(MediumInterfaceTests, ThrowsExceptionForAlbedo) {
     EXPECT_THROW(medium->albedo(), std::runtime_error);
 }
+
+TEST_F(MediumInterfaceTests, ThrowsExceptionForDensity) {
+    EXPECT_THROW(medium->density(), std::runtime_error);
+}
+
+TEST_F(MediumInterfaceTests, ThrowsExceptionForHeatCapacity) {
+    EXPECT_THROW(medium->heat_capacity(), std::runtime_error);
+}
+
+TEST_F(MediumInterfaceTests, ThrowsExceptionForThermalConductivity) {
+    EXPECT_THROW(medium->thermal_conductivity(), std::runtime_error);
+}
+
+TEST_F(MediumInterfaceTests, ThrowsExceptionForThermalDiffusivity) {
+    EXPECT_THROW(medium->thermal_diffusivity(), std::runtime_error);
+}

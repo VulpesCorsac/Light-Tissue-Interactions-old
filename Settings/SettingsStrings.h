@@ -18,41 +18,68 @@ namespace Settings_NS {
             /// string for Type node in yaml
             inline static const std::string Type = "medium_type";
 
-            /// string for Property_n0 node in yaml
+            /// string for property n0 node in yaml
             inline static const std::string N0 = "n0";
-            /// string for Property_nT node in yaml
+            /// string for property nT node in yaml
             inline static const std::string NT = "nT";
-            /// string for Property_nD node in yaml
+            /// string for property nD node in yaml
             inline static const std::string ND = "nD";
-            /// string for Property_nDT node in yaml
+            /// string for property nDT node in yaml
             inline static const std::string NDT = "nDT";
 
-            /// string for Property_a0 node in yaml
+            /// string for property a0 node in yaml
             inline static const std::string A0 = "a0";
-            /// string for Property_aT node in yaml
+            /// string for property aT node in yaml
             inline static const std::string AT = "aT";
-            /// string for Property_aD node in yaml
+            /// string for property aD node in yaml
             inline static const std::string AD = "aD";
-            /// string for Property_aDT node in yaml
+            /// string for property aDT node in yaml
             inline static const std::string ADT = "aDT";
 
-            /// string for Property_u0 node in yaml
+            /// string for property u0 node in yaml
             inline static const std::string U0 = "u0";
-            /// string for Property_uT node in yaml
+            /// string for property uT node in yaml
             inline static const std::string UT = "uT";
-            /// string for Property_uD node in yaml
+            /// string for property uD node in yaml
             inline static const std::string UD = "uD";
-            /// string for Property_uDT node in yaml
+            /// string for property uDT node in yaml
             inline static const std::string UDT = "uDT";
 
-            /// string for Property_g0 node in yaml
+            /// string for property g0 node in yaml
             inline static const std::string G0 = "g0";
-            /// string for Property_gT node in yaml
+            /// string for property gT node in yaml
             inline static const std::string GT = "gT";
-            /// string for Property_gD node in yaml
+            /// string for property gD node in yaml
             inline static const std::string GD = "gD";
-            /// string for Property_gDT node in yaml
+            /// string for property gDT node in yaml
             inline static const std::string GDT = "gDT";
+
+            /// string for property r0 node in yaml
+            inline static const std::string R0 = "r0";
+            /// string for property rT node in yaml
+            inline static const std::string RT = "rT";
+            /// string for property rD node in yaml
+            inline static const std::string RD = "rD";
+            /// string for property rDT node in yaml
+            inline static const std::string RDT = "rDT";
+
+            /// string for property c0 node in yaml
+            inline static const std::string C0 = "c0";
+            /// string for property cT node in yaml
+            inline static const std::string CT = "cT";
+            /// string for property cD node in yaml
+            inline static const std::string CD = "cD";
+            /// string for property cDT node in yaml
+            inline static const std::string CDT = "cDT";
+
+            /// string for property k0 node in yaml
+            inline static const std::string K0 = "k0";
+            /// string for property kT node in yaml
+            inline static const std::string KT = "kT";
+            /// string for property kD node in yaml
+            inline static const std::string KD = "kD";
+            /// string for property kDT node in yaml
+            inline static const std::string KDT = "kDT";
         };
     };
 }

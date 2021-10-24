@@ -114,6 +114,18 @@ Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& 
             helper(Settings_NS::SettingsStrings::Medium::GT , result.gT );
             helper(Settings_NS::SettingsStrings::Medium::GD , result.gD );
             helper(Settings_NS::SettingsStrings::Medium::GDT, result.gDT);
+            helper(Settings_NS::SettingsStrings::Medium::R0 , result.r0 );
+            helper(Settings_NS::SettingsStrings::Medium::RT , result.rT );
+            helper(Settings_NS::SettingsStrings::Medium::RD , result.rD );
+            helper(Settings_NS::SettingsStrings::Medium::RDT, result.rDT);
+            helper(Settings_NS::SettingsStrings::Medium::C0 , result.c0 );
+            helper(Settings_NS::SettingsStrings::Medium::CT , result.cT );
+            helper(Settings_NS::SettingsStrings::Medium::CD , result.cD );
+            helper(Settings_NS::SettingsStrings::Medium::CDT, result.cDT);
+            helper(Settings_NS::SettingsStrings::Medium::K0 , result.k0 );
+            helper(Settings_NS::SettingsStrings::Medium::KT , result.kT );
+            helper(Settings_NS::SettingsStrings::Medium::KD , result.kD );
+            helper(Settings_NS::SettingsStrings::Medium::KDT, result.kDT);
         }
     }
 

@@ -53,6 +53,30 @@ namespace Physics_NS {
         /// \return Medium albedo with corresponding temperature and degradation
         virtual T albedo(const T& t = 0, const T& d = 0) const;
 
+        /// Medium density
+        /// \param[in] t tissue temperature
+        /// \param[in] d tissue degradation from Arrhenius equation
+        /// \return Medium density with corresponding temperature and degradation
+        /// \throw std::runtime_error Interface throws exception
+        virtual T density(const T& t = 0, const T& d = 0) const;
+        /// Medium heat capacity
+        /// \param[in] t tissue temperature
+        /// \param[in] d tissue degradation from Arrhenius equation
+        /// \return Medium heat capacity with corresponding temperature and degradation
+        /// \throw std::runtime_error Interface throws exception
+        virtual T heat_capacity(const T& t = 0, const T& d = 0) const;
+        /// Medium thermal conductivity
+        /// \param[in] t tissue temperature
+        /// \param[in] d tissue degradation from Arrhenius equation
+        /// \return Medium thermal conductivity with corresponding temperature and degradation
+        /// \throw std::runtime_error Interface throws exception
+        virtual T thermal_conductivity(const T& t = 0, const T& d = 0) const;
+        /// Medium thermal diffusivity = thermal conductivity / (density * heat capacity)
+        /// \param[in] t tissue temperature
+        /// \param[in] d tissue degradation from Arrhenius equation
+        /// \return Medium thermal diffusivity with corresponding temperature and degradation
+        virtual T thermal_diffusivity(const T& t = 0, const T& d = 0) const;
+
     public:
         MediumType type; ///< medium type
     };
@@ -103,4 +127,30 @@ T Physics_NS::MediumInterface<T>::anisotropy(const T& t, const T& d) const {
     std::ignore = t;
     std::ignore = d;
     throw std::runtime_error("Medium anisotropy was not implemented");
+}
+
+template < typename T >
+T Physics_NS::MediumInterface<T>::density(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
+    throw std::runtime_error("Medium density was not implemented");
+}
+
+template < typename T >
+T Physics_NS::MediumInterface<T>::heat_capacity(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
+    throw std::runtime_error("Medium heat capacity was not implemented");
+}
+
+template < typename T >
+T Physics_NS::MediumInterface<T>::thermal_conductivity(const T& t, const T& d) const {
+    std::ignore = t;
+    std::ignore = d;
+    throw std::runtime_error("Medium thermal conductivity was not implemented");
+}
+
+template < typename T >
+T Physics_NS::MediumInterface<T>::thermal_diffusivity(const T& t, const T& d) const {
+    return thermal_conductivity(t, d) / density(t, d) / heat_capacity(t, d);
 }
