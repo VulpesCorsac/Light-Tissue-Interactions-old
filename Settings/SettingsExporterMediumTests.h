@@ -9,46 +9,30 @@
 using namespace Physics_NS;
 using namespace Settings_NS;
 
-TEST(SettingsExporterMediumTests, MediumTypeToYaml_Unknown) {
-    const auto result = mediumType(MediumType::Unknown);
-    EXPECT_EQ(Settings_NS::to_string(result), SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Unknown);
+#define TEST_MEDIUM_TYPE_TO_YAML(TYPE)                       \
+TEST(SettingsExporterMediumTests, MediumTypeToYaml_##TYPE) { \
+    const auto result = mediumType(MediumType::TYPE);        \
+    EXPECT_EQ(to_string(result),                             \
+              SettingsStrings::Medium::Type + ": " +         \
+              MediumTypeStrings::TYPE);                      \
 }
 
-TEST(SettingsExporterMediumTests, MediumTypeToYaml_Glass) {
-    const auto result = mediumType(MediumType::Glass);
-    EXPECT_EQ(Settings_NS::to_string(result), SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Glass);
+TEST_MEDIUM_TYPE_TO_YAML(Unknown)
+TEST_MEDIUM_TYPE_TO_YAML(Glass)
+TEST_MEDIUM_TYPE_TO_YAML(Constant)
+TEST_MEDIUM_TYPE_TO_YAML(Linear)
+TEST_MEDIUM_TYPE_TO_YAML(Arbitrary)
+
+#define TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(TYPE)                     \
+TEST(SettingsExporterMediumTests, MediumTypeToYamlToType_##TYPE) { \
+    EXPECT_EQ(mediumType(mediumType(MediumType::TYPE)),            \
+              MediumType::TYPE);                                   \
 }
 
-TEST(SettingsExporterMediumTests, MediumTypeToYaml_Constant) {
-    const auto result = mediumType(MediumType::Constant);
-    EXPECT_EQ(Settings_NS::to_string(result), SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Constant);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYaml_Linear) {
-    const auto result = mediumType(MediumType::Linear);
-    EXPECT_EQ(Settings_NS::to_string(result), SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Linear);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYaml_Arbitrary) {
-    const auto result = mediumType(MediumType::Arbitrary);
-    EXPECT_EQ(Settings_NS::to_string(result), SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Arbitrary);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYamlToType_Glass) {
-    EXPECT_EQ(mediumType(mediumType(MediumType::Glass)), MediumType::Glass);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYamlToType_Constant) {
-    EXPECT_EQ(mediumType(mediumType(MediumType::Constant)), MediumType::Constant);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYamlToType_Linear) {
-    EXPECT_EQ(mediumType(mediumType(MediumType::Linear)), MediumType::Linear);
-}
-
-TEST(SettingsExporterMediumTests, MediumTypeToYamlToType_Arbitrary) {
-    EXPECT_EQ(mediumType(mediumType(MediumType::Arbitrary)), MediumType::Arbitrary);
-}
+TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Glass)
+TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Constant)
+TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Linear)
+TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Arbitrary)
 
 TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
     constexpr float n0  = 2;
@@ -80,40 +64,18 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
     constexpr float kD  = 28;
     constexpr float kDT = 29;
 
-    MediumProperties<float> properties;
-    properties.type = MediumType::Arbitrary;
-    properties.n0   = n0;
-    properties.nT   = nT;
-    properties.nD   = nD;
-    properties.nDT  = nDT;
-    properties.a0   = a0;
-    properties.aT   = aT;
-    properties.aD   = aD;
-    properties.aDT  = aDT;
-    properties.u0   = u0;
-    properties.uT   = uT;
-    properties.uD   = uD;
-    properties.uDT  = uDT;
-    properties.g0   = g0;
-    properties.gT   = gT;
-    properties.gD   = gD;
-    properties.gDT  = gDT;
-    properties.r0   = r0;
-    properties.rT   = rT;
-    properties.rD   = rD;
-    properties.rDT  = rDT;
-    properties.c0   = c0;
-    properties.cT   = cT;
-    properties.cD   = cD;
-    properties.cDT  = cDT;
-    properties.k0   = k0;
-    properties.kT   = kT;
-    properties.kD   = kD;
-    properties.kDT  = kDT;
+    MediumProperties<float> properties(MediumType::Arbitrary,
+                                       n0, nT, nD, nDT,
+                                       a0, aT, aD, aDT,
+                                       u0, uT, uD, uDT,
+                                       g0, gT, gD, gDT,
+                                       r0, rT, rD, rDT,
+                                       c0, cT, cD, cDT,
+                                       k0, kT, kD, kDT);
 
     const auto result = mediumProperties(properties);
     EXPECT_EQ(
-        Settings_NS::to_string(result),
+        to_string(result),
         SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Arbitrary + "\n" +
         SettingsStrings::Medium::N0   + ": " + std::to_string(n0)           + "\n" +
         SettingsStrings::Medium::NT   + ": " + std::to_string(nT)           + "\n" +
