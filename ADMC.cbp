@@ -99,6 +99,8 @@
 		<Unit filename="Physics/BugerLambert.h" />
 		<Unit filename="Physics/BugerLambertTests.h" />
 		<Unit filename="Physics/CMakeLists.txt" />
+		<Unit filename="Physics/Layer.h" />
+		<Unit filename="Physics/LayerTests.h" />
 		<Unit filename="Physics/Medium/CMakeLists.txt" />
 		<Unit filename="Physics/Medium/MediumArbitrary.h" />
 		<Unit filename="Physics/Medium/MediumArbitraryTests.h" />
@@ -119,6 +121,8 @@
 		<Unit filename="Physics/Medium/MediumUtilsTests.h" />
 		<Unit filename="Physics/Reflectance.h" />
 		<Unit filename="Physics/ReflectanceTests.h" />
+		<Unit filename="Physics/Specimen.h" />
+		<Unit filename="Physics/SpecimenTests.h" />
 		<Unit filename="Settings/CMakeLists.txt" />
 		<Unit filename="Settings/SettingsExporter.h" />
 		<Unit filename="Settings/SettingsExporterMedium.h" />

@@ -16,6 +16,9 @@
     #include "../Physics/Medium/MediumUtilsTests.h"
     #include "../Physics/Medium/MediumFactoryTests.h"
 
+    #include "../Physics/LayerTests.h"
+    #include "../Physics/SampleTests.h"
+
     #include "../Math/Mesh3Tests.h"
 
     #include "../Settings/SettingsExporterMediumTypeTests.h"
