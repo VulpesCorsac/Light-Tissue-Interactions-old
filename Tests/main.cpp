@@ -1,7 +1,7 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-//#define RUN_TEST_TOGETHER
+// #define RUN_TEST_TOGETHER
 
 #ifdef RUN_TEST_TOGETHER
     #include "../Physics/AnglesTests.h"
@@ -17,13 +17,17 @@
     #include "../Physics/Medium/MediumFactoryTests.h"
 
     #include "../Physics/LayerTests.h"
-    #include "../Physics/SampleTests.h"
+    #include "../Physics/SpecimenTests.h"
 
     #include "../Math/Mesh3Tests.h"
 
-    #include "../Settings/SettingsExporterMediumTypeTests.h"
+    #include "../Settings/SettingsExporterLayerTests.h"
+    #include "../Settings/SettingsExporterMediumTests.h"
+    #include "../Settings/SettingsExporterSampleTests.h"
     #include "../Settings/SettingsImporterErrorsTests.h"
-    #include "../Settings/SettingsImporterMediumTypeTests.h"
+    #include "../Settings/SettingsImporterLayerTests.h"
+    #include "../Settings/SettingsImporterMediumTests.h"
+    #include "../Settings/SettingsImporterSampleTests.h"
 
 	#include "../MC/Detector/DetectorInterfaceTests.h"
 	#include "../MC/Detector/FullAbsorberTests.h"

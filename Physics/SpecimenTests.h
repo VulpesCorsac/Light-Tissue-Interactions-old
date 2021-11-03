@@ -7,5 +7,4 @@
 using namespace Physics_NS;
 
 TEST(SampleTests, JustSampleSample) {
-
 }

@@ -354,93 +354,93 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
     Physics_NS::MediumProperties<T> result;
     result.type = mediumType(medium);
 
-    if (result.type == Physics_NS::MediumType::Glass) {
-        auto casted_medium = dynamic_cast<Physics_NS::MediumGlass<T>*>(medium);
-        result.n0 = casted_medium->refraction          (0, 0);
-        result.r0 = casted_medium->density             (0, 0);
-        result.c0 = casted_medium->heat_capacity       (0, 0);
-        result.k0 = casted_medium->thermal_conductivity(0, 0);
-    }
+    if (result.type == Physics_NS::MediumType::Glass)
+        if (auto casted_medium = dynamic_cast<Physics_NS::MediumGlass<T>*>(medium)) {
+            result.n0 = casted_medium->refraction          (0, 0);
+            result.r0 = casted_medium->density             (0, 0);
+            result.c0 = casted_medium->heat_capacity       (0, 0);
+            result.k0 = casted_medium->thermal_conductivity(0, 0);
+        }
 
-    if (result.type == Physics_NS::MediumType::Constant) {
-        auto casted_medium = dynamic_cast<Physics_NS::MediumConstant<T>*>(medium);
-        result.n0 = casted_medium->refraction          (0, 0);
-        result.a0 = casted_medium->absorption          (0, 0);
-        result.u0 = casted_medium->scattering          (0, 0);
-        result.g0 = casted_medium->anisotropy          (0, 0);
-        result.r0 = casted_medium->density             (0, 0);
-        result.c0 = casted_medium->heat_capacity       (0, 0);
-        result.k0 = casted_medium->thermal_conductivity(0, 0);
-    }
+    if (result.type == Physics_NS::MediumType::Constant)
+        if (auto casted_medium = dynamic_cast<Physics_NS::MediumConstant<T>*>(medium)) {
+            result.n0 = casted_medium->refraction          (0, 0);
+            result.a0 = casted_medium->absorption          (0, 0);
+            result.u0 = casted_medium->scattering          (0, 0);
+            result.g0 = casted_medium->anisotropy          (0, 0);
+            result.r0 = casted_medium->density             (0, 0);
+            result.c0 = casted_medium->heat_capacity       (0, 0);
+            result.k0 = casted_medium->thermal_conductivity(0, 0);
+        }
 
-    if (result.type == Physics_NS::MediumType::Linear) {
-        auto casted_medium = dynamic_cast<Physics_NS::MediumLinear<T>*>(medium);
-        result.n0 = casted_medium->refraction(0, 0);
-        result.nT = casted_medium->refraction(1, 0) - result.n0.value();
-        result.nD = casted_medium->refraction(0, 1) - result.n0.value();
+    if (result.type == Physics_NS::MediumType::Linear)
+        if (auto casted_medium = dynamic_cast<Physics_NS::MediumLinear<T>*>(medium)) {
+            result.n0 = casted_medium->refraction(0, 0);
+            result.nT = casted_medium->refraction(1, 0) - result.n0.value();
+            result.nD = casted_medium->refraction(0, 1) - result.n0.value();
 
-        result.a0 = casted_medium->absorption(0, 0);
-        result.aT = casted_medium->absorption(1, 0) - result.a0.value();
-        result.aD = casted_medium->absorption(0, 1) - result.a0.value();
+            result.a0 = casted_medium->absorption(0, 0);
+            result.aT = casted_medium->absorption(1, 0) - result.a0.value();
+            result.aD = casted_medium->absorption(0, 1) - result.a0.value();
 
-        result.u0 = casted_medium->scattering(0, 0);
-        result.uT = casted_medium->scattering(1, 0) - result.u0.value();
-        result.uD = casted_medium->scattering(0, 1) - result.u0.value();
+            result.u0 = casted_medium->scattering(0, 0);
+            result.uT = casted_medium->scattering(1, 0) - result.u0.value();
+            result.uD = casted_medium->scattering(0, 1) - result.u0.value();
 
-        result.g0 = casted_medium->anisotropy(0, 0);
-        result.gT = casted_medium->anisotropy(1, 0) - result.g0.value();
-        result.gD = casted_medium->anisotropy(0, 1) - result.g0.value();
+            result.g0 = casted_medium->anisotropy(0, 0);
+            result.gT = casted_medium->anisotropy(1, 0) - result.g0.value();
+            result.gD = casted_medium->anisotropy(0, 1) - result.g0.value();
 
-        result.r0 = casted_medium->density(0, 0);
-        result.rT = casted_medium->density(1, 0) - result.r0.value();
-        result.rD = casted_medium->density(0, 1) - result.r0.value();
+            result.r0 = casted_medium->density(0, 0);
+            result.rT = casted_medium->density(1, 0) - result.r0.value();
+            result.rD = casted_medium->density(0, 1) - result.r0.value();
 
-        result.c0 = casted_medium->heat_capacity(0, 0);
-        result.cT = casted_medium->heat_capacity(1, 0) - result.c0.value();
-        result.cD = casted_medium->heat_capacity(0, 1) - result.c0.value();
+            result.c0 = casted_medium->heat_capacity(0, 0);
+            result.cT = casted_medium->heat_capacity(1, 0) - result.c0.value();
+            result.cD = casted_medium->heat_capacity(0, 1) - result.c0.value();
 
-        result.k0 = casted_medium->thermal_conductivity(0, 0);
-        result.kT = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
-        result.kD = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
-    }
+            result.k0 = casted_medium->thermal_conductivity(0, 0);
+            result.kT = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
+            result.kD = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
+        }
 
-    if (result.type == Physics_NS::MediumType::Arbitrary) {
-        auto casted_medium = dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium);
-        result.n0  = casted_medium->refraction(0, 0);
-        result.nT  = casted_medium->refraction(1, 0) - result.n0.value();
-        result.nD  = casted_medium->refraction(0, 1) - result.n0.value();
-        result.nDT = casted_medium->refraction(1, 1) - result.n0.value() - result.nT.value() - result.nD.value();
+    if (result.type == Physics_NS::MediumType::Arbitrary)
+        if (auto casted_medium = dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium)) {
+            result.n0  = casted_medium->refraction(0, 0);
+            result.nT  = casted_medium->refraction(1, 0) - result.n0.value();
+            result.nD  = casted_medium->refraction(0, 1) - result.n0.value();
+            result.nDT = casted_medium->refraction(1, 1) - result.n0.value() - result.nT.value() - result.nD.value();
 
-        result.a0  = casted_medium->absorption(0, 0);
-        result.aT  = casted_medium->absorption(1, 0) - result.a0.value();
-        result.aD  = casted_medium->absorption(0, 1) - result.a0.value();
-        result.aDT = casted_medium->absorption(1, 1) - result.a0.value() - result.aT.value() - result.aD.value();
+            result.a0  = casted_medium->absorption(0, 0);
+            result.aT  = casted_medium->absorption(1, 0) - result.a0.value();
+            result.aD  = casted_medium->absorption(0, 1) - result.a0.value();
+            result.aDT = casted_medium->absorption(1, 1) - result.a0.value() - result.aT.value() - result.aD.value();
 
-        result.u0  = casted_medium->scattering(0, 0);
-        result.uT  = casted_medium->scattering(1, 0) - result.u0.value();
-        result.uD  = casted_medium->scattering(0, 1) - result.u0.value();
-        result.uDT = casted_medium->scattering(1, 1) - result.u0.value() - result.uT.value() - result.uD.value();
+            result.u0  = casted_medium->scattering(0, 0);
+            result.uT  = casted_medium->scattering(1, 0) - result.u0.value();
+            result.uD  = casted_medium->scattering(0, 1) - result.u0.value();
+            result.uDT = casted_medium->scattering(1, 1) - result.u0.value() - result.uT.value() - result.uD.value();
 
-        result.g0  = casted_medium->anisotropy(0, 0);
-        result.gT  = casted_medium->anisotropy(1, 0) - result.g0.value();
-        result.gD  = casted_medium->anisotropy(0, 1) - result.g0.value();
-        result.gDT = casted_medium->anisotropy(1, 1) - result.g0.value() - result.gT.value() - result.gD.value();
+            result.g0  = casted_medium->anisotropy(0, 0);
+            result.gT  = casted_medium->anisotropy(1, 0) - result.g0.value();
+            result.gD  = casted_medium->anisotropy(0, 1) - result.g0.value();
+            result.gDT = casted_medium->anisotropy(1, 1) - result.g0.value() - result.gT.value() - result.gD.value();
 
-        result.r0  = casted_medium->density(0, 0);
-        result.rT  = casted_medium->density(1, 0) - result.r0.value();
-        result.rD  = casted_medium->density(0, 1) - result.r0.value();
-        result.rDT = casted_medium->density(1, 1) - result.r0.value() - result.rT.value() - result.rD.value();
+            result.r0  = casted_medium->density(0, 0);
+            result.rT  = casted_medium->density(1, 0) - result.r0.value();
+            result.rD  = casted_medium->density(0, 1) - result.r0.value();
+            result.rDT = casted_medium->density(1, 1) - result.r0.value() - result.rT.value() - result.rD.value();
 
-        result.c0  = casted_medium->heat_capacity(0, 0);
-        result.cT  = casted_medium->heat_capacity(1, 0) - result.c0.value();
-        result.cD  = casted_medium->heat_capacity(0, 1) - result.c0.value();
-        result.cDT = casted_medium->heat_capacity(1, 1) - result.c0.value() - result.cT.value() - result.cD.value();
+            result.c0  = casted_medium->heat_capacity(0, 0);
+            result.cT  = casted_medium->heat_capacity(1, 0) - result.c0.value();
+            result.cD  = casted_medium->heat_capacity(0, 1) - result.c0.value();
+            result.cDT = casted_medium->heat_capacity(1, 1) - result.c0.value() - result.cT.value() - result.cD.value();
 
-        result.k0  = casted_medium->thermal_conductivity(0, 0);
-        result.kT  = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
-        result.kD  = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
-        result.kDT = casted_medium->thermal_conductivity(1, 1) - result.k0.value() - result.kT.value() - result.kD.value();
-    }
+            result.k0  = casted_medium->thermal_conductivity(0, 0);
+            result.kT  = casted_medium->thermal_conductivity(1, 0) - result.k0.value();
+            result.kD  = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
+            result.kDT = casted_medium->thermal_conductivity(1, 1) - result.k0.value() - result.kT.value() - result.kD.value();
+        }
 
     return result;
 }
