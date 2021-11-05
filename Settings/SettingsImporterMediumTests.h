@@ -83,7 +83,122 @@ MEDIUM_PROPERTY_TEST_FULL(R, r)
 MEDIUM_PROPERTY_TEST_FULL(C, c)
 MEDIUM_PROPERTY_TEST_FULL(K, k)
 
-TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Full) {
+TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Glass) {
+    constexpr float n0 = 2;
+    constexpr float r0 = 6;
+    constexpr float c0 = 7;
+    constexpr float k0 = 8;
+
+    MediumProperties<float> properties(MediumType::Glass,
+                                       n0          , std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       r0          , std::nullopt, std::nullopt, std::nullopt,
+                                       c0          , std::nullopt, std::nullopt, std::nullopt,
+                                       k0          , std::nullopt, std::nullopt, std::nullopt);
+
+    const auto yaml = mediumProperties(properties);
+    const auto result = mediumProperties<float>(yaml);
+
+    EXPECT_EQ      (properties.type      , result.type      );
+    EXPECT_FLOAT_EQ(properties.n0.value(), result.n0.value());
+    EXPECT_FLOAT_EQ(properties.r0.value(), result.r0.value());
+    EXPECT_FLOAT_EQ(properties.c0.value(), result.c0.value());
+    EXPECT_FLOAT_EQ(properties.k0.value(), result.k0.value());
+}
+
+TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Constant) {
+    constexpr float n0 = 2;
+    constexpr float a0 = 3;
+    constexpr float u0 = 4;
+    constexpr float g0 = 5;
+    constexpr float r0 = 6;
+    constexpr float c0 = 7;
+    constexpr float k0 = 8;
+
+    MediumProperties<float> properties(MediumType::Constant,
+                                       n0, std::nullopt, std::nullopt, std::nullopt,
+                                       a0, std::nullopt, std::nullopt, std::nullopt,
+                                       u0, std::nullopt, std::nullopt, std::nullopt,
+                                       g0, std::nullopt, std::nullopt, std::nullopt,
+                                       r0, std::nullopt, std::nullopt, std::nullopt,
+                                       c0, std::nullopt, std::nullopt, std::nullopt,
+                                       k0, std::nullopt, std::nullopt, std::nullopt);
+
+    const auto yaml = mediumProperties(properties);
+    const auto result = mediumProperties<float>(yaml);
+
+    EXPECT_EQ      (properties.type      , result.type      );
+    EXPECT_FLOAT_EQ(properties.n0.value(), result.n0.value());
+    EXPECT_FLOAT_EQ(properties.a0.value(), result.a0.value());
+    EXPECT_FLOAT_EQ(properties.u0.value(), result.u0.value());
+    EXPECT_FLOAT_EQ(properties.g0.value(), result.g0.value());
+    EXPECT_FLOAT_EQ(properties.r0.value(), result.r0.value());
+    EXPECT_FLOAT_EQ(properties.c0.value(), result.c0.value());
+    EXPECT_FLOAT_EQ(properties.k0.value(), result.k0.value());
+}
+
+TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Linear) {
+    constexpr float n0 = 2;
+    constexpr float nT = 3;
+    constexpr float nD = 4;
+    constexpr float a0 = 5;
+    constexpr float aT = 6;
+    constexpr float aD = 7;
+    constexpr float u0 = 8;
+    constexpr float uT = 9;
+    constexpr float uD = 10;
+    constexpr float g0 = 11;
+    constexpr float gT = 12;
+    constexpr float gD = 13;
+    constexpr float r0 = 14;
+    constexpr float rT = 15;
+    constexpr float rD = 16;
+    constexpr float c0 = 17;
+    constexpr float cT = 18;
+    constexpr float cD = 19;
+    constexpr float k0 = 20;
+    constexpr float kT = 21;
+    constexpr float kD = 22;
+
+    MediumProperties<float> properties(MediumType::Linear,
+                                       n0, nT, nD, std::nullopt,
+                                       a0, aT, aD, std::nullopt,
+                                       u0, uT, uD, std::nullopt,
+                                       g0, gT, gD, std::nullopt,
+                                       r0, rT, rD, std::nullopt,
+                                       c0, cT, cD, std::nullopt,
+                                       k0, kT, kD, std::nullopt);
+
+    const auto yaml = mediumProperties(properties);
+    const auto result = mediumProperties<float>(yaml);
+
+    EXPECT_EQ      (properties.type      , result.type      );
+    EXPECT_FLOAT_EQ(properties.n0.value(), result.n0.value());
+    EXPECT_FLOAT_EQ(properties.nT.value(), result.nT.value());
+    EXPECT_FLOAT_EQ(properties.nD.value(), result.nD.value());
+    EXPECT_FLOAT_EQ(properties.a0.value(), result.a0.value());
+    EXPECT_FLOAT_EQ(properties.aT.value(), result.aT.value());
+    EXPECT_FLOAT_EQ(properties.aD.value(), result.aD.value());
+    EXPECT_FLOAT_EQ(properties.u0.value(), result.u0.value());
+    EXPECT_FLOAT_EQ(properties.uT.value(), result.uT.value());
+    EXPECT_FLOAT_EQ(properties.uD.value(), result.uD.value());
+    EXPECT_FLOAT_EQ(properties.g0.value(), result.g0.value());
+    EXPECT_FLOAT_EQ(properties.gT.value(), result.gT.value());
+    EXPECT_FLOAT_EQ(properties.gD.value(), result.gD.value());
+    EXPECT_FLOAT_EQ(properties.r0.value(), result.r0.value());
+    EXPECT_FLOAT_EQ(properties.rT.value(), result.rT.value());
+    EXPECT_FLOAT_EQ(properties.rD.value(), result.rD.value());
+    EXPECT_FLOAT_EQ(properties.c0.value(), result.c0.value());
+    EXPECT_FLOAT_EQ(properties.cT.value(), result.cT.value());
+    EXPECT_FLOAT_EQ(properties.cD.value(), result.cD.value());
+    EXPECT_FLOAT_EQ(properties.k0.value(), result.k0.value());
+    EXPECT_FLOAT_EQ(properties.kT.value(), result.kT.value());
+    EXPECT_FLOAT_EQ(properties.kD.value(), result.kD.value());
+}
+
+TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Arbitrary) {
     constexpr float n0  = 2;
     constexpr float nT  = 3;
     constexpr float nD  = 4;
@@ -134,6 +249,10 @@ TEST(SettingsImporterMediumTests, MediumPropertiesFromYaml_Full) {
     EXPECT_FLOAT_EQ(properties.aT.value() , result.aT.value() );
     EXPECT_FLOAT_EQ(properties.aD.value() , result.aD.value() );
     EXPECT_FLOAT_EQ(properties.aDT.value(), result.aDT.value());
+    EXPECT_FLOAT_EQ(properties.u0.value() , result.u0.value() );
+    EXPECT_FLOAT_EQ(properties.uT.value() , result.uT.value() );
+    EXPECT_FLOAT_EQ(properties.uD.value() , result.uD.value() );
+    EXPECT_FLOAT_EQ(properties.uDT.value(), result.uDT.value());
     EXPECT_FLOAT_EQ(properties.g0.value() , result.g0.value() );
     EXPECT_FLOAT_EQ(properties.gT.value() , result.gT.value() );
     EXPECT_FLOAT_EQ(properties.gD.value() , result.gD.value() );

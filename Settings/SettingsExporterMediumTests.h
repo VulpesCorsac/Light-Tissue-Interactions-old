@@ -34,7 +34,125 @@ TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Constant)
 TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Linear)
 TEST_MEDIUM_TYPE_TO_YAML_TO_TYPE(Arbitrary)
 
-TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Full) {
+TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Glass) {
+    constexpr float n0 = 2;
+    constexpr float r0 = 6;
+    constexpr float c0 = 7;
+    constexpr float k0 = 8;
+
+    MediumProperties<float> properties(MediumType::Glass,
+                                       n0          , std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
+                                       r0          , std::nullopt, std::nullopt, std::nullopt,
+                                       c0          , std::nullopt, std::nullopt, std::nullopt,
+                                       k0          , std::nullopt, std::nullopt, std::nullopt);
+
+    const auto result = mediumProperties(properties);
+    EXPECT_EQ(
+        to_string(result),
+        SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Glass + "\n" +
+        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)       + "\n" +
+        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)       + "\n" +
+        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)       + "\n" +
+        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)
+    );
+}
+
+TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Constant) {
+    constexpr float n0 = 2;
+    constexpr float a0 = 3;
+    constexpr float u0 = 4;
+    constexpr float g0 = 5;
+    constexpr float r0 = 6;
+    constexpr float c0 = 7;
+    constexpr float k0 = 8;
+
+    MediumProperties<float> properties(MediumType::Constant,
+                                       n0, std::nullopt, std::nullopt, std::nullopt,
+                                       a0, std::nullopt, std::nullopt, std::nullopt,
+                                       u0, std::nullopt, std::nullopt, std::nullopt,
+                                       g0, std::nullopt, std::nullopt, std::nullopt,
+                                       r0, std::nullopt, std::nullopt, std::nullopt,
+                                       c0, std::nullopt, std::nullopt, std::nullopt,
+                                       k0, std::nullopt, std::nullopt, std::nullopt);
+
+    const auto result = mediumProperties(properties);
+    EXPECT_EQ(
+        to_string(result),
+        SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Constant + "\n" +
+        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)          + "\n" +
+        SettingsStrings::Medium::A0   + ": " + std::to_string(a0)          + "\n" +
+        SettingsStrings::Medium::U0   + ": " + std::to_string(u0)          + "\n" +
+        SettingsStrings::Medium::G0   + ": " + std::to_string(g0)          + "\n" +
+        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)          + "\n" +
+        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)          + "\n" +
+        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)
+    );
+}
+
+TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Linear) {
+    constexpr float n0 = 2;
+    constexpr float nT = 3;
+    constexpr float nD = 4;
+    constexpr float a0 = 5;
+    constexpr float aT = 6;
+    constexpr float aD = 7;
+    constexpr float u0 = 8;
+    constexpr float uT = 9;
+    constexpr float uD = 10;
+    constexpr float g0 = 11;
+    constexpr float gT = 12;
+    constexpr float gD = 13;
+    constexpr float r0 = 14;
+    constexpr float rT = 15;
+    constexpr float rD = 16;
+    constexpr float c0 = 17;
+    constexpr float cT = 18;
+    constexpr float cD = 19;
+    constexpr float k0 = 20;
+    constexpr float kT = 21;
+    constexpr float kD = 22;
+
+    MediumProperties<float> properties(MediumType::Linear,
+                                       n0, nT, nD, std::nullopt,
+                                       a0, aT, aD, std::nullopt,
+                                       u0, uT, uD, std::nullopt,
+                                       g0, gT, gD, std::nullopt,
+                                       r0, rT, rD, std::nullopt,
+                                       c0, cT, cD, std::nullopt,
+                                       k0, kT, kD, std::nullopt);
+
+    const auto result = mediumProperties(properties);
+    EXPECT_EQ(
+        to_string(result),
+        SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Linear + "\n" +
+        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)        + "\n" +
+        SettingsStrings::Medium::NT   + ": " + std::to_string(nT)        + "\n" +
+        SettingsStrings::Medium::ND   + ": " + std::to_string(nD)        + "\n" +
+        SettingsStrings::Medium::A0   + ": " + std::to_string(a0)        + "\n" +
+        SettingsStrings::Medium::AT   + ": " + std::to_string(aT)        + "\n" +
+        SettingsStrings::Medium::AD   + ": " + std::to_string(aD)        + "\n" +
+        SettingsStrings::Medium::U0   + ": " + std::to_string(u0)        + "\n" +
+        SettingsStrings::Medium::UT   + ": " + std::to_string(uT)        + "\n" +
+        SettingsStrings::Medium::UD   + ": " + std::to_string(uD)        + "\n" +
+        SettingsStrings::Medium::G0   + ": " + std::to_string(g0)        + "\n" +
+        SettingsStrings::Medium::GT   + ": " + std::to_string(gT)        + "\n" +
+        SettingsStrings::Medium::GD   + ": " + std::to_string(gD)        + "\n" +
+        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)        + "\n" +
+        SettingsStrings::Medium::RT   + ": " + std::to_string(rT)        + "\n" +
+        SettingsStrings::Medium::RD   + ": " + std::to_string(rD)        + "\n" +
+        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)        + "\n" +
+        SettingsStrings::Medium::CT   + ": " + std::to_string(cT)        + "\n" +
+        SettingsStrings::Medium::CD   + ": " + std::to_string(cD)        + "\n" +
+        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)        + "\n" +
+        SettingsStrings::Medium::KT   + ": " + std::to_string(kT)        + "\n" +
+        SettingsStrings::Medium::KD   + ": " + std::to_string(kD)
+    );
+}
+
+TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Arbitrary) {
     constexpr float n0  = 2;
     constexpr float nT  = 3;
     constexpr float nD  = 4;
