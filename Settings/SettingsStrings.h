@@ -81,5 +81,18 @@ namespace Settings_NS {
             /// string for property kDT node in yaml
             inline static const std::string KDT = "kDT";
         };
+
+        class Layer {
+        public:
+            /// string for medium in layer
+            inline static const std::string Medium = "medium";
+
+            /// string for layer begin
+            inline static const std::string Begin = "begin";
+            /// string for layer end
+            inline static const std::string End = "end";
+            /// string for layer width
+            inline static const std::string Width = "width";
+        };
     };
 }

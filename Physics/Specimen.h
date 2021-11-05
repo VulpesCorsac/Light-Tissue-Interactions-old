@@ -2,6 +2,7 @@
 
 #include "Layer.h"
 
+#include <memory>
 #include <vector>
 
 namespace Physics_NS {

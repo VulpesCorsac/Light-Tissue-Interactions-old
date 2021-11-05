@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SettingsImporterErrors.h"
+#include "SettingsImporterHelpers.h"
 #include "SettingsStrings.h"
 
 #include "../Physics/Medium/MediumProperties.h"
@@ -14,11 +15,6 @@
 #endif // ASSERT_INPUT_PARAMS
 
 namespace Settings_NS {
-    /// Get node with actual data
-    /// \param[in] node yaml node to parse
-    /// \return node with actual data
-    inline YAML::Node valueNode(const YAML::Node& node);
-
     /// Returns MediumType from yaml node
     /// \param[in] node yaml node to parse
     /// \return MediumType from the given node
@@ -28,7 +24,9 @@ namespace Settings_NS {
     /// Returns MediumProperties from yaml node
     /// \param[in] node yaml node to parse
     /// \return MediumProperties from the given node
-    /// \throw std::invalid_argument throws same exception
+    /// \throw std::invalid_argument throws same exception as Physics_NS::mediumType(string)
+    /// \throw std::logic_error      throws same exception as Physics_NS::validate(const Physics_NS::MediumProperties<T>&)
+    /// \throw std::logic_error      throws in case property was set twice or any other error happens
     template < typename T >
     Physics_NS::MediumProperties<T> mediumProperties(const YAML::Node& node);
 }
@@ -36,14 +34,6 @@ namespace Settings_NS {
 /******************
  * IMPLEMENTATION *
  ******************/
-
-YAML::Node Settings_NS::valueNode(const YAML::Node& node) {
-    if (node.Type() == YAML::NodeType::Scalar)
-        return node;
-    if (const auto valueNode = node[Settings_NS::SettingsStrings::Yaml::Value])
-        return valueNode;
-    return node;
-}
 
 Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
     if (node.Type() == YAML::NodeType::Null) {
@@ -83,10 +73,8 @@ Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& 
             else
                 throw std::logic_error("Trying to set medium type twice");
         } else {
-            auto helper =
-                [&key, &value, &result]
-                (const std::string &propertyString,
-                 std::optional<T>& propertyValue) -> void {
+            auto helper = [&key, &value]
+                          (const std::string &propertyString, std::optional<T>& propertyValue) -> void {
                 if (key == propertyString) {
                     const auto val = valueNode(value);
                     if (val.Type() != YAML::NodeType::Scalar)

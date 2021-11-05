@@ -22,7 +22,7 @@
 //#include "Tests/TestIADStandalone.h"
 
 /*
-#include "Settings/SettingsImporter.h"
+#include "Settings/Settings/SettingsImporterHelpers.h.h"
 //*/
 
 #include <iostream>

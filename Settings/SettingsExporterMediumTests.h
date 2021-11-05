@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SettingsExporter.h"
+#include "SettingsExporterHelpers.h"
 #include "SettingsExporterMedium.h"
 #include "SettingsStrings.h"
 

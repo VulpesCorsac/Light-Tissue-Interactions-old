@@ -1,9 +1,9 @@
-add_library(SettingsExporter.h INTERFACE)
+add_library(SettingsExporterHelpers.h INTERFACE)
 add_library(SettingsExporterLayer.h INTERFACE)
 add_library(SettingsExporterMedium.h INTERFACE)
 add_library(SettingsExporterSample.h INTERFACE)
-add_library(SettingsImporter.h INTERFACE)
 add_library(SettingsImporterErrors.h INTERFACE)
+add_library(SettingsImporterHelpers.h INTERFACE)
 add_library(SettingsImporterMedium.h INTERFACE)
 add_library(SettingsStrings.h INTERFACE)
 

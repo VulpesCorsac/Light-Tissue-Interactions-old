@@ -19,6 +19,7 @@
 #include "../../Utils/StringUtils.h"
 
 #include <algorithm>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
@@ -58,6 +59,12 @@ namespace Physics_NS {
     /// \return MediumProperties for corresponding medium
     template < typename T >
     MediumProperties<T> exportMediumProperties(MediumInterface<T>* const medium) noexcept;
+
+    /// generate medium based on properties
+    /// \param[in] properties MediumProperties
+    /// \return medium based on properties, nullptr if type is unknown
+    template < typename T >
+    std::unique_ptr<MediumInterface<T>> mediumFromProperties(const MediumProperties<T>& properties) noexcept;
 }
 
 /******************
@@ -443,4 +450,18 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
         }
 
     return result;
+}
+
+template < typename T >
+std::unique_ptr<Physics_NS::MediumInterface<T>> Physics_NS::mediumFromProperties(const Physics_NS::MediumProperties<T>& properties) noexcept {
+    if (properties.type == Physics_NS::MediumType::Glass)
+        return std::make_unique<Physics_NS::MediumGlass<T>>(properties);
+    if (properties.type == Physics_NS::MediumType::Constant)
+        return std::make_unique<Physics_NS::MediumConstant<T>>(properties);
+    if (properties.type == Physics_NS::MediumType::Linear)
+        return std::make_unique<Physics_NS::MediumLinear<T>>(properties);
+    if (properties.type == Physics_NS::MediumType::Arbitrary)
+        return std::make_unique<Physics_NS::MediumArbitrary<T>>(properties);
+
+    return nullptr;
 }
