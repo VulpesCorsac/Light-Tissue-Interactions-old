@@ -1,5 +1,6 @@
 #pragma once
 
+#include "SettingsImporterMedium.h"
 #include "SettingsExporterHelpers.h"
 #include "SettingsExporterMedium.h"
 #include "SettingsStrings.h"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SettingsImporterMedium.h"
 #include "SettingsStrings.h"
 
 #include "../Physics/Medium/MediumProperties.h"
