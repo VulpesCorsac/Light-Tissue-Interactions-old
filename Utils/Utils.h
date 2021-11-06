@@ -19,21 +19,6 @@ namespace Utils_NS {
     /// \return if value is present in the container
     template < typename Container, typename T >
     bool contains(const Container& c, const T& val) noexcept;
-
-    /// returns string with replaced characters
-    /// \param[in] from character to replace from
-    /// \param[in] to replace found "from" to "to" if needed
-    /// \return std::string result after replacing
-    inline std::string replace(const std::string& s, char from, std::optional<char> to) noexcept;
-
-    /// returns string with all characters changed to lower case
-    /// \param[in] s original string
-    /// \return std::string result with all characters changed to lower case
-    inline std::string to_lower(const std::string& s) noexcept;
-    /// returns string with all characters changed to upper case
-    /// \param[in] s original string
-    /// \return std::string result with all characters changed to upper case
-    inline std::string to_upper(const std::string& s) noexcept;
 }
 
 /******************
@@ -48,30 +33,4 @@ int Utils_NS::isize(const Container& c) noexcept {
 template < typename Container, typename T >
 bool Utils_NS::contains(const Container& c, const T& val) noexcept {
     return c.find(val) != c.end();
-}
-
-std::string Utils_NS::replace(const std::string& s, char from, std::optional<char> to) noexcept {
-    std::string result;
-
-    for (const auto& c: s) {
-        if (c == from) {
-            if (to.has_value())
-                result += to.value();
-        } else
-            result += c;
-    }
-
-    return result;
-}
-
-std::string Utils_NS::to_lower(const std::string& s) noexcept {
-    auto result = s;
-    std::transform(ALL_CONTAINER(result), result.begin(), [](unsigned char c) { return std::tolower(c); } );
-    return result;
-}
-
-std::string Utils_NS::to_upper(const std::string& s) noexcept {
-    auto result = s;
-    std::transform(ALL_CONTAINER(result), result.begin(), [](unsigned char c) { return std::toupper(c); } );
-    return result;
 }

@@ -4,6 +4,9 @@
 // #define RUN_TEST_TOGETHER
 
 #ifdef RUN_TEST_TOGETHER
+    #include "../Utils/UtilsTests.h"
+    #include "../Utils/StringUtilsTests.h"
+	
     #include "../Physics/AnglesTests.h"
     #include "../Physics/BugerLambertTests.h"
     #include "../Physics/ReflectanceTests.h"

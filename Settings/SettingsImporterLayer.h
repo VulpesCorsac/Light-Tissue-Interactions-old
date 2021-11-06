@@ -21,7 +21,7 @@ namespace Settings_NS {
     /// \throw std::logic_error      throws same exception as mediumProperties(const YAML::Node& node)
     /// \throw std::logic_error      throws in case property was set twice or any other error happens
     template < typename T >
-    Physics_NS::Layer<T> layer(const YAML::Node& node);
+    Physics_NS::Layer<T> layerFromYaml(const YAML::Node& node);
 }
 
 /******************
@@ -29,7 +29,7 @@ namespace Settings_NS {
  ******************/
 
 template < typename T >
-Physics_NS::Layer<T> Settings_NS::layer(const YAML::Node& node) {
+Physics_NS::Layer<T> Settings_NS::layerFromYaml(const YAML::Node& node) {
     std::optional<T> begin = std::nullopt;
     std::optional<T> end   = std::nullopt;
     std::optional<T> width = std::nullopt;
