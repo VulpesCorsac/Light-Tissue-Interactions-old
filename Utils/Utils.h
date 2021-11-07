@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <optional>
 #include <string>
 
 #define ALL_CONTAINER(c) begin(c), end(c)

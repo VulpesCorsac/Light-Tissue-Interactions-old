@@ -47,13 +47,10 @@ TEST(SettingsImporterLayerTests, LayerFromYaml_Glass) {
 }
 
 TEST(SettingsImporterLayerTests, LayerFromYaml_Constant) {
-
 }
 
 TEST(SettingsImporterLayerTests, LayerFromYaml_Linear) {
-
 }
 
 TEST(SettingsImporterLayerTests, LayerFromYaml_Arbitrary) {
-
 }

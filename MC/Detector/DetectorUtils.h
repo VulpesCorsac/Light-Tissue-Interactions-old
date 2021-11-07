@@ -166,17 +166,14 @@ MonteCarlo_NS::DetectorProperties<T> MonteCarlo_NS::exportDetectorProperties(Mon
 
     if (result.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple)
         if (auto casted_detector = dynamic_cast<MonteCarlo_NS::IntegratingSphereSimple<T>*>(detector)) {
-
         }
 
     if (result.type == MonteCarlo_NS::DetectorType::IntegratingSphereComplex)
         if (auto casted_detector = dynamic_cast<MonteCarlo_NS::IntegratingSphereComplex<T>*>(detector)) {
-
         }
 
     if (result.type == MonteCarlo_NS::DetectorType::OpticalFiber)
         if (auto casted_detector = dynamic_cast<MonteCarlo_NS::OpticalFiber<T>*>(detector)) {
-
         }
 
     return result;
