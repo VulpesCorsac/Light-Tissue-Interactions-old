@@ -30,8 +30,8 @@ template < typename T >
 template < typename S >
 Physics_NS::Layer<T>::Layer(std::unique_ptr<MediumInterface<T>> medium, const S& width) noexcept
     : medium(std::move(medium))
-    , begin(-1)
-    , end(-1)
+    , begin(0)
+    , end(width)
     , width(width) {
 }
 
