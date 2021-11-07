@@ -26,9 +26,9 @@ TEST_F(LayerTests, ConstructorWidth) {
 
     auto layer = Layer(std::move(medium), 2);
 
-    EXPECT_FLOAT_EQ(layer.width,  2);
-    EXPECT_FLOAT_EQ(layer.begin, -1);
-    EXPECT_FLOAT_EQ(layer.end  , -1);
+    EXPECT_FLOAT_EQ(layer.width, 2);
+    EXPECT_FLOAT_EQ(layer.begin, 0);
+    EXPECT_FLOAT_EQ(layer.end  , 2);
 
     EXPECT_EQ(layer.medium.get(), raw);
 }

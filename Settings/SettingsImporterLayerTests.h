@@ -52,7 +52,7 @@ TEST(SettingsImporterLayerTests, LayerFromYaml_Glass) {
     const auto mediumStr = to_string(propertiesYaml);
     const auto str = SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
-                     join(prepend(split(mediumStr, "\n"), " "), "\n", true);
+                     join(prepend(split(mediumStr, "\n"), "  "), "\n", true);
 
     const auto layer = layerFromYaml<float>(Load(str));
 
@@ -90,7 +90,7 @@ TEST(SettingsImporterLayerTests, LayerFromYaml_Constant) {
     const auto mediumStr = to_string(propertiesYaml);
     const auto str = SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
-                     join(prepend(split(mediumStr, "\n"), " "), "\n", true);
+                     join(prepend(split(mediumStr, "\n"), "  "), "\n", true);
 
     const auto layer = layerFromYaml<float>(Load(str));
 
@@ -145,7 +145,7 @@ TEST(SettingsImporterLayerTests, LayerFromYaml_Linear) {
     const auto mediumStr = to_string(propertiesYaml);
     const auto str = SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
-                     join(prepend(split(mediumStr, "\n"), " "), "\n", true);
+                     join(prepend(split(mediumStr, "\n"), "  "), "\n", true);
 
     const auto layer = layerFromYaml<float>(Load(str));
 
@@ -221,7 +221,7 @@ TEST(SettingsImporterLayerTests, LayerFromYaml_Arbitrary) {
     const auto mediumStr = to_string(propertiesYaml);
     const auto str = SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
-                     join(prepend(split(mediumStr, "\n"), " "), "\n", true);
+                     join(prepend(split(mediumStr, "\n"), "  "), "\n", true);
 
     const auto layer = layerFromYaml<float>(Load(str));
 
