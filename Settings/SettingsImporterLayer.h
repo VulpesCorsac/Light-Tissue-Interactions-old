@@ -6,6 +6,7 @@
 #include "SettingsStrings.h"
 
 #include "../Physics/Layer.h"
+#include "../Physics/Medium/MediumFactory.h"
 #include "../Physics/Medium/MediumUtils.h"
 
 #include "../yaml-cpp/include/yaml-cpp/yaml.h"
@@ -73,6 +74,6 @@ Physics_NS::Layer<T> Settings_NS::layerFromYaml(const YAML::Node& node) {
         throw std::logic_error("Layer doesn't have mediumProperties");
 
     if (width.has_value())
-        return Physics_NS::Layer<T>(Physics_NS::mediumFromProperties(properties.value()), width.value());
-    return Physics_NS::Layer<T>(Physics_NS::mediumFromProperties(properties.value()), begin.value(), end.value());
+        return Physics_NS::Layer<T>(Physics_NS::createMedium(properties.value()), width.value());
+    return Physics_NS::Layer<T>(Physics_NS::createMedium(properties.value()), begin.value(), end.value());
 }
