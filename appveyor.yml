@@ -19,3 +19,7 @@ build_script:
 test_script:
 - sh: >-
     ./Tests/unit_tests
+
+    ./Tests/unit_tests_asan
+
+    ./Tests/unit_tests_tsan
