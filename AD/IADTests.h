@@ -125,7 +125,8 @@ TEST(IAD, A0_G0_Tau_05) {
 
     EXPECT_NEAR(aOut  , 0  ,      TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5,      TOLERANCE);
-    EXPECT_NEAR(gOut  , 0.9  , 10 * TOLERANCE);
+ //   EXPECT_NEAR(gOut  , 0.9  , 10 * TOLERANCE);
+ // When a = 0, no value of g is correct
 }
 
 TEST(IAD, A0_G0_Tau1) {
