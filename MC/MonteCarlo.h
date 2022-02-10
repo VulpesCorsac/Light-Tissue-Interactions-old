@@ -28,6 +28,7 @@ struct MCresults {
     T BugerTransmission = 0;
 
     Matrix<T,Dynamic,Dynamic> matrixA = Matrix<T, Nz, Nr>::Constant(0);
+    Matrix<T,Dynamic,Dynamic> matrixAnorm = Matrix<T, Nz, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
@@ -154,7 +155,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , mainSphereT(new_detectorT)
     , distances(new_dist) {
         GenerateDetectorArrays();
-}
+    }
 
 /*
 template < typename T, size_t Nz, size_t Nr, bool detector>

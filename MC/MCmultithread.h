@@ -20,6 +20,7 @@ void MCmultithread(const Sample<T>& sample,
     std::vector<MonteCarlo<T,Nz,Nr,detector>> mcDivided;
     std::vector<std::thread> mcThreads;
     std::vector<MCresults<T,Nz,Nr,detector>> mcResults;
+  
     // MonteCarlo<T,Nz,Nr,detector> mc(sample, (Np / threads), z, r);
     for (int i = 0; i < threads; i++) {
         mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, new_sphereR, new_sphereT, new_dist));
@@ -36,6 +37,7 @@ void MCmultithread(const Sample<T>& sample,
         finalResults.arrayRspecular += result.arrayRspecular;
         finalResults.arrayT += result.arrayT;
         finalResults.matrixA += result.matrixA;
+        finalResults.matrixAnorm += result.matrixAnorm;
 
         if (detector == 1) {
             finalResults.detectedR.resize(result.detectedR.size());
@@ -44,7 +46,7 @@ void MCmultithread(const Sample<T>& sample,
                 finalResults.detectedR[i].second += result.detectedR[i].second;
                 finalResults.detectedT[i].second += result.detectedT[i].second;
             }
-        }
+        }    
     }
 
     if (sample.getNlayers() == 1)
@@ -58,12 +60,22 @@ void MCmultithread(const Sample<T>& sample,
     finalResults.diffuseTransmission = finalResults.arrayT.sum()         / Np;
     finalResults.absorbed            = finalResults.matrixA.sum()        / Np;
 
+
     for (int i = 0; i < Utils_NS::isize(finalResults.detectedR); i++) {
         finalResults.detectedR[i].first = mcResults[0].detectedR[i].first;
         finalResults.detectedR[i].second /= threads;
         finalResults.detectedT[i].first = mcResults[0].detectedT[i].first;
         finalResults.detectedT[i].second /= threads;
     }
+
+    // marix of Volume V:
+    Matrix<T,Dynamic,Dynamic> V(Nz,Nr);
+    for (int ir = 0; ir < Nr; ir++) {
+        for (int iz = 0; iz < Nz;  iz++) {
+            V(iz,ir) = 2 * M_PI * (ir + 0.5) * Math_NS::sqr(r / Nr) * (z / Nz); 
+        }
+    }
+    finalResults.matrixAnorm = finalResults.matrixA.cwiseQuotient(V * Np);
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
@@ -72,3 +84,4 @@ MCresults<T,Nz,Nr,detector> MCmultithread(const Sample<T>& sample, int Np, int t
     MCmultithread(sample, Np, threads, z, r, finalResults, new_sphereR, new_sphereT, new_dist);
     return finalResults;
 }
+

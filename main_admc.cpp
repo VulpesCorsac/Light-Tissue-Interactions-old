@@ -21,6 +21,8 @@
 
 //#include "Tests/TestIADStandalone.h"
 
+#include "../eigen/Eigen/Dense"
+
 /*
 #include "Settings/Settings/SettingsImporterHelpers.h.h"
 //*/
@@ -32,10 +34,25 @@
 #include <time.h>
 #include <random>
 
+//Function for saving matrix in csv format
+/*using namespace std;
+using namespace Eigen;
+void saveData(string fileName, MatrixXd  matrix)
+{
+    //https://eigen.tuxfamily.org/dox/structEigen_1_1IOFormat.html
+    const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
+ 
+    ofstream file(fileName);
+    if (file.is_open())
+    {
+        file << matrix.format(CSVFormat);
+        file.close();
+    }
+}*/
+
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
-
     const auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
     const auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
     const auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
@@ -59,7 +76,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
-
+    
     /// TODO: Utils\Random.h
     static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
@@ -71,11 +88,11 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
-
+   
     Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-
+    
     /// TODO: throw exception if can't open. Anyway you try to do something with the file.
     if (!Rdfile.is_open())
         cout << "Failed to open file Rd" << endl;
@@ -196,10 +213,11 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 
     constexpr int Nphotons = 1E6;
     constexpr T selectedRadius = 10E-2;
-
+    
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
+
 
     static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
@@ -211,10 +229,13 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
-
+    ofstream Anormfile;
+    const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
+ 
     Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Anormfile.open("Output files/A_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
 
     /// TODO: throw exception if can't open. Anyway you try to do something with the file.
     if (!Rdfile.is_open())
@@ -223,13 +244,17 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
         cout << "Failed to open file Td" << endl;
     if (!Tcfile.is_open())
         cout << "Failed to open file Tc" << endl;
+    if (!Anormfile.is_open())
+        cout << "Failed to open file Anorm" << endl;
 
     for (const auto& x: rsmeas)
         Rdfile << x.first << "\t" << x.second << '\n';
     for (const auto& x: tsmeas)
         Tdfile << x.first << "\t" << x.second << '\n';
     Tcfile << 0.000 << "\t" << tcmeas << '\n';
-
+    Anormfile << myResultsMT.matrixAnorm.format(CSVFormat);
+    
+    Anormfile.close();
     Rdfile.close();
     Tdfile.close();
     Tcfile.close();
@@ -364,6 +389,10 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
     Tcfile.close();
 }
 
+
+
+
+
 int main() {
     /*
     bool ff = false;
@@ -482,6 +511,5 @@ int main() {
             calcForward<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, 0.0);
         }
     }
-
     return 0;
 }
