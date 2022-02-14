@@ -155,7 +155,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int&
     , mainSphereT(new_detectorT)
     , distances(new_dist) {
         GenerateDetectorArrays();
-    }
+}
 
 /*
 template < typename T, size_t Nz, size_t Nr, bool detector>

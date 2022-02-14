@@ -21,7 +21,7 @@
 
 //#include "Tests/TestIADStandalone.h"
 
-#include "../eigen/Eigen/Dense"
+#include "eigen/Eigen/Dense"
 
 /*
 #include "Settings/Settings/SettingsImporterHelpers.h.h"
@@ -34,21 +34,22 @@
 #include <time.h>
 #include <random>
 
-//Function for saving matrix in csv format
-/*using namespace std;
+// Function for saving matrix in csv format
+/*
+using namespace std;
 using namespace Eigen;
-void saveData(string fileName, MatrixXd  matrix)
-{
-    //https://eigen.tuxfamily.org/dox/structEigen_1_1IOFormat.html
+
+void saveData(const string& fileName, const MatrixXd& matrix) {
+    // https://eigen.tuxfamily.org/dox/structEigen_1_1IOFormat.html
     const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
- 
+
     ofstream file(fileName);
-    if (file.is_open())
-    {
+    if (file.is_open()) {
         file << matrix.format(CSVFormat);
         file.close();
     }
-}*/
+}
+//*/
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
@@ -76,7 +77,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
-    
+
     /// TODO: Utils\Random.h
     static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
@@ -88,11 +89,11 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
-   
+
     Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
-    
+
     /// TODO: throw exception if can't open. Anyway you try to do something with the file.
     if (!Rdfile.is_open())
         cout << "Failed to open file Rd" << endl;
@@ -192,7 +193,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
 }
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
+void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
     auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
@@ -213,11 +214,10 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 
     constexpr int Nphotons = 1E6;
     constexpr T selectedRadius = 10E-2;
-    
+
     MCresults<T,Nz,Nr,detector> myResultsMT;
     MCmultithread<T,Nz,Nr,detector>(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResultsMT, SphereR, SphereT, distances);
     cout << myResultsMT << endl;
-
 
     static default_random_engine generator(time(nullptr));
     normal_distribution<T> distribution(0, err);
@@ -231,7 +231,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
     ofstream Tcfile;
     ofstream Anormfile;
     const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
- 
+
     Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
@@ -253,7 +253,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
         Tdfile << x.first << "\t" << x.second << '\n';
     Tcfile << 0.000 << "\t" << tcmeas << '\n';
     Anormfile << myResultsMT.matrixAnorm.format(CSVFormat);
-    
+
     Anormfile.close();
     Rdfile.close();
     Tdfile.close();
@@ -261,7 +261,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 }
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcInverse (const std::string& settingsFile, int Nthreads) {
+void calcInverse(const std::string& settingsFile, int Nthreads) {
     using namespace std;
     using namespace Physics_NS;
 
@@ -388,10 +388,6 @@ void calcInverse (const std::string& settingsFile, int Nthreads) {
     Tdfile.close();
     Tcfile.close();
 }
-
-
-
-
 
 int main() {
     /*
