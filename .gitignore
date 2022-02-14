@@ -26,7 +26,7 @@ Utils/CMakeFiles/*
 main_ad
 main_mc
 main_admc
-Tests/unit_tests
+Tests/unit_tests*
 Tests/*Tests
 
 strace_out
@@ -34,3 +34,4 @@ log
 
 Makefile
 CMakeCache.txt
+
