@@ -19,7 +19,7 @@
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
 
-//#include "Tests/TestIADStandalone.h"
+// #include "Tests/TestIADStandalone.h"
 
 /*
 #include "Settings/Settings/SettingsImporterHelpers.h.h"
@@ -175,7 +175,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
 }
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
+void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
     using namespace std;
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
     auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
@@ -236,7 +236,7 @@ void calcForward (T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveab
 }
 
 template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
-void calcInverse (const std::string& settingsFile, int Nthreads) {
+void calcInverse(const std::string& settingsFile, int Nthreads) {
     using namespace std;
     using namespace Physics_NS;
 
@@ -386,8 +386,7 @@ int main() {
     constexpr int Nr = 10000;
     const bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
-    ///CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
-
+    /// CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     bool developerMode;
     cout << "SELECT MODE" << endl;
     cout << "MODE 0: USER MODE (recommended)" << endl;

@@ -10,6 +10,7 @@ public:
     static Medium fromCoeffs(const T& new_n, const T& new_ua, const T& new_us, const T& new_D, const T& new_g) {
         return Medium(new_n, new_ua, new_us, new_us / (new_ua + new_us), new_D * (new_ua + new_us), new_D, new_g);
     }
+
     static Medium fromAlbedo(const T& new_n, const T& new_a, const T& new_tau, const T& new_D, const T& new_g) {
         return Medium(new_n, new_tau * (1 - new_a) / new_D, new_tau * new_a / new_D, new_a, new_tau, new_D, new_g);
     }

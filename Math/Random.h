@@ -6,7 +6,7 @@
 
 namespace Math_NS {
     template < typename T >
-    T random(T min, T max);
+    T random(T min = static_cast<T>(0), T max = static_cast<T>(1));
 
     template < typename T >
     T fast_random();
@@ -20,10 +20,10 @@ namespace Math_NS {
 
 template < typename T >
 T Math_NS::random(T min, T max) {
-    static std::random_device rd;
+    static thread_local std::random_device rd;
     static thread_local std::default_random_engine generator(rd());
-    static std::uniform_real_distribution<T> distribution(min, max);
-    return distribution(generator);
+    static thread_local std::uniform_real_distribution<T> distribution(0, 1);
+    return min + distribution(generator) * max;
 }
 
 template < typename T >

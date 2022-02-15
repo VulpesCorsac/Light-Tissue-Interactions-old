@@ -73,10 +73,10 @@ public:
     void Calculate(MCresults<T,Nz,Nr,detector>& res);
     MCresults<T,Nz,Nr,detector> CalculateResult();
 
-    inline Matrix<T,Dynamic,Dynamic> getMatrixA() const noexcept { return A; }
-    inline Matrix<T,Dynamic,Dynamic> getArrayR() const noexcept { return RR; }
+    inline Matrix<T,Dynamic,Dynamic> getMatrixA()    const noexcept { return A;          }
+    inline Matrix<T,Dynamic,Dynamic> getArrayR()     const noexcept { return RR;         }
     inline Matrix<T,Dynamic,Dynamic> getArrayRspec() const noexcept { return RRspecular; }
-    inline Matrix<T,Dynamic,Dynamic> getArrayT() const noexcept { return TT; }
+    inline Matrix<T,Dynamic,Dynamic> getArrayT()     const noexcept { return TT;         }
 
 protected:
     const Sample<T>& sample;
