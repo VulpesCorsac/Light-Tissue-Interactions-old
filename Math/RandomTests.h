@@ -39,14 +39,30 @@ namespace {
     #define VALUES 2,10,100
     #define TESTING_VALUES ::testing::Values(VALUES)
     #define REPEATS 10'000'000
-    const map<pair<pair<int, int>, string>, int> ExpectedDeviations = {
-        {{{REPEATS, 2  }, "random" },  10300},
-        {{{REPEATS, 10 }, "random" },   6100},
-        {{{REPEATS, 100}, "random" },   2500},
-        {{{REPEATS, 2  }, "randomC"},  10300},
-        {{{REPEATS, 10 }, "randomC"},   6100},
-        {{{REPEATS, 100}, "randomC"},   2500}
+    const map<pair<pair<pair<int, int>, string>, string>, int> ExpectedDeviations = {
+        {{{{REPEATS, 2  }, "random" }, ""     },    10300},
+        {{{{REPEATS, 10 }, "random" }, ""     },     6100},
+        {{{{REPEATS, 100}, "random" }, ""     },     2500},
+        {{{{REPEATS, 2  }, "randomC"}, ""     },    10300},
+        {{{{REPEATS, 2  }, "randomC"}, "float"},  5010000},
+        {{{{REPEATS, 10 }, "randomC"}, ""     },     6100},
+        {{{{REPEATS, 10 }, "randomC"}, "float"},  1002000},
+        {{{{REPEATS, 100}, "randomC"}, ""     },     2500},
+        {{{{REPEATS, 100}, "randomC"}, "float"},   102000}
     };
+
+    int getExpectedDeviations(int repeats, int bins, const string& func, const string& type) {
+        auto it = ExpectedDeviations.find({{{repeats, bins}, func}, type});
+        if (it != ExpectedDeviations.end())
+            return it->second;
+
+        it = ExpectedDeviations.find({{{repeats, bins}, func}, ""});
+        if (it != ExpectedDeviations.end())
+            return it->second;
+
+        return 0;
+    }
+
     const vector<int> Bins = {VALUES};
 }
 
@@ -66,37 +82,43 @@ TEST_P(TYPE##_GoodUniformity_x##RUNS##_##RAND, Test) {                          
         map<int,int> cnt;                                                                   \
         for (int i = 0; i < REPEATS; ++i)                                                   \
             ++cnt[static_cast<int>(RAND<TYPE>(0, GetParam()))];                             \
-        checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, GetParam()}, #RAND}));        \
+        checkDeviations(cnt, getExpectedDeviations(REPEATS, GetParam(), #RAND, #TYPE));     \
     }                                                                                       \
 }                                                                                           \
 INSTANTIATE_TEST_CASE_P(RandomTest, TYPE##_GoodUniformity_x##RUNS##_##RAND, TESTING_VALUES);
 
-#define TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND)                                     \
-TEST(RandomTests, TYPE##_StabilityBinsIncrease_##RAND) {                                \
-    for (int bin = 0; bin < isize(Bins); ++bin) {                                       \
-        for (int run = 0; run < RUNS; ++run) {                                          \
-            map<int,int> cnt;                                                           \
-            for (int i = 0; i < REPEATS; ++i)                                           \
-                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                      \
-            EXPECT_GE((*cnt.begin()).first    , 0        );                             \
-            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                             \
-            checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, Bins[bin]}, #RAND})); \
-        }                                                                               \
-    }                                                                                   \
+#define TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND)                                        \
+TEST(RandomTests, TYPE##_StabilityBinsIncrease_##RAND) {                                   \
+    for (int bin = 0; bin < isize(Bins); ++bin) {                                          \
+        for (int run = 0; run < RUNS; ++run) {                                             \
+            map<int,int> cnt;                                                              \
+            for (int i = 0; i < REPEATS; ++i)                                              \
+                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                         \
+            EXPECT_GE(cnt.begin()->first, 0);                                              \
+            if (#RAND == "randomC" && #TYPE == "float")                                    \
+                EXPECT_LE(prev(cnt.end())->first, Bins[bin]);                              \
+            else                                                                           \
+                EXPECT_LT(prev(cnt.end())->first, Bins[bin]);                              \
+            checkDeviations(cnt, getExpectedDeviations(REPEATS, Bins[bin], #RAND, #TYPE)); \
+        }                                                                                  \
+    }                                                                                      \
 }
 
-#define TST_STABILITY_BINS_DECREASE(TYPE,RUNS,RAND)                                     \
-TEST(RandomTests, TYPE##_StabilityBinsDecrease_##RAND) {                                \
-    for (int bin = isize(Bins)-1; bin >= 0; --bin) {                                    \
-        for (int run = 0; run < RUNS; ++run) {                                          \
-            map<int,int> cnt;                                                           \
-            for (int i = 0; i < REPEATS; ++i)                                           \
-                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                      \
-            EXPECT_GE((*cnt.begin()).first    , 0        );                             \
-            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                             \
-            checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, Bins[bin]}, #RAND})); \
-        }                                                                               \
-    }                                                                                   \
+#define TST_STABILITY_BINS_DECREASE(TYPE,RUNS,RAND)                                        \
+TEST(RandomTests, TYPE##_StabilityBinsDecrease_##RAND) {                                   \
+    for (int bin = isize(Bins)-1; bin >= 0; --bin) {                                       \
+        for (int run = 0; run < RUNS; ++run) {                                             \
+            map<int,int> cnt;                                                              \
+            for (int i = 0; i < REPEATS; ++i)                                              \
+                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                         \
+            EXPECT_GE(cnt.begin()->first, 0);                                              \
+            if (#RAND == "randomC" && #TYPE == "float")                                    \
+                EXPECT_LE(prev(cnt.end())->first, Bins[bin]);                              \
+            else                                                                           \
+                EXPECT_LT(prev(cnt.end())->first, Bins[bin]);                              \
+            checkDeviations(cnt, getExpectedDeviations(REPEATS, Bins[bin], #RAND, #TYPE)); \
+        }                                                                                  \
+    }                                                                                      \
 }
 
 #define TST_FULL_TEST(TYPE,RUNS,RAND)       \
@@ -106,9 +128,8 @@ TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND) \
 TST_STABILITY_BINS_DECREASE(TYPE,RUNS,RAND)
 
 #define FULL_TEST(TYPE,RUNS)     \
-TST_FULL_TEST(TYPE,RUNS,random)
-// TST_FULL_TEST(TYPE,RUNS,randomC)
-
+TST_FULL_TEST(TYPE,RUNS,random)  \
+TST_FULL_TEST(TYPE,RUNS,randomC)
 
 #define TEST_RUNS 10
 FULL_TEST(int   , TEST_RUNS);
