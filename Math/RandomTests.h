@@ -10,6 +10,7 @@
 
 #include <iterator>
 #include <map>
+#include <string>
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -38,71 +39,79 @@ namespace {
     #define VALUES 2,10,100
     #define TESTING_VALUES ::testing::Values(VALUES)
     #define REPEATS 10'000'000
-    const map<pair<int, int>, int> ExpectedDeviations = {
-        {{REPEATS, 2  }, 7900},
-        {{REPEATS, 10 }, 5300},
-        {{REPEATS, 100}, 2500}
+    const map<pair<pair<int, int>, string>, int> ExpectedDeviations = {
+        {{{REPEATS, 2  }, "random" },  10300},
+        {{{REPEATS, 10 }, "random" },   6100},
+        {{{REPEATS, 100}, "random" },   2500},
+        {{{REPEATS, 2  }, "randomC"},  10300},
+        {{{REPEATS, 10 }, "randomC"},   6100},
+        {{{REPEATS, 100}, "randomC"},   2500}
     };
     const vector<int> Bins = {VALUES};
 }
 
-#define TST_EXPECTED_VALUES(TYPE)           \
-TEST(RandomTest, TYPE##_##ExpectedValues) { \
-    for (int i = 0; i < REPEATS; ++i) {     \
-        auto rnd = random<TYPE>(10, 100);   \
-        ASSERT_GE(rnd, 10 );                \
-        ASSERT_LT(rnd, 100);                \
-    }                                       \
+#define TST_EXPECTED_VALUES(TYPE,RAND)             \
+TEST(RandomTest, TYPE##_##ExpectedValues_##RAND) { \
+    for (int i = 0; i < REPEATS; ++i) {            \
+        auto rnd = RAND<TYPE>(10, 100);            \
+        ASSERT_GE(rnd, 10 );                       \
+        ASSERT_LT(rnd, 100);                       \
+    }                                              \
 }
 
-#define TST_GOOD_UNIFORMITY(TYPE,RUNS)                                              \
-class TYPE##_GoodUniformity_x##RUNS : public ::testing::TestWithParam<int> {};      \
-TEST_P(TYPE##_GoodUniformity_x##RUNS, Test) {                                       \
-    for (int run = 0; run < RUNS; ++run) {                                          \
-        map<int,int> cnt;                                                           \
-        for (int i = 0; i < REPEATS; ++i)                                           \
-            ++cnt[static_cast<int>(random<TYPE>(0, GetParam()))];                   \
-        checkDeviations(cnt, ExpectedDeviations.at({REPEATS, GetParam()}));         \
-    }                                                                               \
-}                                                                                   \
-INSTANTIATE_TEST_CASE_P(RandomTest, TYPE##_GoodUniformity_x##RUNS, TESTING_VALUES);
+#define TST_GOOD_UNIFORMITY(TYPE,RUNS,RAND)                                                 \
+class TYPE##_GoodUniformity_x##RUNS##_##RAND : public ::testing::TestWithParam<int> {};     \
+TEST_P(TYPE##_GoodUniformity_x##RUNS##_##RAND, Test) {                                      \
+    for (int run = 0; run < RUNS; ++run) {                                                  \
+        map<int,int> cnt;                                                                   \
+        for (int i = 0; i < REPEATS; ++i)                                                   \
+            ++cnt[static_cast<int>(RAND<TYPE>(0, GetParam()))];                             \
+        checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, GetParam()}, #RAND}));        \
+    }                                                                                       \
+}                                                                                           \
+INSTANTIATE_TEST_CASE_P(RandomTest, TYPE##_GoodUniformity_x##RUNS##_##RAND, TESTING_VALUES);
 
-#define TST_STABILITY_BINS_INCREASE(TYPE,RUNS)                                 \
-TEST(RandomTests, TYPE##_StabilityBinsIncrease) {                              \
-    for (int bin = 0; bin < isize(Bins); ++bin) {                              \
-        for (int run = 0; run < RUNS; ++run) {                                 \
-            map<int,int> cnt;                                                  \
-            for (int i = 0; i < REPEATS; ++i)                                  \
-                ++cnt[static_cast<int>(random<TYPE>(0, Bins[bin]))];           \
-            EXPECT_GE((*cnt.begin()).first    , 0        );                    \
-            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                    \
-            checkDeviations(cnt, ExpectedDeviations.at({REPEATS, Bins[bin]})); \
-        }                                                                      \
-    }                                                                          \
+#define TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND)                                     \
+TEST(RandomTests, TYPE##_StabilityBinsIncrease_##RAND) {                                \
+    for (int bin = 0; bin < isize(Bins); ++bin) {                                       \
+        for (int run = 0; run < RUNS; ++run) {                                          \
+            map<int,int> cnt;                                                           \
+            for (int i = 0; i < REPEATS; ++i)                                           \
+                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                      \
+            EXPECT_GE((*cnt.begin()).first    , 0        );                             \
+            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                             \
+            checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, Bins[bin]}, #RAND})); \
+        }                                                                               \
+    }                                                                                   \
 }
 
-#define TST_STABILITY_BINS_DECREASE(TYPE,RUNS)                                 \
-TEST(RandomTests, TYPE##_StabilityBinsDecrease) {                              \
-    for (int bin = isize(Bins)-1; bin >= 0; --bin) {                           \
-        for (int run = 0; run < RUNS; ++run) {                                 \
-            map<int,int> cnt;                                                  \
-            for (int i = 0; i < REPEATS; ++i)                                  \
-                ++cnt[static_cast<int>(random<TYPE>(0, Bins[bin]))];           \
-            EXPECT_GE((*cnt.begin()).first    , 0        );                    \
-            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                    \
-            checkDeviations(cnt, ExpectedDeviations.at({REPEATS, Bins[bin]})); \
-        }                                                                      \
-    }                                                                          \
+#define TST_STABILITY_BINS_DECREASE(TYPE,RUNS,RAND)                                     \
+TEST(RandomTests, TYPE##_StabilityBinsDecrease_##RAND) {                                \
+    for (int bin = isize(Bins)-1; bin >= 0; --bin) {                                    \
+        for (int run = 0; run < RUNS; ++run) {                                          \
+            map<int,int> cnt;                                                           \
+            for (int i = 0; i < REPEATS; ++i)                                           \
+                ++cnt[static_cast<int>(RAND<TYPE>(0, Bins[bin]))];                      \
+            EXPECT_GE((*cnt.begin()).first    , 0        );                             \
+            EXPECT_LT((*prev(cnt.end())).first, Bins[bin]);                             \
+            checkDeviations(cnt, ExpectedDeviations.at({{REPEATS, Bins[bin]}, #RAND})); \
+        }                                                                               \
+    }                                                                                   \
 }
 
-#define FULL_TEST(TYPE,RUNS)           \
-TST_EXPECTED_VALUES(TYPE)              \
-TST_GOOD_UNIFORMITY(TYPE,RUNS)         \
-TST_STABILITY_BINS_INCREASE(TYPE,RUNS) \
-TST_STABILITY_BINS_DECREASE(TYPE,RUNS)
+#define TST_FULL_TEST(TYPE,RUNS,RAND)       \
+TST_EXPECTED_VALUES(TYPE,RAND)              \
+TST_GOOD_UNIFORMITY(TYPE,RUNS,RAND)         \
+TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND) \
+TST_STABILITY_BINS_DECREASE(TYPE,RUNS,RAND)
+
+#define FULL_TEST(TYPE,RUNS)     \
+TST_FULL_TEST(TYPE,RUNS,random)
+// TST_FULL_TEST(TYPE,RUNS,randomC)
+
 
 #define TEST_RUNS 10
-FULL_TEST(int,TEST_RUNS);
-FULL_TEST(long,TEST_RUNS);
-FULL_TEST(float,TEST_RUNS);
-FULL_TEST(double,TEST_RUNS);
+FULL_TEST(int   , TEST_RUNS);
+FULL_TEST(long  , TEST_RUNS);
+FULL_TEST(float , TEST_RUNS);
+FULL_TEST(double, TEST_RUNS);

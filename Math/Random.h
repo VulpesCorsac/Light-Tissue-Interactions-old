@@ -7,10 +7,10 @@
 
 namespace Math_NS {
     template < typename T >
-    static T random(T min, T max);
+    static T random(T min = static_cast<T>(0), T max = static_cast<T>(1));
 
     template < typename T >
-    T fastRandom();
+    static T randomC(T min = static_cast<T>(0), T max = static_cast<T>(1));
 }
 
 /******************
@@ -30,6 +30,8 @@ T Math_NS::random(T min, T max) {
 }
 
 template < typename T >
-T Math_NS::fastRandom() {
-    return static_cast<T>(rand()) / static_cast<T>(RAND_MAX);
+T Math_NS::randomC(T min, T max) {
+    auto rnd = rand();
+    rnd -= rnd == RAND_MAX ? 1 : 0;
+    return min + (max - min) * static_cast<T>(rnd) / static_cast<T>(RAND_MAX);
 }
