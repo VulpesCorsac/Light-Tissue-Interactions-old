@@ -75,17 +75,17 @@ TEST(RandomTest, TYPE##_##ExpectedValues_##RAND) { \
     }                                              \
 }
 
-#define TST_GOOD_UNIFORMITY(TYPE,RUNS,RAND)                                                 \
-class TYPE##_GoodUniformity_x##RUNS##_##RAND : public ::testing::TestWithParam<int> {};     \
-TEST_P(TYPE##_GoodUniformity_x##RUNS##_##RAND, Test) {                                      \
-    for (int run = 0; run < RUNS; ++run) {                                                  \
-        map<int,int> cnt;                                                                   \
-        for (int i = 0; i < REPEATS; ++i)                                                   \
-            ++cnt[static_cast<int>(RAND<TYPE>(0, GetParam()))];                             \
-        checkDeviations(cnt, getExpectedDeviations(REPEATS, GetParam(), #RAND, #TYPE));     \
-    }                                                                                       \
-}                                                                                           \
-INSTANTIATE_TEST_CASE_P(RandomTest, TYPE##_GoodUniformity_x##RUNS##_##RAND, TESTING_VALUES);
+#define TST_GOOD_UNIFORMITY(TYPE,RUNS,RAND)                                                   \
+class TYPE##_GoodUniformity_x##RUNS##_##RAND : public ::testing::TestWithParam<int> {};       \
+TEST_P(TYPE##_GoodUniformity_x##RUNS##_##RAND, Test) {                                        \
+    for (int run = 0; run < RUNS; ++run) {                                                    \
+        map<int,int> cnt;                                                                     \
+        for (int i = 0; i < REPEATS; ++i)                                                     \
+            ++cnt[static_cast<int>(RAND<TYPE>(0, GetParam()))];                               \
+        checkDeviations(cnt, getExpectedDeviations(REPEATS, GetParam(), #RAND, #TYPE));       \
+    }                                                                                         \
+}                                                                                             \
+INSTANTIATE_TEST_SUITE_P(RandomTest, TYPE##_GoodUniformity_x##RUNS##_##RAND, TESTING_VALUES);
 
 #define TST_STABILITY_BINS_INCREASE(TYPE,RUNS,RAND)                                        \
 TEST(RandomTests, TYPE##_StabilityBinsIncrease_##RAND) {                                   \
