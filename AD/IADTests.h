@@ -8,6 +8,8 @@
 /// TODO: make some statistics as in MC tests
 /// TODO: extract tolerance
 
+using namespace Minimization_NS;
+
 TEST(IAD, Test1) {
     using T = float;
 
@@ -15,7 +17,7 @@ TEST(IAD, Test1) {
 
     constexpr int M = 4;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.4; // refraction index of sample
     constexpr T n_slide_top = 1.5; // refraction index of slide
@@ -39,7 +41,7 @@ TEST(IAD, Test2) {
 
     constexpr int M = 32;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.4; // refraction index of sample
     constexpr T n_slide_top = 1.5; // refraction index of slide
@@ -63,7 +65,7 @@ TEST(IAD, Test3) {
 
     constexpr int M = 16;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.5; // refraction index of sample
     constexpr T n_slide_top = 1.5; // refraction index of slide
@@ -87,7 +89,7 @@ TEST(IAD, G0) {
 
     constexpr int M = 4;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.4; // refraction index of sample
     constexpr T n_slide_top = 1.4; // refraction index of slide
@@ -111,7 +113,7 @@ TEST(IAD, A0_G0_Tau_05) {
 
     constexpr int M = 8;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.5; // refraction index of sample
     constexpr T n_slide_top = 1.6; // refraction index of slide
@@ -136,7 +138,7 @@ TEST(IAD, A0_G0_Tau1) {
 
     constexpr int M = 32;
     constexpr int N = 2; // minimize 2 parameters
-    constexpr bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    constexpr auto fix = FixedParameter::Tau;
 
     constexpr T n_slab = 1.3; // refraction index of sample
     constexpr T n_slide_top = 1.4; // refraction index of slide

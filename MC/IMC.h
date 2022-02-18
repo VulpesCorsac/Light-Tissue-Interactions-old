@@ -4,6 +4,7 @@
 #include "MonteCarlo.h"
 
 #include "../AD/NelderMead.h"
+#include "../Minimization/FixedParam.h"
 #include "../Physics/Angles.h"
 #include "../Utils/Utils.h"
 
@@ -56,7 +57,7 @@ T funcToMinimizeMC(const T& a,
     return func2min;
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
 class MinimizableMC {
 public:
     virtual T funcToMinimize3argsMC(Matrix<T,1,N> vec) const = 0;
@@ -64,12 +65,12 @@ public:
     virtual ~MinimizableMC() = default;
 };
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
-class funcMC: public MinimizableMC<T,Nz,Nr,detector,N,fix> {
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+class FuncMC : public MinimizableMC<T,Nz,Nr,detector,N,fix> {
 public:
-    funcMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
+    FuncMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
            int new_threads, T new_z, T new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
-           const DetectorDistance<T> new_dist, const std::vector<std::pair<T,T>>& new_rmeas, const std::vector<std::pair<T,T>>& new_tmeas, const T& new_tcmeas) noexcept
+           const DetectorDistance<T> new_dist, const std::vector<std::pair<T,T>>& new_rmeas, const std::vector<std::pair<T,T>>& new_tmeas, const T& new_tcmeas)
         : empty_tissue(new_empty_tissue)
         , slides(new_slides)
         , Np(new_Np)
@@ -81,18 +82,26 @@ public:
         , rmeas(new_rmeas)
         , tmeas(new_tmeas)
         , tcmeas(new_tcmeas) {
-        if (fix)
+        using namespace Minimization_NS;
+
+        if (fix == FixedParameter::Tau)
             this->tau = fixed_param;
-        else
+        else if (fix == FixedParameter::G)
             this->g = fixed_param;
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
 
     T funcToMinimize3argsMC(Matrix<T,1,N> vec) const {
+        using namespace Minimization_NS;
+
         if (N == 2) {
-            if (fix)
+            if (fix == FixedParameter::Tau)
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), this->tau, vec(1), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
-            else
+            else if (fix == FixedParameter::G)
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), this->g, this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
+            else
+                throw std::invalid_argument("Need to have fixed parameter");
         } else if (N == 3)
             return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), vec(2), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
         else
@@ -111,8 +120,8 @@ public:
     std::vector<std::pair<T,T>> getRmeas() const noexcept { return rmeas; }
     std::vector<std::pair<T,T>> getTmeas() const noexcept { return tmeas; }
     T getTcmeas() const noexcept { return tcmeas; }
-    T getTau() const noexcept { return tau; }
-    T getG() const noexcept { return g; }
+    T getTau()    const noexcept { return tau;    }
+    T getG()      const noexcept { return g;      }
 
 protected:
     T tau;
@@ -131,8 +140,10 @@ protected:
     T tcmeas;
 };
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
 T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
+    using namespace Minimization_NS;
+
     T nSlab = empty_tissue.n;
     T n_slide_top, n_slide_bottom;
     if (slides.empty()) {
@@ -142,14 +153,19 @@ T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcme
         n_slide_top = slides[0].n;
         n_slide_bottom = slides[1].n;
     }
-    if (fix) // fixed tau
-        return tauCalc<T>(nSlab, n_slide_top, n_slide_bottom, tcmeas); // tau
-    else // fixed g
-        return newG; // g
+
+    if (fix == FixedParameter::Tau)
+        return tauCalc<T>(nSlab, n_slide_top, n_slide_bottom, tcmeas);
+    else if (fix == FixedParameter::G)
+        return newG;
+    else
+        throw std::invalid_argument("Need to have fixed parameter");
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
-void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps) {
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps) {
+    using namespace Minimization_NS;
+
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
@@ -178,10 +194,12 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
     if (N == 3)
         vstart << astart, tstart, gstart;
     else if (N == 2) {
-        if (fix)
+        if (fix == FixedParameter::Tau)
             vstart << astart, gstart;
-        else
+        else if (fix == FixedParameter::G)
             vstart << astart, tstart;
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
 
     std::array<Matrix<T,1,N>, N> basis;
@@ -199,7 +217,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         T h = 0;
         if (vstart(i-1) == 0)
             h = 0.0025;
-        else if (N == 2 && fix) {
+        else if (N == 2 && fix == FixedParameter::Tau) {
             if (vstart(0) <= 0.05) {
                 if (abs(vstart(1)) >= 0.95)
                     h = -0.05 * pow(-1, i);
@@ -383,7 +401,7 @@ void NelderMeadMin(funcMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
     fmin = simplex[0].second;
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, bool fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
 void IMC(const std::vector<std::pair<T,T>>& rmeas,
          const std::vector<std::pair<T,T>>& tmeas,
          T tcmeas,
@@ -403,14 +421,17 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
          T& aOut,
          T& tauOut,
          T& gOut) {
+    using namespace Minimization_NS;
+
     T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(0.0, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    funcMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
+    FuncMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
 
-
-    if (fix)
+    if (fix == FixedParameter::Tau)
         std::cout << "Inverse Monte Carlo, fixed optical thickness = " << tStart << std::endl;
-    else
+    else if (fix == FixedParameter::G)
         std::cout << "Inverse Monte Carlo, fixed anisotropy = " << gStart << std::endl;
+    else
+        throw std::invalid_argument("Need to have fixed parameter");
 
     // cout << astart << " " << gstart << endl;
 
@@ -440,15 +461,16 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
     }
     //*/
 
-    if (fix) {
+    if (fix == FixedParameter::Tau) {
         std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << std::endl;
         aOut = vecMin(0);
         tauOut = fixedParam;
         gOut = vecMin(1);
-    } else {
+    } else if (fix == FixedParameter::G) {
         std::cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam << std::endl;
         aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = fixedParam;
-    }
+    } else
+        throw std::invalid_argument("Need to have fixed parameter");
 }

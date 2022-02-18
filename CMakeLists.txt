@@ -17,6 +17,7 @@ enable_testing()
 
 add_subdirectory(AD)
 add_subdirectory(Math)
+add_subdirectory(Minimization)
 add_subdirectory(MC)
 add_subdirectory(Physics)
 add_subdirectory(Settings)

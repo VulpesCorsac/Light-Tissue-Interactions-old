@@ -15,6 +15,8 @@
 #include "MC/Photon.h"
 #include "MC/Sample.h"
 
+#include "Minimization/FixedParam.h"
+
 #include "AD/NelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
@@ -32,8 +34,9 @@
 #include <time.h>
 #include <random>
 
-template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
+    using namespace Minimization_NS;
     using namespace std;
 
     const auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -174,9 +177,11 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     fout.close();
 }
 
-template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
+    using namespace Minimization_NS;
     using namespace std;
+
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
     auto emptyTissue = Medium<T>::fromAlbedo(inN, 0.0, 0.0, inD, 0.0);
     auto glass = Medium<T>::fromCoeffs(inNG, 0.0, 0.0, inDG, 0.0);
@@ -235,10 +240,11 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     Tcfile.close();
 }
 
-template < typename T, size_t N, bool fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcInverse(const std::string& settingsFile, int Nthreads) {
-    using namespace std;
+    using namespace Minimization_NS;
     using namespace Physics_NS;
+    using namespace std;
 
     /*
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -365,26 +371,19 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
 }
 
 int main() {
-    /*
-    bool ff = false;
-    Settings_NS::readFromYaml(ff, "Settings/settings.yaml");
-    std::cout << ff << std::endl;
-    return 0;
-    //*/
-
-    // TestsIAD::RunAllTests();
-
+    using namespace Minimization_NS;
     using namespace std;
-    using T = double; //
 
-    const int N = 2; // minimize 2 parameters
-    const bool fix = 1; // 0 -- fix g, 1 -- fix tau (N = 2)
+    using T = double;
 
-    const int M = 32; // matrix size in Adding-Doubling
+    constexpr int N = 2; // minimize 2 parameters
+    constexpr auto fix = FixedParameter::Tau;
+
+    constexpr int M = 32; // matrix size in Adding-Doubling
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
-    const bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
+    constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
     /// CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     bool developerMode;
@@ -431,6 +430,7 @@ int main() {
             double err;
             cout << "Enter error dispersion" << endl;
             cin >> err;
+
             calcAll<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, err);
         } else if (mode == 1) {
             cout << "Enter tissue and glass parameters: n d nGlass dGlass" << endl;
@@ -454,6 +454,7 @@ int main() {
             int kt;
             cout << "Enter number of tau to begin with" << endl;
             cin >> kt;
+
             for (int i = kt; i < 6; i++) {
                 inT = gridT(i);
                 calcAll<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, err);
@@ -464,8 +465,8 @@ int main() {
             cout << "Enter number of threads" << endl;
             cin >> Nthreads;
             string settingsFname1 = "Settings & input files/SETTINGS.txt";
-            calcInverse<T, N, fix, M, Nz, Nr, detector>(settingsFname1, Nthreads);
 
+            calcInverse<T, N, fix, M, Nz, Nr, detector>(settingsFname1, Nthreads);
         } else if (mode == 3) {
             cout << "Enter tissue and glass parameters: a tau g n d nGlass dGlass" << endl;
             cin >> inA >> inT >> inG >> inN >> inD >> inNG >> inDG;

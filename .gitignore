@@ -19,6 +19,7 @@ Physics/CMakeFiles/*
 Physics/Medium/CMakeFiles/*
 Math/CMakeFiles/*
 MC/CMakeFiles/*
+Minimization/CMakeFiles/*
 MC/Detector/CMakeFiles/*
 Tests/CMakeFiles/*
 Utils/CMakeFiles/*

@@ -4,6 +4,8 @@
 #include "Quadrature.h"
 #include "RT.h"
 
+#include "../Minimization/FixedParam.h"
+
 #include <stdexcept>
 #include <utility>
 
@@ -30,7 +32,7 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
     return fabs((rs - rmeas) / (rmeas + eps)) + fabs((ts - tmeas) / (tmeas + eps));
 }
 
-template < typename T, size_t M, size_t N, bool fix >
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 class Minimizable {
 public:
     virtual T funcToMinimize3args(Matrix<T,1,N> vec) const = 0;
@@ -38,30 +40,38 @@ public:
     virtual ~Minimizable() = default;
 };
 
-template < typename T, size_t M, size_t N, bool fix >
-class func: public Minimizable<T,M,N,fix> {
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+class Func : public Minimizable<T,M,N,fix> {
 public:
-    func(T fixedParam, T nSlabNew, T nSlideTopNew, T nSlideBottomNew, T rmeasNew, T tmeasNew, T tcmeasNew) noexcept
+    Func(T fixedParam, T nSlabNew, T nSlideTopNew, T nSlideBottomNew, T rmeasNew, T tmeasNew, T tcmeasNew)
         : nSlab(nSlabNew)
         , nSlideTop(nSlideTopNew)
         , nSlideBottom(nSlideBottomNew)
         , rmeas(rmeasNew)
         , tmeas(tmeasNew)
         , tcmeas(tcmeasNew) {
-        if (fix)
+        using namespace Minimization_NS;
+
+        if (fix == FixedParameter::Tau)
             this->tau = fixedParam;
-        else
+        else if (fix == FixedParameter::G)
             this->g = fixedParam;
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
 
     T funcToMinimize3args(Matrix<T,1,N> vec) const {
+        using namespace Minimization_NS;
+
         /// ROSENBROCK
         // return 100*sqr(vec(1) - sqr(vec(0))) + sqr(vec(0) - 1) + 100*sqr(vec(2) - sqr(vec(1))) +sqr(vec(1) - 1);
         if (N == 2) {
-            if (fix)
+            if (fix == FixedParameter::Tau)
                 return funcToMinimize<T,M>(vec(0), this->tau, vec(1), this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
-            else
+            else if (fix == FixedParameter::G)
                 return funcToMinimize<T,M>(vec(0), vec(1), this->g, this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
+            else
+                throw std::invalid_argument("Nothing to fix but N == 2");
         } else if (N == 3)
             return funcToMinimize<T,M>(vec(0), vec(1), vec(2), this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
         else
@@ -82,12 +92,16 @@ protected:
     T tau, g;
 };
 
-template < typename T, size_t M, size_t N, bool fix >
-T fixParam (T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
-    if (fix) // fixed tau
-        return tauCalc<T,M>(nSlab, nSlideTop, nSlideBottom, tcmeas); // tau
-    else // fixed g
-        return newG; // g
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
+    using namespace Minimization_NS;
+
+    if (fix == FixedParameter::Tau)
+        return tauCalc<T,M>(nSlab, nSlideTop, nSlideBottom, tcmeas);
+    else if (fix == FixedParameter::G)
+        return newG;
+    else
+        throw std::invalid_argument("Need to have fixed parameter");
 }
 
 template < typename T, size_t gSize >
@@ -117,8 +131,10 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
     }
 }
 
-template <typename T, size_t M, size_t N, size_t gSize, bool fix>
-Matrix<T,gSize,gSize> distances(func<T,M,N,fix> f, Matrix<T,1,gSize> gridA, Matrix<T,1,gSize> gridT, Matrix<T,1,gSize> gridG) {
+template < typename T, size_t M, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
+Matrix<T,gSize,gSize> distances(Func<T,M,N,fix> f, Matrix<T,1,gSize> gridA, Matrix<T,1,gSize> gridT, Matrix<T,1,gSize> gridG) {
+    using namespace Minimization_NS;
+
     Matrix<T,gSize,gSize> dist;
 
     Quadrature<T,M> quadStart(f.getNslab());
@@ -131,20 +147,23 @@ Matrix<T,gSize,gSize> distances(func<T,M,N,fix> f, Matrix<T,1,gSize> gridA, Matr
             T rs0 = 0;
             /// TODO: WHAT IS THIS 1E-6?
             constexpr auto eps = 1E-6;
-            if (fix) { // tau fixed
+            if (fix == FixedParameter::Tau) {
                 RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = std::abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + std::abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
-            } else {
+            } else if (fix == FixedParameter::G) {
                 RTs<T,M>(gridA(i), gridT(j), f.getG(), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = std::abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + std::abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
-            }
+            } else
+                throw std::invalid_argument("Need to have fixed parameter");
         }
 
     return dist;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
-void startingPoints(func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+void startingPoints(Func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
+    using namespace Minimization_NS;
+
     constexpr int gridSize = 20;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
 
@@ -162,13 +181,14 @@ void startingPoints(func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
     std::cout << gridG << std::endl;
     //*/
 
-    if (fix) {
+    if (fix == FixedParameter::Tau) {
         aStart = gridA(minRow);
         gStart = gridG(minCol);
         tStart = f.getTau();
-    } else {
+    } else if (fix == FixedParameter::G) {
         aStart = gridA(minRow);
         tStart = gridT(minCol);
         gStart = f.getG();
-    }
+    } else
+        throw std::invalid_argument("Need to have fixed parameter");
 }

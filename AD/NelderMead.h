@@ -3,6 +3,7 @@
 #include "IAD.h"
 
 #include "../Math/Basic.h"
+#include "../Minimization/FixedParam.h"
 
 #include "../eigen/Eigen/Dense"
 
@@ -58,36 +59,46 @@ T gComp2g(T gC) {
     // return (std::sqrt(sqr(gC) + 4) + gC - 2) / (2 * gC);
 }
 
-template < typename T, size_t N, bool fix >
-Matrix<T,1,N> v2vComp (Matrix<T,1,N> v) {
+template < typename T, size_t N, Minimization_NS::FixedParameter fix >
+Matrix<T,1,N> v2vComp(Matrix<T,1,N> v) {
+    using namespace Minimization_NS;
+
     Matrix<T,1,N> vComp;
     if (N == 3)
         vComp << a2aComp<T>(v(0)), tau2tauComp<T>(v(1)), g2gComp<T>(v(2));
     else if (N == 2) {
-        if (fix)
+        if (fix == FixedParameter::Tau)
             vComp << a2aComp<T>(v(0)), g2gComp<T>(v(1));
-        else
+        else if (fix == FixedParameter::G)
             vComp << a2aComp<T>(v(0)), tau2tauComp<T>(v(1));
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
     return vComp;
 }
 
-template < typename T, size_t N, bool fix >
-Matrix<T,1,N> vComp2v (Matrix<T,1,N> vComp) {
+template < typename T, size_t N, Minimization_NS::FixedParameter fix >
+Matrix<T,1,N> vComp2v(Matrix<T,1,N> vComp) {
+    using namespace Minimization_NS;
+
     Matrix<T,1,N> v;
     if (N == 3)
         v << aComp2a<T>(vComp(0)), tauComp2tau<T>(vComp(1)), gComp2g<T>(vComp(2));
     else if (N == 2) {
-        if (fix)
+        if (fix == FixedParameter::Tau)
             v << aComp2a<T>(vComp(0)), gComp2g<T>(vComp(1));
-        else
+        else if (fix == FixedParameter::G)
             v << aComp2a<T>(vComp(0)), tauComp2tau<T>(vComp(1));
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
     return v;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
-void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters) {
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters) {
+    using namespace Minimization_NS;
+
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     const T alpha = 1.0;
     const T beta  = 0.5;
@@ -98,10 +109,12 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
     if (N == 3)
         vstart << astart, tstart, gstart;
     else if (N == 2) {
-        if (fix)
+        if (fix == FixedParameter::Tau)
             vstart << astart, gstart;
-        else
+        else if (fix == FixedParameter::G)
             vstart << astart, tstart;
+        else
+            throw std::invalid_argument("Need to have fixed parameter");
     }
 
     std::array<Matrix<T,1,N>,N> basis;
@@ -119,7 +132,7 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         T h = 0;
         if (vstart(i-1) == 0)
             h = 0.0025;
-        else if (N == 2 && fix && (vstart(0) >= 0.95 || vstart(1) >= 0.95))
+        else if (N == 2 && fix == FixedParameter::Tau && (vstart(0) >= 0.95 || vstart(1) >= 0.95))
             h = -0.05;
         else
             h = +0.05;
@@ -264,19 +277,23 @@ void NelderMeadMin(const func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
     fmin = simplex[0].second;
 }
 
-template < typename T, size_t M, size_t N, bool fix >
+template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom, T& aOut, T& tauOut, T& gOut) {
+    using namespace Minimization_NS;
+
     T fixedParam = fixParam<T,M,N,fix>(0.0, nSlab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    func<T, M, N, fix> toMinimize(fixedParam, nSlab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
+    Func<T,M,N,fix> toMinimize(fixedParam, nSlab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
 
     /// STARTING POINT
     T astart, tstart, gstart;
     startingPoints(toMinimize, astart, tstart, gstart);
 
-    if (fix)
+    if (fix == FixedParameter::Tau)
         std::cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << std::endl;
-    else
+    else if (fix == FixedParameter::G)
         std::cout << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << std::endl;
+    else
+        throw std::invalid_argument("Need to have fixed parameter");
 
     // cout << astart << " " << gstart << endl;
 
@@ -306,7 +323,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     }
     //*/
 
-    if (fix) {
+    if (fix == FixedParameter::Tau) {
         // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << endl;
         aOut = vecMin(0);
 
@@ -315,12 +332,13 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
 
         gOut = vecMin(1);
         // gOut = vecMin(1);
-    } else {
+    } else if (fix == FixedParameter::G) {
         // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
         aOut = vecMin(0);
 
         // aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = fixedParam;
-    }
+    } else
+        throw std::invalid_argument("Need to have fixed parameter");
 }
