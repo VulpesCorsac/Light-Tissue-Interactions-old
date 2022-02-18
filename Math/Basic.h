@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include <math.h>
 
 #ifndef M_PI
@@ -41,5 +42,6 @@ T Math_NS::radiansToDegrees(T radians) noexcept {
 
 template < typename T >
 T Math_NS::legendreDerivative(int n, T x) {
+    assert(sqr(x) != 1);
     return n * (std::legendre(n - 1, x) - x * std::legendre(n, x)) / (1 - sqr(x));
 }

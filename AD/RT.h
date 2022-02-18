@@ -8,6 +8,7 @@
 #include "../eigen/Eigen/Dense"
 
 #include <array>
+#include <assert.h>
 
 using namespace Eigen;
 
@@ -35,7 +36,9 @@ Matrix<T,M,M> Tslab(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const st
 //*/
 
 template < typename T, size_t M >
-Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
+Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& v, const std::array<T,M>& w) {
+    using namespace Physics_NS;
+
     /// TODO: a, tau, g - unused!
     std::ignore = a;
     std::ignore = tau;
@@ -44,16 +47,19 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T n_slide, const std::array<T,M>&
     const int m = M;
     Matrix<T,M,M> myRb = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), Physics_NS::TransmittanceCos(nSlab, n_slide, v[i]));
-        const auto cached2 = Physics_NS::FresnelReflectance(nSlab , n_slide          , v[i]                                               );
+        const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
+        const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
+        assert(cached3 != 1);
         myRb(i, i) = std::real(twoaw<T,M>(v, w)(i) * (cached2 + cached1 - 2 * cached3)) / (1 - cached3);
     }
     return myRb;
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T n_slide, const std::array<T,M>& v, const std::array<T,M>& w) {
+Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& v, const std::array<T,M>& w) {
+    using namespace Physics_NS;
+
     /// TODO: a, tau, g, w - unused!
     std::ignore = a;
     std::ignore = tau;
@@ -63,14 +69,14 @@ Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T n_slide, const std::array<T,M>&
     const int m = M;
     Matrix<T,M,M> myTb = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), Physics_NS::TransmittanceCos(nSlab, n_slide, v[i]));
-        const auto cached2 = Physics_NS::FresnelReflectance(nSlab , n_slide          , v[i]                                               );
+        const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
+        const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
+        assert(cached3 != 1);
         myTb(i, i) = std::real(1 - (cached2 + cached1 - 2 * cached3) / (1 - cached3));
     }
     return myTb;
 }
-
 
 template < typename T, size_t M >
 void RTtotal(T a, T tau, T g, T nSlab, T n_slide_top, T n_slide_bottom, const std::array<T,M>& v, const std::array<T,M>& w, Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal) {
@@ -116,8 +122,8 @@ void RTs(T a, T tau, T g, T nSlab, T n_slide_top, T n_slide_bottom, const std::a
     Matrix<T,M,M> Ttot, Rtot;
     RTtotal<T,M>(a, tau, g, nSlab, n_slide_top, n_slide_bottom, v, w, Rtot, Ttot);
     for (int i = 0; i < m; i++) {
-        Ts += 2 * v[i] * w[i] * Ttot(i, m - 1);
-        Rs += 2 * v[i] * w[i] * Rtot(i, m - 1);
+        Ts += 2 * v[i] * w[i] * Ttot(i, m-1);
+        Rs += 2 * v[i] * w[i] * Rtot(i, m-1);
     }
 }
 
@@ -144,16 +150,20 @@ T Rs(T a, T tau, T g, T nSlab, T n_slide_top, T n_slide_bottom, const std::array
 //*/
 
 template < typename T, size_t M >
-T Rborder(T nSlab, T n_slide) {
-    const auto cached1 = Physics_NS::FresnelReflectance(nSlab , n_slide          , static_cast<T>(1));
-    const auto cached2 = Physics_NS::FresnelReflectance(n_slide, static_cast<T>(1), static_cast<T>(1));
+T Rborder(T nSlab, T nSlide) {
+    using namespace Physics_NS;
+
+    const auto cached1 = FresnelReflectance(nSlab , nSlide           , static_cast<T>(1));
+    const auto cached2 = FresnelReflectance(nSlide, static_cast<T>(1), static_cast<T>(1));
     const auto cached3 = cached1 * cached2;
+    assert(cached3 != 1);
     return (cached1 + cached2 - 2 * cached3) / (1 - cached3);
 }
 
 template < typename T, size_t M >
-T Tc(T tau, T nSlab, T n_slide_top, T n_slide_bottom) {
-    const auto Rbtop = Rborder<T,M>(nSlab, n_slide_top);
-    const auto Rbbottom = Rborder<T,M>(nSlab, n_slide_bottom);
+T Tc(T tau, T nSlab, T nSlideTop, T nSlideBottom) {
+    const auto Rbtop    = Rborder<T,M>(nSlab, nSlideTop   );
+    const auto Rbbottom = Rborder<T,M>(nSlab, nSlideBottom);
+    assert(Rbtop * Rbbottom * exp(-2 * tau) != 1);
     return ((1 - Rbtop) * (1 - Rbbottom) * exp(-tau)) / (1 - Rbtop * Rbbottom * exp(-2 * tau));
 }

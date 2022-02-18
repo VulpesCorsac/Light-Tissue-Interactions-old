@@ -132,7 +132,7 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
 }
 
 template < typename T, size_t M, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
-Matrix<T,gSize,gSize> distances(Func<T,M,N,fix> f, Matrix<T,1,gSize> gridA, Matrix<T,1,gSize> gridT, Matrix<T,1,gSize> gridG) {
+Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG) {
     using namespace Minimization_NS;
 
     Matrix<T,gSize,gSize> dist;
@@ -161,7 +161,7 @@ Matrix<T,gSize,gSize> distances(Func<T,M,N,fix> f, Matrix<T,1,gSize> gridA, Matr
 }
 
 template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
-void startingPoints(Func<T,M,N,fix> f, T& aStart, T& tStart, T& gStart) {
+void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
     using namespace Minimization_NS;
 
     constexpr int gridSize = 20;

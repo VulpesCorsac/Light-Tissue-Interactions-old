@@ -7,6 +7,7 @@
 
 #include "../eigen/Eigen/Dense"
 
+#include <assert.h>
 #include <iostream>
 #include <utility>
 
@@ -29,23 +30,30 @@ int checkConvergence(const Matrix<T,1,N>& currentVec, const Matrix<T,1,N>& prevV
 
 template < typename T >
 T a2aComp(T a) {
+    assert(a != 0 && a != 1);
     return (2 * a - 1) / (a * (1 - a));
 }
 
 template < typename T >
 T tau2tauComp(T tau) {
+    assert(tau > 0);
     return std::log(tau);
 }
 
 template < typename T >
 T g2gComp(T g) {
+    assert(std::abs(g) != 1);
     return g / (1 - std::abs(g));
     // return (2 * g - 1) / (g * (1 - g));
 }
 
 template < typename T >
 T aComp2a(T aC) {
-    return (sqrt(Math_NS::sqr(aC) + 4) + aC - 2) / (2 * aC);
+    using namespace Math_NS;
+
+    assert(aC != 0);
+    assert((sqr(aC) + 4) + aC - 2 >  0);
+    return (sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
 }
 
 template < typename T >
@@ -60,7 +68,7 @@ T gComp2g(T gC) {
 }
 
 template < typename T, size_t N, Minimization_NS::FixedParameter fix >
-Matrix<T,1,N> v2vComp(Matrix<T,1,N> v) {
+Matrix<T,1,N> v2vComp(const Matrix<T,1,N>& v) {
     using namespace Minimization_NS;
 
     Matrix<T,1,N> vComp;
@@ -78,7 +86,7 @@ Matrix<T,1,N> v2vComp(Matrix<T,1,N> v) {
 }
 
 template < typename T, size_t N, Minimization_NS::FixedParameter fix >
-Matrix<T,1,N> vComp2v(Matrix<T,1,N> vComp) {
+Matrix<T,1,N> vComp2v(const Matrix<T,1,N>& vComp) {
     using namespace Minimization_NS;
 
     Matrix<T,1,N> v;

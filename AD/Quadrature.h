@@ -20,7 +20,7 @@ public:
     std::array<T,M> getW() const noexcept;
 
     void setValues(const T& nSlab) noexcept;
-    void printQuadrature(std::array<T,M> arr) const noexcept;
+    void printQuadrature(const std::array<T,M>& arr) const noexcept;
 
 protected:
     void calculateQuadrature();
@@ -49,7 +49,7 @@ void Quadrature<T,M>::setValues(const T& nSlab) noexcept {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::printQuadrature(std::array<T,M> arr) const noexcept {
+void Quadrature<T,M>::printQuadrature(const std::array<T,M>& arr) const noexcept {
     for (const auto& x : arr)
         std::cout << x << ' ';
     std::cout << std::endl;
@@ -160,7 +160,7 @@ void Quadrature<T,M>::radauQuadrature() {
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::mergeQuadratures () {
+void Quadrature<T,M>::mergeQuadratures() {
     // v = v_g;
     // w = w_g;
     // v.insert(v.end(), v_r.begin(), v_r.end());

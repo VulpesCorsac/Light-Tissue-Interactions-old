@@ -13,7 +13,7 @@ namespace Tests_NS {
         /// Check if milliseconds elapsed from timer start point to time point is less or equal to duration
         /// \param[in] duration duration to compare elapsed with
         /// \return If milliseconds elapsed from timer start point to time point is less or equal to duration
-        bool elapsed_le(double duration) noexcept;
+        double elapsed() noexcept;
 
     protected:
         Utils_NS::Time time; ///< class to evaluate timer
@@ -33,7 +33,7 @@ TEST(TEST_CASE_NAME, TEST_NAME##_Benchmark##_x##CNT##_Expected_##DURATION_MS##ms
         TEST_FUNC_NAME();                                                           \
                                                                                     \
     timer.finish();                                                                 \
-    EXPECT_TRUE(timer.elapsed_le(DURATION_MS));                                     \
+    EXPECT_LE(timer.elapsed(), DURATION_MS);                                        \
 }                                                                                   \
 
 /******************
@@ -48,6 +48,6 @@ void Tests_NS::BenchmarkHelper::finish() noexcept {
     time.finish();
 }
 
-bool Tests_NS::BenchmarkHelper::elapsed_le(double duration) noexcept {
-    return time.msecElapsedDuration() < duration;
+double Tests_NS::BenchmarkHelper::elapsed() noexcept {
+    return time.msecElapsedDuration();
 }

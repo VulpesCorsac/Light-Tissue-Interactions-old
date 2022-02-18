@@ -95,6 +95,8 @@
 		<Unit filename="Math/Random.h" />
 		<Unit filename="Math/RandomTests.h" />
 		<Unit filename="Math/Vector3.h" />
+		<Unit filename="Minimization/CMakeLists.txt" />
+		<Unit filename="Minimization/FixedParam.h" />
 		<Unit filename="Physics/Angles.h" />
 		<Unit filename="Physics/AnglesTests.h" />
 		<Unit filename="Physics/BugerLambert.h" />
