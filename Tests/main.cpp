@@ -1,9 +1,12 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-// #define RUN_TEST_TOGETHER
+/*
+#define RUN_TEST_TOGETHER
+//*/
 
 #ifdef RUN_TEST_TOGETHER
+	//*
     #include "../Utils/UtilsTests.h"
     #include "../Utils/StringUtilsTests.h"
 	
@@ -23,6 +26,7 @@
     #include "../Physics/SpecimenTests.h"
 
     #include "../Math/Mesh3Tests.h"
+    #include "../Math/RandomTests.h"
 
     #include "../Settings/SettingsExporterLayerTests.h"
     #include "../Settings/SettingsExporterMediumTests.h"
@@ -42,8 +46,11 @@
 
     #include "../AD/ADTests.h"
     #include "../AD/IADTests.h"
-
+	//*/
+	
+	//*
     #include "../MC/MCTests.h"
+	//*/
 #endif // RUN_TEST_TOGETHER
 
 #include <gtest/gtest.h>
