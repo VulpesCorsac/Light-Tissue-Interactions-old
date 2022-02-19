@@ -149,6 +149,8 @@
 		<Unit filename="Tests/BenchmarkHelper.h" />
 		<Unit filename="Tests/CMakeLists.txt" />
 		<Unit filename="Utils/CMakeLists.txt" />
+		<Unit filename="Utils/Contracts.h" />
+		<Unit filename="Utils/ContractsTests.h" />
 		<Unit filename="Utils/ReadFiles.h" />
 		<Unit filename="Utils/StringUtils.h" />
 		<Unit filename="Utils/StringUtilsTests.h" />
