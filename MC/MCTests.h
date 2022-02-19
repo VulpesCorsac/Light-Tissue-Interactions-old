@@ -153,7 +153,7 @@ public:
     const Medium<T> glass1 = Medium<T>::fromCoeffs(1.60, 0, 0, 1E-3, 0);
     const Medium<T> glass3 = Medium<T>::fromCoeffs(1.65, 0, 0, 1E-3, 0);
     const Sample<T> sample{{glass1, tissue1, glass3}, 1, 1};
-    const TestResult<T> EXPECTED{0.05419, 0.05813, 0.7394, 6E-5, 0.05, 0.0012};
+    const TestResult<T> EXPECTED{0.05419, 0.05813, 0.7394, 6E-5, 0.05, 0.001};
     static constexpr int photons = 1E6;
 };
 

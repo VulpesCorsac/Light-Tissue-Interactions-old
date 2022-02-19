@@ -43,7 +43,7 @@ std::unique_ptr<MonteCarlo_NS::DetectorInterface<T>> MonteCarlo_NS::createDetect
             return std::unique_ptr<MonteCarlo_NS::DetectorInterface<T>>(new MonteCarlo_NS::OpticalFiber<T>(properties));
         default:
             #ifdef ASSERT_INPUT_PARAMS
-            throw std::invalid_argument("Invalid detector type in properties");
+                throw std::invalid_argument("Invalid detector type in properties");
             #endif // ASSERT_INPUT_PARAMS
             return nullptr;
     }
