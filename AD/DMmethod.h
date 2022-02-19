@@ -5,8 +5,14 @@
 #include "../Utils/Utils.h"
 
 #include <algorithm>
-#include <assert.h>
 #include <math.h>
+
+#ifdef ASSERT_INPUT_PARAMS
+    #include <stdexcept>
+    #define EXCEPT_INPUT_PARAMS
+#else
+    #define EXCEPT_INPUT_PARAMS noexcept
+#endif // ASSERT_INPUT_PARAMS
 
 template < typename T, size_t M >
 T taus(T a, T tau, T g) {
@@ -16,7 +22,12 @@ T taus(T a, T tau, T g) {
 template < typename T, size_t M >
 T as(T a, T g) {
     const auto gPowM = pow(g, M);
-    assert(a * gPowM != 1);
+
+    #ifdef ASSERT_INPUT_PARAMS
+    if (a * gPowM == 1)
+        throw std::invalid_argument("a * gPowM == 1");
+    #endif // ASSERT_INPUT_PARAMS
+
     return a * (1 - gPowM) / (1 - a * gPowM);
 }
 
@@ -24,7 +35,11 @@ template < typename T, size_t M >
 int n1(T a, T tau, T g, T nSlab) {
     Quadrature<T,M> quadrature(nSlab);
     const auto v = quadrature.getV();
-    assert(Utils_NS::isize(v) > 0);
+
+    #ifdef ASSERT_INPUT_PARAMS
+    if (Utils_NS::isize(v) == 0)
+        throw std::invalid_argument("Utils_NS::isize(v) == 0");
+    #endif // ASSERT_INPUT_PARAMS
 
     const auto treshold = taus<T,M>(a, tau, g);
     const auto minElement = *std::min_element(ALL_CONTAINER(v));
@@ -44,6 +59,11 @@ T dtaus(T a, T tau, T g, T nSlab) {
 template < typename T, size_t M >
 T dtau(T a, T tau, T g, T nSlab) {
     const auto gPowM = pow(g, M);
-    assert(a * gPowM != 1);
+
+    #ifdef ASSERT_INPUT_PARAMS
+    if (a * gPowM == 1)
+        throw std::invalid_argument("a * gPowM == 1");
+    #endif // ASSERT_INPUT_PARAMS
+
     return dtaus<T,M>(a, tau, g, nSlab) / (1 - a * gPowM);
 }
