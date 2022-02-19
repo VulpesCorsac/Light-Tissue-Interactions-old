@@ -177,7 +177,7 @@ public:
  * TESTS *
  *********/
 
-#define TESTING_VALUES ::testing::Values(0,1,2,3,4,5,6,7,8,9,10)
+#define TESTING_VALUES ::testing::Values(0,1,2,3,4)
 
 #define TEST_MC(TESTNAME,BUGER_VALUE)                                          \
 TEST_P(TESTNAME, SingleThread) {                                               \
