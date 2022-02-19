@@ -11,9 +11,25 @@
 using namespace Utils_NS;
 
 TEST(ContractsTests, ContractViolation) {
-    EXPECT_THROW(CHECK_CONTRACT(false, std::invalid_argument), std::invalid_argument);
+    EXPECT_THROW(CHECK_CONTRACT(false, std::logic_error), std::logic_error);
 }
 
 TEST(ContractsTests, NoContractViolation) {
-    EXPECT_NO_THROW(CHECK_CONTRACT(true, std::invalid_argument));
+    EXPECT_NO_THROW(CHECK_CONTRACT(true, std::logic_error));
+}
+
+TEST(ContractsTests, ArgumentContractViolation) {
+    EXPECT_THROW(CHECK_ARGUMENT_CONTRACT(false), std::invalid_argument);
+}
+
+TEST(ContractsTests, NoArgumentContractViolation) {
+    EXPECT_NO_THROW(CHECK_ARGUMENT_CONTRACT(true));
+}
+
+TEST(ContractsTests, RuntimeContractViolation) {
+    EXPECT_THROW(CHECK_RUNTIME_CONTRACT(false), std::runtime_error);
+}
+
+TEST(ContractsTests, NoRuntimeContractViolation) {
+    EXPECT_NO_THROW(CHECK_RUNTIME_CONTRACT(true));
 }

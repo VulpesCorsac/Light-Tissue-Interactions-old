@@ -27,10 +27,10 @@ T Physics_NS::TransmittanceCos(T incidenceRefractionIndex, T transmittanceRefrac
     using namespace Math_NS;
     using namespace std;
 
-    CHECK_CONTRACT(transmittanceRefractionIndex >= 1, invalid_argument)
-    CHECK_CONTRACT(incidenceRefractionIndex     >= 1, invalid_argument)
-    CHECK_CONTRACT(incidenceCos <= +1               , invalid_argument)
-    CHECK_CONTRACT(incidenceCos >= -1               , invalid_argument)
+    CHECK_ARGUMENT_CONTRACT(transmittanceRefractionIndex >= 1)
+    CHECK_ARGUMENT_CONTRACT(incidenceRefractionIndex     >= 1)
+    CHECK_ARGUMENT_CONTRACT(incidenceCos <= +1               )
+    CHECK_ARGUMENT_CONTRACT(incidenceCos >= -1               )
 
     const T cached = 1 - sqr(incidenceRefractionIndex / transmittanceRefractionIndex) * (1 - sqr(incidenceCos));
     if (cached < 0)
@@ -43,8 +43,8 @@ template < typename T >
 T Physics_NS::CriticalCos(T incidenceRefractionIndex, T transmittanceRefractionIndex) EXCEPT_INPUT_PARAMS {
     using namespace std;
 
-    CHECK_CONTRACT(incidenceRefractionIndex     >= 1, invalid_argument)
-    CHECK_CONTRACT(transmittanceRefractionIndex >= 1, invalid_argument)
+    CHECK_ARGUMENT_CONTRACT(incidenceRefractionIndex     >= 1)
+    CHECK_ARGUMENT_CONTRACT(transmittanceRefractionIndex >= 1)
 
     return cos(asin(min(incidenceRefractionIndex, transmittanceRefractionIndex) /
                     max(incidenceRefractionIndex, transmittanceRefractionIndex)));

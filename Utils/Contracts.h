@@ -11,6 +11,9 @@ namespace Utils_NS {
     };
 }
 
+#define CHECK_ARGUMENT_CONTRACT(CONTRACT) CHECK_CONTRACT(CONTRACT, std::invalid_argument)
+#define CHECK_RUNTIME_CONTRACT(CONTRACT) CHECK_CONTRACT(CONTRACT, std::runtime_error)
+
 #ifdef ENABLE_CHECK_CONTRACTS
     #define CHECK_CONTRACT(CONTRACT,EXCEPTION)                        \
         Utils_NS::Contract<EXCEPTION>::Except(std::string(__FILE__),  \
