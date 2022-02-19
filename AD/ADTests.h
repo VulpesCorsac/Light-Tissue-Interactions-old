@@ -51,7 +51,7 @@ void test1() {
     EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, Test1, test1, 100, 2200)
+BENCHMARK_TEST(AD, Test1, test1, 100, 2400)
 
 void test2() {
     constexpr double TOLERANCE = 1e-4;
@@ -76,26 +76,26 @@ void g0() {
 BENCHMARK_TEST(AD, G0, g0, 10000, 100)
 
 void a0() {
-    constexpr double TOLERANCE = 1e-4;
+    constexpr double TOLERANCE   = 1e-4;
     constexpr double TOLERANCE_T = 1e-3;
 
     testDataRT<float,8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
-    EXPECT_NEAR(test.getRs(), 0.07204 , TOLERANCE);
-    EXPECT_NEAR(test.getTs(), 0.54314 , TOLERANCE);
-    EXPECT_NEAR(test.getTc(), 0.543166, TOLERANCE);
+    EXPECT_NEAR(test.getRs(), 0.07204     , TOLERANCE  );
+    EXPECT_NEAR(test.getTs(), 0.54314     , TOLERANCE  );
+    EXPECT_NEAR(test.getTc(), 0.543166    , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AD, A0, a0, 1000, 350)
+BENCHMARK_TEST(AD, A0, a0, 1000, 370)
 
 void rtTestA0G0() {
-    constexpr double TOLERANCE = 1e-4;
+    constexpr double TOLERANCE   = 1e-4;
     constexpr double TOLERANCE_T = 1e-3;
 
     testDataRT<double,32> test(0.0, 1.0, 0.0, 1.3, 1.4, 1.4);
-    EXPECT_NEAR(test.getRs(), 0.03278 , TOLERANCE);
-    EXPECT_NEAR(test.getTs(), 0.34684 , TOLERANCE);
-    EXPECT_NEAR(test.getTc(), 0.346838, TOLERANCE);
+    EXPECT_NEAR(test.getRs(), 0.03278     , TOLERANCE  );
+    EXPECT_NEAR(test.getTs(), 0.34684     , TOLERANCE  );
+    EXPECT_NEAR(test.getTc(), 0.346838    , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
