@@ -89,7 +89,7 @@ class SingleLayerAbsorptionOnly_MFP_LT_D : public AbsorptionOnly {
 public:
     const Sample<T> sample{{tissue3}, 1, 1};
     static constexpr int photons = 5E6;
-    const TestResult<T> EXPECTED{0.05325, 0, 0.00004069, 1E-4, 1E-9, 0.20};
+    const TestResult<T> EXPECTED{0.05325, 0, 0.00004069, 1E-4, 1E-9, 0.21};
     const T BUGER = BugerLambert<T>(10, 1.6, 1, 1);
 };
 
