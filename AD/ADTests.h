@@ -103,4 +103,4 @@ void rtTestA0G0() {
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AD, RTtestA0G0, rtTestA0G0, 100, 300)
+BENCHMARK_TEST(AD, RTtestA0G0, rtTestA0G0, 100, 400)

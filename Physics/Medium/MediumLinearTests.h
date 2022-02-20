@@ -1,8 +1,8 @@
 #pragma once
 
-#ifndef ASSERT_INPUT_PARAMS
-    #define ASSERT_INPUT_PARAMS
-#endif // ASSERT_INPUT_PARAMS
+#ifndef ENABLE_CHECK_CONTRACTS
+    #define ENABLE_CHECK_CONTRACTS
+#endif // ENABLE_CHECK_CONTRACTS
 
 #include "MediumLinear.h"
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#ifndef ASSERT_INPUT_PARAMS
-    #define ASSERT_INPUT_PARAMS
-#endif // ASSERT_INPUT_PARAMS
+#ifndef ENABLE_CHECK_CONTRACTS
+    #define ENABLE_CHECK_CONTRACTS
+#endif // ENABLE_CHECK_CONTRACTS
 
 #include "MediumUtils.h"
 
@@ -89,7 +89,7 @@ TEST_MEDIUM_TYPE_TO_STR_FROM_STR(Arbitrary)
 TEST(MediumUtilsTests, Validate_ThrownExceptionForUnknownType) {
     MediumProperties<int> properties;
     properties.type = MediumType::Unknown;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
 }
 
 TEST(MediumUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
@@ -104,7 +104,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutRefractionIndex) {
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -129,7 +129,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutRefractio
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -163,11 +163,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutRefractionI
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.nT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.nD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -211,13 +211,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutRefracti
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.nT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.nD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.nDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -255,7 +255,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithRefractionIndexLessTh
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -282,7 +282,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithRefractionIn
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -319,7 +319,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithRefractionInde
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -363,7 +363,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithRefractionI
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.n0 = 1;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -396,7 +396,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutDensity) {
     properties.n0 = 1;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -421,7 +421,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutDensity) 
     properties.g0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -455,11 +455,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutDensity) {
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.rT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.rD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -503,13 +503,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutDensity)
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.rT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.rD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.rDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -547,7 +547,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeDensity) {
     properties.r0 = -1;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -574,7 +574,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeDens
     properties.r0 = -1;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -611,7 +611,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeDensit
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -655,7 +655,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeDen
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.r0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -688,7 +688,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutHeatCapacity) {
     properties.n0 = 1;
     properties.r0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -713,7 +713,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutHeatCapac
     properties.g0 = 0;
     properties.r0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -747,11 +747,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutHeatCapacit
     properties.rT = properties.rD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.cT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.cD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -795,13 +795,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutHeatCapa
     properties.rT = properties.rD = properties.rDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.cT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.cD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.cDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -839,7 +839,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeHeatCapacity)
     properties.r0 = 0;
     properties.c0 = -1;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -866,7 +866,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeHeat
     properties.r0 = 0;
     properties.c0 = -1;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -903,7 +903,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeHeatCa
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -947,7 +947,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeHea
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.c0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -980,7 +980,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithoutThermalConductivit
     properties.n0 = 1;
     properties.r0 = 0;
     properties.c0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1005,7 +1005,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutThermalCo
     properties.g0 = 0;
     properties.r0 = 0;
     properties.c0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1039,11 +1039,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutThermalCond
     properties.rT = properties.rD = 0;
     properties.c0 = 0;
     properties.cT = properties.cD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.kT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.kD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1087,13 +1087,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutThermalC
     properties.rT = properties.rD = properties.rDT = 0;
     properties.c0 = 0;
     properties.cT = properties.cD = properties.cDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.kT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.kDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1131,7 +1131,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForGlassWithNegativeThermalConduc
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = -1;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1158,7 +1158,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithNegativeTher
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = -1;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1195,7 +1195,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithNegativeTherma
     properties.cT = properties.cD = 0;
     properties.k0 = -1;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1239,7 +1239,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithNegativeThe
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = -1;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.k0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1295,7 +1295,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutAbsorptio
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1329,11 +1329,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutAbsorptionC
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.aT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.aD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1377,13 +1377,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutAbsorpti
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.aT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.aD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.aDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1424,7 +1424,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithAbsorptionCo
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1461,7 +1461,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithAbsorptionCoef
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1505,7 +1505,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithAbsorptionC
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.a0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1541,7 +1541,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatterin
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1575,11 +1575,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutScatteringC
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.uT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.uD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1623,13 +1623,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutScatteri
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.uT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.uD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.uDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1670,7 +1670,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringCo
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1707,7 +1707,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringCoef
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1751,7 +1751,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringC
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.u0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1787,7 +1787,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithoutScatterin
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1821,11 +1821,11 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithoutScatteringA
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.gT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.gD = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1869,13 +1869,13 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithoutScatteri
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.gT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.gD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.gDT = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1916,7 +1916,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAn
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1953,7 +1953,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringAnis
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -1997,7 +1997,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringA
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -2034,7 +2034,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForConstantMediumWithScatteringAn
     properties.r0 = 0;
     properties.c0 = 0;
     properties.k0 = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -2071,7 +2071,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForLinearMediumWithScatteringAnis
     properties.cT = properties.cD = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }
@@ -2115,7 +2115,7 @@ TEST(MediumUtilsTests, Validate_ThrownExceptionForArbitraryMediumWithScatteringA
     properties.cT = properties.cD = properties.cDT = 0;
     properties.k0 = 0;
     properties.kT = properties.kD = properties.kDT = 0;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
     properties.g0 = 0;
     EXPECT_NO_THROW(validate(properties));
 }

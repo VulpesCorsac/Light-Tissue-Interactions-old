@@ -21,7 +21,7 @@ namespace Physics_NS {
     /// \brief factory function to create medium of needed type based on properties
     /// \param[in] properties MediumProperties
     /// \return medium of needed type based on properties
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and properties.type is Unknown
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and properties.type is Unknown
     template < typename T >
     std::unique_ptr<MediumInterface<T>> createMedium(const MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS;
 }

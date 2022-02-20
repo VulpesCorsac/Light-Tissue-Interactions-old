@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef ASSERT_INPUT_PARAMS
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
-
 #include "MediumArbitrary.h"
 #include "MediumConstant.h"
 #include "MediumGlass.h"
@@ -15,6 +9,7 @@
 #include "MediumType.h"
 #include "MediumTypeStrings.h"
 
+#include "../../Utils/Contracts.h"
 #include "../../Utils/Utils.h"
 #include "../../Utils/StringUtils.h"
 
@@ -27,14 +22,14 @@ namespace Physics_NS {
     /// Medium type getter from MediumInterface pointer
     /// \param[in] medium MediumInterface pointer
     /// \return MediumType, MediumType::Unknown if cannot convert to the known types
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and cannot convert to the known types
     template < typename T >
     inline MediumType mediumType(MediumInterface<T>* const medium) EXCEPT_INPUT_PARAMS;
 
     /// Medium type getter from MediumInterface pointer
     /// \param[in] medium Medium name
     /// \return MediumType, MediumType::Unknown if cannot convert to the known types
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and cannot convert to the known types
     inline MediumType mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS;
 
     /// Get medium type string representation
@@ -69,18 +64,17 @@ template < typename T >
 Physics_NS::MediumType Physics_NS::mediumType(Physics_NS::MediumInterface<T>* const medium) EXCEPT_INPUT_PARAMS {
     if (dynamic_cast<Physics_NS::MediumGlass<T>*>(medium))
         return Physics_NS::MediumType::Glass;
-    if (dynamic_cast<Physics_NS::MediumConstant<T>*>(medium))
+    else if (dynamic_cast<Physics_NS::MediumConstant<T>*>(medium))
         return Physics_NS::MediumType::Constant;
-    if (dynamic_cast<Physics_NS::MediumLinear<T>*>(medium))
+    else if (dynamic_cast<Physics_NS::MediumLinear<T>*>(medium))
         return Physics_NS::MediumType::Linear;
-    if (dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium))
+    else if (dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium))
         return Physics_NS::MediumType::Arbitrary;
+    else {
+        CHECK_ARGUMENT_CONTRACT(false);
+        return Physics_NS::MediumType::Unknown;
+    }
 
-    #ifdef ASSERT_INPUT_PARAMS
-        throw std::invalid_argument("Medium type cannot be evaluated");
-    #endif // ASSERT_INPUT_PARAMS
-
-    return Physics_NS::MediumType::Unknown;
 }
 
 Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS {
@@ -88,18 +82,16 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
 
     if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Glass)), lower))
         return Physics_NS::MediumType::Glass;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
+    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
         return Physics_NS::MediumType::Constant;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
+    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
         return Physics_NS::MediumType::Linear;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
+    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
         return Physics_NS::MediumType::Arbitrary;
-
-    #ifdef ASSERT_INPUT_PARAMS
-        throw std::invalid_argument("Medium type cannot be evaluated");
-    #endif // ASSERT_INPUT_PARAMS
-
-    return Physics_NS::MediumType::Unknown;
+    else {
+        CHECK_ARGUMENT_CONTRACT(false);
+        return Physics_NS::MediumType::Unknown;
+    }
 }
 
 std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
@@ -119,224 +111,121 @@ std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept
 
 template < typename T >
 void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
-    if (properties.type == Physics_NS::MediumType::Unknown)
-        throw std::logic_error("Validation fails for MediumType::Unknown");
+    CHECK_ARGUMENT_CONTRACT(properties.type != Physics_NS::MediumType::Unknown);
 
     if (properties.type == Physics_NS::MediumType::Glass) {
-        if (!properties.n0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Glass because there is no n0 property");
-        if (properties.n0.value() < 1)
-            throw std::logic_error("Validation fails for MediumType::Glass because n0 property is less than 1");
+        CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
 
-        if (!properties.r0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Glass because there is no r0 property");
-        if (properties.r0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Glass because r0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.r0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.r0.value() >= 0);
 
-        if (!properties.c0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Glass because there is no c0 property");
-        if (properties.c0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Glass because c0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.c0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.c0.value() >= 0);
 
-        if (!properties.k0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Glass because there is no k0 property");
-        if (properties.k0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Glass because k0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
+    } else if (properties.type == Physics_NS::MediumType::Constant) {
+        CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
 
-        return;
-    }
+        CHECK_ARGUMENT_CONTRACT(properties.a0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.a0.value() >= 0);
 
-    if (properties.type == Physics_NS::MediumType::Constant) {
-        if (!properties.n0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no n0 property");
-        if (properties.n0.value() < 1)
-            throw std::logic_error("Validation fails for MediumType::Constant because n0 property is less than 1");
+        CHECK_ARGUMENT_CONTRACT(properties.u0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.u0.value() >= 0);
 
-        if (!properties.a0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no a0 property");
-        if (properties.a0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Constant because a0 property is less than 0");
+        CHECK_ARGUMENT_CONTRACT(properties.g0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() >= -1);
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() <= +1);
 
-        if (!properties.u0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no u0 property");
-        if (properties.u0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Constant because u0 property is less than 0");
+        CHECK_ARGUMENT_CONTRACT(properties.r0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.r0.value() >= 0);
 
-        if (!properties.g0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no g0 property");
-        if (properties.g0.value() < -1)
-            throw std::logic_error("Validation fails for MediumType::Constant because g0 property is less than -1");
-        if (properties.g0.value() > +1)
-            throw std::logic_error("Validation fails for MediumType::Constant because g0 property is greater than +1");
+        CHECK_ARGUMENT_CONTRACT(properties.c0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.c0.value() >= 0);
 
-        if (!properties.r0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no r0 property");
-        if (properties.r0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Constant because r0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
+    } else if (properties.type == Physics_NS::MediumType::Linear) {
+        CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
+        CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.nD.has_value());
 
-        if (!properties.c0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no c0 property");
-        if (properties.c0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Constant because c0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.a0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.a0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.aT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.aD.has_value());
 
-        if (!properties.k0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Constant because there is no k0 property");
-        if (properties.k0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Constant because k0 property is negative");
+        CHECK_ARGUMENT_CONTRACT(properties.u0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.u0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.uT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.uD.has_value());
 
-        return;
-    }
+        CHECK_ARGUMENT_CONTRACT(properties.g0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() >= -1);
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() <= +1);
+        CHECK_ARGUMENT_CONTRACT(properties.gT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.gD.has_value());
 
-    if (properties.type == Physics_NS::MediumType::Linear) {
-        if (!properties.n0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no n0 property");
-        if (properties.n0.value() < 1)
-            throw std::logic_error("Validation fails for MediumType::Linear because n0 property is less than 1");
-        if (!properties.nT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no nT property");
-        if (!properties.nD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no nD property");
+        CHECK_ARGUMENT_CONTRACT(properties.r0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.r0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.rT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.rD.has_value());
 
-        if (!properties.a0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no a0 property");
-        if (properties.a0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because a0 property is less than 0");
-        if (!properties.aT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no aT property");
-        if (!properties.aD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no aD property");
+        CHECK_ARGUMENT_CONTRACT(properties.c0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.c0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.cT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.cD.has_value());
 
-        if (!properties.u0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no u0 property");
-        if (properties.u0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because u0 property is less than 0");
-        if (!properties.uT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no uT property");
-        if (!properties.uD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no uD property");
+        CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.kT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.kD.has_value());
+    } else if (properties.type == Physics_NS::MediumType::Arbitrary) {
+        CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
+        CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.nD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.nDT.has_value());
 
-        if (!properties.g0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no g0 property");
-        if (properties.g0.value() < -1)
-            throw std::logic_error("Validation fails for MediumType::Linear because g0 property is less than -1");
-        if (properties.g0.value() > +1)
-            throw std::logic_error("Validation fails for MediumType::Linear because g0 property is greater than +1");
-        if (!properties.gT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no gT property");
-        if (!properties.gD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no gD property");
+        CHECK_ARGUMENT_CONTRACT(properties.a0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.a0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.aT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.aD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.aDT.has_value());
 
-        if (!properties.r0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no r0 property");
-        if (properties.r0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because r0 property is negative");
-        if (!properties.rT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no rT property");
-        if (!properties.rD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no rD property");
+        CHECK_ARGUMENT_CONTRACT(properties.u0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.u0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.uT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.uD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.uDT.has_value());
 
-        if (!properties.c0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no c0 property");
-        if (properties.c0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because c0 property is negative");
-        if (!properties.cT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no cT property");
-        if (!properties.cD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no cD property");
+        CHECK_ARGUMENT_CONTRACT(properties.g0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() >= -1);
+        CHECK_ARGUMENT_CONTRACT(properties.g0.value() <= +1);
+        CHECK_ARGUMENT_CONTRACT(properties.gT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.gD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.gDT.has_value());
 
-        if (!properties.k0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no k0 property");
-        if (properties.k0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Linear because k0 property is negative");
-        if (!properties.kT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no kT property");
-        if (!properties.kD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Linear because there is no kD property");
+        CHECK_ARGUMENT_CONTRACT(properties.r0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.r0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.rT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.rD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.rDT.has_value());
 
-        return;
-    }
+        CHECK_ARGUMENT_CONTRACT(properties.c0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.c0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.cT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.cD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.cDT.has_value());
 
-    if (properties.type == Physics_NS::MediumType::Arbitrary) {
-        if (!properties.n0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no n0 property");
-        if (properties.n0.value() < 1)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because n0 property is less than 1");
-        if (!properties.nT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nT property");
-        if (!properties.nD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nD property");
-        if (!properties.nDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no nDT property");
-
-        if (!properties.a0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no a0 property");
-        if (properties.a0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because a0 property is less than 0");
-        if (!properties.aT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aT property");
-        if (!properties.aD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aD property");
-        if (!properties.aDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no aDT property");
-
-        if (!properties.u0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no u0 property");
-        if (properties.u0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because u0 property is less than 0");
-        if (!properties.uT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uT property");
-        if (!properties.uD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uD property");
-        if (!properties.uDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no uDT property");
-
-        if (!properties.g0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no g0 property");
-        if (properties.g0.value() < -1)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because g0 property is less than -1");
-        if (properties.g0.value() > +1)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because g0 property is greater than +1");
-        if (!properties.gT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gT property");
-        if (!properties.gD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gD property");
-        if (!properties.gDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no gDT property");
-
-        if (!properties.r0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no r0 property");
-        if (properties.r0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because r0 property is negative");
-        if (!properties.rT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rT property");
-        if (!properties.rD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rD property");
-        if (!properties.rDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no rDT property");
-
-        if (!properties.c0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no c0 property");
-        if (properties.c0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because c0 property is negative");
-        if (!properties.cT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cT property");
-        if (!properties.cD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cD property");
-        if (!properties.cDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no cDT property");
-
-        if (!properties.k0.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no k0 property");
-        if (properties.k0.value() < 0)
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because k0 property is negative");
-        if (!properties.kT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kT property");
-        if (!properties.kD.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kD property");
-        if (!properties.kDT.has_value())
-            throw std::logic_error("Validation fails for MediumType::Arbitrary because there is no kDT property");
-
-        return;
+        CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.kT.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.kD.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.kDT.has_value());
     }
 }
 
@@ -345,7 +234,7 @@ bool Physics_NS::validateSafe(const Physics_NS::MediumProperties<T>& properties)
     try {
         validate(properties);
         return true;
-    } catch(std::logic_error&) {
+    } catch(std::invalid_argument&) {
         return false;
     }
 }
