@@ -2,6 +2,8 @@
 
 #include "RedistributionFunction.h"
 
+#include "../Utils/Contracts.h"
+
 #include "../eigen/Eigen/LU"
 
 #include <array>
@@ -18,6 +20,10 @@ inline int kd(int i, int j) noexcept {
 template < typename T, size_t M >
 Matrix<T,M,M> B(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w) {
     const int m = M;
+
+    for (int i = 0; i < m; i++)
+        CHECK_ARGUMENT_CONTRACT(v[i] != 0);
+
     const auto hpn = HPN<T,M>(v, g);
     const auto cached = as<T,M>(a, g) * dtaus<T,M>(a, tau, g, nSlab);
     Matrix<T,M,M> myB;
@@ -30,6 +36,10 @@ Matrix<T,M,M> B(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::a
 template < typename T, size_t M >
 Matrix<T,M,M> A(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w) {
     const int m = M;
+
+    for (int i = 0; i < m; i++)
+        CHECK_ARGUMENT_CONTRACT(v[i] != 0);
+
     const auto hpp = HPP<T,M>(v, g);
     const auto cached1 = dtaus<T,M>(a, tau, g, nSlab);
     const auto cached2 = cached1 * as<T,M>(a, g);
@@ -75,6 +85,10 @@ Matrix<T,M,M> Rd1(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std:
     const int m = M;
     const auto cachedRR = RR<T,M>(a, tau, g, nSlab, v, w);
     const auto cached2aw = twoaw<T,M>(v, w);
+
+    for (int i = 0; i < m; i++)
+        CHECK_RUNTIME_CONTRACT(cached2aw[i] != 0);
+
     Matrix<T,M,M> myRd1;
     for (int i = 0; i < m; i++)
         for (int j = 0; j < m; j++)
@@ -87,6 +101,10 @@ Matrix<T,M,M> Td1(T a, T tau, T g, T Vc, const std::array<T,M>& v, const std::ar
     const int m = M;
     const auto cachedTT = TT<T,M>(a, tau, g, Vc, v, w);
     const auto cached2aw = twoaw<T,M>(v, w);
+
+    for (int i = 0; i < m; i++)
+        CHECK_RUNTIME_CONTRACT(cached2aw[i] != 0);
+
     Matrix<T,M,M> myTd1;
     for (int i = 0; i < m; i++)
         for (int j = 0; j < m; j++)

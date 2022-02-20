@@ -5,17 +5,25 @@
 #include "RT.h"
 
 #include "../Minimization/FixedParam.h"
+#include "../Utils/Contracts.h"
 
 #include <stdexcept>
 #include <utility>
 
 template < typename T, size_t M >
 T tauCalc(T nSlab, T nSlideTop, T nSlideBottom, T Tcol) {
+    using namespace Math_NS;
+
     const auto Rb1 = Rborder<T,M>(nSlab, nSlideTop);
     const auto Rb2 = Rborder<T,M>(nSlab, nSlideBottom);
     const auto cache1 = Rb1 * Rb2;
     const auto cache2 = cache1 - Rb1 - Rb2 + 1;
-    return log((sqrt(4 * cache1 * Math_NS::sqr(Tcol) + Math_NS::sqr(cache2)) + cache2) / (2 * Tcol));
+
+    CHECK_ARGUMENT_CONTRACT(Tcol != 0);
+    CHECK_RUNTIME_CONTRACT(4 * cache1 * sqr(Tcol) + sqr(cache2) > 0);
+    CHECK_RUNTIME_CONTRACT((sqrt(4 * cache1 * sqr(Tcol) + sqr(cache2)) + cache2) / (2 * Tcol) > 0);
+
+    return log((sqrt(4 * cache1 * sqr(Tcol) + sqr(cache2)) + cache2) / (2 * Tcol));
 }
 
 template < typename T, size_t M >
@@ -29,7 +37,11 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
     RTs<T,M>(a, tau, g, nSlab, nSlideTop, nSlideBottom, v, w, rs, ts);
     /// TODO: WHAT IS THIS 1E-6?
     constexpr auto eps = 1E-6;
-    return fabs((rs - rmeas) / (rmeas + eps)) + fabs((ts - tmeas) / (tmeas + eps));
+
+    CHECK_ARGUMENT_CONTRACT(rmeas + eps > 0);
+    CHECK_ARGUMENT_CONTRACT(tmeas + eps > 0);
+
+    return abs((rs - rmeas) / (rmeas + eps)) + abs((ts - tmeas) / (tmeas + eps));
 }
 
 template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
@@ -43,7 +55,7 @@ public:
 template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 class Func : public Minimizable<T,M,N,fix> {
 public:
-    Func(T fixedParam, T nSlabNew, T nSlideTopNew, T nSlideBottomNew, T rmeasNew, T tmeasNew, T tcmeasNew)
+    Func(T fixedParam, T nSlabNew, T nSlideTopNew, T nSlideBottomNew, T rmeasNew, T tmeasNew, T tcmeasNew) EXCEPT_INPUT_PARAMS
         : nSlab(nSlabNew)
         , nSlideTop(nSlideTopNew)
         , nSlideBottom(nSlideBottomNew)
@@ -52,12 +64,12 @@ public:
         , tcmeas(tcmeasNew) {
         using namespace Minimization_NS;
 
+        CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
+
         if (fix == FixedParameter::Tau)
             this->tau = fixedParam;
         else if (fix == FixedParameter::G)
             this->g = fixedParam;
-        else
-            throw std::invalid_argument("Need to have fixed parameter");
     }
 
     T funcToMinimize3args(Matrix<T,1,N> vec) const {
@@ -65,17 +77,18 @@ public:
 
         /// ROSENBROCK
         // return 100*sqr(vec(1) - sqr(vec(0))) + sqr(vec(0) - 1) + 100*sqr(vec(2) - sqr(vec(1))) +sqr(vec(1) - 1);
+
+        CHECK_ARGUMENT_CONTRACT(2 <= N && N <= 3);
+
         if (N == 2) {
+            CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
+
             if (fix == FixedParameter::Tau)
                 return funcToMinimize<T,M>(vec(0), this->tau, vec(1), this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
             else if (fix == FixedParameter::G)
                 return funcToMinimize<T,M>(vec(0), vec(1), this->g, this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
-            else
-                throw std::invalid_argument("Nothing to fix but N == 2");
         } else if (N == 3)
             return funcToMinimize<T,M>(vec(0), vec(1), vec(2), this->nSlab, this->nSlideTop, this->nSlideBottom, this->rmeas, this->tmeas);
-        else
-            throw std::invalid_argument("N should be in range [2, 3]");
     }
 
     T getNslab()         const noexcept { return nSlab;        }
@@ -96,12 +109,12 @@ template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
     using namespace Minimization_NS;
 
+    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
+
     if (fix == FixedParameter::Tau)
         return tauCalc<T,M>(nSlab, nSlideTop, nSlideBottom, tcmeas);
     else if (fix == FixedParameter::G)
         return newG;
-    else
-        throw std::invalid_argument("Need to have fixed parameter");
 }
 
 template < typename T, size_t gSize >
@@ -134,6 +147,9 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
 template < typename T, size_t M, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
 Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG) {
     using namespace Minimization_NS;
+    using namespace std;
+
+    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
     Matrix<T,gSize,gSize> dist;
 
@@ -149,12 +165,11 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
             constexpr auto eps = 1E-6;
             if (fix == FixedParameter::Tau) {
                 RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                dist(i,j) = std::abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + std::abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
+                dist(i,j) = abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
             } else if (fix == FixedParameter::G) {
                 RTs<T,M>(gridA(i), gridT(j), f.getG(), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                dist(i,j) = std::abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + std::abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
-            } else
-                throw std::invalid_argument("Need to have fixed parameter");
+                dist(i,j) = abs(rs0 - f.getRmeas()) / (f.getRmeas() + eps) + abs(ts0 - f.getTmeas()) / (f.getTmeas() + eps);
+            }
         }
 
     return dist;
@@ -163,6 +178,8 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
 template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
     using namespace Minimization_NS;
+
+    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
     constexpr int gridSize = 20;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
@@ -189,6 +206,5 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
         aStart = gridA(minRow);
         tStart = gridT(minCol);
         gStart = f.getG();
-    } else
-        throw std::invalid_argument("Need to have fixed parameter");
+    }
 }

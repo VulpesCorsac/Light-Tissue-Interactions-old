@@ -2,11 +2,12 @@
 
 #include "DMmethod.h"
 
+#include "../Utils/Contracts.h"
+
 #include "../eigen/Eigen/Dense"
 
 #include <algorithm>
 #include <array>
-#include <assert.h>
 #include <iostream>
 #include <math.h>
 #include <numeric>
@@ -16,7 +17,9 @@ using namespace Eigen;
 template < typename T, size_t M >
 T chi(T g, int k) {
     const auto gPowM = pow(g, M);
-    assert(gPowM != 1);
+
+    CHECK_ARGUMENT_CONTRACT(gPowM != 1);
+
     return (pow(g, k) - gPowM) / (1 - gPowM);
 }
 

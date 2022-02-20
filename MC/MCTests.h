@@ -116,7 +116,7 @@ public:
     const Medium<T> glass = Medium<T>::fromCoeffs(1.65, 0, 0, 1E-3, 0);
     const Sample<T> sample{{glass, tissue3, glass}, 1, 1};
     static constexpr int photons = 2E7;
-    const TestResult<T> EXPECTED{0.06037, 0, 0.00004008, 5E-5, 1E-9, 0.1};
+    const TestResult<T> EXPECTED{0.06037, 0, 0.00004008, 5E-5, 1E-9, 0.11};
     const T BUGER = BugerLambert<T>(10, 1.6, 1, 1);
 };
 

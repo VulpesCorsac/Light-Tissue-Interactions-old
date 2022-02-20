@@ -19,7 +19,7 @@ namespace Utils_NS {
         Utils_NS::Contract<EXCEPTION>::Except(std::string(__FILE__),  \
                                               __LINE__,               \
                                               std::string(#CONTRACT), \
-                                              CONTRACT);
+                                              CONTRACT)
     #define EXCEPT_INPUT_PARAMS
 #else
     #define CHECK_CONTRACT(CONTRACT,EXCEPTION)

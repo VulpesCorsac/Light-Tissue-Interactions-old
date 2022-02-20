@@ -2,10 +2,10 @@
 
 #include "Quadrature.h"
 
+#include "../Utils/Contracts.h"
 #include "../Utils/Utils.h"
 
 #include <algorithm>
-#include <assert.h>
 #include <math.h>
 
 template < typename T, size_t M >
@@ -16,7 +16,7 @@ T taus(T a, T tau, T g) {
 template < typename T, size_t M >
 T as(T a, T g) {
     const auto gPowM = pow(g, M);
-    assert(a * gPowM != 1);
+    CHECK_ARGUMENT_CONTRACT(a * gPowM != 1);
     return a * (1 - gPowM) / (1 - a * gPowM);
 }
 
@@ -24,7 +24,7 @@ template < typename T, size_t M >
 int n1(T a, T tau, T g, T nSlab) {
     Quadrature<T,M> quadrature(nSlab);
     const auto v = quadrature.getV();
-    assert(Utils_NS::isize(v) > 0);
+    CHECK_ARGUMENT_CONTRACT(Utils_NS::isize(v) > 0);
 
     const auto treshold = taus<T,M>(a, tau, g);
     const auto minElement = *std::min_element(ALL_CONTAINER(v));
@@ -44,6 +44,6 @@ T dtaus(T a, T tau, T g, T nSlab) {
 template < typename T, size_t M >
 T dtau(T a, T tau, T g, T nSlab) {
     const auto gPowM = pow(g, M);
-    assert(a * gPowM != 1);
+    CHECK_ARGUMENT_CONTRACT(a * gPowM != 1);
     return dtaus<T,M>(a, tau, g, nSlab) / (1 - a * gPowM);
 }

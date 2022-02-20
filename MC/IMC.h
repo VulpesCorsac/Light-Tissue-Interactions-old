@@ -13,11 +13,14 @@
 
 template < typename T >
 T tauCalc(T nSlab, T n_slide_top, T n_slide_bottom, T Tcol) {
-    const auto rb1 = Physics_NS::BorderReflectance<T>(nSlab, n_slide_top   );
-    const auto rb2 = Physics_NS::BorderReflectance<T>(nSlab, n_slide_bottom);
+    using namespace Math_NS;
+    using namespace Physics_NS;
+
+    const auto rb1 = BorderReflectance<T>(nSlab, n_slide_top   );
+    const auto rb2 = BorderReflectance<T>(nSlab, n_slide_bottom);
     const auto cached1 = rb1 * rb2;
     const auto cached2 = cached1 - rb1 - rb2 + 1;
-    return log((sqrt(4 * cached1 * Math_NS::sqr(Tcol) + Math_NS::sqr(cached2)) + cached2) / (2 * Tcol));
+    return log((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol));
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
@@ -35,8 +38,10 @@ T funcToMinimizeMC(const T& a,
                    const DetectorDistance<T> new_dist,
                    const std::vector<std::pair<T,T>>& rmeas,
                    const std::vector<std::pair<T,T>>& tmeas) {
+    using namespace std;
+
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
-    std::vector<Medium<T>> layers;
+    vector<Medium<T>> layers;
     if (slides.empty())
         layers = { Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g) };
     else
@@ -52,7 +57,7 @@ T funcToMinimizeMC(const T& a,
 
     constexpr auto eps = 1E-6;
     for (int i = 0; i < Utils_NS::isize(rMC); i++)
-        func2min += fabs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + eps)) + fabs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + eps));
+        func2min += abs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + eps)) + abs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + eps));
 
     return func2min;
 }

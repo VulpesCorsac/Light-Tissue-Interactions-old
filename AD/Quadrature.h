@@ -2,6 +2,7 @@
 
 #include "../Math/Basic.h"
 #include "../Physics/Angles.h"
+#include "../Utils/Contracts.h"
 #include "../Utils/Utils.h"
 
 #include <algorithm>
@@ -50,9 +51,11 @@ void Quadrature<T,M>::setValues(const T& nSlab) noexcept {
 
 template < typename T, size_t M >
 void Quadrature<T,M>::printQuadrature(const std::array<T,M>& arr) const noexcept {
+    using namespace std;
+
     for (const auto& x : arr)
-        std::cout << x << ' ';
-    std::cout << std::endl;
+        cout << x << ' ';
+    cout << endl;
 }
 
 template < typename T, size_t M >
@@ -74,38 +77,48 @@ void Quadrature<T,M>::calculateQuadrature() {
 
 template < typename T, size_t M >
 void Quadrature<T,M>::gaussQuadrature() {
+    using namespace Math_NS;
+    using namespace std;
+
     const int n = M / 2;
     for (int i = 1; i <= n; i++) {
+        CHECK_RUNTIME_CONTRACT(4 * n + 1 != 0);
+
         T x0 = cos((M_PI * (4 * i - 1)) / (4 * n + 1));
         T xn = x0;
-        T xn1 = xn - std::legendre(n, xn) / Math_NS::legendreDerivative(n,xn);
-        while (fabs(xn1 - xn) > 1E-7) {
+
+        CHECK_RUNTIME_CONTRACT(legendreDerivative(n, xn) != 0);
+
+        T xn1 = xn - legendre(n, xn) / legendreDerivative(n, xn);
+        while (abs(xn1 - xn) > 1E-7) {
             xn = xn1;
-            xn1 = xn - std::legendre(n, xn) / Math_NS::legendreDerivative(n,xn);
+            xn1 = xn - legendre(n, xn) / legendreDerivative(n, xn);
         }
 
         // v_g.push_back(xn1);
         v_g[i-1] = xn1;
-        // w.push_back(2 / ((1 - sqr(xn1)) * sqr(Math_NS::legendreDerivative(n, xn1))));
+        // w.push_back(2 / ((1 - sqr(xn1)) * sqr(legendreDerivative(n, xn1))));
     }
     for (int i = 0; i < n; i++) {
-        // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(Math_NS::legendreDerivative(n, v_g[i]))));
-        w_g[i] = vc / ((1 - Math_NS::sqr(v_g[i])) * Math_NS::sqr(Math_NS::legendreDerivative(n, v_g[i])));
+        CHECK_RUNTIME_CONTRACT((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i])) != 0);
+
+        // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i]))));
+        w_g[i] = vc / ((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i])));
         v_g[i] = vc * (1 - v_g[i]) / 2;
     }
 }
 
 template < typename T, size_t M >
 void Quadrature<T,M>::radauQuadrature() {
-    if (M % 2)
-        throw std::invalid_argument("Quadrature should take even M as parameter");
-    if (M < 4)
-        throw std::invalid_argument("Such small M are not supported in Quadrature");
-    if (M > 32)
-        throw std::invalid_argument("Such big M are not yet supported in Quadrature");
+    using namespace Math_NS;
+    using namespace std;
+
+    CHECK_ARGUMENT_CONTRACT(M % 2 == 0);
+    CHECK_ARGUMENT_CONTRACT(M >=  4);
+    CHECK_ARGUMENT_CONTRACT(M <= 32);
 
     const int n = M / 2;
-    std::array<T,n> roots;
+    array<T,n> roots;
     if (n == 2) {
         roots[0] = 0.3333333333333333;
         roots[1] = -1.0;
@@ -142,21 +155,23 @@ void Quadrature<T,M>::radauQuadrature() {
         roots[15] = -1.0;
     }
 
-    std::sort(ALL_CONTAINER(roots), std::greater<T>());
+    sort(ALL_CONTAINER(roots), greater<T>());
 
     /*
     for (const auto& x : roots) {
-        w_r.push_back((1 - vc) / (2 * (1 - x) * sqr(Math_NS::legendreDerivative(n-1, x))));
+        w_r.push_back((1 - vc) / (2 * (1 - x) * sqr(legendreDerivative(n-1, x))));
         v_r.push_back((1 + vc) / 2 - (1 - vc) * x / 2);
     }
     //*/
     for (int i = 0; i < n; i++) {
-        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * Math_NS::sqr(Math_NS::legendreDerivative(n-1, roots[i])));
+        CHECK_RUNTIME_CONTRACT(2 * (1 - roots[i]) * sqr(legendreDerivative(n-1, roots[i])) != 0);
+
+        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * sqr(legendreDerivative(n-1, roots[i])));
         v_r[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
     }
     // w_r.erase(w_r.begin() + (n - 1));
     // w_r.push_back((1 - vc) / sqr(n));
-    w_r[n-1] = (1 - vc) / Math_NS::sqr(n);
+    w_r[n-1] = (1 - vc) / sqr(n);
 }
 
 template < typename T, size_t M >
@@ -171,7 +186,7 @@ void Quadrature<T,M>::mergeQuadratures() {
         w[i] = w_g[i];
     }
     for (int i = m / 2; i < m; i++) {
-        v[i] = v_r[i - m / 2];
-        w[i] = w_r[i - m / 2];
+        v[i] = v_r[i-m/2];
+        w[i] = w_r[i-m/2];
     }
 }
