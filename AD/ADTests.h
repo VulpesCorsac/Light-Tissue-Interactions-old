@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef ENABLE_CHECK_CONTRACTS
+    #define ENABLE_CHECK_CONTRACTS
+#endif // ENABLE_CHECK_CONTRACTS
+
 #include "RT.h"
 #include "Quadrature.h"
 
@@ -51,7 +55,7 @@ void test1() {
     EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, Test1, test1, 100, 2500)
+BENCHMARK_TEST(AD, Test1, test1, 100, 2600)
 
 void test2() {
     constexpr double TOLERANCE = 1e-4;
@@ -73,7 +77,7 @@ void g0() {
     EXPECT_NEAR(test.getTc(), 0.006369, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, G0, g0, 10000, 500)
+BENCHMARK_TEST(AD, G0, g0, 10000, 700)
 
 void a0() {
     constexpr double TOLERANCE   = 1e-4;

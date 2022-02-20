@@ -1,15 +1,9 @@
 #pragma once
 
 #include "../Physics/Reflectance.h"
+#include "../Utils/Contracts.h"
 
 #include <math.h>
-
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
 
 namespace Physics_NS {
     template < typename T >
@@ -22,16 +16,14 @@ namespace Physics_NS {
 
 template < typename T >
 T Physics_NS::BugerLambert(T absorption, T mediumRefractionIndex, T outerRefractionIndexTop, T outerRefractionIndexBottom) EXCEPT_INPUT_PARAMS {
-    #ifdef ASSERT_INPUT_PARAMS
-        if(mediumRefractionIndex < 1)
-            throw std::invalid_argument("mediumRefractionIndex cannot be less than 1");
-        if(outerRefractionIndexTop < 1)
-            throw std::invalid_argument("outerRefractionIndexTop cannot be less than 1");
-        if(outerRefractionIndexBottom < 1)
-            throw std::invalid_argument("outerRefractionIndexBottom cannot be less than 1");
-    #endif // ASSERT_INPUT_PARAMS
+    CHECK_ARGUMENT_CONTRACT(mediumRefractionIndex >= 1);
+    CHECK_ARGUMENT_CONTRACT(outerRefractionIndexTop >= 1);
+    CHECK_ARGUMENT_CONTRACT(outerRefractionIndexBottom >= 1);
 
     const auto reflectanceTop    = BorderReflectance<T>(mediumRefractionIndex, outerRefractionIndexTop   );
     const auto reflectanceBottom = BorderReflectance<T>(mediumRefractionIndex, outerRefractionIndexBottom);
+
+    CHECK_RUNTIME_CONTRACT(1 - reflectanceTop * reflectanceBottom * exp(-2 * absorption) != 0);
+
     return ((1 - reflectanceTop) * (1 - reflectanceBottom) * exp(-absorption)) / (1 - reflectanceTop * reflectanceBottom * exp(-2 * absorption));
 }

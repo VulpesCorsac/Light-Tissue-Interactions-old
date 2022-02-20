@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef ENABLE_CHECK_CONTRACTS
+    #define ENABLE_CHECK_CONTRACTS
+#endif // ENABLE_CHECK_CONTRACTS
+
 #include "NelderMead.h"
 #include "IAD.h"
 

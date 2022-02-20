@@ -24,8 +24,8 @@ namespace {
         if (cnt.empty())
             return;
 
-        auto minValue = (*cnt.begin()).second;
-        auto maxValue = (*cnt.begin()).second;
+        auto minValue = cnt.begin()->second;
+        auto maxValue = minValue;
 
         for (const auto& [_, count]: cnt) {
             std::ignore = _;
@@ -40,10 +40,10 @@ namespace {
     #define TESTING_VALUES ::testing::Values(VALUES)
     #define REPEATS 10'000'000
     const map<pair<pair<pair<int, int>, string>, string>, int> ExpectedDeviations = {
-        {{{{REPEATS, 2  }, "random" }, ""     },    10300},
+        {{{{REPEATS, 2  }, "random" }, ""     },    11000},
         {{{{REPEATS, 10 }, "random" }, ""     },     6100},
         {{{{REPEATS, 100}, "random" }, ""     },     2500},
-        {{{{REPEATS, 2  }, "randomC"}, ""     },    10300},
+        {{{{REPEATS, 2  }, "randomC"}, ""     },    11000},
         {{{{REPEATS, 2  }, "randomC"}, "float"},  5010000},
         {{{{REPEATS, 10 }, "randomC"}, ""     },     6100},
         {{{{REPEATS, 10 }, "randomC"}, "float"},  1002000},

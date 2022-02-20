@@ -1,14 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include "../Utils/Contracts.h"
 
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
+#include <vector>
 
 namespace Math_NS {
     /// \brief class for Mesh in 3D space (array of arrays of arrays)
@@ -54,9 +48,11 @@ Math_NS::Mesh3<T>::Mesh3(int N, int M, int L, T defaultValue) noexcept
     : N(N)
     , M(M)
     , L(L) {
-    N = std::max(N, 0);
-    M = std::max(M, 0);
-    L = std::max(L, 0);
+    using namespace std;
+
+    N = max(N, 0);
+    M = max(M, 0);
+    L = max(L, 0);
 
     data.resize(N);
     for (int i = 0; i < N; ++i) {
@@ -67,29 +63,15 @@ Math_NS::Mesh3<T>::Mesh3(int N, int M, int L, T defaultValue) noexcept
 }
 
 template < typename T >
-T& Math_NS::Mesh3<T>::value(int i, int j, int k) {
-    #ifdef ASSERT_INPUT_PARAMS
-        if(i < 0 || i >= N)
-            throw std::out_of_range("Invalid index i: should be in range[0, " + std::to_string(N) + ") but " + std::to_string(i) + " is passed");
-        if(j < 0 || j >= M)
-            throw std::out_of_range("Invalid index j: should be in range[0, " + std::to_string(M) + ") but " + std::to_string(j) + " is passed");
-        if(k < 0 || k >= L)
-            throw std::out_of_range("Invalid index k: should be in range[0, " + std::to_string(L) + ") but " + std::to_string(k) + " is passed");
-    #endif // ASSERT_INPUT_PARAMS
+T& Math_NS::Mesh3<T>::value(int i, int j, int k) EXCEPT_INPUT_PARAMS {
+    CHECK_RANGE_CONTRACT(0 <= i && i < N);
+    CHECK_RANGE_CONTRACT(0 <= j && j < M);
+    CHECK_RANGE_CONTRACT(0 <= k && k < L);
 
     return data[i][j][k];
 }
 
 template < typename T >
-const T& Math_NS::Mesh3<T>::value(int i, int j, int k) const {
-    #ifdef ASSERT_INPUT_PARAMS
-        if(i < 0 || i >= N)
-            throw std::out_of_range("Invalid index i: should be in range[0, " + std::to_string(N) + ") but " + std::to_string(i) + " is passed");
-        if(j < 0 || j >= M)
-            throw std::out_of_range("Invalid index j: should be in range[0, " + std::to_string(M) + ") but " + std::to_string(j) + " is passed");
-        if(k < 0 || k >= L)
-            throw std::out_of_range("Invalid index k: should be in range[0, " + std::to_string(L) + ") but " + std::to_string(k) + " is passed");
-    #endif // ASSERT_INPUT_PARAMS
-
-    return data[i][j][k];
+const T& Math_NS::Mesh3<T>::value(int i, int j, int k) const EXCEPT_INPUT_PARAMS {
+    return const_cast<const T&>(value(i, j, k));
 }
