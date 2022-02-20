@@ -10,12 +10,7 @@
 
 #include <memory>
 
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
+#include "../../Utils/Contracts.h"
 
 namespace Physics_NS {
     /// \brief factory function to create medium of needed type based on properties
@@ -42,9 +37,7 @@ std::unique_ptr<Physics_NS::MediumInterface<T>> Physics_NS::createMedium(const P
         case Physics_NS::MediumType::Arbitrary:
             return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumArbitrary<T>(properties));
         default:
-            #ifdef ASSERT_INPUT_PARAMS
-                throw std::invalid_argument("Invalid tissue type in properties");
-            #endif // ASSERT_INPUT_PARAMS
+            FAIL_ARGUMENT_CONTRACT("Invalid tissue type in properties");
             return nullptr;
     }
 }

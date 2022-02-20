@@ -7,7 +7,6 @@
 #include "../Minimization/FixedParam.h"
 #include "../Utils/Contracts.h"
 
-#include <stdexcept>
 #include <utility>
 
 template < typename T, size_t M >

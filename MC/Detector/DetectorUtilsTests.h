@@ -1,8 +1,8 @@
 #pragma once
 
-#ifndef ASSERT_INPUT_PARAMS
-    #define ASSERT_INPUT_PARAMS
-#endif // ASSERT_INPUT_PARAMS
+#ifndef ENABLE_CHECK_CONTRACTS
+    #define ENABLE_CHECK_CONTRACTS
+#endif // ENABLE_CHECK_CONTRACTS
 
 #include "DetectorUtils.h"
 
@@ -133,7 +133,7 @@ TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorOpticalFiber) {
 TEST(DetectorUtilsTests, Validate_ThrownExceptionForUnknownType) {
     DetectorProperties<int> properties;
     properties.type = DetectorType::Unknown;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
@@ -145,7 +145,7 @@ TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
 TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithoutCollimatedCosine) {
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithoutCollimatedCosine) {
@@ -158,7 +158,7 @@ TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCo
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
     properties.collimatedCosine = -1;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineLessThanZero) {
@@ -172,7 +172,7 @@ TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCo
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
     properties.collimatedCosine = 2;
-    EXPECT_THROW(validate(properties), std::logic_error);
+    EXPECT_THROW(validate(properties), std::invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineGreaterThanOne) {

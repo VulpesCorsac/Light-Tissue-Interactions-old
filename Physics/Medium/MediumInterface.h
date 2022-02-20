@@ -4,7 +4,6 @@
 
 #include "../../Utils/Contracts.h"
 
-#include <stdexcept>
 #include <tuple>
 
 namespace Physics_NS {

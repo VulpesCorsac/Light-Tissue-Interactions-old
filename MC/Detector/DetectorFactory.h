@@ -8,20 +8,15 @@
 #include "IntegratingSphereSimple.h"
 #include "OpticalFiber.h"
 
-#include <memory>
+#include "../../Utils/Contracts.h"
 
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
+#include <memory>
 
 namespace MonteCarlo_NS {
     /// \brief factory function to create detector of needed type based on properties
     /// \param[in] properties DetectorProperties
     /// \return detector of needed type based on properties
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and properties.type is Unknown
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and properties.type is Unknown
     template < typename T >
     std::unique_ptr<DetectorInterface<T>> createDetector(const DetectorProperties<T>& properties) EXCEPT_INPUT_PARAMS;
 }
@@ -42,9 +37,7 @@ std::unique_ptr<MonteCarlo_NS::DetectorInterface<T>> MonteCarlo_NS::createDetect
         case MonteCarlo_NS::DetectorType::OpticalFiber:
             return std::unique_ptr<MonteCarlo_NS::DetectorInterface<T>>(new MonteCarlo_NS::OpticalFiber<T>(properties));
         default:
-            #ifdef ASSERT_INPUT_PARAMS
-                throw std::invalid_argument("Invalid detector type in properties");
-            #endif // ASSERT_INPUT_PARAMS
+            FAIL_ARGUMENT_CONTRACT("Invalid detector type in properties");
             return nullptr;
     }
 }

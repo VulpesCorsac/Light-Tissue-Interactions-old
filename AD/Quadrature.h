@@ -9,7 +9,6 @@
 #include <array>
 #include <iostream>
 #include <math.h>
-#include <stdexcept>
 
 #define _USE_MATH_DEFINES
 

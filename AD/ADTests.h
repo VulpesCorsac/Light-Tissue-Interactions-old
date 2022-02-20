@@ -90,7 +90,7 @@ void a0() {
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AD, A0, a0, 1000, 500)
+BENCHMARK_TEST(AD, A0, a0, 1000, 600)
 
 void rtTestA0G0() {
     constexpr double TOLERANCE   = 1e-4;

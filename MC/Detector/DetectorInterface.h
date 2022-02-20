@@ -3,6 +3,7 @@
 #include "DetectorType.h"
 
 #include "../Photon.h"
+#include "../../Utils/Contracts.h"
 
 #include <memory>
 
@@ -19,11 +20,11 @@ namespace MonteCarlo_NS {
 
         /// Accumulate photon in the detector if needed
         /// \param[in] photon Photon that should be detected
-        virtual void detect(const Photon<T>& photon);
+        virtual void detect(const Photon<T>& photon) EXCEPT_INPUT_PARAMS;
 
         /// Calibrate results
         /// \param[in] totalWeights total weights for all simulated photons
-        virtual void calibrate(const T& totalWeights);
+        virtual void calibrate(const T& totalWeights) EXCEPT_INPUT_PARAMS;
 
     public:
         DetectorType type; ///< detector type
@@ -40,13 +41,13 @@ MonteCarlo_NS::DetectorInterface<T>::DetectorInterface(const DetectorType& type)
 }
 
 template < typename T >
-void MonteCarlo_NS::DetectorInterface<T>::detect(const Photon<T>& photon) {
+void MonteCarlo_NS::DetectorInterface<T>::detect(const Photon<T>& photon) EXCEPT_INPUT_PARAMS {
     std::ignore = photon;
-    throw std::runtime_error("Detector detect was not implemented");
+    FAIL_RUNTIME_CONTRACT("Detector detect was not implemented");
 }
 
 template < typename T >
-void MonteCarlo_NS::DetectorInterface<T>::calibrate(const T& totalWeights) {
+void MonteCarlo_NS::DetectorInterface<T>::calibrate(const T& totalWeights) EXCEPT_INPUT_PARAMS {
     std::ignore = totalWeights;
-    throw std::runtime_error("Detector calibrate was not implemented");
+    FAIL_RUNTIME_CONTRACT("Detector calibrate was not implemented");
 }

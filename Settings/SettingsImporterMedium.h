@@ -8,18 +8,16 @@
 #include "../Physics/Medium/MediumType.h"
 #include "../Physics/Medium/MediumUtils.h"
 
-#include "../yaml-cpp/include/yaml-cpp/yaml.h"
+#include "../Utils/Contracts.h"
 
-#ifdef ASSERT_INPUT_PARAMS
-    #include <stdexcept>
-#endif // ASSERT_INPUT_PARAMS
+#include "../yaml-cpp/include/yaml-cpp/yaml.h"
 
 namespace Settings_NS {
     /// Returns MediumType from yaml node
     /// \param[in] node yaml node to parse
     /// \return MediumType from the given node
     /// \throw std::invalid_argument throws same exception as Physics_NS::mediumType(string)
-    inline Physics_NS::MediumType mediumType(const YAML::Node& node);
+    static Physics_NS::MediumType mediumType(const YAML::Node& node) EXCEPT_INPUT_PARAMS;
 
     /// Returns MediumProperties from yaml node
     /// \param[in] node yaml node to parse
@@ -35,11 +33,9 @@ namespace Settings_NS {
  * IMPLEMENTATION *
  ******************/
 
-Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
+Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) EXCEPT_INPUT_PARAMS {
     if (node.Type() == YAML::NodeType::Null) {
-        #ifdef ASSERT_INPUT_PARAMS
-            throw std::invalid_argument("Node is empty thus cannot evaluate medium type");
-        #endif // ASSERT_INPUT_PARAMS
+        FAIL_ARGUMENT_CONTRACT("Node is empty thus cannot evaluate medium type");
 
         return Physics_NS::MediumType::Unknown;
     }
@@ -53,9 +49,7 @@ Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) {
     if (const auto value = node[Settings_NS::SettingsStrings::Medium::Type])
         return Physics_NS::mediumType(value.as<std::string>());
 
-    #ifdef ASSERT_INPUT_PARAMS
-        throw std::invalid_argument("Not any branch was used for medium evaluation");
-    #endif // ASSERT_INPUT_PARAMS
+    FAIL_ARGUMENT_CONTRACT("Not any branch was used for medium evaluation");
 
     return Physics_NS::MediumType::Unknown;
 }

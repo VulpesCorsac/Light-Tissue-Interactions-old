@@ -64,17 +64,16 @@ template < typename T >
 Physics_NS::MediumType Physics_NS::mediumType(Physics_NS::MediumInterface<T>* const medium) EXCEPT_INPUT_PARAMS {
     if (dynamic_cast<Physics_NS::MediumGlass<T>*>(medium))
         return Physics_NS::MediumType::Glass;
-    else if (dynamic_cast<Physics_NS::MediumConstant<T>*>(medium))
+    if (dynamic_cast<Physics_NS::MediumConstant<T>*>(medium))
         return Physics_NS::MediumType::Constant;
-    else if (dynamic_cast<Physics_NS::MediumLinear<T>*>(medium))
+    if (dynamic_cast<Physics_NS::MediumLinear<T>*>(medium))
         return Physics_NS::MediumType::Linear;
-    else if (dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium))
+    if (dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium))
         return Physics_NS::MediumType::Arbitrary;
-    else {
-        CHECK_ARGUMENT_CONTRACT(false);
-        return Physics_NS::MediumType::Unknown;
-    }
 
+    FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
+
+    return Physics_NS::MediumType::Unknown;
 }
 
 Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS {
@@ -82,16 +81,16 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
 
     if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Glass)), lower))
         return Physics_NS::MediumType::Glass;
-    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
         return Physics_NS::MediumType::Constant;
-    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
         return Physics_NS::MediumType::Linear;
-    else if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
+    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
         return Physics_NS::MediumType::Arbitrary;
-    else {
-        CHECK_ARGUMENT_CONTRACT(false);
-        return Physics_NS::MediumType::Unknown;
-    }
+
+    FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
+
+    return Physics_NS::MediumType::Unknown;
 }
 
 std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
@@ -125,7 +124,9 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
 
         CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
-    } else if (properties.type == Physics_NS::MediumType::Constant) {
+    }
+
+    if (properties.type == Physics_NS::MediumType::Constant) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
 
@@ -147,7 +148,9 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
 
         CHECK_ARGUMENT_CONTRACT(properties.k0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
-    } else if (properties.type == Physics_NS::MediumType::Linear) {
+    }
+
+    if (properties.type == Physics_NS::MediumType::Linear) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
         CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());
@@ -183,7 +186,9 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
         CHECK_ARGUMENT_CONTRACT(properties.kT.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.kD.has_value());
-    } else if (properties.type == Physics_NS::MediumType::Arbitrary) {
+    }
+
+    if (properties.type == Physics_NS::MediumType::Arbitrary) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
         CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());

@@ -1,11 +1,5 @@
 #pragma once
 
-#ifdef ASSERT_INPUT_PARAMS
-    #define EXCEPT_INPUT_PARAMS
-#else
-    #define EXCEPT_INPUT_PARAMS noexcept
-#endif // ASSERT_INPUT_PARAMS
-
 #include "DetectorInterface.h"
 #include "DetectorProperties.h"
 #include "DetectorType.h"
@@ -16,25 +10,25 @@
 #include "IntegratingSphereSimple.h"
 #include "OpticalFiber.h"
 
+#include "../../Utils/Contracts.h"
 #include "../../Utils/Utils.h"
 #include "../../Utils/StringUtils.h"
 
 #include <algorithm>
-#include <stdexcept>
 #include <string>
 
 namespace MonteCarlo_NS {
     /// Detector type getter from DetectorInterface pointer
     /// \param[in] detector DetectorInterface pointer
     /// \return DetectorType, DetectorType::Unknown if cannot convert to the known types
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and cannot convert to the known types
     template < typename T >
     inline DetectorType detectorType(DetectorInterface<T>* const detector) EXCEPT_INPUT_PARAMS;
 
     /// Detector type getter from DetectorInterface pointer
     /// \param[in] detector Detector name
     /// \return DetectorType, DetectorType::Unknown if cannot convert to the known types
-    /// \throw std::invalid_argument If ASSERT_INPUT_PARAMS is defined and cannot convert to the known types
+    /// \throw std::invalid_argument if ENABLE_CHECK_CONTRACTS is defined and cannot convert to the known types
     inline DetectorType detectorType(const std::string& detector) EXCEPT_INPUT_PARAMS;
 
     /// Get detector type string representation
@@ -76,9 +70,7 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(MonteCarlo_NS::DetectorI
     if (dynamic_cast<MonteCarlo_NS::OpticalFiber<T>*>(detector))
         return MonteCarlo_NS::DetectorType::OpticalFiber;
 
-    #ifdef ASSERT_INPUT_PARAMS
-        throw std::invalid_argument("Detector type cannot be evaluated");
-    #endif // ASSERT_INPUT_PARAMS
+    FAIL_ARGUMENT_CONTRACT("Detector type cannot be evaluated");
 
     return MonteCarlo_NS::DetectorType::Unknown;
 }
@@ -95,9 +87,7 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detec
     if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber)), lower))
         return MonteCarlo_NS::DetectorType::OpticalFiber;
 
-    #ifdef ASSERT_INPUT_PARAMS
-        throw std::invalid_argument("Medium type cannot be evaluated");
-    #endif // ASSERT_INPUT_PARAMS
+    FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
 
     return MonteCarlo_NS::DetectorType::Unknown;
 }
@@ -119,16 +109,12 @@ std::string MonteCarlo_NS::to_string(const MonteCarlo_NS::DetectorType& detector
 
 template < typename T >
 void MonteCarlo_NS::validate(const MonteCarlo_NS::DetectorProperties<T>& properties) {
-    if (properties.type == MonteCarlo_NS::DetectorType::Unknown)
-        throw std::logic_error("Validation fails for DetectorType::Unknown");
+    CHECK_ARGUMENT_CONTRACT(properties.type != MonteCarlo_NS::DetectorType::Unknown);
 
     if (properties.type == MonteCarlo_NS::DetectorType::FullAbsorber) {
-        if (!properties.collimatedCosine.has_value())
-            throw std::logic_error("Validation fails for DetectorType::FullAbsorber because there is no collimatedCosine property");
-        if (properties.collimatedCosine.value() < 0)
-            throw std::logic_error("Validation fails for DetectorType::FullAbsorber because collimatedCosine property is less than 0");
-        if (properties.collimatedCosine.value() > 1)
-            throw std::logic_error("Validation fails for DetectorType::FullAbsorber because collimatedCosine property is greater than +1");
+        CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.has_value());
+        CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.value() >= 0);
+        CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.value() <= 1);
     }
 
     if (properties.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
@@ -149,7 +135,7 @@ bool MonteCarlo_NS::validateSafe(const MonteCarlo_NS::DetectorProperties<T>& pro
     try {
         validate(properties);
         return true;
-    } catch(std::logic_error&) {
+    } catch(std::invalid_argument&) {
         return false;
     }
 }
