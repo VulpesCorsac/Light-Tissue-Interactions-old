@@ -36,6 +36,8 @@ void MCmultithread(const Sample<T>& sample,
         finalResults.arrayRspecular += result.arrayRspecular;
         finalResults.arrayT += result.arrayT;
         finalResults.matrixA += result.matrixA;
+        finalResults.arrayAnglesR += result.arrayAnglesR;
+        finalResults.arrayAnglesT += result.arrayAnglesT;
 
         if (detector == 1) {
             finalResults.detectedR.resize(result.detectedR.size());
@@ -57,6 +59,8 @@ void MCmultithread(const Sample<T>& sample,
     finalResults.specularReflection  = finalResults.arrayRspecular.sum() / Np;
     finalResults.diffuseTransmission = finalResults.arrayT.sum()         / Np;
     finalResults.absorbed            = finalResults.matrixA.sum()        / Np;
+    finalResults.arrayAnglesT        = finalResults.arrayAnglesT         / Np;
+    finalResults.arrayAnglesR        = finalResults.arrayAnglesR         / Np;
 
     for (int i = 0; i < Utils_NS::isize(finalResults.detectedR); i++) {
         finalResults.detectedR[i].first = mcResults[0].detectedR[i].first;

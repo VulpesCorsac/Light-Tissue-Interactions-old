@@ -312,19 +312,26 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     using namespace Minimization_NS;
     using namespace std;
 
-    T fixedParam = fixParam<T,M,N,fix>(0.0, nSlab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
+    CHECK_ARGUMENT_CONTRACT(2 <= N && N <= 3);
+    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
+    
+    T g_val = 0.0;
+	if (fix == FixedParameter::G && N == 2){
+        cout << "Enter g " << std::endl;
+        cin >> g_val;
+    }
+    T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     Func<T,M,N,fix> toMinimize(fixedParam, nSlab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
 
     /// STARTING POINT
     T astart, tstart, gstart;
     startingPoints(toMinimize, astart, tstart, gstart);
-
-    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
-    if (fix == FixedParameter::Tau)
+    if (fix == FixedParameter::Tau && N == 2)
         cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
-    else if (fix == FixedParameter::G)
+    else if (fix == FixedParameter::G && N == 3)
         cout << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << endl;
-
+	else if (N == 3)
+		cout << "Inverse Adding-Doubling N = 3" << endl;
     // cout << astart << " " << gstart << endl;
 
     int maxIter = 100;
@@ -352,23 +359,29 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         cout << "Iterations made " << itersMade << endl;
     }
     //*/
+    if (N == 2) {
+        if (fix == FixedParameter::Tau) {
+            // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << endl;
+            aOut = vecMin(0);
 
-    CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
-    if (fix == FixedParameter::Tau) {
-        // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << endl;
-        aOut = vecMin(0);
+            // aOut = vecMin(0);
+            tauOut = fixedParam;
 
-        // aOut = vecMin(0);
-        tauOut = fixedParam;
+            gOut = vecMin(1);
+            // gOut = vecMin(1);
+        } else if (fix == FixedParameter::G) {
+            // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
+            aOut = vecMin(0);
 
-        gOut = vecMin(1);
-        // gOut = vecMin(1);
-    } else if (fix == FixedParameter::G) {
-        // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
+            // aOut = vecMin(0);
+            tauOut = vecMin(1);
+            gOut = fixedParam;
+        }
+    } else if (N == 3) {
         aOut = vecMin(0);
 
         // aOut = vecMin(0);
         tauOut = vecMin(1);
-        gOut = fixedParam;
+        gOut = vecMin(2);
     }
 }

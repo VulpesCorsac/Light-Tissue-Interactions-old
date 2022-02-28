@@ -24,7 +24,7 @@
 // #include "Tests/TestIADStandalone.h"
 
 /*
-#include "Settings/Settings/SettingsImporterHelpers.h.h"
+#include "Settings/Settings/SettingsImporterHelpers.h"
 //*/
 
 #include <iostream>
@@ -212,14 +212,21 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     auto rsmeas = myResultsMT.detectedR;
     auto tsmeas = myResultsMT.detectedT;
     T tcmeas = myResultsMT.BugerTransmission;
+    auto ameas = myResultsMT.matrixA;
+    auto anglesR = myResultsMT.arrayAnglesR;
+    auto anglesT = myResultsMT.arrayAnglesT;
 
     ofstream Rdfile;
     ofstream Tdfile;
     ofstream Tcfile;
+    ofstream Afile;
+    ofstream Anglesfile;
 
     Rdfile.open("Output files/Rd_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tdfile.open("Output files/Td_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
     Tcfile.open("Output files/Tc_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".txt");
+    Afile.open("Output files/A_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
+    Anglesfile.open("Output files/Angles_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
 
     /// TODO: throw exception if can't open. Anyway you try to do something with the file.
     if (!Rdfile.is_open())
@@ -228,16 +235,30 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
         cout << "Failed to open file Td" << endl;
     if (!Tcfile.is_open())
         cout << "Failed to open file Tc" << endl;
+    if (!Afile.is_open())
+        cout << "Failed to open file A" << endl;
+    if (!Anglesfile.is_open())
+        cout << "Failed to open file A" << endl;
 
+    const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
     for (const auto& x: rsmeas)
         Rdfile << x.first << "\t" << x.second << '\n';
     for (const auto& x: tsmeas)
         Tdfile << x.first << "\t" << x.second << '\n';
     Tcfile << 0.000 << "\t" << tcmeas << '\n';
+    Afile << ameas.format(CSVFormat) << '\n';
+    Anglesfile << anglesR.format(CSVFormat) << ", " << anglesT.format(CSVFormat) << '\n';
 
+ /*   cout << "R" << '\n';
+    cout << anglesR << '\n';
+    cout << "T" << '\n';
+    cout << anglesT << '\n';
+*/
     Rdfile.close();
     Tdfile.close();
     Tcfile.close();
+    Afile.close();
+    Anglesfile.close();
 }
 
 template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
@@ -274,7 +295,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     IntegratingSphere<T> SphereR, SphereT;
     bool moveable;
     vector<pair<T,T>> Rd, Td, Tc;
-    readSettings<T>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc);
+    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc);
 
     DetectorDistance<T> distances;
     distances.max  = T(Rd[Rd.size()-1].first);
@@ -306,21 +327,24 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     T aOutIMC, tauOutIMC, gOutIMC; // IMC result will be recorded here
     T checkConvEps = 1E-3;
 
-    /*
+
     cout << "Enter starting points R T" << endl;
     T inRstart, inTstart;
     cin >> inRstart >> inTstart;
     T rStart = inRstart + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
-    T tStart = inTstart + Tc[0].second;
+    T tStart = inTstart;
     //*/
 
-    T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
-    T tStart = Td[0].second + Tc[0].second;
+    if ((fix == FixedParameter::G && N == 2) || N == 3)
+        Tc.push_back(make_pair(static_cast<T>(0.0), static_cast<T>(0.0)));
+ /*   T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
+    T tStart = Td[0].second + Tc[0].second;*/
 
-    IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
-    cout << "First approximation: Inverse Adding-Doubling" << endl;
-    cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
-
+  //  if (N == 2) {
+        IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
+        cout << "First approximation: Inverse Adding-Doubling" << endl;
+        cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
+ //   }
     IMC<T,Nz,Nr,detector,N,fix>(Rd, Td, Tc[0].second, emptyTissue, std::move(slides), Nphotons, Nthreads, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, checkConvEps, aOutIMC, tauOutIMC, gOutIMC);
     cout << "Absorption coefficient ua = " << tauOutIMC * (1 - aOutIMC) / emptyTissue.D << endl;
     cout << "Scattering coefficient us = " << tauOutIMC * aOutIMC / emptyTissue.D << endl;
@@ -347,9 +371,9 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     ofstream Tdfile;
     ofstream Tcfile;
 
-    Rdfile.open("Rd_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
-    Tdfile.open("Td_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
-    Tcfile.open("Tc_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
+    Rdfile.open("Output files/Rd_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
+    Tdfile.open("Output files/Td_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
+    Tcfile.open("Output files/Tc_" + to_string(aOutIMC) + "_" + to_string(tauOutIMC) + "_" + to_string(gOutIMC) + ".txt");
 
     /// TODO: throw exception if can't open. Anyway you try to do something with the file.
     if (!Rdfile.is_open())
@@ -372,8 +396,8 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
 
 int main() {
     using namespace Minimization_NS;
-    using namespace std;
 
+    using namespace std;
     using T = double;
 
     constexpr int N = 2; // minimize 2 parameters
@@ -406,6 +430,8 @@ int main() {
         cout << "MODE 1: Forward + inverse problem for fixed/moveable spheres and several sets of parameters (grid of taus 0.5 0.75 1.0 1.5 2.0 4.0)" << endl;
         cout << "MODE 2: find optical properties from settings file" << endl;
         cout << "MODE 3: R(z) and T(z) for fixed/moveable spheres and one set of parameters" << endl;
+        cout << "MODE 4: find optical properties from settings file, FIX G AND CLOSED UPPER SPHERE" << endl;
+        cout << "MODE 5: find optical properties from settings file, 3 params AND CLOSED UPPER SPHERE" << endl;
         cin >> mode;
 
         Matrix<T, 1, 6> gridT;
@@ -430,7 +456,6 @@ int main() {
             double err;
             cout << "Enter error dispersion" << endl;
             cin >> err;
-
             calcAll<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, err);
         } else if (mode == 1) {
             cout << "Enter tissue and glass parameters: n d nGlass dGlass" << endl;
@@ -454,7 +479,6 @@ int main() {
             int kt;
             cout << "Enter number of tau to begin with" << endl;
             cin >> kt;
-
             for (int i = kt; i < 6; i++) {
                 inT = gridT(i);
                 calcAll<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, err);
@@ -465,7 +489,6 @@ int main() {
             cout << "Enter number of threads" << endl;
             cin >> Nthreads;
             string settingsFname1 = "Settings & input files/SETTINGS.txt";
-
             calcInverse<T, N, fix, M, Nz, Nr, detector>(settingsFname1, Nthreads);
         } else if (mode == 3) {
             cout << "Enter tissue and glass parameters: a tau g n d nGlass dGlass" << endl;
@@ -480,8 +503,20 @@ int main() {
             cin >> Nthreads;
 
             calcForward<T, N, fix, M, Nz, Nr, detector>(inA, inT, inG, inN, inD, inNG, inDG, moveable, Nthreads, 0.0);
+        } else if (mode == 4) {
+            int Nthreads;
+            cout << "Enter number of threads" << endl;
+            cin >> Nthreads;
+            string settingsFname1 = "Settings & input files/SETTINGS.txt";
+            calcInverse<T, N, FixedParameter::G, M, Nz, Nr, detector>(settingsFname1, Nthreads);
+
+        } else if (mode == 5) {
+            int Nthreads;
+            cout << "Enter number of threads" << endl;
+            cin >> Nthreads;
+            string settingsFname1 = "Settings & input files/SETTINGS.txt";
+            calcInverse<T, 3, fix, M, Nz, Nr, detector>(settingsFname1, Nthreads);
         }
     }
-
     return 0;
 }

@@ -32,6 +32,9 @@ struct MCresults {
     Matrix<T,1,Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
 
+    Matrix<T,1,Dynamic> arrayAnglesR = Matrix<T, 1, 100>::Constant(0);
+    Matrix<T,1,Dynamic> arrayAnglesT = Matrix<T, 1, 100>::Constant(0);
+
     std::vector<IntegratingSphere<T>> SpheresArrayR;
     std::vector<IntegratingSphere<T>> SpheresArrayT;
 
@@ -76,7 +79,9 @@ public:
     inline Matrix<T,Dynamic,Dynamic> getMatrixA()    const noexcept { return A;          }
     inline Matrix<T,Dynamic,Dynamic> getArrayR()     const noexcept { return RR;         }
     inline Matrix<T,Dynamic,Dynamic> getArrayRspec() const noexcept { return RRspecular; }
-    inline Matrix<T,Dynamic,Dynamic> getArrayT()     const noexcept { return TT;         }
+    inline Matrix<T,Dynamic,Dynamic> getArrayT() 	 const noexcept { return TT; }
+    inline Matrix<T,Dynamic,Dynamic> getAnglesR() 	 const noexcept { return arrayAnglesR; }
+    inline Matrix<T,Dynamic,Dynamic> getAnglesT()    const noexcept { return arrayAnglesT; }
 
 protected:
     const Sample<T>& sample;
@@ -95,6 +100,9 @@ protected:
     Matrix<T,1,Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T,1,Dynamic> RRspecular = Matrix<T, 1, Nr>::Constant(0.0);
     Matrix<T,1,Dynamic> TT = Matrix<T, 1, Nr>::Constant(0.0);
+
+    Matrix<T,1,Dynamic> arrayAnglesR = Matrix<T, 1, 100>::Constant(0);
+    Matrix<T,1,Dynamic> arrayAnglesT = Matrix<T, 1, 100>::Constant(0);
 
     IntegratingSphere<T> mainSphereR;
     IntegratingSphere<T> mainSphereT;
@@ -226,7 +234,19 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
             break;
     }
     //*/
-
+    if (exit_photon.direction.x == 0) {
+        arrayAnglesR[0] += 0.0;
+    } else {
+        if (debug && exit_photon.number == debugPhoton)
+            cout << "R " << exit_photon.direction.z << " " << exit_photon.direction.x << endl;
+        T theta = atan(exit_photon.direction.z / exit_photon.direction.x);
+        size_t iTheta = 0;
+        if (theta > 0)
+            iTheta = floor(theta / (M_PI / 100));
+        else if (theta < 0)
+            iTheta = floor((M_PI + theta) / (M_PI / 100));
+        arrayAnglesR[iTheta] += exit_photon.weight;
+    }
     /// weird thorlabs sphere
     // cout << Utils_NS::isize(SpheresArrayR) << endl;
     for (int i = 0; i < Utils_NS::isize(SpheresArrayR); i++) {
@@ -316,7 +336,19 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
             break;
     }
     //*/
-
+    if (exit_photon.direction.x == 0) {
+        arrayAnglesT[0] += 0.0;
+    } else {
+        if (debug && exit_photon.number == debugPhoton)
+            cout << "T " << exit_photon.direction.z << " " << exit_photon.direction.x << endl;
+        T theta = atan(exit_photon.direction.z / exit_photon.direction.x);
+        size_t iTheta = 0;
+        if (theta > 0)
+            iTheta = floor(theta / (M_PI / 100));
+        else if (theta < 0)
+            iTheta = floor((M_PI + theta) / (M_PI / 100));
+        arrayAnglesT[iTheta] += exit_photon.weight;
+    }
     ///weird thorlabs spheres with long tunnel
     for (int i = 0; i < Utils_NS::isize(SpheresArrayT); i++) {
         T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
@@ -400,7 +432,7 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
     const auto r = sqrt(Math_NS::sqr(photon.coordinate.x) + Math_NS::sqr(photon.coordinate.y));
     const size_t ir = floor(r / dr);
 
-    RRspecular(ir) += Ri * photon.weight;
+    RRspecular(min(ir, Nr-1)) += Ri * photon.weight;
 
     auto exitCoord = photon.coordinate; // this is for normal incidence only!
     auto exitDir = Vector3D<T>(photon.direction.x, photon.direction.y, -photon.direction.z);
@@ -520,7 +552,7 @@ void MonteCarlo<T,Nz,Nr,detector>::RecordR(Photon<T>& photon, const T& FRefl, co
     RR(min(ir, Nr-1)) += (1 - FRefl) * photon.weight;
 
     if (debug && photon.number == debugPhoton) {
-        cout << "RR at " << ir << " = " << RR(ir) << endl;
+        cout << "RR at " << ir << " = " << RR(min(ir, Nr-1)) << endl;
         cout << photon << endl;
     }
 
@@ -544,7 +576,7 @@ void MonteCarlo<T,Nz,Nr,detector>::RecordT(Photon<T>& photon, const T& FRefl, co
     TT(min(ir, Nr-1)) += (1 - FRefl) * photon.weight;
 
     if (debug && photon.number == debugPhoton) {
-        cout << "TT at " << ir << " = " << TT(ir) << endl;
+        cout << "TT at " << ir << " = " << TT(min(ir, Nr-1)) << endl;
         cout << photon << endl;
     }
 
@@ -735,14 +767,27 @@ void MonteCarlo<T,Nz,Nr,detector>::Roulette(Photon<T>& photon) {
             cout << "Kill? RND = " << RND << endl;
         if (RND <= chance)
             photon.weight /= chance;
-        else
+        else{
+            if (debug && photon.number == debugPhoton)
+                cout << "Yes, kill" << endl;
             photon.alive = false;
+        }
     }
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num) {
-    const auto startCoord = Vector3D<T>(0, 0, 0);
+    using namespace Math_NS;
+    using namespace std;
+    const T radius = 1e-3;
+    T RNDx, RNDy;
+    do {
+        RNDx = random<T>(-1, 1);
+        RNDy = random<T>(-1, 1);
+    } while ((Math_NS::sqr(RNDx) + Math_NS::sqr(RNDy)) > 1);
+    const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);
+
+ //   const auto startCoord = Vector3D<T>(0, 0, 0);
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);
@@ -750,7 +795,6 @@ void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num)
         photon.layer = 1;
         photon.coordinate.z = sample.CurrentUpperBorderZ(photon.layer);
     }
-
     while(photon.alive)
        HopDropSpin(photon);
 }
@@ -786,6 +830,8 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     results.specularReflection = RRspecular.sum() / Nphotons;
     results.diffuseTransmission = TT.sum() / Nphotons;
     results.absorbed = A.sum() / Nphotons;
+    results.arrayAnglesR = arrayAnglesR;
+    results.arrayAnglesT = arrayAnglesT;
 
     if (sample.getNlayers() == 1)
         results.BugerTransmission = BugerLambert(sample.getMedium(0).tau, sample.getMedium(0).n, sample.getNvacLower(), sample.getNvacLower());

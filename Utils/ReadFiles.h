@@ -11,6 +11,11 @@
 #include <sstream>
 #include <vector>
 
+#include "../Minimization/FixedParam.h"
+#include "../Utils/Contracts.h"
+
+#include <utility>
+
 template < typename T >
 void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) {
     using namespace std;
@@ -34,7 +39,7 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
     myFileStream.close();
 }
 
-template < typename T >
+template < typename T, Minimization_NS::FixedParameter fix >
 void readSettings(const std::string& fileName,
                   Sample<T>& emptySample,
                   IntegratingSphere<T>& SphereR,
@@ -45,13 +50,14 @@ void readSettings(const std::string& fileName,
                   std::vector<std::pair<T,T>>& Td,
                   std::vector<std::pair<T,T>>& Tc) {
     using namespace std;
+    using namespace Minimization_NS;
 
     ifstream myFileStream(fileName);
     if (!myFileStream.is_open())
         cout << "Failed to open settings file " << fileName << endl;
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
     string RdFname, TdFname, TcFname;
-    int nLayers = 0;
+    int nLayers;
     vector<Medium<T>> emptyLayers;
 
     for (int lineno = 0; getline(myFileStream,line) && lineno < 40; ++lineno) {
@@ -107,5 +113,6 @@ void readSettings(const std::string& fileName,
 
     readTable(Rd, "Settings & input files/" + RdFname);
     readTable(Td, "Settings & input files/" + TdFname);
-    readTable(Tc, "Settings & input files/" + TcFname);
+    if (fix == FixedParameter::Tau)
+        readTable(Tc, "Settings & input files/" + TcFname);
 }
