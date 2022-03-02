@@ -787,7 +787,6 @@ void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num)
     } while ((Math_NS::sqr(RNDx) + Math_NS::sqr(RNDy)) > 1);
     const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);
 
- //   const auto startCoord = Vector3D<T>(0, 0, 0);
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);

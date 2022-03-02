@@ -191,8 +191,8 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     vector<Medium<T>> emptyLayers = {glass, emptyTissue, glass};
     Sample<T> emptySample (emptyLayers, 1.0, 1.0);
 
-    IntegratingSphere<T> SphereT(0.1, 0.013, 0.013); // dPort2 = zero if the sphere has one port
-    IntegratingSphere<T> SphereR(0.1, 0.013, 0.013);
+    IntegratingSphere<T> SphereT(0.1, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.1, 0.0125, 0.0125);
 
     DetectorDistance<T> distances;
     distances.max  = moveable ? 0.04 : 0.00;
@@ -328,7 +328,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     T checkConvEps = 1E-3;
 
 
-    cout << "Enter starting points R T" << endl;
+/*    cout << "Enter starting points R T" << endl;
     T inRstart, inTstart;
     cin >> inRstart >> inTstart;
     T rStart = inRstart + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
@@ -337,15 +337,19 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
 
     if ((fix == FixedParameter::G && N == 2) || N == 3)
         Tc.push_back(make_pair(static_cast<T>(0.0), static_cast<T>(0.0)));
- /*   T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
-    T tStart = Td[0].second + Tc[0].second;*/
+    T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
+    T tStart = Td[0].second;
+    if (SphereT.getDPort2() != 0)
+        tStart += Tc[0].second;
 
   //  if (N == 2) {
         IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
         cout << "First approximation: Inverse Adding-Doubling" << endl;
         cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
  //   }
-    IMC<T,Nz,Nr,detector,N,fix>(Rd, Td, Tc[0].second, emptyTissue, std::move(slides), Nphotons, Nthreads, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, checkConvEps, aOutIMC, tauOutIMC, gOutIMC);
+    IMC<T,Nz,Nr,detector,N,fix>(Rd, Td, Tc[0].second, emptyTissue, move(slides), Nphotons, Nthreads, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, checkConvEps, aOutIMC, tauOutIMC, gOutIMC);
+
+
     cout << "Absorption coefficient ua = " << tauOutIMC * (1 - aOutIMC) / emptyTissue.D << endl;
     cout << "Scattering coefficient us = " << tauOutIMC * aOutIMC / emptyTissue.D << endl;
     cout << "Scattering anisotropy g = " << gOutIMC << endl;
@@ -403,7 +407,7 @@ int main() {
     constexpr int N = 2; // minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr int M = 32; // matrix size in Adding-Doubling
+    constexpr int M = 8; // matrix size in Adding-Doubling
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;

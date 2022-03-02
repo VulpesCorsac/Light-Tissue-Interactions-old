@@ -314,7 +314,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
 
     CHECK_ARGUMENT_CONTRACT(2 <= N && N <= 3);
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
-    
+
     T g_val = 0.0;
 	if (fix == FixedParameter::G && N == 2){
         cout << "Enter g " << std::endl;
@@ -326,6 +326,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     /// STARTING POINT
     T astart, tstart, gstart;
     startingPoints(toMinimize, astart, tstart, gstart);
+/*
     if (fix == FixedParameter::Tau && N == 2)
         cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
     else if (fix == FixedParameter::G && N == 3)
@@ -333,19 +334,19 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
 	else if (N == 3)
 		cout << "Inverse Adding-Doubling N = 3" << endl;
     // cout << astart << " " << gstart << endl;
-
-    int maxIter = 100;
+*/
+  /*  int maxIter = 100;
 
     T fmin;
     Matrix<T,1,N> vecMin;
 
     int itersMade;
-
-    NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
-
+    if (N == 3){
+        NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
+    }
     cout << "Iterations made " << itersMade << endl;
 
-    /*
+
     if (itersMade == maxIter - 1) { //RESTART
         cout << "Restart" << endl;
         if (fix) {
@@ -359,14 +360,11 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         cout << "Iterations made " << itersMade << endl;
     }
     //*/
+    /*
     if (N == 2) {
         if (fix == FixedParameter::Tau) {
-            // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", g = " << vecMin(1) << ", tau = " << fixedParam << endl;
             aOut = vecMin(0);
-
-            // aOut = vecMin(0);
             tauOut = fixedParam;
-
             gOut = vecMin(1);
             // gOut = vecMin(1);
         } else if (fix == FixedParameter::G) {
@@ -379,9 +377,16 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         }
     } else if (N == 3) {
         aOut = vecMin(0);
-
-        // aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = vecMin(2);
-    }
+    }*/
+ /*   if (N == 3) {
+        aOut = vecMin(0);
+        tauOut = vecMin(1);
+        gOut = vecMin(2);
+    } else {*/
+    aOut = astart;
+    gOut = gstart;
+    tauOut = tstart;
+  //  }
 }

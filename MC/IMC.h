@@ -54,10 +54,16 @@ T funcToMinimizeMC(const T& a,
     const auto rMC = myResultsMT.detectedR;
     const auto tMC = myResultsMT.detectedT;
     T func2min = 0;
-
+/*    cout << "rMC" << endl;
+    for (auto x: rMC)
+        cout << x.first << " " << x.second << endl;
+    cout << "tMC" << endl;
+    for (auto x: tMC)
+        cout << x.first << " " << x.second << endl;
+*/
     constexpr auto eps = 1E-6;
     for (int i = 0; i < Utils_NS::isize(rMC); i++)
-        func2min += abs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + eps)) + abs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + eps));
+        func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + eps)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + eps)*/);
 
     return func2min;
 }
@@ -101,8 +107,9 @@ public:
         using namespace Minimization_NS;
 
         if (N == 2) {
-            if (fix == FixedParameter::Tau)
+            if (fix == FixedParameter::Tau){
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), this->tau, vec(1), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
+            }
             else if (fix == FixedParameter::G)
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), this->g, this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
             else
@@ -231,7 +238,6 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
     T alpha = 1.0;
     T beta = 0.5;
     T gamma = 2.0;
-
     /// INITIALIZING STARTING SIMPLEX
 
     /*
@@ -260,7 +266,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         else if (fix == FixedParameter::G)
             vstart << astart, tstart;
         else
-            throw std::invalid_argument("Need to have fixed parameter");
+            throw invalid_argument("Need to have fixed parameter");
     }
 
     array<Matrix<T,1,N>, N> basis;
@@ -321,15 +327,14 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
 
     vprevious = vComp2v<T,N,fix>(simplex[0].first);
 
-    std::cout << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << std::endl;
-    std::cout << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << std::endl;
-    std::cout << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << std::endl;
+    cout << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+    cout << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+    cout << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
         T eps = checkConvEps;
-        std::cout << k << std::endl;
-
+        cout << k << endl;
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
             simplex[i].second = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(simplex[i].first));
@@ -478,7 +483,7 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
          T& gOut) {
     using namespace Minimization_NS;
 	using namespace std;
-    T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(0.0, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
+    T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(gStart, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     FuncMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
 
     if (fix == FixedParameter::Tau && N == 2)

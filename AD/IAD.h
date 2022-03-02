@@ -145,7 +145,7 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
         gridT(i) = pow(2, tMin + (tMax - tMin) * x);
 //        gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;
         gridG(i) = 0.9999 * i / (gSize - 1.0) + 0.00001;
-        std::cout << gridA(i) << " " << gridG(i) << std::endl;
+  //      std::cout << gridA(i) << " " << gridG(i) << std::endl;
         /*
         if (x < 0.25)
             gridG(i) = 0.9999*(1 - x)+0.00001;
@@ -175,19 +175,19 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         T rs0 = 0;
         constexpr auto eps = 1E-6;
         RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-        cout << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
-        cout << rs0 << " " << ts0 << endl;
-        cout << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
+       // cout << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
+       // cout << rs0 << " " << ts0 << endl;
+       // cout << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
        for (size_t i = 0; i < gSize; i++) {
         for (size_t j = 0; j < gSize; j++) {
             if (fix == FixedParameter::Tau) {
                 RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + eps);
-                cout << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
+              //  cout << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
             } else if (fix == FixedParameter::G) {
                 RTs<T,M>(gridA(i), gridT(j), f.getG(), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + eps);
-                cout << dist(i,j) << " ";
+              //  cout << dist(i,j) << " ";
             }
         }
        }
@@ -206,7 +206,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         }
       }
     }
-    cout << "wow" << endl;
+  //  cout << "wow" << endl;
     return dist;
 }
 
@@ -224,7 +224,7 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
         int minRow, minCol;
         const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
         std::ignore = mins;
-        std::cout << "?" << std::endl;
+     //   std::cout << "?" << std::endl;
         /*
         std::cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << std::endl;
         std::cout << gridA << std::endl;
