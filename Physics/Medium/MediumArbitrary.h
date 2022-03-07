@@ -4,6 +4,8 @@
 #include "MediumProperties.h"
 #include "MediumType.h"
 
+#include "../../Utils/Contracts.h"
+
 namespace Physics_NS {
     /// \brief class for arbitrary Medium
     template < typename T >
@@ -49,13 +51,13 @@ namespace Physics_NS {
         /// \param[in] properties arbitrary medium MediumProperties
         explicit MediumArbitrary(const MediumProperties<T>& properties) noexcept;
 
-        T refraction          (const T& t = 0, const T& d = 0) const override;
-        T absorption          (const T& t = 0, const T& d = 0) const override;
-        T scattering          (const T& t = 0, const T& d = 0) const override;
-        T anisotropy          (const T& t = 0, const T& d = 0) const override;
-        T density             (const T& t = 0, const T& d = 0) const override;
-        T heat_capacity       (const T& t = 0, const T& d = 0) const override;
-        T thermal_conductivity(const T& t = 0, const T& d = 0) const override;
+        T refraction          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T absorption          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T scattering          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T anisotropy          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T density             (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T heat_capacity       (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T thermal_conductivity(const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
 
     protected:
         const T n0 ; ///< Medium refraction index for T = 0, D = 0
@@ -114,8 +116,7 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n0, const T& nT, const 
     , g0(g0), gT(gT), gD(gD), gDT(gDT)
     , r0(r0), rT(rT), rD(rD), rDT(rDT)
     , c0(c0), cT(cT), cD(cD), cDT(cDT)
-    , k0(k0), kT(kT), kD(kD), kDT(kDT)
-    {
+    , k0(k0), kT(kT), kD(kD), kDT(kDT) {
 }
 
 template < typename T >
@@ -152,36 +153,36 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const MediumProperties<T>& prope
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::refraction(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::refraction(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return n0 + nT*t + nD*d + nDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::absorption(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::absorption(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return a0 + aT*t + aD*d + aDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::scattering(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::scattering(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return u0 + uT*t + uD*d + uDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::anisotropy(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::anisotropy(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return g0 + gT*t + gD*d + gDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::density(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::density(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return r0 + rT*t + rD*d + rDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::heat_capacity(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::heat_capacity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return c0 + cT*t + cD*d + cDT*t*d;
 }
 
 template < typename T >
-T Physics_NS::MediumArbitrary<T>::thermal_conductivity(const T& t, const T& d) const {
+T Physics_NS::MediumArbitrary<T>::thermal_conductivity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return k0 + kT*t + kD*d + kDT*t*d;
 }

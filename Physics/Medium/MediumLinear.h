@@ -4,6 +4,8 @@
 #include "MediumProperties.h"
 #include "MediumType.h"
 
+#include "../../Utils/Contracts.h"
+
 namespace Physics_NS {
     /// \brief class for linear Medium
     template < typename T >
@@ -42,13 +44,13 @@ namespace Physics_NS {
         /// \param[in] properties linear medium MediumProperties
         explicit MediumLinear(const MediumProperties<T>& properties) noexcept;
 
-        T refraction          (const T& t = 0, const T& d = 0) const override;
-        T absorption          (const T& t = 0, const T& d = 0) const override;
-        T scattering          (const T& t = 0, const T& d = 0) const override;
-        T anisotropy          (const T& t = 0, const T& d = 0) const override;
-        T density             (const T& t = 0, const T& d = 0) const override;
-        T heat_capacity       (const T& t = 0, const T& d = 0) const override;
-        T thermal_conductivity(const T& t = 0, const T& d = 0) const override;
+        T refraction          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T absorption          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T scattering          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T anisotropy          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T density             (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T heat_capacity       (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T thermal_conductivity(const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
 
     protected:
         const T n0; ///< Medium refraction index for T = 0, D = 0
@@ -130,36 +132,36 @@ Physics_NS::MediumLinear<T>::MediumLinear(const MediumProperties<T>& properties)
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::refraction(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::refraction(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return n0 + nT*t + nD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::absorption(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::absorption(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return a0 + aT*t + aD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::scattering(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::scattering(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return u0 + uT*t + uD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::anisotropy(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::anisotropy(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return g0 + gT*t + gD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::density(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::density(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return r0 + rT*t + rD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::heat_capacity(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::heat_capacity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return c0 + cT*t + cD*d;
 }
 
 template < typename T >
-T Physics_NS::MediumLinear<T>::thermal_conductivity(const T& t, const T& d) const {
+T Physics_NS::MediumLinear<T>::thermal_conductivity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     return k0 + kT*t + kD*d;
 }

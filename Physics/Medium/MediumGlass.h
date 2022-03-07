@@ -4,6 +4,8 @@
 #include "MediumProperties.h"
 #include "MediumType.h"
 
+#include "../../Utils/Contracts.h"
+
 namespace Physics_NS {
     /// \brief class for glass Medium
     template < typename T >
@@ -22,10 +24,10 @@ namespace Physics_NS {
         /// \param[in] properties glass MediumProperties
         explicit MediumGlass(const MediumProperties<T>& properties) noexcept;
 
-        T refraction          (const T& t = 0, const T& d = 0) const override;
-        T density             (const T& t = 0, const T& d = 0) const override;
-        T heat_capacity       (const T& t = 0, const T& d = 0) const override;
-        T thermal_conductivity(const T& t = 0, const T& d = 0) const override;
+        T refraction          (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T density             (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T heat_capacity       (const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
+        T thermal_conductivity(const T& t = 0, const T& d = 0) const EXCEPT_INPUT_PARAMS override;
 
     protected:
         const T n0; ///< Glass refraction index
@@ -58,28 +60,28 @@ Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) n
 }
 
 template < typename T >
-T Physics_NS::MediumGlass<T>::refraction(const T& t, const T& d) const {
+T Physics_NS::MediumGlass<T>::refraction(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     std::ignore = t;
     std::ignore = d;
     return n0;
 }
 
 template < typename T >
-T Physics_NS::MediumGlass<T>::density(const T& t, const T& d) const {
+T Physics_NS::MediumGlass<T>::density(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     std::ignore = t;
     std::ignore = d;
     return r0;
 }
 
 template < typename T >
-T Physics_NS::MediumGlass<T>::heat_capacity(const T& t, const T& d) const {
+T Physics_NS::MediumGlass<T>::heat_capacity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     std::ignore = t;
     std::ignore = d;
     return c0;
 }
 
 template < typename T >
-T Physics_NS::MediumGlass<T>::thermal_conductivity(const T& t, const T& d) const {
+T Physics_NS::MediumGlass<T>::thermal_conductivity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
     std::ignore = t;
     std::ignore = d;
     return k0;

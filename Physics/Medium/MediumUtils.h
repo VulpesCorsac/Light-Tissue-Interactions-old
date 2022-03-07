@@ -10,8 +10,8 @@
 #include "MediumTypeStrings.h"
 
 #include "../../Utils/Contracts.h"
-#include "../../Utils/Utils.h"
 #include "../../Utils/StringUtils.h"
+#include "../../Utils/Utils.h"
 
 #include <algorithm>
 #include <memory>

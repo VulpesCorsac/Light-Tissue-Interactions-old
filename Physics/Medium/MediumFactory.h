@@ -1,10 +1,10 @@
 #pragma once
 
-#include "MediumConstant.h"
-#include "MediumInterface.h"
-#include "MediumGlass.h"
-#include "MediumLinear.h"
 #include "MediumArbitrary.h"
+#include "MediumConstant.h"
+#include "MediumGlass.h"
+#include "MediumInterface.h"
+#include "MediumLinear.h"
 #include "MediumProperties.h"
 #include "MediumType.h"
 

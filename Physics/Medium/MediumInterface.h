@@ -107,6 +107,7 @@ T Physics_NS::MediumInterface<T>::refraction(const T& t, const T& d) const EXCEP
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium refraction was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -114,6 +115,7 @@ T Physics_NS::MediumInterface<T>::absorption(const T& t, const T& d) const EXCEP
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium absorption was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -121,6 +123,7 @@ T Physics_NS::MediumInterface<T>::scattering(const T& t, const T& d) const EXCEP
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium scattering was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -128,6 +131,7 @@ T Physics_NS::MediumInterface<T>::anisotropy(const T& t, const T& d) const EXCEP
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium anisotropy was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -135,6 +139,7 @@ T Physics_NS::MediumInterface<T>::density(const T& t, const T& d) const EXCEPT_I
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium density was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -142,6 +147,7 @@ T Physics_NS::MediumInterface<T>::heat_capacity(const T& t, const T& d) const EX
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium heat capacity was not implemented");
+    return 0;
 }
 
 template < typename T >
@@ -149,6 +155,7 @@ T Physics_NS::MediumInterface<T>::thermal_conductivity(const T& t, const T& d) c
     std::ignore = t;
     std::ignore = d;
     FAIL_RUNTIME_CONTRACT("Medium thermal conductivity was not implemented");
+    return 0;
 }
 
 template < typename T >
