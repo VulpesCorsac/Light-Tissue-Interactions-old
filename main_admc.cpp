@@ -148,13 +148,13 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
         for (const auto& x: tSpoilt)
             cout << x.first << " " << x.second << endl;
 
-        T rStart = rSpoilt[0].second + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
+        T rStart = rSpoilt[0].second + myResultsMT.specularReflection; // the closest values to total Rs and Ts to be used in IAD algorithm
         T tStart = tSpoilt[0].second + tcSpoilt;
 
         cout << "rStart = " << rStart << " tStart = " << tStart << " tc = " << tcSpoilt << endl;
 
         /*
-        T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; //the closest values to total Rs and Ts to be used in IAD algorithm
+        T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; // the closest values to total Rs and Ts to be used in IAD algorithm
         T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
         //*/
 
@@ -249,11 +249,12 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     Afile << ameas.format(CSVFormat) << '\n';
     Anglesfile << anglesR.format(CSVFormat) << ", " << anglesT.format(CSVFormat) << '\n';
 
- /*   cout << "R" << '\n';
+    /*
+    cout << "R" << '\n';
     cout << anglesR << '\n';
     cout << "T" << '\n';
     cout << anglesT << '\n';
-*/
+    //*/
     Rdfile.close();
     Tdfile.close();
     Tcfile.close();
@@ -317,7 +318,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
         T r1 = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
         T r2 = FresnelReflectance(emptySample.getMedium(0).n, emptySample.getMedium(1).n, 1.0);
         rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
-        emptyTissue = emptySample.getMedium(1); //yeah i need to make several layers possible
+        emptyTissue = emptySample.getMedium(1); // yeah i need to make several layers possible
         nSlab = emptyTissue.n;
         n_slide_top = slides[0].n;
         n_slide_bottom = slides[1].n;
@@ -328,25 +329,26 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     T checkConvEps = 1E-3;
 
 
-/*    cout << "Enter starting points R T" << endl;
+    /*
+    cout << "Enter starting points R T" << endl;
     T inRstart, inTstart;
     cin >> inRstart >> inTstart;
-    T rStart = inRstart + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
+    T rStart = inRstart + rSpec; // the closest values to total Rs and Ts to be used in IAD algorithm
     T tStart = inTstart;
     //*/
 
     if ((fix == FixedParameter::G && N == 2) || N == 3)
         Tc.push_back(make_pair(static_cast<T>(0.0), static_cast<T>(0.0)));
-    T rStart = Rd[0].second + rSpec; //the closest values to total Rs and Ts to be used in IAD algorithm
+    T rStart = Rd[0].second + rSpec; // the closest values to total Rs and Ts to be used in IAD algorithm
     T tStart = Td[0].second;
     if (SphereT.getDPort2() != 0)
         tStart += Tc[0].second;
 
-  //  if (N == 2) {
+    // if (N == 2) {
         IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
         cout << "First approximation: Inverse Adding-Doubling" << endl;
         cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
- //   }
+    // }
     IMC<T,Nz,Nr,detector,N,fix>(Rd, Td, Tc[0].second, emptyTissue, move(slides), Nphotons, Nthreads, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, checkConvEps, aOutIMC, tauOutIMC, gOutIMC);
 
 
@@ -522,5 +524,6 @@ int main() {
             calcInverse<T, 3, fix, M, Nz, Nr, detector>(settingsFname1, Nthreads);
         }
     }
+
     return 0;
 }

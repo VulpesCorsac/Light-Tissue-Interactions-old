@@ -326,7 +326,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     /// STARTING POINT
     T astart, tstart, gstart;
     startingPoints(toMinimize, astart, tstart, gstart);
-/*
+    /*
     if (fix == FixedParameter::Tau && N == 2)
         cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
     else if (fix == FixedParameter::G && N == 3)
@@ -334,8 +334,10 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
 	else if (N == 3)
 		cout << "Inverse Adding-Doubling N = 3" << endl;
     // cout << astart << " " << gstart << endl;
-*/
-  /*  int maxIter = 100;
+    //*/
+
+    /*
+    int maxIter = 100;
 
     T fmin;
     Matrix<T,1,N> vecMin;
@@ -360,6 +362,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         cout << "Iterations made " << itersMade << endl;
     }
     //*/
+
     /*
     if (N == 2) {
         if (fix == FixedParameter::Tau) {
@@ -379,14 +382,18 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = vecMin(2);
-    }*/
- /*   if (N == 3) {
+    }
+    //*/
+
+    /*
+    if (N == 3) {
         aOut = vecMin(0);
         tauOut = vecMin(1);
         gOut = vecMin(2);
-    } else {*/
-    aOut = astart;
-    gOut = gstart;
-    tauOut = tstart;
-  //  }
+    } else {
+    //*/
+        aOut = astart;
+        gOut = gstart;
+        tauOut = tstart;
+    // }
 }

@@ -41,7 +41,7 @@ namespace {
     #define REPEATS 10'000'000
     const map<pair<pair<pair<int, int>, string>, string>, int> ExpectedDeviations = {
         {{{{REPEATS, 2  }, "random" }, ""     },    11000},
-        {{{{REPEATS, 10 }, "random" }, ""     },     6100},
+        {{{{REPEATS, 10 }, "random" }, ""     },     6300},
         {{{{REPEATS, 100}, "random" }, ""     },     2500},
         {{{{REPEATS, 2  }, "randomC"}, ""     },    11000},
         {{{{REPEATS, 2  }, "randomC"}, "float"},  5010000},
@@ -57,10 +57,7 @@ namespace {
             return it->second;
 
         it = ExpectedDeviations.find({{{repeats, bins}, func}, ""});
-        if (it != ExpectedDeviations.end())
-            return it->second;
-
-        return 0;
+        return it != ExpectedDeviations.end() ? it->second : 0;
     }
 
     const vector<int> Bins = {VALUES};
