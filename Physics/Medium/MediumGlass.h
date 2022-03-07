@@ -61,28 +61,40 @@ Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) n
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::refraction(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return n0;
 }
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::density(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return r0;
 }
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::heat_capacity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return c0;
 }
 
 template < typename T >
 T Physics_NS::MediumGlass<T>::thermal_conductivity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return k0;
 }

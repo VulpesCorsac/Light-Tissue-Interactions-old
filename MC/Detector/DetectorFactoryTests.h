@@ -9,11 +9,12 @@
 #include <gtest/gtest.h>
 
 using namespace MonteCarlo_NS;
+using namespace std;
 
 TEST(DetectorFactoryTests, ThrowExceptionIfUnknownDetectorType) {
     auto properties = DetectorProperties<float>();
     properties.type = DetectorType::Unknown;
-    EXPECT_THROW(auto medium = createDetector<float>(properties), std::invalid_argument);
+    EXPECT_THROW(auto medium = createDetector<float>(properties), invalid_argument);
 }
 
 TEST(DetectorFactoryTests, CreateFullAbsorberDetectorType) {

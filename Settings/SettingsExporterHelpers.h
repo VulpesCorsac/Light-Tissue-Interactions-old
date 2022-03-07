@@ -17,7 +17,9 @@ namespace Settings_NS {
  ******************/
 
 std::string Settings_NS::to_string(const YAML::Node& node) {
-    std::stringstream ss;
+    using namespace std;
+
+    stringstream ss;
     ss << node;
     return ss.str();
 }

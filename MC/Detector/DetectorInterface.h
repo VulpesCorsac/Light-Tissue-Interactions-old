@@ -42,12 +42,16 @@ MonteCarlo_NS::DetectorInterface<T>::DetectorInterface(const DetectorType& type)
 
 template < typename T >
 void MonteCarlo_NS::DetectorInterface<T>::detect(const Photon<T>& photon) EXCEPT_INPUT_PARAMS {
-    std::ignore = photon;
+    using namespace std;
+
+    ignore = photon;
     FAIL_RUNTIME_CONTRACT("Detector detect was not implemented");
 }
 
 template < typename T >
 void MonteCarlo_NS::DetectorInterface<T>::calibrate(const T& totalWeights) EXCEPT_INPUT_PARAMS {
-    std::ignore = totalWeights;
+    using namespace std;
+
+    ignore = totalWeights;
     FAIL_RUNTIME_CONTRACT("Detector calibrate was not implemented");
 }

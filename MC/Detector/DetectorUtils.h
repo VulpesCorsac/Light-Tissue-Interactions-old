@@ -96,16 +96,16 @@ MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detec
 
 std::string MonteCarlo_NS::to_string(const MonteCarlo_NS::DetectorType& detector) noexcept {
     switch (detector) {
-    case DetectorType::FullAbsorber:
-        return DetectorTypeStrings::FullAbsorber;
-    case DetectorType::IntegratingSphereSimple:
-        return DetectorTypeStrings::IntegratingSphereSimple;
-    case DetectorType::IntegratingSphereComplex:
-        return DetectorTypeStrings::IntegratingSphereComplex;
-    case DetectorType::OpticalFiber:
-        return DetectorTypeStrings::OpticalFiber;
-    default:
-        return DetectorTypeStrings::Unknown;
+        case DetectorType::FullAbsorber:
+            return DetectorTypeStrings::FullAbsorber;
+        case DetectorType::IntegratingSphereSimple:
+            return DetectorTypeStrings::IntegratingSphereSimple;
+        case DetectorType::IntegratingSphereComplex:
+            return DetectorTypeStrings::IntegratingSphereComplex;
+        case DetectorType::OpticalFiber:
+            return DetectorTypeStrings::OpticalFiber;
+        default:
+            return DetectorTypeStrings::Unknown;
     }
 }
 
@@ -134,10 +134,12 @@ void MonteCarlo_NS::validate(const MonteCarlo_NS::DetectorProperties<T>& propert
 
 template < typename T >
 bool MonteCarlo_NS::validateSafe(const MonteCarlo_NS::DetectorProperties<T>& properties) noexcept {
+    using namespace std;
+
     try {
         validate(properties);
         return true;
-    } catch(std::invalid_argument&) {
+    } catch(invalid_argument&) {
         return false;
     }
 }

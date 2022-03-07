@@ -1,6 +1,5 @@
 add_library(BenchmarkHelper.h INTERFACE)
 
-add_compile_definitions(ASSERT_INPUT_PARAMS)
 add_compile_definitions(ENABLE_CHECK_CONTRACTS)
 
 file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)

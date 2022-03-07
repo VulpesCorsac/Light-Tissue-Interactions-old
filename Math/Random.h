@@ -19,12 +19,14 @@ namespace Math_NS {
 
 template < typename T >
 T Math_NS::random(T min, T max) {
+    using namespace std;
+
     if constexpr (std::is_integral<T>())
         return static_cast<T>(random<double>(min, max));
     else {
-        static thread_local std::random_device rd;
-        static thread_local std::default_random_engine generator(rd());
-        static thread_local std::uniform_real_distribution<T> distribution(0, 1);
+        static thread_local random_device rd;
+        static thread_local default_random_engine generator(rd());
+        static thread_local uniform_real_distribution<T> distribution(0, 1);
         return min + (max - min) * distribution(generator);
     }
 }

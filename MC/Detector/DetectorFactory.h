@@ -27,15 +27,17 @@ namespace MonteCarlo_NS {
 
 template < typename T >
 std::unique_ptr<MonteCarlo_NS::DetectorInterface<T>> MonteCarlo_NS::createDetector(const MonteCarlo_NS::DetectorProperties<T>& properties) EXCEPT_INPUT_PARAMS {
+    using namespace std;
+
     switch (properties.type) {
         case DetectorType::FullAbsorber:
-            return std::unique_ptr<DetectorInterface<T>>(new FullAbsorber<T>(properties));
+            return unique_ptr<DetectorInterface<T>>(new FullAbsorber<T>(properties));
         case DetectorType::IntegratingSphereSimple:
-            return std::unique_ptr<DetectorInterface<T>>(new IntegratingSphereSimple<T>(properties));
+            return unique_ptr<DetectorInterface<T>>(new IntegratingSphereSimple<T>(properties));
         case DetectorType::IntegratingSphereComplex:
-            return std::unique_ptr<DetectorInterface<T>>(new IntegratingSphereComplex<T>(properties));
+            return unique_ptr<DetectorInterface<T>>(new IntegratingSphereComplex<T>(properties));
         case DetectorType::OpticalFiber:
-            return std::unique_ptr<DetectorInterface<T>>(new OpticalFiber<T>(properties));
+            return unique_ptr<DetectorInterface<T>>(new OpticalFiber<T>(properties));
         default:
             FAIL_ARGUMENT_CONTRACT("Invalid detector type in properties");
             return nullptr;

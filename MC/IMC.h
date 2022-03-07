@@ -96,17 +96,19 @@ public:
         , tmeas(new_tmeas)
         , tcmeas(new_tcmeas) {
         using namespace Minimization_NS;
+        using namespace std;
 
         if (fix == FixedParameter::Tau)
             this->tau = fixed_param;
         else if (fix == FixedParameter::G)
             this->g = fixed_param;
         else
-            throw std::invalid_argument("Need to have fixed parameter");
+            throw invalid_argument("Need to have fixed parameter");
     }
 
     T funcToMinimize3argsMC(Matrix<T,1,N> vec) const {
         using namespace Minimization_NS;
+        using namespace std;
 
         if (N == 2) {
             if (fix == FixedParameter::Tau){
@@ -115,7 +117,7 @@ public:
             else if (fix == FixedParameter::G)
                 return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), this->g, this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
             else
-                throw std::invalid_argument("Need to have fixed parameter");
+                throw invalid_argument("Need to have fixed parameter");
         } else if (N == 3)
             return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), vec(2), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
         else
@@ -157,6 +159,7 @@ protected:
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
 T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
     using namespace Minimization_NS;
+    using namespace std;
 
     T nSlab = empty_tissue.n;
     T n_slide_top, n_slide_bottom;
@@ -172,12 +175,13 @@ T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcme
     else if (fix == FixedParameter::G)
         return newG;
     else
-        throw std::invalid_argument("Need to have fixed parameter");
+        throw invalid_argument("Need to have fixed parameter");
 }
 
 template <typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix, size_t gSize>
 Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,gSize> gridA, Matrix<T,1,gSize> gridT, Matrix<T,1,gSize> gridG, const T& g) {
     using namespace std;
+
     Matrix<T,gSize,gSize> dist;
     constexpr auto eps = 1E-6;
     /// TODO: WHAT IS THIS 1E-6?
@@ -199,7 +203,7 @@ Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,
             const auto tMC = myResultsMT.detectedT;
             rs0 = rMC[0].second;
             ts0 = tMC[0].second;
-            dist(i,j) = std::abs(rs0 - (f.getRmeas()[0].second)) / ((f.getRmeas()[0].second) + eps) + std::abs(ts0 - (f.getTmeas()[0].second)) / ((f.getTmeas()[0].second) + eps);
+            dist(i,j) = abs(rs0 - (f.getRmeas()[0].second)) / ((f.getRmeas()[0].second) + eps) + abs(ts0 - (f.getTmeas()[0].second)) / ((f.getTmeas()[0].second) + eps);
             cout << gridA(i) << " " << gridT(j) << " " << g << ": " << rs0 << " " << ts0 << " dist " << dist(i,j) << endl;
             //dist(i,j) = std::abs(rs0 - f.getRmeas()) + std::abs(ts0 - f.getTmeas());
         }
@@ -222,11 +226,12 @@ void startGridIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, T& aStart, T& tStart, T& gSt
         const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
         const T minHere = distancesMatrix.minCoeff();
         vectorMins.push_back(minHere);
-        vectorCoord.push_back(std::make_pair(minRow, minCol));
+        vectorCoord.push_back(make_pair(minRow, minCol));
         ignore = mins;
         cout << gridG(i) << ": " << minHere << " " << minRow << " " << minCol << endl;
     }
-    int minElementIndex = std::min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
+
+    int minElementIndex = min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
     aStart = gridA(vectorCoord[minElementIndex].first);
     tStart = gridT(vectorCoord[minElementIndex].second);
     gStart = gridG(minElementIndex);
@@ -236,10 +241,12 @@ template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimizati
 void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps) {
     using namespace Minimization_NS;
     using namespace std;
+
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
     T alpha = 1.0;
     T beta = 0.5;
     T gamma = 2.0;
+
     /// INITIALIZING STARTING SIMPLEX
 
     /*
@@ -343,7 +350,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
 
-        std::sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
@@ -386,7 +393,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                     break;
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
-                std::cout << "v previous " << vprevious << std::endl;
+                cout << "v previous " << vprevious << endl;
                 // cout << "expanded" << endl;
                 continue;
             } else {
@@ -398,7 +405,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                     break;
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
-                std::cout << "v previous " << vprevious << std::endl;
+                cout << "v previous " << vprevious << endl;
                 // cout << "1" << endl;
                 continue;
             }
@@ -411,7 +418,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 break;
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
+            cout << "v previous " << vprevious << endl;
             // cout << "2" << endl;
             continue;
         } else if (fvg < fvr && fvr < fvw) {
@@ -436,7 +443,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 break;
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
+            cout << "v previous " << vprevious << endl;
             // cout << "shrink" << endl;
             continue;
         } else {
@@ -446,7 +453,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[i].second = f.funcToMinimize3argsMC(vComp2v<T,N,fix>(simplex[i].first));
             }
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
-            std::cout << "v previous " << vprevious << std::endl;
+            cout << "v previous " << vprevious << endl;
             // cout << "global shrink" << endl;
 
             int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
@@ -457,7 +464,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         }
     }
 
-    std::sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
+    sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
     // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
@@ -485,6 +492,7 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
          T& gOut) {
     using namespace Minimization_NS;
 	using namespace std;
+
     T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(gStart, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
     FuncMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
 

@@ -14,6 +14,7 @@
 
 using namespace Math_NS;
 using namespace Utils_NS;
+using namespace std;
 
 class Mesh3Tests : public ::testing::Test {
 protected:
@@ -42,13 +43,13 @@ TEST_F(Mesh3Tests, Constructor) {
                         if (k < L)
                             ASSERT_EQ(mesh.data.at(i).at(j).at(k), value);
                         else
-                            EXPECT_THROW(std::ignore = mesh.data.at(i).at(j).at(k), std::out_of_range);
+                            EXPECT_THROW(ignore = mesh.data.at(i).at(j).at(k), out_of_range);
                     }
                 } else
-                    EXPECT_THROW(std::ignore = mesh.data.at(i).at(j), std::out_of_range);
+                    EXPECT_THROW(ignore = mesh.data.at(i).at(j), out_of_range);
             }
         } else
-            EXPECT_THROW(std::ignore = mesh.data.at(i), std::out_of_range);
+            EXPECT_THROW(ignore = mesh.data.at(i), out_of_range);
     }
 }
 
@@ -58,9 +59,9 @@ TEST_F(Mesh3Tests, ValueGetter) {
             for (int k = 0; k < L; ++k)
                 ASSERT_EQ(mesh.value(i, j, k), value);
 
-    EXPECT_THROW(std::ignore = mesh.value(N, 0, 0), std::out_of_range);
-    EXPECT_THROW(std::ignore = mesh.value(0, M, 0), std::out_of_range);
-    EXPECT_THROW(std::ignore = mesh.value(0, 0, L), std::out_of_range);
+    EXPECT_THROW(ignore = mesh.value(N, 0, 0), out_of_range);
+    EXPECT_THROW(ignore = mesh.value(0, M, 0), out_of_range);
+    EXPECT_THROW(ignore = mesh.value(0, 0, L), out_of_range);
 }
 
 TEST_F(Mesh3Tests, DataSetter) {
@@ -71,7 +72,7 @@ TEST_F(Mesh3Tests, DataSetter) {
                 ASSERT_EQ(mesh.value(i, j, k), value+1);
             }
 
-    EXPECT_THROW(mesh.value(N, 0, 0) = value + 1, std::out_of_range);
-    EXPECT_THROW(mesh.value(0, M, 0) = value + 1, std::out_of_range);
-    EXPECT_THROW(mesh.value(0, 0, L) = value + 1, std::out_of_range);
+    EXPECT_THROW(mesh.value(N, 0, 0) = value + 1, out_of_range);
+    EXPECT_THROW(mesh.value(0, M, 0) = value + 1, out_of_range);
+    EXPECT_THROW(mesh.value(0, 0, L) = value + 1, out_of_range);
 }

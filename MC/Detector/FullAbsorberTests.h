@@ -9,13 +9,14 @@
 #include <gtest/gtest.h>
 
 using namespace MonteCarlo_NS;
+using namespace std;
 
 class FullAbsorberTests : public ::testing::Test {
 protected:
-    std::unique_ptr<FullAbsorber<float>> detector = std::make_unique<FullAbsorber<float>>();
+    unique_ptr<FullAbsorber<float>> detector = make_unique<FullAbsorber<float>>();
 
     static constexpr float collimatedCosine = 0.9;
-    std::unique_ptr<FullAbsorber<float>> nondefaultDetector = std::make_unique<FullAbsorber<float>>(collimatedCosine);
+    unique_ptr<FullAbsorber<float>> nondefaultDetector = make_unique<FullAbsorber<float>>(collimatedCosine);
 };
 
 TEST_F(FullAbsorberTests, InitialAbsorbedIsZero) {
@@ -30,7 +31,7 @@ TEST_F(FullAbsorberTests, ConstructorFromCollimatedCosine) {
 TEST_F(FullAbsorberTests, ConstructorFromMediumProperties) {
     DetectorProperties<float> properties;
     properties.collimatedCosine = collimatedCosine;
-    auto generated_detector = std::make_unique<FullAbsorber<float>>(properties);
+    auto generated_detector = make_unique<FullAbsorber<float>>(properties);
     EXPECT_FLOAT_EQ(generated_detector->collimatedCosine, collimatedCosine);
 }
 

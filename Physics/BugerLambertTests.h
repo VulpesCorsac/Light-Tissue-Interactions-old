@@ -9,13 +9,14 @@
 #include <gtest/gtest.h>
 
 using namespace Physics_NS;
+using namespace std;
 
 TEST(BugerLambert, ThrowExceptionMediumRefractionIndex) {
     constexpr float nm = 0;
     constexpr float nt = 1;
     constexpr float nb = 1;
     constexpr float a  = 1;
-    EXPECT_THROW(BugerLambert(a, nm, nt, nb), std::invalid_argument);
+    EXPECT_THROW(BugerLambert(a, nm, nt, nb), invalid_argument);
 }
 
 TEST(BugerLambert, ThrowExceptionOuterRefractionIndexTop) {
@@ -23,7 +24,7 @@ TEST(BugerLambert, ThrowExceptionOuterRefractionIndexTop) {
     constexpr float nt = 0;
     constexpr float nb = 1;
     constexpr float a  = 1;
-    EXPECT_THROW(BugerLambert(a, nm, nt, nb), std::invalid_argument);
+    EXPECT_THROW(BugerLambert(a, nm, nt, nb), invalid_argument);
 }
 
 TEST(BugerLambert, ThrowExceptionOuterRefractionIndexBottom) {
@@ -31,7 +32,7 @@ TEST(BugerLambert, ThrowExceptionOuterRefractionIndexBottom) {
     constexpr float nt = 1;
     constexpr float nb = 0;
     constexpr float a  = 1;
-    EXPECT_THROW(BugerLambert(a, nm, nt, nb), std::invalid_argument);
+    EXPECT_THROW(BugerLambert(a, nm, nt, nb), invalid_argument);
 }
 
 TEST(BugerLambert, WorksWithPositiveAbsorption) {

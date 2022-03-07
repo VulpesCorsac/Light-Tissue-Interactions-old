@@ -9,10 +9,11 @@
 #include <gtest/gtest.h>
 
 using namespace MonteCarlo_NS;
+using namespace std;
 
 class OpticalFiberTests : public ::testing::Test {
 protected:
-    std::unique_ptr<OpticalFiber<float>> detector = std::make_unique<OpticalFiber<float>>();
+    unique_ptr<OpticalFiber<float>> detector = make_unique<OpticalFiber<float>>();
 };
 
 TEST_F(OpticalFiberTests, TypeIsOpticalFiber) {
@@ -20,9 +21,9 @@ TEST_F(OpticalFiberTests, TypeIsOpticalFiber) {
 }
 
 TEST_F(OpticalFiberTests, ThrowsExceptionForDetect) {
-    EXPECT_THROW(detector->detect(Photon<float>()), std::runtime_error);
+    EXPECT_THROW(detector->detect(Photon<float>()), runtime_error);
 }
 
 TEST_F(OpticalFiberTests, ThrowsExceptionForCalibrate) {
-    EXPECT_THROW(detector->calibrate(1), std::runtime_error);
+    EXPECT_THROW(detector->calibrate(1), runtime_error);
 }

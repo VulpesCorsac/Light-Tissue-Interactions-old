@@ -13,49 +13,50 @@
 
 using namespace MonteCarlo_NS;
 using namespace Utils_NS;
+using namespace std;
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_ThrownExceptionForNullptr) {
-    EXPECT_THROW(detectorType<float>(nullptr), std::invalid_argument);
+    EXPECT_THROW(detectorType<float>(nullptr), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_ThrownExceptionForInterface) {
-    std::unique_ptr<DetectorInterface<float>> detector = std::make_unique<DetectorInterface<float>>();
-    EXPECT_THROW(detectorType<float>(detector.get()), std::invalid_argument);
+    unique_ptr<DetectorInterface<float>> detector = make_unique<DetectorInterface<float>>();
+    EXPECT_THROW(detectorType<float>(detector.get()), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_ThrownExceptionForUnknownType) {
     class DetectorDummy: public DetectorInterface<float> {};
 
-    auto detector = std::make_unique<DetectorDummy>();
-    EXPECT_THROW(detectorType<float>(detector.get()), std::invalid_argument);
+    auto detector = make_unique<DetectorDummy>();
+    EXPECT_THROW(detectorType<float>(detector.get()), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_DetectorFullAbsorber) {
-    auto detector = std::make_unique<FullAbsorber<float>>();
+    auto detector = make_unique<FullAbsorber<float>>();
     EXPECT_EQ(detectorType<float>(detector.get()), DetectorType::FullAbsorber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_DetectorIntegratingSphereSimple) {
-    auto detector = std::make_unique<IntegratingSphereSimple<float>>();
+    auto detector = make_unique<IntegratingSphereSimple<float>>();
     EXPECT_EQ(detectorType<float>(detector.get()), DetectorType::IntegratingSphereSimple);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_DetectorIntegratingSphereComplex) {
-    auto detector = std::make_unique<IntegratingSphereComplex<float>>();
+    auto detector = make_unique<IntegratingSphereComplex<float>>();
     EXPECT_EQ(detectorType<float>(detector.get()), DetectorType::IntegratingSphereComplex);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromPtr_DetectorOpticalFiber) {
-    auto detector = std::make_unique<OpticalFiber<float>>();
+    auto detector = make_unique<OpticalFiber<float>>();
     EXPECT_EQ(detectorType<float>(detector.get()), DetectorType::OpticalFiber);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_ThrownExceptionForEmptyStr) {
-    EXPECT_THROW(detectorType(""), std::invalid_argument);
+    EXPECT_THROW(detectorType(""), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_ThrownExceptionForUnknownType) {
-    EXPECT_THROW(detectorType("InvalidDetector"), std::invalid_argument);
+    EXPECT_THROW(detectorType("InvalidDetector"), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, DetectorTypeFromStr_DetectorFullAbsorber) {
@@ -133,7 +134,7 @@ TEST(DetectorUtilsTests, DetectorTypeToStrFromStr_DetectorOpticalFiber) {
 TEST(DetectorUtilsTests, Validate_ThrownExceptionForUnknownType) {
     DetectorProperties<int> properties;
     properties.type = DetectorType::Unknown;
-    EXPECT_THROW(validate(properties), std::invalid_argument);
+    EXPECT_THROW(validate(properties), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
@@ -145,7 +146,7 @@ TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForUnknownType) {
 TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithoutCollimatedCosine) {
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
-    EXPECT_THROW(validate(properties), std::invalid_argument);
+    EXPECT_THROW(validate(properties), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithoutCollimatedCosine) {
@@ -158,7 +159,7 @@ TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCo
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
     properties.collimatedCosine = -1;
-    EXPECT_THROW(validate(properties), std::invalid_argument);
+    EXPECT_THROW(validate(properties), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineLessThanZero) {
@@ -172,7 +173,7 @@ TEST(DetectorUtilsTests, Validate_ThrownExceptionForFullAbsorberWithCollimatedCo
     DetectorProperties<int> properties;
     properties.type = DetectorType::FullAbsorber;
     properties.collimatedCosine = 2;
-    EXPECT_THROW(validate(properties), std::invalid_argument);
+    EXPECT_THROW(validate(properties), invalid_argument);
 }
 
 TEST(DetectorUtilsTests, ValidateSafe_ReturnsFalseForFullAbsorberWithCollimatedCosineGreaterThanOne) {
@@ -198,7 +199,7 @@ TEST(DetectorUtilsTests, ValidateSafe_ReturnsTrueForProperFullAbsorber) {
 
 TEST(DetectorUtilsTests, ExportDetectorProperties_ForFullAbsorber) {
     static constexpr float collimatedCosine = 0.9;
-    auto detector = std::make_unique<FullAbsorber<float>>(collimatedCosine);
+    auto detector = make_unique<FullAbsorber<float>>(collimatedCosine);
     const auto& properties = exportDetectorProperties(detector.get());
     EXPECT_EQ(properties.type, DetectorType::FullAbsorber);
     EXPECT_FLOAT_EQ(properties.collimatedCosine.value(), collimatedCosine);

@@ -9,10 +9,11 @@
 #include <gtest/gtest.h>
 
 using namespace MonteCarlo_NS;
+using namespace std;
 
 class IntegratingSphereSimpleTests : public ::testing::Test {
 protected:
-    std::unique_ptr<IntegratingSphereSimple<float>> detector = std::make_unique<IntegratingSphereSimple<float>>();
+    unique_ptr<IntegratingSphereSimple<float>> detector = make_unique<IntegratingSphereSimple<float>>();
 };
 
 TEST_F(IntegratingSphereSimpleTests, TypeIsIntegratingSphereSimple) {
@@ -20,9 +21,9 @@ TEST_F(IntegratingSphereSimpleTests, TypeIsIntegratingSphereSimple) {
 }
 
 TEST_F(IntegratingSphereSimpleTests, ThrowsExceptionForDetect) {
-    EXPECT_THROW(detector->detect(Photon<float>()), std::runtime_error);
+    EXPECT_THROW(detector->detect(Photon<float>()), runtime_error);
 }
 
 TEST_F(IntegratingSphereSimpleTests, ThrowsExceptionForCalibrate) {
-    EXPECT_THROW(detector->calibrate(1), std::runtime_error);
+    EXPECT_THROW(detector->calibrate(1), runtime_error);
 }

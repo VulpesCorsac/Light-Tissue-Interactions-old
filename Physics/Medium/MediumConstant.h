@@ -85,49 +85,70 @@ Physics_NS::MediumConstant<T>::MediumConstant(const MediumProperties<T>& propert
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::refraction(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return n0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::absorption(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return a0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::scattering(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return u0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::anisotropy(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return g0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::density(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return r0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::heat_capacity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return c0;
 }
 
 template < typename T >
 T Physics_NS::MediumConstant<T>::thermal_conductivity(const T& t, const T& d) const EXCEPT_INPUT_PARAMS {
-    std::ignore = t;
-    std::ignore = d;
+    using namespace std;
+
+    ignore = t;
+    ignore = d;
+
     return k0;
 }

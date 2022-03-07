@@ -11,6 +11,8 @@
 
 #include <gtest/gtest.h>
 
+using namespace std;
+
 template < typename T, size_t M >
 class testDataRT {
 public:
@@ -43,7 +45,7 @@ public:
 
 protected:
     T myA, myTau, myG, myN_slab, myN_slide_top, myN_slide_bottom, ts, rs, tc;
-    std::array<T,M> v, w;
+    array<T,M> v, w;
 };
 
 void test1() {

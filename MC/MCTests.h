@@ -11,8 +11,8 @@
 
 #include <optional>
 
-using namespace std;
 using namespace Physics_NS;
+using namespace std;
 
 /************
  * FIXTURES *
@@ -50,7 +50,7 @@ public:
     static constexpr T TOTAL_TOLERANCE = 1E-4;
 
 public:
-    void checkResult(const MCresults<T, Nz, Nr, detector>& res, const TestResult<T>& expected, std::optional<T> buger) const {
+    void checkResult(const MCresults<T, Nz, Nr, detector>& res, const TestResult<T>& expected, optional<T> buger) const {
         EXPECT_NEAR(res.specularReflection , expected.SPECULAR_REFLECTION , expected.SPECULAR_REFLECTION_TOLERANCE  * expected.SPECULAR_REFLECTION );
         EXPECT_NEAR(res.diffuseReflection  , expected.DIFFUSE_REFLECTION  , expected.DIFFUSE_REFLECTION_TOLERANCE   * expected.DIFFUSE_REFLECTION  );
         EXPECT_NEAR(res.diffuseTransmission, expected.DIFFUSE_TRANSMISSION, expected.DIFFUSE_TRANSMISSION_TOLERANCE * expected.DIFFUSE_TRANSMISSION);
@@ -213,9 +213,9 @@ TEST_MC(SingleLayerAbsorptionOnly_MFP_LT_D      , BUGER);
 TEST_MC(MultiLayerAbsorptionOnly_MFP_IS_D       , BUGER);
 TEST_MC(MultiLayerAbsorptionOnly_MFP_GT_D       , BUGER);
 TEST_MC(MultiLayerAbsorptionOnly_MFP_LT_D       , BUGER);
-TEST_MC(SingleLayerAbsorptionScattering_MFP_IS_D, std::nullopt);
-TEST_MC(SingleLayerAbsorptionScattering_MFP_GT_D, std::nullopt);
-TEST_MC(SingleLayerAbsorptionScattering_MFP_LT_D, std::nullopt);
-TEST_MC(MultiLayerAbsorptionScattering_MFP_IS_D , std::nullopt);
-TEST_MC(MultiLayerAbsorptionScattering_MFP_GT_D , std::nullopt);
-TEST_MC(MultiLayerAbsorptionScattering_MFP_LT_D , std::nullopt);
+TEST_MC(SingleLayerAbsorptionScattering_MFP_IS_D, nullopt);
+TEST_MC(SingleLayerAbsorptionScattering_MFP_GT_D, nullopt);
+TEST_MC(SingleLayerAbsorptionScattering_MFP_LT_D, nullopt);
+TEST_MC(MultiLayerAbsorptionScattering_MFP_IS_D , nullopt);
+TEST_MC(MultiLayerAbsorptionScattering_MFP_GT_D , nullopt);
+TEST_MC(MultiLayerAbsorptionScattering_MFP_LT_D , nullopt);

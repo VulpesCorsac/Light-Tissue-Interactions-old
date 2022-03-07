@@ -3,6 +3,8 @@
 #include "DetectorInterface.h"
 #include "DetectorProperties.h"
 
+#include "../../Utils/Contracts.h"
+
 #include <iostream>
 
 namespace MonteCarlo_NS {
@@ -47,7 +49,9 @@ MonteCarlo_NS::FullAbsorber<T>::FullAbsorber(const MonteCarlo_NS::DetectorProper
 
 template < typename T >
 void MonteCarlo_NS::FullAbsorber<T>::detect(const Photon<T>& photon) {
-    if (std::abs(photon.direction.z) < collimatedCosine)
+    using namespace std;
+
+    if (abs(photon.direction.z) < collimatedCosine)
         diffusiveAbsorbed += photon.weight;
     else
         collimatedAbsorbed += photon.weight;
@@ -55,6 +59,8 @@ void MonteCarlo_NS::FullAbsorber<T>::detect(const Photon<T>& photon) {
 
 template < typename T >
 void MonteCarlo_NS::FullAbsorber<T>::calibrate(const T& totalWeights) {
+    CHECK_ARGUMENT_CONTRACT(totalWeights != 0);
+
     collimatedAbsorbed /= totalWeights;
     diffusiveAbsorbed  /= totalWeights;
 }

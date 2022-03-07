@@ -97,16 +97,16 @@ Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_
 
 std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
     switch (medium) {
-    case MediumType::Glass:
-        return MediumTypeStrings::Glass;
-    case MediumType::Constant:
-        return MediumTypeStrings::Constant;
-    case MediumType::Linear:
-        return MediumTypeStrings::Linear;
-    case MediumType::Arbitrary:
-        return MediumTypeStrings::Arbitrary;
-    default:
-        return MediumTypeStrings::Unknown;
+        case MediumType::Glass:
+            return MediumTypeStrings::Glass;
+        case MediumType::Constant:
+            return MediumTypeStrings::Constant;
+        case MediumType::Linear:
+            return MediumTypeStrings::Linear;
+        case MediumType::Arbitrary:
+            return MediumTypeStrings::Arbitrary;
+        default:
+            return MediumTypeStrings::Unknown;
     }
 }
 

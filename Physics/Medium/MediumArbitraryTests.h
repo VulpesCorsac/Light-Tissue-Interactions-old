@@ -11,10 +11,11 @@
 #include <memory>
 
 using namespace Physics_NS;
+using namespace std;
 
 class MediumArbitraryTests : public ::testing::Test {
 protected:
-    std::unique_ptr<MediumArbitrary<float>> medium = std::make_unique<MediumArbitrary<float>>();
+    unique_ptr<MediumArbitrary<float>> medium = make_unique<MediumArbitrary<float>>();
 
     static constexpr float n0  = 2;
     static constexpr float nT  = 3;
@@ -44,13 +45,13 @@ protected:
     static constexpr float kT  = 27;
     static constexpr float kD  = 28;
     static constexpr float kDT = 29;
-    std::unique_ptr<MediumArbitrary<float>> nondefaultMedium = std::make_unique<MediumArbitrary<float>>(n0, nT, nD, nDT,
-                                                                                                        a0, aT, aD, aDT,
-                                                                                                        u0, uT, uD, uDT,
-                                                                                                        g0, gT, gD, gDT,
-                                                                                                        r0, rT, rD, rDT,
-                                                                                                        c0, cT, cD, cDT,
-                                                                                                        k0, kT, kD, kDT);
+    unique_ptr<MediumArbitrary<float>> nondefaultMedium = make_unique<MediumArbitrary<float>>(n0, nT, nD, nDT,
+                                                                                              a0, aT, aD, aDT,
+                                                                                              u0, uT, uD, uDT,
+                                                                                              g0, gT, gD, gDT,
+                                                                                              r0, rT, rD, rDT,
+                                                                                              c0, cT, cD, cDT,
+                                                                                              k0, kT, kD, kDT);
 };
 
 TEST_F(MediumArbitraryTests, TypeIsArbitrary) {
@@ -97,7 +98,7 @@ TEST_F(MediumArbitraryTests, ConstructorFromMediumProperties) {
                                        r0, rT, rD, rDT,
                                        c0, cT, cD, cDT,
                                        k0, kT, kD, kDT);
-    auto generatedMedium = std::make_unique<MediumArbitrary<float>>(properties);
+    auto generatedMedium = make_unique<MediumArbitrary<float>>(properties);
     EXPECT_FLOAT_EQ(nondefaultMedium->refraction          (0, 0), n0);
     EXPECT_FLOAT_EQ(nondefaultMedium->refraction          (1, 0), n0 + nT);
     EXPECT_FLOAT_EQ(nondefaultMedium->refraction          (0, 1), n0 + nD);

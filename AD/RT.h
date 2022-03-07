@@ -41,9 +41,9 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& 
     using namespace std;
 
     /// TODO: a, tau, g - unused!
-    std::ignore = a;
-    std::ignore = tau;
-    std::ignore = g;
+    ignore = a;
+    ignore = tau;
+    ignore = g;
 
     const int m = M;
     Matrix<T,M,M> myRb = E<T,M>();
@@ -65,10 +65,10 @@ Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& 
     using namespace std;
 
     /// TODO: a, tau, g, w - unused!
-    std::ignore = a;
-    std::ignore = tau;
-    std::ignore = g;
-    std::ignore = w;
+    ignore = a;
+    ignore = tau;
+    ignore = g;
+    ignore = w;
 
     const int m = M;
     Matrix<T,M,M> myTb = E<T,M>();
