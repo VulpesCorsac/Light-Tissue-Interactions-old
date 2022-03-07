@@ -31,19 +31,21 @@ namespace Settings_NS {
 
 template < typename T >
 Physics_NS::Layer<T> Settings_NS::layerFromYaml(const YAML::Node& node) {
+    using namespace Physics_NS;
+
     std::optional<T> begin = std::nullopt;
     std::optional<T> end   = std::nullopt;
     std::optional<T> width = std::nullopt;
-    std::optional<Physics_NS::MediumProperties<T>> properties = std::nullopt;
+    std::optional<MediumProperties<T>> properties = std::nullopt;
 
     for (const auto it: valueNode(node)) {
         const auto key = it.first.as<std::string>();
         const auto value = it.second;
-        if (key == Settings_NS::SettingsStrings::Layer::Medium) {
+        if (key == SettingsStrings::Layer::Medium) {
             if (properties.has_value())
                 throw std::logic_error("Trying to set medium type twice");
             else
-                properties = Settings_NS::mediumProperties<T>(value);
+                properties = mediumProperties<T>(value);
         } else {
             auto helper = [&key, &value]
                           (const std::string& propertyString, std::optional<T>& propertyValue) -> void {
@@ -74,6 +76,6 @@ Physics_NS::Layer<T> Settings_NS::layerFromYaml(const YAML::Node& node) {
         throw std::logic_error("Layer doesn't have mediumProperties");
 
     if (width.has_value())
-        return Physics_NS::Layer<T>(Physics_NS::createMedium(properties.value()), width.value());
-    return Physics_NS::Layer<T>(Physics_NS::createMedium(properties.value()), begin.value(), end.value());
+        return Layer<T>(createMedium(properties.value()), width.value());
+    return Layer<T>(createMedium(properties.value()), begin.value(), end.value());
 }

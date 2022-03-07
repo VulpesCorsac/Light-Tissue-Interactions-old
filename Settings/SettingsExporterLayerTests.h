@@ -15,6 +15,7 @@ using namespace Physics_NS;
 using namespace Settings_NS;
 using namespace Utils_NS;
 using namespace YAML;
+using namespace std;
 
 TEST(SettingsExporterLayerTests, Glass) {
     constexpr int n0 = 2;
@@ -24,19 +25,19 @@ TEST(SettingsExporterLayerTests, Glass) {
     constexpr int width = 100;
 
     MediumProperties<int> properties(MediumType::Glass,
-                                     n0          , std::nullopt, std::nullopt, std::nullopt,
-                                     std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                     std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                     std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                     r0          , std::nullopt, std::nullopt, std::nullopt,
-                                     c0          , std::nullopt, std::nullopt, std::nullopt,
-                                     k0          , std::nullopt, std::nullopt, std::nullopt);
+                                     n0     , nullopt, nullopt, nullopt,
+                                     nullopt, nullopt, nullopt, nullopt,
+                                     nullopt, nullopt, nullopt, nullopt,
+                                     nullopt, nullopt, nullopt, nullopt,
+                                     r0     , nullopt, nullopt, nullopt,
+                                     c0     , nullopt, nullopt, nullopt,
+                                     k0     , nullopt, nullopt, nullopt);
 
     const auto propertiesYaml = mediumProperties(properties);
     const auto mediumStr = to_string(propertiesYaml);
-    const auto str = SettingsStrings::Layer::Begin + ": " + std::to_string(0    ) + "\n" +
-                     SettingsStrings::Layer::End   + ": " + std::to_string(width) + "\n" +
-                     SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
+    const auto str = SettingsStrings::Layer::Begin + ": " + to_string(0    ) + "\n" +
+                     SettingsStrings::Layer::End   + ": " + to_string(width) + "\n" +
+                     SettingsStrings::Layer::Width + ": " + to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
                      join(prepend(split(mediumStr, "\n"), "  "), "\n", false);
 
@@ -58,19 +59,19 @@ TEST(SettingsExporterLayerTests, Constant) {
     constexpr int width = 100;
 
     MediumProperties<int> properties(MediumType::Constant,
-                                     n0, std::nullopt, std::nullopt, std::nullopt,
-                                     a0, std::nullopt, std::nullopt, std::nullopt,
-                                     u0, std::nullopt, std::nullopt, std::nullopt,
-                                     g0, std::nullopt, std::nullopt, std::nullopt,
-                                     r0, std::nullopt, std::nullopt, std::nullopt,
-                                     c0, std::nullopt, std::nullopt, std::nullopt,
-                                     k0, std::nullopt, std::nullopt, std::nullopt);
+                                     n0, nullopt, nullopt, nullopt,
+                                     a0, nullopt, nullopt, nullopt,
+                                     u0, nullopt, nullopt, nullopt,
+                                     g0, nullopt, nullopt, nullopt,
+                                     r0, nullopt, nullopt, nullopt,
+                                     c0, nullopt, nullopt, nullopt,
+                                     k0, nullopt, nullopt, nullopt);
 
     const auto propertiesYaml = mediumProperties(properties);
     const auto mediumStr = to_string(propertiesYaml);
-    const auto str = SettingsStrings::Layer::Begin + ": " + std::to_string(0    ) + "\n" +
-                     SettingsStrings::Layer::End   + ": " + std::to_string(width) + "\n" +
-                     SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
+    const auto str = SettingsStrings::Layer::Begin + ": " + to_string(0    ) + "\n" +
+                     SettingsStrings::Layer::End   + ": " + to_string(width) + "\n" +
+                     SettingsStrings::Layer::Width + ": " + to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
                      join(prepend(split(mediumStr, "\n"), "  "), "\n", false);
 
@@ -106,19 +107,19 @@ TEST(SettingsExporterLayerTests, Linear) {
     constexpr int width = 100;
 
     MediumProperties<int> properties(MediumType::Linear,
-                                     n0, nT, nD, std::nullopt,
-                                     a0, aT, aD, std::nullopt,
-                                     u0, uT, uD, std::nullopt,
-                                     g0, gT, gD, std::nullopt,
-                                     r0, rT, rD, std::nullopt,
-                                     c0, cT, cD, std::nullopt,
-                                     k0, kT, kD, std::nullopt);
+                                     n0, nT, nD, nullopt,
+                                     a0, aT, aD, nullopt,
+                                     u0, uT, uD, nullopt,
+                                     g0, gT, gD, nullopt,
+                                     r0, rT, rD, nullopt,
+                                     c0, cT, cD, nullopt,
+                                     k0, kT, kD, nullopt);
 
     const auto propertiesYaml = mediumProperties(properties);
     const auto mediumStr = to_string(propertiesYaml);
-    const auto str = SettingsStrings::Layer::Begin + ": " + std::to_string(0    ) + "\n" +
-                     SettingsStrings::Layer::End   + ": " + std::to_string(width) + "\n" +
-                     SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
+    const auto str = SettingsStrings::Layer::Begin + ": " + to_string(0    ) + "\n" +
+                     SettingsStrings::Layer::End   + ": " + to_string(width) + "\n" +
+                     SettingsStrings::Layer::Width + ": " + to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
                      join(prepend(split(mediumStr, "\n"), "  "), "\n", false);
 
@@ -171,9 +172,9 @@ TEST(SettingsExporterLayerTests, Arbitrary) {
 
     const auto propertiesYaml = mediumProperties(properties);
     const auto mediumStr = to_string(propertiesYaml);
-    const auto str = SettingsStrings::Layer::Begin + ": " + std::to_string(0    ) + "\n" +
-                     SettingsStrings::Layer::End   + ": " + std::to_string(width) + "\n" +
-                     SettingsStrings::Layer::Width + ": " + std::to_string(width) + "\n" +
+    const auto str = SettingsStrings::Layer::Begin + ": " + to_string(0    ) + "\n" +
+                     SettingsStrings::Layer::End   + ": " + to_string(width) + "\n" +
+                     SettingsStrings::Layer::Width + ": " + to_string(width) + "\n" +
                      SettingsStrings::Layer::Medium + ":\n" +
                      join(prepend(split(mediumStr, "\n"), "  "), "\n", false);
 

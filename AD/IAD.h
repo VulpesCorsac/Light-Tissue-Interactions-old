@@ -119,13 +119,16 @@ T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
 
 template < typename T, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
 void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,1,gSize>& gridG) {
+    using namespace Math_NS;
     using namespace Minimization_NS;
+    using namespace std;
+
     T tMin = -5;
     T tMax = 3;
     if ((fix == FixedParameter::G && N == 2) || N == 3) {
-        std::cout << "Thick (tau > 2) or thin (tau < 2)? Thick = 0, thin = 1" << std::endl;
+        cout << "Thick (tau > 2) or thin (tau < 2)? Thick = 0, thin = 1" << endl;
         int thick;
-        std::cin >> thick;
+        cin >> thick;
         if (thick == 0) {
             tMin = 0;
             tMax = 4;
@@ -143,11 +146,11 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
         else if (x > 0.75)
             gridA(i) = 0.9999 * (1 - x) + 0.00001;
         else
-            gridA(i) = 0.9999 * Math_NS::sqr(1 - x) + 0.00001;
+            gridA(i) = 0.9999 * sqr(1 - x) + 0.00001;
         gridT(i) = pow(2, tMin + (tMax - tMin) * x);
         // gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;
         gridG(i) = 0.9999 * i / (gSize - 1.0) + 0.00001;
-        // std::cout << gridA(i) << " " << gridG(i) << std::endl;
+        // cout << gridA(i) << " " << gridG(i) << endl;
         /*
         if (x < 0.25)
             gridG(i) = 0.9999*(1 - x)+0.00001;
@@ -199,14 +202,14 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         T rs0 = 0;
         // RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
         cout << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
-      for (size_t i = 0; i < gSize; i++) {
-        for (size_t j = 0; j < gSize; j++) {
-            /// TODO: WHAT IS THIS 1E-6?
-            RTs<T,M>(gridA(i), gridT(j), g, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-            dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + eps);
-            // dist(i,j) = std::abs(rs0 - f.getRmeas()) + std::abs(ts0 - f.getTmeas());
+        for (size_t i = 0; i < gSize; i++) {
+            for (size_t j = 0; j < gSize; j++) {
+                /// TODO: WHAT IS THIS 1E-6?
+                RTs<T,M>(gridA(i), gridT(j), g, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + eps);
+                // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
+            }
         }
-      }
     }
     // cout << "wow" << endl;
     return dist;
@@ -215,6 +218,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
 template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
 void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
     using namespace Minimization_NS;
+    using namespace std;
 
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
@@ -225,40 +229,40 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
         const auto distancesMatrix = distances<T,M,N,gridSize,fix>(f, gridA, gridT, gridG, 0.0);
         int minRow, minCol;
         const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
-        std::ignore = mins;
-        // std::cout << "?" << std::endl;
+        ignore = mins;
+        // cout << "?" << endl;
         /*
-        std::cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << std::endl;
-        std::cout << gridA << std::endl;
-        std::cout << gridG << std::endl;
+        cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << endl;
+        cout << gridA << endl;
+        cout << gridG << endl;
         //*/
         if (fix == FixedParameter::Tau) {
             aStart = gridA(minRow);
             gStart = gridG(minCol);
             tStart = f.getTau();
-            std::cout << f.getTau() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << std::endl;
-            std::cout << gridA(minRow) << " " << gridG(minCol) << std::endl;
+            cout << f.getTau() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
+            cout << gridA(minRow) << " " << gridG(minCol) << endl;
         } else if (fix == FixedParameter::G) {
             aStart = gridA(minRow);
             tStart = gridT(minCol);
             gStart = f.getG();
-            std::cout << f.getG() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << std::endl;
+            cout << f.getG() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
         }
-        std::cout << aStart << " " << gStart << " " << tStart << std::endl;
+        cout << aStart << " " << gStart << " " << tStart << endl;
     } else if (N == 3) {
-        std::vector<T> vectorMins;
-        std::vector<std::pair<int,int>> vectorCoord;
+        vector<T> vectorMins;
+        vector<pair<int,int>> vectorCoord;
         for (int i = 0; i < gridSize; i++) {
             const auto distancesMatrix = distances<T,M,N,gridSize,fix>(f, gridA, gridT, gridG, gridG(i));
             int minRow, minCol;
             const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
             const T minHere = distancesMatrix.minCoeff();
             vectorMins.push_back(minHere);
-            vectorCoord.push_back(std::make_pair(minRow, minCol));
-            std::ignore = mins;
-            std::cout << gridG(i) << " " << gridA(minRow) << " " << gridT(minCol) << ": " << minHere << std::endl;
+            vectorCoord.push_back(make_pair(minRow, minCol));
+            ignore = mins;
+            cout << gridG(i) << " " << gridA(minRow) << " " << gridT(minCol) << ": " << minHere << endl;
         }
-        int minElementIndex = std::min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
+        int minElementIndex = min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
         aStart = gridA(vectorCoord[minElementIndex].first);
         tStart = gridT(vectorCoord[minElementIndex].second);
         gStart = gridG(minElementIndex);

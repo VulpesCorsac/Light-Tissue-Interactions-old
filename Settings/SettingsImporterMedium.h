@@ -34,35 +34,39 @@ namespace Settings_NS {
  ******************/
 
 Physics_NS::MediumType Settings_NS::mediumType(const YAML::Node& node) EXCEPT_INPUT_PARAMS {
+    using namespace Physics_NS;
+
     if (node.Type() == YAML::NodeType::Null) {
         FAIL_ARGUMENT_CONTRACT("Node is empty thus cannot evaluate medium type");
 
-        return Physics_NS::MediumType::Unknown;
+        return MediumType::Unknown;
     }
 
     if (node.Type() == YAML::NodeType::Scalar)
         return Physics_NS::mediumType(node.as<std::string>());
 
-    if (const auto valueNode = node[Settings_NS::SettingsStrings::Yaml::Value])
+    if (const auto valueNode = node[SettingsStrings::Yaml::Value])
         return Physics_NS::mediumType(valueNode.as<std::string>());
 
-    if (const auto value = node[Settings_NS::SettingsStrings::Medium::Type])
+    if (const auto value = node[SettingsStrings::Medium::Type])
         return Physics_NS::mediumType(value.as<std::string>());
 
     FAIL_ARGUMENT_CONTRACT("Not any branch was used for medium evaluation");
 
-    return Physics_NS::MediumType::Unknown;
+    return MediumType::Unknown;
 }
 
 template < typename T >
 Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& node) {
-    Physics_NS::MediumProperties<T> result;
+    using namespace Physics_NS;
+
+    MediumProperties<T> result;
 
     for (const auto it: valueNode(node)) {
         const auto key = it.first.as<std::string>();
         const auto value = it.second;
-        if (key == Settings_NS::SettingsStrings::Medium::Type) {
-            if (result.type == Physics_NS::MediumType::Unknown)
+        if (key == SettingsStrings::Medium::Type) {
+            if (result.type == MediumType::Unknown)
                 result.type = mediumType(value);
             else
                 throw std::logic_error("Trying to set medium type twice");
@@ -80,34 +84,34 @@ Physics_NS::MediumProperties<T> Settings_NS::mediumProperties(const YAML::Node& 
                 }
             };
 
-            helper(Settings_NS::SettingsStrings::Medium::N0 , result.n0 );
-            helper(Settings_NS::SettingsStrings::Medium::NT , result.nT );
-            helper(Settings_NS::SettingsStrings::Medium::ND , result.nD );
-            helper(Settings_NS::SettingsStrings::Medium::NDT, result.nDT);
-            helper(Settings_NS::SettingsStrings::Medium::A0 , result.a0 );
-            helper(Settings_NS::SettingsStrings::Medium::AT , result.aT );
-            helper(Settings_NS::SettingsStrings::Medium::AD , result.aD );
-            helper(Settings_NS::SettingsStrings::Medium::ADT, result.aDT);
-            helper(Settings_NS::SettingsStrings::Medium::U0 , result.u0 );
-            helper(Settings_NS::SettingsStrings::Medium::UT , result.uT );
-            helper(Settings_NS::SettingsStrings::Medium::UD , result.uD );
-            helper(Settings_NS::SettingsStrings::Medium::UDT, result.uDT);
-            helper(Settings_NS::SettingsStrings::Medium::G0 , result.g0 );
-            helper(Settings_NS::SettingsStrings::Medium::GT , result.gT );
-            helper(Settings_NS::SettingsStrings::Medium::GD , result.gD );
-            helper(Settings_NS::SettingsStrings::Medium::GDT, result.gDT);
-            helper(Settings_NS::SettingsStrings::Medium::R0 , result.r0 );
-            helper(Settings_NS::SettingsStrings::Medium::RT , result.rT );
-            helper(Settings_NS::SettingsStrings::Medium::RD , result.rD );
-            helper(Settings_NS::SettingsStrings::Medium::RDT, result.rDT);
-            helper(Settings_NS::SettingsStrings::Medium::C0 , result.c0 );
-            helper(Settings_NS::SettingsStrings::Medium::CT , result.cT );
-            helper(Settings_NS::SettingsStrings::Medium::CD , result.cD );
-            helper(Settings_NS::SettingsStrings::Medium::CDT, result.cDT);
-            helper(Settings_NS::SettingsStrings::Medium::K0 , result.k0 );
-            helper(Settings_NS::SettingsStrings::Medium::KT , result.kT );
-            helper(Settings_NS::SettingsStrings::Medium::KD , result.kD );
-            helper(Settings_NS::SettingsStrings::Medium::KDT, result.kDT);
+            helper(SettingsStrings::Medium::N0 , result.n0 );
+            helper(SettingsStrings::Medium::NT , result.nT );
+            helper(SettingsStrings::Medium::ND , result.nD );
+            helper(SettingsStrings::Medium::NDT, result.nDT);
+            helper(SettingsStrings::Medium::A0 , result.a0 );
+            helper(SettingsStrings::Medium::AT , result.aT );
+            helper(SettingsStrings::Medium::AD , result.aD );
+            helper(SettingsStrings::Medium::ADT, result.aDT);
+            helper(SettingsStrings::Medium::U0 , result.u0 );
+            helper(SettingsStrings::Medium::UT , result.uT );
+            helper(SettingsStrings::Medium::UD , result.uD );
+            helper(SettingsStrings::Medium::UDT, result.uDT);
+            helper(SettingsStrings::Medium::G0 , result.g0 );
+            helper(SettingsStrings::Medium::GT , result.gT );
+            helper(SettingsStrings::Medium::GD , result.gD );
+            helper(SettingsStrings::Medium::GDT, result.gDT);
+            helper(SettingsStrings::Medium::R0 , result.r0 );
+            helper(SettingsStrings::Medium::RT , result.rT );
+            helper(SettingsStrings::Medium::RD , result.rD );
+            helper(SettingsStrings::Medium::RDT, result.rDT);
+            helper(SettingsStrings::Medium::C0 , result.c0 );
+            helper(SettingsStrings::Medium::CT , result.cT );
+            helper(SettingsStrings::Medium::CD , result.cD );
+            helper(SettingsStrings::Medium::CDT, result.cDT);
+            helper(SettingsStrings::Medium::K0 , result.k0 );
+            helper(SettingsStrings::Medium::KT , result.kT );
+            helper(SettingsStrings::Medium::KD , result.kD );
+            helper(SettingsStrings::Medium::KDT, result.kDT);
         }
     }
 

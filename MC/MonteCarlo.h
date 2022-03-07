@@ -208,21 +208,22 @@ void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photon) {
-    using namespace std;
+    using namespace Math_NS;
     using namespace Utils_NS;
+    using namespace std;
 
     /*
-    for (int i = 0; i < Utils_NS::isize(SpheresArrayR); i++) {
+    for (int i = 0; i < isize(SpheresArrayR); i++) {
         T step = abs((SpheresArrayR[i].getDistance() - abs(exit_photon.coordinate.z))/ exit_photon.direction.z);
         exit_photon.coordinate += step * exit_photon.direction;
         if (debug && exit_photon.number == debugPhoton)
             cout << exit_photon << endl;
-        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereR.getDPort1() / 2)) {
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
             T stepSphere = abs(mainSphereR.getDSphere()/ exit_photon.direction.z);
             exit_photon.coordinate += stepSphere * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
                 cout << exit_photon << endl;
-            if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereR.getDPort2() /2)) {
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() /2)) {
                 SpheresArrayR[i].totalLight += exit_photon.weight;
                 if (debug && exit_photon.number == debugPhoton)
                     cout << "caught by R sphere " << i << endl;
@@ -248,26 +249,26 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
         arrayAnglesR[iTheta] += exit_photon.weight;
     }
     /// weird thorlabs sphere
-    // cout << Utils_NS::isize(SpheresArrayR) << endl;
-    for (int i = 0; i < Utils_NS::isize(SpheresArrayR); i++) {
+    // cout << isize(SpheresArrayR) << endl;
+    for (int i = 0; i < isize(SpheresArrayR); i++) {
         T step = abs((SpheresArrayR[i].getDistance() - abs(exit_photon.coordinate.z))/ exit_photon.direction.z);
         exit_photon.coordinate += step * exit_photon.direction;
         if (debug && exit_photon.number == debugPhoton)
             cout << "to sphere \n" << exit_photon << endl;
-        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereR.getDPort1() / 2)) { // gets inside tunnel
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) { // gets inside tunnel
             T stepDarkTunnel = abs(0.003 / exit_photon.direction.z); // black part of tunnel is 3mm long
             exit_photon.coordinate += stepDarkTunnel * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
                 cout << "in tunnel \n"<< exit_photon << endl;
-            if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereR.getDPort1() / 2)) {
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
                 T stepLightTunnel = abs(0.009 / exit_photon.direction.z);
                 exit_photon.coordinate += stepLightTunnel * exit_photon.direction;
                 if (debug && exit_photon.number == debugPhoton)
                     cout << "in light tunnel \n"<< exit_photon << endl;
-                if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereR.getDPort1() / 2)) {
+                if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereR.getDPort1() / 2)) {
                     T stepSphere = abs(mainSphereR.getDSphere() / exit_photon.direction.z);
                     exit_photon.coordinate += stepSphere * exit_photon.direction;
-                    if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereR.getDPort2() / 2)) {
+                    if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() / 2)) {
                         SpheresArrayR[i].totalLight += exit_photon.weight;
                         if (debug && exit_photon.number == debugPhoton)
                             cout << "caught by R sphere \n" << exit_photon << endl;
@@ -279,7 +280,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
                         exit_photon.coordinate += stepLightTunnel2 * exit_photon.direction;
                         if (debug && exit_photon.number == debugPhoton)
                             cout << "in light tunnel2 \n"<< exit_photon << endl;
-                        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereR.getDPort2() / 2)) {
+                        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereR.getDPort2() / 2)) {
                             SpheresArrayR[i].totalLight += 0.3 * exit_photon.weight;
                             if (debug && exit_photon.number == debugPhoton)
                                 cout << "caught by tunnel \n" << exit_photon << endl;
@@ -310,21 +311,22 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photon) {
-    using namespace std;
+    using namespace Math_NS;
     using namespace Utils_NS;
+    using namespace std;
 
     /*
-    for (int i = 0; i < Utils_NS::isize(SpheresArrayT); i++) {
+    for (int i = 0; i < isize(SpheresArrayT); i++) {
         T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
          exit_photon.coordinate += step * exit_photon.direction;
          if (debug && exit_photon.number == debugPhoton)
             cout << exit_photon << endl;
-        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereT.getDPort1() / 2)) {
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
             T stepSphere = abs(mainSphereT.getDSphere() / exit_photon.direction.z);
             exit_photon.coordinate += stepSphere * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
                 cout << exit_photon << endl;
-            if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereT.getDPort2() / 2)) {
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
                 SpheresArrayT[i].totalLight += exit_photon.weight;
                 if (debug && exit_photon.number == debugPhoton)
                     cout << "caught by T sphere " << i << endl;
@@ -349,26 +351,26 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
             iTheta = floor((M_PI + theta) / (M_PI / 100));
         arrayAnglesT[iTheta] += exit_photon.weight;
     }
-    ///weird thorlabs spheres with long tunnel
-    for (int i = 0; i < Utils_NS::isize(SpheresArrayT); i++) {
+    /// weird thorlabs spheres with long tunnel
+    for (int i = 0; i < isize(SpheresArrayT); i++) {
         T step = abs(((SpheresArrayT[i].getDistance() + sample.getTotalThickness()) - exit_photon.coordinate.z)/ exit_photon.direction.z);
         exit_photon.coordinate += step * exit_photon.direction;
         if (debug && exit_photon.number == debugPhoton)
             cout << "to sphere \n" << exit_photon << endl;
-        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereT.getDPort1() / 2)) { // gets inside tunnel
+        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) { // gets inside tunnel
             T stepDarkTunnel = abs(0.003 / exit_photon.direction.z); // black part of tunnel is 3mm long
             exit_photon.coordinate += stepDarkTunnel * exit_photon.direction;
             if (debug && exit_photon.number == debugPhoton)
                 cout << "in tunnel \n"<< exit_photon << endl;
-            if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereT.getDPort1() / 2)) {
+            if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
                 T stepLightTunnel = abs(0.009 / exit_photon.direction.z);
                 exit_photon.coordinate += stepLightTunnel * exit_photon.direction;
                 if (debug && exit_photon.number == debugPhoton)
                     cout << "in light tunnel \n"<< exit_photon << endl;
-                if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) < Math_NS::sqr(mainSphereT.getDPort1() / 2)) {
+                if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) < sqr(mainSphereT.getDPort1() / 2)) {
                     T stepSphere = abs(mainSphereT.getDSphere() / exit_photon.direction.z);
                     exit_photon.coordinate += stepSphere * exit_photon.direction;
-                    if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereT.getDPort2() / 2)) {
+                    if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
                         SpheresArrayT[i].totalLight += exit_photon.weight;
                         if (debug && exit_photon.number == debugPhoton)
                             cout << "caught by R sphere \n" << exit_photon << endl;
@@ -380,7 +382,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
                         exit_photon.coordinate += stepLightTunnel2 * exit_photon.direction;
                         if (debug && exit_photon.number == debugPhoton)
                             cout << "in light tunnel2 \n"<< exit_photon << endl;
-                        if ((Math_NS::sqr(exit_photon.coordinate.x) + Math_NS::sqr(exit_photon.coordinate.y)) >= Math_NS::sqr(mainSphereT.getDPort2() / 2)) {
+                        if ((sqr(exit_photon.coordinate.x) + sqr(exit_photon.coordinate.y)) >= sqr(mainSphereT.getDPort2() / 2)) {
                             SpheresArrayT[i].totalLight += 0.3 * exit_photon.weight;
                             if (debug && exit_photon.number == debugPhoton)
                                 cout << "caught by tunnel \n" << exit_photon << endl;
@@ -411,6 +413,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photo
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
+    using namespace Math_NS;
     using namespace Physics_NS;
     using namespace Utils_NS;
     using namespace std;
@@ -426,10 +429,10 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
         const auto R1 = FresnelReflectance(ni, nt, cosi);
         const auto n3 = sample.getMedium(1).n;
         const auto R2 = FresnelReflectance(nt, n3, cost);
-        Ri = R1 + (Math_NS::sqr(1 - R1) * R2) / (1 - R1 * R2);
+        Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
     }
 
-    const auto r = sqrt(Math_NS::sqr(photon.coordinate.x) + Math_NS::sqr(photon.coordinate.y));
+    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r / dr);
 
     RRspecular(min(ir, Nr-1)) += Ri * photon.weight;
@@ -529,8 +532,8 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInGlass(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
-    using namespace std;
     using namespace Math_NS;
+    using namespace std;
 
     const auto mT = sample.getMedium(photon.layer).ut;
     if (photon.stepLeft == 0) // new step
@@ -543,10 +546,11 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::RecordR(Photon<T>& photon, const T& FRefl, const T& cosT) {
-    using namespace std;
+    using namespace Math_NS;
     using namespace Utils_NS;
+    using namespace std;
 
-    const auto r = sqrt(Math_NS::sqr(photon.coordinate.x) + Math_NS::sqr(photon.coordinate.y));
+    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r/dr);
 
     RR(min(ir, Nr-1)) += (1 - FRefl) * photon.weight;
@@ -567,10 +571,11 @@ void MonteCarlo<T,Nz,Nr,detector>::RecordR(Photon<T>& photon, const T& FRefl, co
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::RecordT(Photon<T>& photon, const T& FRefl, const T& cosT) {
-    using namespace std;
+    using namespace Math_NS;
     using namespace Utils_NS;
+    using namespace std;
 
-    const auto r = sqrt(Math_NS::sqr(photon.coordinate.x) + Math_NS::sqr(photon.coordinate.y));
+    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r/dr);
 
     TT(min(ir, Nr-1)) += (1 - FRefl) * photon.weight;
@@ -596,11 +601,12 @@ void MonteCarlo<T,Nz,Nr,detector>::Hop(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
-    using namespace std;
+    using namespace Math_NS;
     using namespace Utils_NS;
+    using namespace std;
 
     const int layer = photon.layer;
-    const auto r = sqrt(Math_NS::sqr(photon.coordinate.x) + Math_NS::sqr(photon.coordinate.y));
+    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
     const size_t ir = floor(r / dr);
     const size_t iz = abs(floor(photon.coordinate.z / dz));
 
@@ -614,15 +620,15 @@ void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
-    using namespace std;
-    using namespace Utils_NS;
     using namespace Math_NS;
+    using namespace Utils_NS;
+    using namespace std;
 
     const int layer = photon.layer;
     const T g = sample.getMedium(layer).g;
 
     const auto RND1 = random<T>(0, 1);
-    T cosHG = (1 + Math_NS::sqr(g) - Math_NS::sqr((1 - Math_NS::sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
+    T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
     if (g == 0)
         cosHG = 2 * RND1 - 1;
     else if (g == 1)
@@ -638,8 +644,8 @@ void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
     T uy = photon.direction.y;
     T uz = photon.direction.z;
 
-    const auto sinHG = sqrt(1 - Math_NS::sqr(cosHG));
-    const auto temp  = sqrt(1 - Math_NS::sqr(uz));
+    const auto sinHG = sqrt(1 - sqr(cosHG));
+    const auto temp  = sqrt(1 - sqr(uz));
 
     T uxx = +sinHG * (ux * uz * cos(phi) - uy * sin(phi)) / temp + ux * cosHG;
     T uyy = +sinHG * (uy * uz * cos(phi) + ux * sin(phi)) / temp + uy * cosHG;
@@ -681,9 +687,9 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossOrNot(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
-    using namespace std;
     using namespace Math_NS;
     using namespace Physics_NS;
+    using namespace std;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossUpOrNot" << endl;
@@ -720,9 +726,9 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
-    using namespace std;
     using namespace Math_NS;
     using namespace Physics_NS;
+    using namespace std;
 
     if (debug && photon.number == debugPhoton)
         cout << "CrossDownOrNot" << endl;
@@ -758,8 +764,8 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Roulette(Photon<T>& photon) {
-    using namespace std;
     using namespace Math_NS;
+    using namespace std;
 
     if (photon.weight < threshold) {
         const auto RND = random<T>(0, 1);
@@ -779,12 +785,13 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num) {
     using namespace Math_NS;
     using namespace std;
+
     const T radius = 1e-3;
     T RNDx, RNDy;
     do {
         RNDx = random<T>(-1, 1);
         RNDy = random<T>(-1, 1);
-    } while ((Math_NS::sqr(RNDx) + Math_NS::sqr(RNDy)) > 1);
+    } while ((sqr(RNDx) + sqr(RNDy)) > 1);
     const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);
 
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
@@ -805,14 +812,14 @@ T MonteCarlo<T,Nz,Nr,detector>::Volume(const T& ir) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
-    return 2 * M_PI * (ir - 0.5) * Math_NS::sqr(dr);
+    return 2 * M_PI * (ir - 0.5) * sqr(dr);
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& res) {
-    using namespace std;
     using namespace Physics_NS;
     using namespace Utils_NS;
+    using namespace std;
 
     for (int i = 0; i < Nphotons; i++) {
         Photon<T> myPhoton;
@@ -840,7 +847,7 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     if (detector == 1) {
         results.SpheresArrayR = SpheresArrayR;
         results.SpheresArrayT = SpheresArrayT;
-        for (int i = 0; i < Utils_NS::isize(SpheresArrayR); i++) {
+        for (int i = 0; i < isize(SpheresArrayR); i++) {
             /// TODO: use {} instead to make pair
             results.detectedR.push_back(make_pair(SpheresArrayR[i].getDistance(), SpheresArrayR[i].totalLight / Nphotons));
             results.detectedT.push_back(make_pair(SpheresArrayT[i].getDistance(), SpheresArrayT[i].totalLight / Nphotons));
@@ -848,7 +855,7 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     }
     /*
     else {
-        for (int i = 0; i < Utils_NS::isize(FibersArrayR); i++) {
+        for (int i = 0; i < isize(FibersArrayR); i++) {
             results.detectedR.push_back(make_pair(FibersArrayR[i].getDistance(), FibersArrayR[i].totalLight / Nphotons));
             results.detectedT.push_back(make_pair(FibersArrayT[i].getDistance(), FibersArrayT[i].totalLight / Nphotons));
         }

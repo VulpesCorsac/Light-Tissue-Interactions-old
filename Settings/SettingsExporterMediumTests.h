@@ -9,6 +9,7 @@
 
 using namespace Physics_NS;
 using namespace Settings_NS;
+using namespace std;
 
 #define TEST_MEDIUM_TYPE_TO_YAML(TYPE)                       \
 TEST(SettingsExporterMediumTests, MediumTypeToYaml_##TYPE) { \
@@ -42,22 +43,22 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Glass) {
     constexpr float k0 = 8;
 
     MediumProperties<float> properties(MediumType::Glass,
-                                       n0          , std::nullopt, std::nullopt, std::nullopt,
-                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                       std::nullopt, std::nullopt, std::nullopt, std::nullopt,
-                                       r0          , std::nullopt, std::nullopt, std::nullopt,
-                                       c0          , std::nullopt, std::nullopt, std::nullopt,
-                                       k0          , std::nullopt, std::nullopt, std::nullopt);
+                                       n0     , nullopt, nullopt, nullopt,
+                                       nullopt, nullopt, nullopt, nullopt,
+                                       nullopt, nullopt, nullopt, nullopt,
+                                       nullopt, nullopt, nullopt, nullopt,
+                                       r0     , nullopt, nullopt, nullopt,
+                                       c0     , nullopt, nullopt, nullopt,
+                                       k0     , nullopt, nullopt, nullopt);
 
     const auto result = mediumProperties(properties);
     EXPECT_EQ(
         to_string(result),
         SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Glass + "\n" +
-        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)       + "\n" +
-        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)       + "\n" +
-        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)       + "\n" +
-        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)
+        SettingsStrings::Medium::N0   + ": " + to_string(n0)            + "\n" +
+        SettingsStrings::Medium::R0   + ": " + to_string(r0)            + "\n" +
+        SettingsStrings::Medium::C0   + ": " + to_string(c0)            + "\n" +
+        SettingsStrings::Medium::K0   + ": " + to_string(k0)
     );
 }
 
@@ -71,25 +72,25 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Constant) {
     constexpr float k0 = 8;
 
     MediumProperties<float> properties(MediumType::Constant,
-                                       n0, std::nullopt, std::nullopt, std::nullopt,
-                                       a0, std::nullopt, std::nullopt, std::nullopt,
-                                       u0, std::nullopt, std::nullopt, std::nullopt,
-                                       g0, std::nullopt, std::nullopt, std::nullopt,
-                                       r0, std::nullopt, std::nullopt, std::nullopt,
-                                       c0, std::nullopt, std::nullopt, std::nullopt,
-                                       k0, std::nullopt, std::nullopt, std::nullopt);
+                                       n0, nullopt, nullopt, nullopt,
+                                       a0, nullopt, nullopt, nullopt,
+                                       u0, nullopt, nullopt, nullopt,
+                                       g0, nullopt, nullopt, nullopt,
+                                       r0, nullopt, nullopt, nullopt,
+                                       c0, nullopt, nullopt, nullopt,
+                                       k0, nullopt, nullopt, nullopt);
 
     const auto result = mediumProperties(properties);
     EXPECT_EQ(
         to_string(result),
         SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Constant + "\n" +
-        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)          + "\n" +
-        SettingsStrings::Medium::A0   + ": " + std::to_string(a0)          + "\n" +
-        SettingsStrings::Medium::U0   + ": " + std::to_string(u0)          + "\n" +
-        SettingsStrings::Medium::G0   + ": " + std::to_string(g0)          + "\n" +
-        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)          + "\n" +
-        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)          + "\n" +
-        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)
+        SettingsStrings::Medium::N0   + ": " + to_string(n0)               + "\n" +
+        SettingsStrings::Medium::A0   + ": " + to_string(a0)               + "\n" +
+        SettingsStrings::Medium::U0   + ": " + to_string(u0)               + "\n" +
+        SettingsStrings::Medium::G0   + ": " + to_string(g0)               + "\n" +
+        SettingsStrings::Medium::R0   + ": " + to_string(r0)               + "\n" +
+        SettingsStrings::Medium::C0   + ": " + to_string(c0)               + "\n" +
+        SettingsStrings::Medium::K0   + ": " + to_string(k0)
     );
 }
 
@@ -117,39 +118,39 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Linear) {
     constexpr float kD = 22;
 
     MediumProperties<float> properties(MediumType::Linear,
-                                       n0, nT, nD, std::nullopt,
-                                       a0, aT, aD, std::nullopt,
-                                       u0, uT, uD, std::nullopt,
-                                       g0, gT, gD, std::nullopt,
-                                       r0, rT, rD, std::nullopt,
-                                       c0, cT, cD, std::nullopt,
-                                       k0, kT, kD, std::nullopt);
+                                       n0, nT, nD, nullopt,
+                                       a0, aT, aD, nullopt,
+                                       u0, uT, uD, nullopt,
+                                       g0, gT, gD, nullopt,
+                                       r0, rT, rD, nullopt,
+                                       c0, cT, cD, nullopt,
+                                       k0, kT, kD, nullopt);
 
     const auto result = mediumProperties(properties);
     EXPECT_EQ(
         to_string(result),
         SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Linear + "\n" +
-        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)        + "\n" +
-        SettingsStrings::Medium::NT   + ": " + std::to_string(nT)        + "\n" +
-        SettingsStrings::Medium::ND   + ": " + std::to_string(nD)        + "\n" +
-        SettingsStrings::Medium::A0   + ": " + std::to_string(a0)        + "\n" +
-        SettingsStrings::Medium::AT   + ": " + std::to_string(aT)        + "\n" +
-        SettingsStrings::Medium::AD   + ": " + std::to_string(aD)        + "\n" +
-        SettingsStrings::Medium::U0   + ": " + std::to_string(u0)        + "\n" +
-        SettingsStrings::Medium::UT   + ": " + std::to_string(uT)        + "\n" +
-        SettingsStrings::Medium::UD   + ": " + std::to_string(uD)        + "\n" +
-        SettingsStrings::Medium::G0   + ": " + std::to_string(g0)        + "\n" +
-        SettingsStrings::Medium::GT   + ": " + std::to_string(gT)        + "\n" +
-        SettingsStrings::Medium::GD   + ": " + std::to_string(gD)        + "\n" +
-        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)        + "\n" +
-        SettingsStrings::Medium::RT   + ": " + std::to_string(rT)        + "\n" +
-        SettingsStrings::Medium::RD   + ": " + std::to_string(rD)        + "\n" +
-        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)        + "\n" +
-        SettingsStrings::Medium::CT   + ": " + std::to_string(cT)        + "\n" +
-        SettingsStrings::Medium::CD   + ": " + std::to_string(cD)        + "\n" +
-        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)        + "\n" +
-        SettingsStrings::Medium::KT   + ": " + std::to_string(kT)        + "\n" +
-        SettingsStrings::Medium::KD   + ": " + std::to_string(kD)
+        SettingsStrings::Medium::N0   + ": " + to_string(n0)             + "\n" +
+        SettingsStrings::Medium::NT   + ": " + to_string(nT)             + "\n" +
+        SettingsStrings::Medium::ND   + ": " + to_string(nD)             + "\n" +
+        SettingsStrings::Medium::A0   + ": " + to_string(a0)             + "\n" +
+        SettingsStrings::Medium::AT   + ": " + to_string(aT)             + "\n" +
+        SettingsStrings::Medium::AD   + ": " + to_string(aD)             + "\n" +
+        SettingsStrings::Medium::U0   + ": " + to_string(u0)             + "\n" +
+        SettingsStrings::Medium::UT   + ": " + to_string(uT)             + "\n" +
+        SettingsStrings::Medium::UD   + ": " + to_string(uD)             + "\n" +
+        SettingsStrings::Medium::G0   + ": " + to_string(g0)             + "\n" +
+        SettingsStrings::Medium::GT   + ": " + to_string(gT)             + "\n" +
+        SettingsStrings::Medium::GD   + ": " + to_string(gD)             + "\n" +
+        SettingsStrings::Medium::R0   + ": " + to_string(r0)             + "\n" +
+        SettingsStrings::Medium::RT   + ": " + to_string(rT)             + "\n" +
+        SettingsStrings::Medium::RD   + ": " + to_string(rD)             + "\n" +
+        SettingsStrings::Medium::C0   + ": " + to_string(c0)             + "\n" +
+        SettingsStrings::Medium::CT   + ": " + to_string(cT)             + "\n" +
+        SettingsStrings::Medium::CD   + ": " + to_string(cD)             + "\n" +
+        SettingsStrings::Medium::K0   + ": " + to_string(k0)             + "\n" +
+        SettingsStrings::Medium::KT   + ": " + to_string(kT)             + "\n" +
+        SettingsStrings::Medium::KD   + ": " + to_string(kD)
     );
 }
 
@@ -196,33 +197,33 @@ TEST(SettingsExporterMediumTests, MediumPropertiesToYaml_Arbitrary) {
     EXPECT_EQ(
         to_string(result),
         SettingsStrings::Medium::Type + ": " + MediumTypeStrings::Arbitrary + "\n" +
-        SettingsStrings::Medium::N0   + ": " + std::to_string(n0)           + "\n" +
-        SettingsStrings::Medium::NT   + ": " + std::to_string(nT)           + "\n" +
-        SettingsStrings::Medium::ND   + ": " + std::to_string(nD)           + "\n" +
-        SettingsStrings::Medium::NDT  + ": " + std::to_string(nDT)          + "\n" +
-        SettingsStrings::Medium::A0   + ": " + std::to_string(a0)           + "\n" +
-        SettingsStrings::Medium::AT   + ": " + std::to_string(aT)           + "\n" +
-        SettingsStrings::Medium::AD   + ": " + std::to_string(aD)           + "\n" +
-        SettingsStrings::Medium::ADT  + ": " + std::to_string(aDT)          + "\n" +
-        SettingsStrings::Medium::U0   + ": " + std::to_string(u0)           + "\n" +
-        SettingsStrings::Medium::UT   + ": " + std::to_string(uT)           + "\n" +
-        SettingsStrings::Medium::UD   + ": " + std::to_string(uD)           + "\n" +
-        SettingsStrings::Medium::UDT  + ": " + std::to_string(uDT)          + "\n" +
-        SettingsStrings::Medium::G0   + ": " + std::to_string(g0)           + "\n" +
-        SettingsStrings::Medium::GT   + ": " + std::to_string(gT)           + "\n" +
-        SettingsStrings::Medium::GD   + ": " + std::to_string(gD)           + "\n" +
-        SettingsStrings::Medium::GDT  + ": " + std::to_string(gDT)          + "\n" +
-        SettingsStrings::Medium::R0   + ": " + std::to_string(r0)           + "\n" +
-        SettingsStrings::Medium::RT   + ": " + std::to_string(rT)           + "\n" +
-        SettingsStrings::Medium::RD   + ": " + std::to_string(rD)           + "\n" +
-        SettingsStrings::Medium::RDT  + ": " + std::to_string(rDT)          + "\n" +
-        SettingsStrings::Medium::C0   + ": " + std::to_string(c0)           + "\n" +
-        SettingsStrings::Medium::CT   + ": " + std::to_string(cT)           + "\n" +
-        SettingsStrings::Medium::CD   + ": " + std::to_string(cD)           + "\n" +
-        SettingsStrings::Medium::CDT  + ": " + std::to_string(cDT)          + "\n" +
-        SettingsStrings::Medium::K0   + ": " + std::to_string(k0)           + "\n" +
-        SettingsStrings::Medium::KT   + ": " + std::to_string(kT)           + "\n" +
-        SettingsStrings::Medium::KD   + ": " + std::to_string(kD)           + "\n" +
-        SettingsStrings::Medium::KDT  + ": " + std::to_string(kDT)
+        SettingsStrings::Medium::N0   + ": " + to_string(n0)                + "\n" +
+        SettingsStrings::Medium::NT   + ": " + to_string(nT)                + "\n" +
+        SettingsStrings::Medium::ND   + ": " + to_string(nD)                + "\n" +
+        SettingsStrings::Medium::NDT  + ": " + to_string(nDT)               + "\n" +
+        SettingsStrings::Medium::A0   + ": " + to_string(a0)                + "\n" +
+        SettingsStrings::Medium::AT   + ": " + to_string(aT)                + "\n" +
+        SettingsStrings::Medium::AD   + ": " + to_string(aD)                + "\n" +
+        SettingsStrings::Medium::ADT  + ": " + to_string(aDT)               + "\n" +
+        SettingsStrings::Medium::U0   + ": " + to_string(u0)                + "\n" +
+        SettingsStrings::Medium::UT   + ": " + to_string(uT)                + "\n" +
+        SettingsStrings::Medium::UD   + ": " + to_string(uD)                + "\n" +
+        SettingsStrings::Medium::UDT  + ": " + to_string(uDT)               + "\n" +
+        SettingsStrings::Medium::G0   + ": " + to_string(g0)                + "\n" +
+        SettingsStrings::Medium::GT   + ": " + to_string(gT)                + "\n" +
+        SettingsStrings::Medium::GD   + ": " + to_string(gD)                + "\n" +
+        SettingsStrings::Medium::GDT  + ": " + to_string(gDT)               + "\n" +
+        SettingsStrings::Medium::R0   + ": " + to_string(r0)                + "\n" +
+        SettingsStrings::Medium::RT   + ": " + to_string(rT)                + "\n" +
+        SettingsStrings::Medium::RD   + ": " + to_string(rD)                + "\n" +
+        SettingsStrings::Medium::RDT  + ": " + to_string(rDT)               + "\n" +
+        SettingsStrings::Medium::C0   + ": " + to_string(c0)                + "\n" +
+        SettingsStrings::Medium::CT   + ": " + to_string(cT)                + "\n" +
+        SettingsStrings::Medium::CD   + ": " + to_string(cD)                + "\n" +
+        SettingsStrings::Medium::CDT  + ": " + to_string(cDT)               + "\n" +
+        SettingsStrings::Medium::K0   + ": " + to_string(k0)                + "\n" +
+        SettingsStrings::Medium::KT   + ": " + to_string(kT)                + "\n" +
+        SettingsStrings::Medium::KD   + ": " + to_string(kD)                + "\n" +
+        SettingsStrings::Medium::KDT  + ": " + to_string(kDT)
     );
 }

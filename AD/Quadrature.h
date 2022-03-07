@@ -45,7 +45,9 @@ Quadrature<T,M>::Quadrature(T nSlab) {
 
 template < typename T, size_t M >
 void Quadrature<T,M>::setValues(const T& nSlab) noexcept {
-    vc = Physics_NS::CriticalCos(nSlab);
+    using namespace Physics_NS;
+
+    vc = CriticalCos(nSlab);
 }
 
 template < typename T, size_t M >

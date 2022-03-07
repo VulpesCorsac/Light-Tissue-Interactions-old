@@ -109,7 +109,7 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n0, const T& nT, const 
                                                 const T& r0, const T& rT, const T& rD, const T& rDT,
                                                 const T& c0, const T& cT, const T& cD, const T& cDT,
                                                 const T& k0, const T& kT, const T& kD, const T& kDT) noexcept
-    : Physics_NS::MediumArbitrary<T>::Base(MediumType::Arbitrary)
+    : Base(MediumType::Arbitrary)
     , n0(n0), nT(nT), nD(nD), nDT(nDT)
     , a0(a0), aT(aT), aD(aD), aDT(aDT)
     , u0(u0), uT(uT), uD(uD), uDT(uDT)
@@ -121,7 +121,7 @@ Physics_NS::MediumArbitrary<T>::MediumArbitrary(const T& n0, const T& nT, const 
 
 template < typename T >
 Physics_NS::MediumArbitrary<T>::MediumArbitrary(const MediumProperties<T>& properties) noexcept
-    : Physics_NS::MediumArbitrary<T>::Base(MediumType::Arbitrary)
+    : Base(MediumType::Arbitrary)
     , n0 (properties.n0.has_value()  ? properties.n0.value()  : 1)
     , nT (properties.nT.has_value()  ? properties.nT.value()  : 0)
     , nD (properties.nD.has_value()  ? properties.nD.value()  : 0)

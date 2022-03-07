@@ -38,6 +38,7 @@ Matrix<T,M,M> Tslab(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const st
 template < typename T, size_t M >
 Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
+    using namespace std;
 
     /// TODO: a, tau, g - unused!
     std::ignore = a;
@@ -53,7 +54,7 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& 
 
         CHECK_RUNTIME_CONTRACT(cached3 != 1);
 
-        myRb(i, i) = std::real(twoaw<T,M>(v, w)(i) * (cached2 + cached1 - 2 * cached3)) / (1 - cached3);
+        myRb(i, i) = real(twoaw<T,M>(v, w)(i) * (cached2 + cached1 - 2 * cached3)) / (1 - cached3);
     }
     return myRb;
 }
@@ -61,6 +62,7 @@ Matrix<T,M,M> Rbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& 
 template < typename T, size_t M >
 Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
+    using namespace std;
 
     /// TODO: a, tau, g, w - unused!
     std::ignore = a;
@@ -77,7 +79,7 @@ Matrix<T,M,M> Tbound(T a, T tau, T g, T nSlab, T nSlide, const std::array<T,M>& 
 
         CHECK_RUNTIME_CONTRACT(cached3 != 1);
 
-        myTb(i, i) = std::real(1 - (cached2 + cached1 - 2 * cached3) / (1 - cached3));
+        myTb(i, i) = real(1 - (cached2 + cached1 - 2 * cached3) / (1 - cached3));
     }
     return myTb;
 }

@@ -61,71 +61,73 @@ namespace MonteCarlo_NS {
 
 template < typename T >
 MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(MonteCarlo_NS::DetectorInterface<T>* const detector) EXCEPT_INPUT_PARAMS {
-    if (dynamic_cast<MonteCarlo_NS::FullAbsorber<T>*>(detector))
-        return MonteCarlo_NS::DetectorType::FullAbsorber;
-    if (dynamic_cast<MonteCarlo_NS::IntegratingSphereSimple<T>*>(detector))
-        return MonteCarlo_NS::DetectorType::IntegratingSphereSimple;
-    if (dynamic_cast<MonteCarlo_NS::IntegratingSphereComplex<T>*>(detector))
-        return MonteCarlo_NS::DetectorType::IntegratingSphereComplex;
-    if (dynamic_cast<MonteCarlo_NS::OpticalFiber<T>*>(detector))
-        return MonteCarlo_NS::DetectorType::OpticalFiber;
+    if (dynamic_cast<FullAbsorber<T>*>(detector))
+        return DetectorType::FullAbsorber;
+    if (dynamic_cast<IntegratingSphereSimple<T>*>(detector))
+        return DetectorType::IntegratingSphereSimple;
+    if (dynamic_cast<IntegratingSphereComplex<T>*>(detector))
+        return DetectorType::IntegratingSphereComplex;
+    if (dynamic_cast<OpticalFiber<T>*>(detector))
+        return DetectorType::OpticalFiber;
 
     FAIL_ARGUMENT_CONTRACT("Detector type cannot be evaluated");
 
-    return MonteCarlo_NS::DetectorType::Unknown;
+    return DetectorType::Unknown;
 }
 
 MonteCarlo_NS::DetectorType MonteCarlo_NS::detectorType(const std::string& detector) EXCEPT_INPUT_PARAMS {
-    auto lower = Utils_NS::to_lower(detector);
+    using namespace Utils_NS;
 
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::FullAbsorber)), lower))
-        return MonteCarlo_NS::DetectorType::FullAbsorber;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple)), lower))
-        return MonteCarlo_NS::DetectorType::IntegratingSphereSimple;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex)), lower))
-        return MonteCarlo_NS::DetectorType::IntegratingSphereComplex;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(MonteCarlo_NS::DetectorTypeStrings::OpticalFiber)), lower))
-        return MonteCarlo_NS::DetectorType::OpticalFiber;
+    auto lower = to_lower(detector);
+
+    if (contains(getAllVariants(to_lower(DetectorTypeStrings::FullAbsorber)), lower))
+        return DetectorType::FullAbsorber;
+    if (contains(getAllVariants(to_lower(DetectorTypeStrings::IntegratingSphereSimple)), lower))
+        return DetectorType::IntegratingSphereSimple;
+    if (contains(getAllVariants(to_lower(DetectorTypeStrings::IntegratingSphereComplex)), lower))
+        return DetectorType::IntegratingSphereComplex;
+    if (contains(getAllVariants(to_lower(DetectorTypeStrings::OpticalFiber)), lower))
+        return DetectorType::OpticalFiber;
 
     FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
 
-    return MonteCarlo_NS::DetectorType::Unknown;
+    return DetectorType::Unknown;
 }
 
 std::string MonteCarlo_NS::to_string(const MonteCarlo_NS::DetectorType& detector) noexcept {
     switch (detector) {
-    case MonteCarlo_NS::DetectorType::FullAbsorber:
-        return MonteCarlo_NS::DetectorTypeStrings::FullAbsorber;
-    case MonteCarlo_NS::DetectorType::IntegratingSphereSimple:
-        return MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereSimple;
-    case MonteCarlo_NS::DetectorType::IntegratingSphereComplex:
-        return MonteCarlo_NS::DetectorTypeStrings::IntegratingSphereComplex;
-    case MonteCarlo_NS::DetectorType::OpticalFiber:
-        return MonteCarlo_NS::DetectorTypeStrings::OpticalFiber;
+    case DetectorType::FullAbsorber:
+        return DetectorTypeStrings::FullAbsorber;
+    case DetectorType::IntegratingSphereSimple:
+        return DetectorTypeStrings::IntegratingSphereSimple;
+    case DetectorType::IntegratingSphereComplex:
+        return DetectorTypeStrings::IntegratingSphereComplex;
+    case DetectorType::OpticalFiber:
+        return DetectorTypeStrings::OpticalFiber;
     default:
-        return MonteCarlo_NS::DetectorTypeStrings::Unknown;
+        return DetectorTypeStrings::Unknown;
     }
 }
 
 template < typename T >
 void MonteCarlo_NS::validate(const MonteCarlo_NS::DetectorProperties<T>& properties) {
-    CHECK_ARGUMENT_CONTRACT(properties.type != MonteCarlo_NS::DetectorType::Unknown);
+    CHECK_ARGUMENT_CONTRACT(properties.type != DetectorType::Unknown);
 
-    if (properties.type == MonteCarlo_NS::DetectorType::FullAbsorber) {
+    if (properties.type == DetectorType::FullAbsorber) {
         CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.value() >= 0);
         CHECK_ARGUMENT_CONTRACT(properties.collimatedCosine.value() <= 1);
     }
 
-    if (properties.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
+    if (properties.type == DetectorType::IntegratingSphereSimple) {
         return;
     }
 
-    if (properties.type == MonteCarlo_NS::DetectorType::IntegratingSphereComplex) {
+    if (properties.type == DetectorType::IntegratingSphereComplex) {
         return;
     }
 
-    if (properties.type == MonteCarlo_NS::DetectorType::OpticalFiber) {
+    if (properties.type == DetectorType::OpticalFiber) {
         return;
     }
 }
@@ -142,24 +144,24 @@ bool MonteCarlo_NS::validateSafe(const MonteCarlo_NS::DetectorProperties<T>& pro
 
 template < typename T >
 MonteCarlo_NS::DetectorProperties<T> MonteCarlo_NS::exportDetectorProperties(MonteCarlo_NS::DetectorInterface<T>* const detector) noexcept {
-    MonteCarlo_NS::DetectorProperties<T> result;
+    DetectorProperties<T> result;
     result.type = detectorType(detector);
 
-    if (result.type == MonteCarlo_NS::DetectorType::FullAbsorber)
-        if (auto casted_detector = dynamic_cast<MonteCarlo_NS::FullAbsorber<T>*>(detector)) {
+    if (result.type == DetectorType::FullAbsorber)
+        if (auto casted_detector = dynamic_cast<FullAbsorber<T>*>(detector)) {
             result.collimatedCosine = casted_detector->collimatedCosine;
         }
 
-    if (result.type == MonteCarlo_NS::DetectorType::IntegratingSphereSimple)
-        if (auto casted_detector = dynamic_cast<MonteCarlo_NS::IntegratingSphereSimple<T>*>(detector)) {
+    if (result.type == DetectorType::IntegratingSphereSimple)
+        if (auto casted_detector = dynamic_cast<IntegratingSphereSimple<T>*>(detector)) {
         }
 
-    if (result.type == MonteCarlo_NS::DetectorType::IntegratingSphereComplex)
-        if (auto casted_detector = dynamic_cast<MonteCarlo_NS::IntegratingSphereComplex<T>*>(detector)) {
+    if (result.type == DetectorType::IntegratingSphereComplex)
+        if (auto casted_detector = dynamic_cast<IntegratingSphereComplex<T>*>(detector)) {
         }
 
-    if (result.type == MonteCarlo_NS::DetectorType::OpticalFiber)
-        if (auto casted_detector = dynamic_cast<MonteCarlo_NS::OpticalFiber<T>*>(detector)) {
+    if (result.type == DetectorType::OpticalFiber)
+        if (auto casted_detector = dynamic_cast<OpticalFiber<T>*>(detector)) {
         }
 
     return result;

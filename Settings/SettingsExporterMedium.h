@@ -26,18 +26,22 @@ namespace Settings_NS {
  ******************/
 
 YAML::Node Settings_NS::mediumType(const Physics_NS::MediumType& type) {
+    using namespace Physics_NS;
+
     YAML::Node result;
 
-    result[SettingsStrings::Medium::Type] = Physics_NS::to_string(type);
+    result[SettingsStrings::Medium::Type] = to_string(type);
 
     return result;
 }
 
 template < typename T >
 YAML::Node Settings_NS::mediumProperties(const Physics_NS::MediumProperties<T>& properties) {
+    using namespace Physics_NS;
+
     YAML::Node result;
 
-    result[SettingsStrings::Medium::Type] = Physics_NS::to_string(properties.type);
+    result[SettingsStrings::Medium::Type] = to_string(properties.type);
 
     if (properties.n0.has_value())
         result[SettingsStrings::Medium::N0 ] = std::to_string(properties.n0.value());

@@ -9,7 +9,8 @@
 #include <gtest/gtest.h>
 
 using namespace Settings_NS;
+using namespace std;
 
 TEST(SettingsImporterErrorsTests, ThrowParsingErrorNoNode) {
-    EXPECT_THROW(throwParsingErrorNoNode("", ""), std::runtime_error);
+    EXPECT_THROW(throwParsingErrorNoNode("", ""), runtime_error);
 }

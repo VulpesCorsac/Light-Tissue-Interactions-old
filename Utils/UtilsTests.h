@@ -4,17 +4,18 @@
 
 #include <gtest/gtest.h>
 
-#include <vector>
-#include <set>
+#include <deque>
 #include <map>
+#include <set>
 #include <unordered_set>
 #include <unordered_map>
-#include <deque>
+#include <vector>
 
 using namespace Utils_NS;
+using namespace std;
 
 TEST(UtilsTests, Isize_Vector) {
-    std::vector<int> data;
+    vector<int> data;
     EXPECT_EQ(isize(data), 0);
     data.push_back(1);
     EXPECT_EQ(isize(data), 1);
@@ -25,7 +26,7 @@ TEST(UtilsTests, Isize_Vector) {
 }
 
 TEST(UtilsTests, Isize_Deque) {
-    std::deque<int> data;
+    deque<int> data;
     EXPECT_EQ(isize(data), 0);
     data.push_back(1);
     EXPECT_EQ(isize(data), 1);
@@ -36,7 +37,7 @@ TEST(UtilsTests, Isize_Deque) {
 }
 
 TEST(UtilsTests, Isize_Set) {
-    std::set<int> data;
+    set<int> data;
     EXPECT_EQ(isize(data), 0);
     data.insert(1);
     EXPECT_EQ(isize(data), 1);
@@ -47,7 +48,7 @@ TEST(UtilsTests, Isize_Set) {
 }
 
 TEST(UtilsTests, Isize_UnorderedSet) {
-    std::unordered_set<int> data;
+    unordered_set<int> data;
     EXPECT_EQ(isize(data), 0);
     data.insert(1);
     EXPECT_EQ(isize(data), 1);
@@ -58,7 +59,7 @@ TEST(UtilsTests, Isize_UnorderedSet) {
 }
 
 TEST(UtilsTests, Isize_Map) {
-    std::map<int, int> data;
+    map<int, int> data;
     EXPECT_EQ(isize(data), 0);
     data[1] = 1;
     EXPECT_EQ(isize(data), 1);
@@ -69,7 +70,7 @@ TEST(UtilsTests, Isize_Map) {
 }
 
 TEST(UtilsTests, Isize_UnorderedMap) {
-    std::map<int, int> data;
+    map<int, int> data;
     EXPECT_EQ(isize(data), 0);
     data[1] = 1;
     EXPECT_EQ(isize(data), 1);
@@ -80,7 +81,7 @@ TEST(UtilsTests, Isize_UnorderedMap) {
 }
 
 TEST(UtilsTests, Contains_Set) {
-    std::set<int> data;
+    set<int> data;
     EXPECT_FALSE(contains(data, 1));
     EXPECT_FALSE(contains(data, 2));
     data.insert(1);
@@ -95,7 +96,7 @@ TEST(UtilsTests, Contains_Set) {
 }
 
 TEST(UtilsTests, Contains_UnorderedSet) {
-    std::unordered_set<int> data;
+    unordered_set<int> data;
     EXPECT_FALSE(contains(data, 1));
     EXPECT_FALSE(contains(data, 2));
     data.insert(1);
@@ -110,7 +111,7 @@ TEST(UtilsTests, Contains_UnorderedSet) {
 }
 
 TEST(UtilsTests, Contains_Map) {
-    std::map<int, int> data;
+    map<int, int> data;
     EXPECT_FALSE(contains(data, 1));
     EXPECT_FALSE(contains(data, 2));
     data[1] = 5;
@@ -125,7 +126,7 @@ TEST(UtilsTests, Contains_Map) {
 }
 
 TEST(UtilsTests, Contains_UnorderedMap) {
-    std::unordered_map<int, int> data;
+    unordered_map<int, int> data;
     EXPECT_FALSE(contains(data, 1));
     EXPECT_FALSE(contains(data, 2));
     data[1] = 5;

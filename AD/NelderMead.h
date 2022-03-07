@@ -317,7 +317,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
 
     T g_val = 0.0;
 	if (fix == FixedParameter::G && N == 2){
-        cout << "Enter g " << std::endl;
+        cout << "Enter g " << endl;
         cin >> g_val;
     }
     T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g

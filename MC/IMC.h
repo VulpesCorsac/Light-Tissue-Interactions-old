@@ -38,6 +38,7 @@ T funcToMinimizeMC(const T& a,
                    const DetectorDistance<T> new_dist,
                    const std::vector<std::pair<T,T>>& rmeas,
                    const std::vector<std::pair<T,T>>& tmeas) {
+    using namespace Utils_NS;
     using namespace std;
 
     // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
@@ -54,15 +55,16 @@ T funcToMinimizeMC(const T& a,
     const auto rMC = myResultsMT.detectedR;
     const auto tMC = myResultsMT.detectedT;
     T func2min = 0;
-/*    cout << "rMC" << endl;
+    /*
+    cout << "rMC" << endl;
     for (auto x: rMC)
         cout << x.first << " " << x.second << endl;
     cout << "tMC" << endl;
     for (auto x: tMC)
         cout << x.first << " " << x.second << endl;
-*/
+    //*/
     constexpr auto eps = 1E-6;
-    for (int i = 0; i < Utils_NS::isize(rMC); i++)
+    for (int i = 0; i < isize(rMC); i++)
         func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + eps)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + eps)*/);
 
     return func2min;

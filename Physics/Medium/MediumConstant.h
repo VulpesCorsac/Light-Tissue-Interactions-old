@@ -61,7 +61,7 @@ Physics_NS::MediumConstant<T>::MediumConstant(const T& n,
                                               const T& r,
                                               const T& c,
                                               const T& k) noexcept
-    : Physics_NS::MediumConstant<T>::Base(MediumType::Constant)
+    : Base(MediumType::Constant)
     , n0(n)
     , a0(a)
     , u0(u)
@@ -73,7 +73,7 @@ Physics_NS::MediumConstant<T>::MediumConstant(const T& n,
 
 template < typename T >
 Physics_NS::MediumConstant<T>::MediumConstant(const MediumProperties<T>& properties) noexcept
-    : Physics_NS::MediumConstant<T>::Base(MediumType::Constant)
+    : Base(MediumType::Constant)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1)
     , a0(properties.a0.has_value() ? properties.a0.value() : 0)
     , u0(properties.u0.has_value() ? properties.u0.value() : 0)

@@ -16,6 +16,8 @@ namespace Settings_NS {
  ******************/
 
 void Settings_NS::throwParsingErrorNoNode(const std::string& path, const std::string& description) {
-    const std::string descriptionToShow = description.empty() ? "No description provided" : description;
-    throw std::runtime_error("Error in parsing yaml in node: " + path + ", no such node, node description: " + descriptionToShow);
+    using namespace std;
+
+    const string descriptionToShow = description.empty() ? "No description provided" : description;
+    throw runtime_error("Error in parsing yaml in node: " + path + ", no such node, node description: " + descriptionToShow);
 }

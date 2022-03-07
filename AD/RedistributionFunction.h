@@ -25,11 +25,13 @@ T chi(T g, int k) {
 
 template < typename T, size_t M >
 Matrix<T,M,M> PP(const std::array<T,M>& a) {
+    using namespace std;
+
     const int m = M;
     Matrix<T,M,M> pp;
     for (int i = 0; i < m; i++) // row
         for (int j = 0; j < m; j++) // col
-            pp(i, j) = std::legendre(i, a[j]);
+            pp(i, j) = legendre(i, a[j]);
     return pp;
 }
 

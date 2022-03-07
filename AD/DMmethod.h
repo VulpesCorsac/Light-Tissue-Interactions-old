@@ -24,13 +24,16 @@ T as(T a, T g) {
 
 template < typename T, size_t M >
 int n1(T a, T tau, T g, T nSlab) {
+    using namespace Utils_NS;
+    using namespace std;
+
     Quadrature<T,M> quadrature(nSlab);
     const auto v = quadrature.getV();
 
-    CHECK_ARGUMENT_CONTRACT(Utils_NS::isize(v) > 0);
+    CHECK_ARGUMENT_CONTRACT(isize(v) > 0);
 
     const auto treshold = taus<T,M>(a, tau, g);
-    const auto minElement = *std::min_element(ALL_CONTAINER(v));
+    const auto minElement = *min_element(ALL_CONTAINER(v));
 
     int n = 0;
     while (minElement * (1 << n) < treshold)

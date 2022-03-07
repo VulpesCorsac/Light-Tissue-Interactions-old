@@ -22,10 +22,10 @@ namespace MonteCarlo_NS {
 
 template < typename T >
 MonteCarlo_NS::IntegratingSphereSimple<T>::IntegratingSphereSimple() noexcept
-    : MonteCarlo_NS::IntegratingSphereSimple<T>::Base(MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
+    : Base(DetectorType::IntegratingSphereSimple) {
 }
 
 template < typename T >
 MonteCarlo_NS::IntegratingSphereSimple<T>::IntegratingSphereSimple(const MonteCarlo_NS::DetectorProperties<T>& properties) noexcept
-    : MonteCarlo_NS::IntegratingSphereSimple<T>::Base(MonteCarlo_NS::DetectorType::IntegratingSphereSimple) {
+    : Base(DetectorType::IntegratingSphereSimple) {
 }

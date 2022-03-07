@@ -22,10 +22,10 @@ namespace MonteCarlo_NS {
 
 template < typename T >
 MonteCarlo_NS::OpticalFiber<T>::OpticalFiber() noexcept
-    : MonteCarlo_NS::OpticalFiber<T>::Base(MonteCarlo_NS::DetectorType::OpticalFiber) {
+    : Base(DetectorType::OpticalFiber) {
 }
 
 template < typename T >
 MonteCarlo_NS::OpticalFiber<T>::OpticalFiber(const MonteCarlo_NS::DetectorProperties<T>& properties) noexcept
-    : MonteCarlo_NS::OpticalFiber<T>::Base(MonteCarlo_NS::DetectorType::OpticalFiber) {
+    : Base(DetectorType::OpticalFiber) {
 }

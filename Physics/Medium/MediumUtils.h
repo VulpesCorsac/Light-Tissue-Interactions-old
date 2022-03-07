@@ -62,57 +62,59 @@ namespace Physics_NS {
 
 template < typename T >
 Physics_NS::MediumType Physics_NS::mediumType(Physics_NS::MediumInterface<T>* const medium) EXCEPT_INPUT_PARAMS {
-    if (dynamic_cast<Physics_NS::MediumGlass<T>*>(medium))
-        return Physics_NS::MediumType::Glass;
-    if (dynamic_cast<Physics_NS::MediumConstant<T>*>(medium))
-        return Physics_NS::MediumType::Constant;
-    if (dynamic_cast<Physics_NS::MediumLinear<T>*>(medium))
-        return Physics_NS::MediumType::Linear;
-    if (dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium))
-        return Physics_NS::MediumType::Arbitrary;
+    if (dynamic_cast<MediumGlass<T>*>(medium))
+        return MediumType::Glass;
+    if (dynamic_cast<MediumConstant<T>*>(medium))
+        return MediumType::Constant;
+    if (dynamic_cast<MediumLinear<T>*>(medium))
+        return MediumType::Linear;
+    if (dynamic_cast<MediumArbitrary<T>*>(medium))
+        return MediumType::Arbitrary;
 
     FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
 
-    return Physics_NS::MediumType::Unknown;
+    return MediumType::Unknown;
 }
 
 Physics_NS::MediumType Physics_NS::mediumType(const std::string& medium) EXCEPT_INPUT_PARAMS {
-    auto lower = Utils_NS::to_lower(medium);
+    using namespace Utils_NS;
 
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Glass)), lower))
-        return Physics_NS::MediumType::Glass;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Constant)), lower))
-        return Physics_NS::MediumType::Constant;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Linear)), lower))
-        return Physics_NS::MediumType::Linear;
-    if (Utils_NS::contains(Utils_NS::getAllVariants(Utils_NS::to_lower(Physics_NS::MediumTypeStrings::Arbitrary)), lower))
-        return Physics_NS::MediumType::Arbitrary;
+    auto lower = to_lower(medium);
+
+    if (contains(getAllVariants(to_lower(MediumTypeStrings::Glass)), lower))
+        return MediumType::Glass;
+    if (contains(getAllVariants(to_lower(MediumTypeStrings::Constant)), lower))
+        return MediumType::Constant;
+    if (contains(getAllVariants(to_lower(MediumTypeStrings::Linear)), lower))
+        return MediumType::Linear;
+    if (contains(getAllVariants(to_lower(MediumTypeStrings::Arbitrary)), lower))
+        return MediumType::Arbitrary;
 
     FAIL_ARGUMENT_CONTRACT("Medium type cannot be evaluated");
 
-    return Physics_NS::MediumType::Unknown;
+    return MediumType::Unknown;
 }
 
 std::string Physics_NS::to_string(const Physics_NS::MediumType& medium) noexcept {
     switch (medium) {
-    case Physics_NS::MediumType::Glass:
-        return Physics_NS::MediumTypeStrings::Glass;
-    case Physics_NS::MediumType::Constant:
-        return Physics_NS::MediumTypeStrings::Constant;
-    case Physics_NS::MediumType::Linear:
-        return Physics_NS::MediumTypeStrings::Linear;
-    case Physics_NS::MediumType::Arbitrary:
-        return Physics_NS::MediumTypeStrings::Arbitrary;
+    case MediumType::Glass:
+        return MediumTypeStrings::Glass;
+    case MediumType::Constant:
+        return MediumTypeStrings::Constant;
+    case MediumType::Linear:
+        return MediumTypeStrings::Linear;
+    case MediumType::Arbitrary:
+        return MediumTypeStrings::Arbitrary;
     default:
-        return Physics_NS::MediumTypeStrings::Unknown;
+        return MediumTypeStrings::Unknown;
     }
 }
 
 template < typename T >
 void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
-    CHECK_ARGUMENT_CONTRACT(properties.type != Physics_NS::MediumType::Unknown);
+    CHECK_ARGUMENT_CONTRACT(properties.type != MediumType::Unknown);
 
-    if (properties.type == Physics_NS::MediumType::Glass) {
+    if (properties.type == MediumType::Glass) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
 
@@ -126,7 +128,7 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
     }
 
-    if (properties.type == Physics_NS::MediumType::Constant) {
+    if (properties.type == MediumType::Constant) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
 
@@ -150,7 +152,7 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         CHECK_ARGUMENT_CONTRACT(properties.k0.value() >= 0);
     }
 
-    if (properties.type == Physics_NS::MediumType::Linear) {
+    if (properties.type == MediumType::Linear) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
         CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());
@@ -188,7 +190,7 @@ void Physics_NS::validate(const Physics_NS::MediumProperties<T>& properties) {
         CHECK_ARGUMENT_CONTRACT(properties.kD.has_value());
     }
 
-    if (properties.type == Physics_NS::MediumType::Arbitrary) {
+    if (properties.type == MediumType::Arbitrary) {
         CHECK_ARGUMENT_CONTRACT(properties.n0.has_value());
         CHECK_ARGUMENT_CONTRACT(properties.n0.value() >= 1);
         CHECK_ARGUMENT_CONTRACT(properties.nT.has_value());
@@ -246,19 +248,19 @@ bool Physics_NS::validateSafe(const Physics_NS::MediumProperties<T>& properties)
 
 template < typename T >
 Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::MediumInterface<T>* const medium) noexcept {
-    Physics_NS::MediumProperties<T> result;
+    MediumProperties<T> result;
     result.type = mediumType(medium);
 
-    if (result.type == Physics_NS::MediumType::Glass)
-        if (auto casted_medium = dynamic_cast<Physics_NS::MediumGlass<T>*>(medium)) {
+    if (result.type == MediumType::Glass)
+        if (auto casted_medium = dynamic_cast<MediumGlass<T>*>(medium)) {
             result.n0 = casted_medium->refraction          (0, 0);
             result.r0 = casted_medium->density             (0, 0);
             result.c0 = casted_medium->heat_capacity       (0, 0);
             result.k0 = casted_medium->thermal_conductivity(0, 0);
         }
 
-    if (result.type == Physics_NS::MediumType::Constant)
-        if (auto casted_medium = dynamic_cast<Physics_NS::MediumConstant<T>*>(medium)) {
+    if (result.type == MediumType::Constant)
+        if (auto casted_medium = dynamic_cast<MediumConstant<T>*>(medium)) {
             result.n0 = casted_medium->refraction          (0, 0);
             result.a0 = casted_medium->absorption          (0, 0);
             result.u0 = casted_medium->scattering          (0, 0);
@@ -268,8 +270,8 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
             result.k0 = casted_medium->thermal_conductivity(0, 0);
         }
 
-    if (result.type == Physics_NS::MediumType::Linear)
-        if (auto casted_medium = dynamic_cast<Physics_NS::MediumLinear<T>*>(medium)) {
+    if (result.type == MediumType::Linear)
+        if (auto casted_medium = dynamic_cast<MediumLinear<T>*>(medium)) {
             result.n0 = casted_medium->refraction(0, 0);
             result.nT = casted_medium->refraction(1, 0) - result.n0.value();
             result.nD = casted_medium->refraction(0, 1) - result.n0.value();
@@ -299,8 +301,8 @@ Physics_NS::MediumProperties<T> Physics_NS::exportMediumProperties(Physics_NS::M
             result.kD = casted_medium->thermal_conductivity(0, 1) - result.k0.value();
         }
 
-    if (result.type == Physics_NS::MediumType::Arbitrary)
-        if (auto casted_medium = dynamic_cast<Physics_NS::MediumArbitrary<T>*>(medium)) {
+    if (result.type == MediumType::Arbitrary)
+        if (auto casted_medium = dynamic_cast<MediumArbitrary<T>*>(medium)) {
             result.n0  = casted_medium->refraction(0, 0);
             result.nT  = casted_medium->refraction(1, 0) - result.n0.value();
             result.nD  = casted_medium->refraction(0, 1) - result.n0.value();

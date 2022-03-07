@@ -95,7 +95,7 @@ Physics_NS::MediumLinear<T>::MediumLinear(const T& n0, const T& nT, const T& nD,
                                           const T& r0, const T& rT, const T& rD,
                                           const T& c0, const T& cT, const T& cD,
                                           const T& k0, const T& kT, const T& kD) noexcept
-    : Physics_NS::MediumLinear<T>::Base(MediumType::Linear)
+    : Base(MediumType::Linear)
     , n0(n0), nT(nT), nD(nD)
     , a0(a0), aT(aT), aD(aD)
     , u0(u0), uT(uT), uD(uD)
@@ -107,7 +107,7 @@ Physics_NS::MediumLinear<T>::MediumLinear(const T& n0, const T& nT, const T& nD,
 
 template < typename T >
 Physics_NS::MediumLinear<T>::MediumLinear(const MediumProperties<T>& properties) noexcept
-    : Physics_NS::MediumLinear<T>::Base(MediumType::Linear)
+    : Base(MediumType::Linear)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1)
     , nT(properties.nT.has_value() ? properties.nT.value() : 0)
     , nD(properties.nD.has_value() ? properties.nD.value() : 0)

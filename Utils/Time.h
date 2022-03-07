@@ -162,6 +162,7 @@ namespace Utils_NS {
 /******************
  * IMPLEMENTATION *
  ******************/
+
 void Utils_NS::Time::reset() noexcept {
     overall_time = 0;
 }

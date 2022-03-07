@@ -43,7 +43,7 @@ namespace Physics_NS {
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const T& n, const T& r, const T& c, const T& k) noexcept
-    : Physics_NS::MediumGlass<T>::Base(MediumType::Glass)
+    : Base(MediumType::Glass)
     , n0(n)
     , r0(r)
     , c0(c)
@@ -52,7 +52,7 @@ Physics_NS::MediumGlass<T>::MediumGlass(const T& n, const T& r, const T& c, cons
 
 template < typename T >
 Physics_NS::MediumGlass<T>::MediumGlass(const MediumProperties<T>& properties) noexcept
-    : Physics_NS::MediumGlass<T>::Base(MediumType::Glass)
+    : Base(MediumType::Glass)
     , n0(properties.n0.has_value() ? properties.n0.value() : 1)
     , r0(properties.r0.has_value() ? properties.r0.value() : 0)
     , c0(properties.c0.has_value() ? properties.c0.value() : 0)
