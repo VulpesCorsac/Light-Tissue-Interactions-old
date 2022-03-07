@@ -27,15 +27,17 @@ namespace Physics_NS {
 
 template < typename T >
 std::unique_ptr<Physics_NS::MediumInterface<T>> Physics_NS::createMedium(const Physics_NS::MediumProperties<T>& properties) EXCEPT_INPUT_PARAMS {
+    using namespace std;
+
     switch (properties.type) {
-        case Physics_NS::MediumType::Glass:
-            return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumGlass<T>(properties));
-        case Physics_NS::MediumType::Constant:
-            return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumConstant<T>(properties));
-        case Physics_NS::MediumType::Linear:
-            return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumLinear<T>(properties));
-        case Physics_NS::MediumType::Arbitrary:
-            return std::unique_ptr<Physics_NS::MediumInterface<T>>(new Physics_NS::MediumArbitrary<T>(properties));
+        case MediumType::Glass:
+            return unique_ptr<MediumInterface<T>>(new MediumGlass<T>(properties));
+        case MediumType::Constant:
+            return unique_ptr<MediumInterface<T>>(new MediumConstant<T>(properties));
+        case MediumType::Linear:
+            return unique_ptr<MediumInterface<T>>(new MediumLinear<T>(properties));
+        case MediumType::Arbitrary:
+            return unique_ptr<MediumInterface<T>>(new MediumArbitrary<T>(properties));
         default:
             FAIL_ARGUMENT_CONTRACT("Invalid tissue type in properties");
             return nullptr;

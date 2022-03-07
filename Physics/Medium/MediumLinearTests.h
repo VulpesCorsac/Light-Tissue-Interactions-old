@@ -11,10 +11,11 @@
 #include <memory>
 
 using namespace Physics_NS;
+using namespace std;
 
 class MediumLinearTests : public ::testing::Test {
 protected:
-    std::unique_ptr<MediumLinear<float>> medium = std::make_unique<MediumLinear<float>>();
+    unique_ptr<MediumLinear<float>> medium = make_unique<MediumLinear<float>>();
 
     static constexpr float n0 = 2;
     static constexpr float nT = 3;
@@ -37,13 +38,13 @@ protected:
     static constexpr float k0 = 20;
     static constexpr float kT = 21;
     static constexpr float kD = 22;
-    std::unique_ptr<MediumLinear<float>> nondefaultMedium = std::make_unique<MediumLinear<float>>(n0, nT, nD,
-                                                                                                  a0, aT, aD,
-                                                                                                  u0, uT, uD,
-                                                                                                  g0, gT, gD,
-                                                                                                  r0, rT, rD,
-                                                                                                  c0, cT, cD,
-                                                                                                  k0, kT, kD);
+    unique_ptr<MediumLinear<float>> nondefaultMedium = make_unique<MediumLinear<float>>(n0, nT, nD,
+                                                                                        a0, aT, aD,
+                                                                                        u0, uT, uD,
+                                                                                        g0, gT, gD,
+                                                                                        r0, rT, rD,
+                                                                                        c0, cT, cD,
+                                                                                        k0, kT, kD);
 };
 
 TEST_F(MediumLinearTests, TypeIsLinear) {
@@ -82,15 +83,15 @@ TEST_F(MediumLinearTests, ConstructorFromParams) {
 }
 
 TEST_F(MediumLinearTests, ConstructorFromMediumProperties) {
-    MediumProperties<float> properties(Physics_NS::MediumType::Linear,
-                                       n0, nT, nD, std::nullopt,
-                                       a0, aT, aD, std::nullopt,
-                                       u0, uT, uD, std::nullopt,
-                                       g0, gT, gD, std::nullopt,
-                                       r0, rT, rD, std::nullopt,
-                                       c0, cT, cD, std::nullopt,
-                                       k0, kT, kD, std::nullopt);
-    auto generatedMedium = std::make_unique<MediumLinear<float>>(properties);
+    MediumProperties<float> properties(MediumType::Linear,
+                                       n0, nT, nD, nullopt,
+                                       a0, aT, aD, nullopt,
+                                       u0, uT, uD, nullopt,
+                                       g0, gT, gD, nullopt,
+                                       r0, rT, rD, nullopt,
+                                       c0, cT, cD, nullopt,
+                                       k0, kT, kD, nullopt);
+    auto generatedMedium = make_unique<MediumLinear<float>>(properties);
     EXPECT_FLOAT_EQ(generatedMedium->refraction          (0, 0), n0);
     EXPECT_FLOAT_EQ(generatedMedium->refraction          (1, 0), n0 + nT);
     EXPECT_FLOAT_EQ(generatedMedium->refraction          (0, 1), n0 + nD);

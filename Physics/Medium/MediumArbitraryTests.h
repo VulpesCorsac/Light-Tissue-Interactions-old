@@ -90,7 +90,7 @@ TEST_F(MediumArbitraryTests, ConstructorFromParams) {
 }
 
 TEST_F(MediumArbitraryTests, ConstructorFromMediumProperties) {
-    MediumProperties<float> properties(Physics_NS::MediumType::Arbitrary,
+    MediumProperties<float> properties(MediumType::Arbitrary,
                                        n0, nT, nD, nDT,
                                        a0, aT, aD, aDT,
                                        u0, uT, uD, uDT,

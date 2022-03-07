@@ -9,11 +9,12 @@
 #include <gtest/gtest.h>
 
 using namespace Physics_NS;
+using namespace std;
 
 TEST(MediumFactoryTests, ThrowExceptionIfUnknownMediumType) {
     auto properties = MediumProperties<float>();
     properties.type = MediumType::Unknown;
-    EXPECT_THROW(auto medium = createMedium<float>(properties), std::invalid_argument);
+    EXPECT_THROW(auto medium = createMedium<float>(properties), invalid_argument);
 }
 
 TEST(MediumFactoryTests, CreateGlassMediumType) {

@@ -11,16 +11,17 @@
 #include <memory>
 
 using namespace Physics_NS;
+using namespace std;
 
 class MediumGlassTests : public ::testing::Test {
 protected:
-    std::unique_ptr<MediumGlass<float>> medium = std::make_unique<MediumGlass<float>>();
+    unique_ptr<MediumGlass<float>> medium = make_unique<MediumGlass<float>>();
 
     static constexpr float n0 = 2;
     static constexpr float r0 = 3;
     static constexpr float c0 = 4;
     static constexpr float k0 = 5;
-    std::unique_ptr<MediumGlass<float>> nondefaultMedium = std::make_unique<MediumGlass<float>>(n0, r0, c0, k0);
+    unique_ptr<MediumGlass<float>> nondefaultMedium = make_unique<MediumGlass<float>>(n0, r0, c0, k0);
 };
 
 TEST_F(MediumGlassTests, ConstructorFromParams) {
@@ -36,7 +37,7 @@ TEST_F(MediumGlassTests, ConstructorFromMediumProperties) {
     properties.r0 = r0;
     properties.c0 = c0;
     properties.k0 = k0;
-    auto generatedMedium = std::make_unique<MediumGlass<float>>(properties);
+    auto generatedMedium = make_unique<MediumGlass<float>>(properties);
     EXPECT_FLOAT_EQ(generatedMedium->refraction()          , n0);
     EXPECT_FLOAT_EQ(generatedMedium->density()             , r0);
     EXPECT_FLOAT_EQ(generatedMedium->heat_capacity()       , c0);
@@ -64,23 +65,23 @@ TEST_F(MediumGlassTests, GetDefaultThermalConductivity) {
 }
 
 TEST_F(MediumGlassTests, ThrowsExceptionForAbsorption) {
-    EXPECT_THROW(medium->absorption(), std::runtime_error);
+    EXPECT_THROW(medium->absorption(), runtime_error);
 }
 
 TEST_F(MediumGlassTests, ThrowsExceptionForScattering) {
-    EXPECT_THROW(medium->scattering(), std::runtime_error);
+    EXPECT_THROW(medium->scattering(), runtime_error);
 }
 
 TEST_F(MediumGlassTests, ThrowsExceptionForAnisotropy) {
-    EXPECT_THROW(medium->anisotropy(), std::runtime_error);
+    EXPECT_THROW(medium->anisotropy(), runtime_error);
 }
 
 TEST_F(MediumGlassTests, ThrowsExceptionForInteraction) {
-    EXPECT_THROW(medium->interaction(), std::runtime_error);
+    EXPECT_THROW(medium->interaction(), runtime_error);
 }
 
 TEST_F(MediumGlassTests, ThrowsExceptionForAlbedo) {
-    EXPECT_THROW(medium->albedo(), std::runtime_error);
+    EXPECT_THROW(medium->albedo(), runtime_error);
 }
 
 TEST_F(MediumGlassTests, GetThermalDiffusivity) {

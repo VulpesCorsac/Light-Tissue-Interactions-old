@@ -11,10 +11,11 @@
 #include <memory>
 
 using namespace Physics_NS;
+using namespace std;
 
 class MediumConstantTests : public ::testing::Test {
 protected:
-    std::unique_ptr<MediumConstant<float>> medium = std::make_unique<MediumConstant<float>>();
+    unique_ptr<MediumConstant<float>> medium = make_unique<MediumConstant<float>>();
 
     static constexpr float n0 = 2;
     static constexpr float a0 = 3;
@@ -23,13 +24,13 @@ protected:
     static constexpr float r0 = 6;
     static constexpr float c0 = 7;
     static constexpr float k0 = 8;
-    std::unique_ptr<MediumConstant<float>> nondefaultMedium = std::make_unique<MediumConstant<float>>(n0,
-                                                                                                      a0,
-                                                                                                      u0,
-                                                                                                      g0,
-                                                                                                      r0,
-                                                                                                      c0,
-                                                                                                      k0);
+    unique_ptr<MediumConstant<float>> nondefaultMedium = make_unique<MediumConstant<float>>(n0,
+                                                                                            a0,
+                                                                                            u0,
+                                                                                            g0,
+                                                                                            r0,
+                                                                                            c0,
+                                                                                            k0);
 };
 
 TEST_F(MediumConstantTests, TypeIsConstant) {
@@ -55,7 +56,7 @@ TEST_F(MediumConstantTests, ConstructorFromMediumProperties) {
     properties.r0 = r0;
     properties.c0 = c0;
     properties.k0 = k0;
-    auto generatedMedium = std::make_unique<MediumConstant<float>>(properties);
+    auto generatedMedium = make_unique<MediumConstant<float>>(properties);
     EXPECT_FLOAT_EQ(generatedMedium->refraction()          , n0);
     EXPECT_FLOAT_EQ(generatedMedium->absorption()          , a0);
     EXPECT_FLOAT_EQ(generatedMedium->scattering()          , u0);

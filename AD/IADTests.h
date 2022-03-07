@@ -20,11 +20,11 @@ TEST(IAD, Test1) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 4;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.4; // refraction index of sample
-    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slab = 1.4; /// refraction index of sample
+    constexpr T n_slide_top = 1.5; /// refraction index of slide
     constexpr T n_slide_bottom = 1.5;
     constexpr T rsmeas = 0.08624;
     constexpr T tsmeas = 0.76446;
@@ -44,11 +44,11 @@ TEST(IAD, Test2) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 32;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.4; // refraction index of sample
-    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slab = 1.4; /// refraction index of sample
+    constexpr T n_slide_top = 1.5; /// refraction index of slide
     constexpr T n_slide_bottom = 1.5;
     constexpr T rsmeas = 0.08531;
     constexpr T tsmeas = 0.77350;
@@ -68,11 +68,11 @@ TEST(IAD, Test3) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 16;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.5; // refraction index of sample
-    constexpr T n_slide_top = 1.5; // refraction index of slide
+    constexpr T n_slab = 1.5; /// refraction index of sample
+    constexpr T n_slide_top = 1.5; /// refraction index of slide
     constexpr T n_slide_bottom = 1.5;
     constexpr T rsmeas = 0.06548;
     constexpr T tsmeas = 0.74409;
@@ -92,11 +92,11 @@ TEST(IAD, G0) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 4;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.4; // refraction index of sample
-    constexpr T n_slide_top = 1.4; // refraction index of slide
+    constexpr T n_slab = 1.4; /// refraction index of sample
+    constexpr T n_slide_top = 1.4; /// refraction index of slide
     constexpr T n_slide_bottom = 1.4;
     constexpr T rsmeas = 0.38911;
     constexpr T tsmeas = 0.11869;
@@ -116,11 +116,11 @@ TEST(IAD, A0_G0_Tau_05) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 8;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.5; // refraction index of sample
-    constexpr T n_slide_top = 1.6; // refraction index of slide
+    constexpr T n_slab = 1.5; /// refraction index of sample
+    constexpr T n_slide_top = 1.6; /// refraction index of slide
     constexpr T n_slide_bottom = 1.6;
     constexpr T rsmeas = 0.07204;
     constexpr T tsmeas = 0.54314;
@@ -131,7 +131,7 @@ TEST(IAD, A0_G0_Tau_05) {
 
     EXPECT_NEAR(aOut  , 0  ,      TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5,      TOLERANCE);
-    // When a = 0, no value of g is correct
+    /// When a = 0, no value of g is correct
     // EXPECT_NEAR(gOut  , 0.9  , 10 * TOLERANCE);
 }
 
@@ -141,11 +141,11 @@ TEST(IAD, A0_G0_Tau1) {
     constexpr double TOLERANCE = 1e-4;
 
     constexpr int M = 32;
-    constexpr int N = 2; // minimize 2 parameters
+    constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr T n_slab = 1.3; // refraction index of sample
-    constexpr T n_slide_top = 1.4; // refraction index of slide
+    constexpr T n_slab = 1.3; /// refraction index of sample
+    constexpr T n_slide_top = 1.4; /// refraction index of slide
     constexpr T n_slide_bottom = 1.4;
     constexpr T rsmeas = 0.03278;
     constexpr T tsmeas = 0.34684;
@@ -156,6 +156,6 @@ TEST(IAD, A0_G0_Tau1) {
 
     EXPECT_NEAR(aOut  , 0,     TOLERANCE);
     EXPECT_NEAR(tauOut, 1,     TOLERANCE);
-    // When a = 0, no value of g is correct
+    /// When a = 0, no value of g is correct
     // EXPECT_NEAR(gOut  , 0, 5 * TOLERANCE);
 }
