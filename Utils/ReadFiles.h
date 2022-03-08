@@ -11,7 +11,7 @@
 #include <sstream>
 #include <vector>
 
-#include "../Minimization/FixedParam.h"
+#include "../Inverse/FixedParam.h"
 #include "../Utils/Contracts.h"
 
 #include <utility>
@@ -39,7 +39,7 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
     myFileStream.close();
 }
 
-template < typename T, Minimization_NS::FixedParameter fix >
+template < typename T, Inverse_NS::FixedParameter fix >
 void readSettings(const std::string& fileName,
                   Sample<T>& emptySample,
                   IntegratingSphere<T>& SphereR,
@@ -50,7 +50,7 @@ void readSettings(const std::string& fileName,
                   std::vector<std::pair<T,T>>& Td,
                   std::vector<std::pair<T,T>>& Tc) {
     using namespace std;
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
 
     ifstream myFileStream(fileName);
     if (!myFileStream.is_open())

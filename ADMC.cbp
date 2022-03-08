@@ -60,6 +60,9 @@
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
 		<Unit filename="CMakeLists.txt" />
+		<Unit filename="Inverse/CMakeLists.txt" />
+		<Unit filename="Inverse/FixedParam.h" />
+		<Unit filename="Inverse/NelderMead.h" />
 		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/Detector/CMakeLists.txt" />
@@ -92,12 +95,9 @@
 		<Unit filename="Math/CMakeLists.txt" />
 		<Unit filename="Math/Mesh3.h" />
 		<Unit filename="Math/Mesh3Tests.h" />
-		<Unit filename="Math/NelderMead.h" />
 		<Unit filename="Math/Random.h" />
 		<Unit filename="Math/RandomTests.h" />
 		<Unit filename="Math/Vector3.h" />
-		<Unit filename="Minimization/CMakeLists.txt" />
-		<Unit filename="Minimization/FixedParam.h" />
 		<Unit filename="Physics/Angles.h" />
 		<Unit filename="Physics/AnglesTests.h" />
 		<Unit filename="Physics/BugerLambert.h" />

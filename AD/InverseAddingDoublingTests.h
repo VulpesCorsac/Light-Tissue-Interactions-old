@@ -13,7 +13,7 @@
 /// TODO: extract tolerance
 
 using namespace AddingDoubling_NS;
-using namespace Minimization_NS;
+using namespace Inverse_NS;
 
 TEST(InverseAddingDoubling, Test1) {
     using T = float;

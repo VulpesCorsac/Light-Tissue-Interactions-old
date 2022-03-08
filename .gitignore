@@ -1,3 +1,4 @@
+*.bak
 *.cmake
 *.exe
 *.o
@@ -12,23 +13,20 @@ pvs/*
 tasks/*
 Testing/*
 
-
 CMakeFiles/*
 AD/CMakeFiles/*
-Physics/CMakeFiles/*
-Physics/Medium/CMakeFiles/*
+Inverse/CMakeFiles/*
 Math/CMakeFiles/*
 MC/CMakeFiles/*
-Minimization/CMakeFiles/*
 MC/Detector/CMakeFiles/*
+Physics/CMakeFiles/*
+Physics/Medium/CMakeFiles/*
+Settings/CMakeFiles/*
 Tests/CMakeFiles/*
 Utils/CMakeFiles/*
 
-main_ad
-main_mc
 main_admc
 Tests/unit_tests*
-Tests/*Tests
 
 strace_out
 log

@@ -15,7 +15,7 @@
 #include "MC/Photon.h"
 #include "MC/Sample.h"
 
-#include "Minimization/FixedParam.h"
+#include "Inverse/FixedParam.h"
 
 #include "AD/AddingDoublingNelderMead.h"
 #include "AD/Quadrature.h"
@@ -36,9 +36,9 @@
 
 using namespace AddingDoubling_NS;
 
-template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     const auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -179,9 +179,9 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     fout.close();
 }
 
-template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     auto tissue = Medium<T>::fromAlbedo(inN, inA, inT, inD, inG);
@@ -264,9 +264,9 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     Anglesfile.close();
 }
 
-template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
+template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcInverse(const std::string& settingsFile, int Nthreads) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace Physics_NS;
     using namespace std;
 
@@ -403,7 +403,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
 }
 
 int main() {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
 
     using namespace std;
     using T = double;

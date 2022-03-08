@@ -4,7 +4,7 @@
 #include "Quadrature.h"
 #include "RT.h"
 
-#include "../Minimization/FixedParam.h"
+#include "../Inverse/FixedParam.h"
 #include "../Utils/Contracts.h"
 
 #include <utility>
@@ -46,7 +46,7 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
     return abs((rs - rmeas) / (rmeas + eps)) + abs((ts - tmeas) / (tmeas + eps));
 }
 
-template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
 class Minimizable {
 public:
     virtual T funcToMinimize3args(Matrix<T,1,N> vec) const = 0;
@@ -54,7 +54,7 @@ public:
     virtual ~Minimizable() = default;
 };
 
-template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
 class Func : public Minimizable<T,M,N,fix> {
 public:
     Func(T fixedParam, T nSlabNew, T nSlideTopNew, T nSlideBottomNew, T rmeasNew, T tmeasNew, T tcmeasNew) EXCEPT_INPUT_PARAMS
@@ -64,7 +64,7 @@ public:
         , rmeas(rmeasNew)
         , tmeas(tmeasNew)
         , tcmeas(tcmeasNew) {
-        using namespace Minimization_NS;
+        using namespace Inverse_NS;
 
         CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
@@ -75,7 +75,7 @@ public:
     }
 
     T funcToMinimize3args(Matrix<T,1,N> vec) const {
-        using namespace Minimization_NS;
+        using namespace Inverse_NS;
 
         /// ROSENBROCK
         // return 100*sqr(vec(1) - sqr(vec(0))) + sqr(vec(0) - 1) + 100*sqr(vec(2) - sqr(vec(1))) +sqr(vec(1) - 1);
@@ -107,9 +107,9 @@ protected:
     T tau, g;
 };
 
-template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
 T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
 
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
@@ -119,10 +119,10 @@ T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
         return newG;
 }
 
-template < typename T, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
+template < typename T, size_t N, size_t gSize, Inverse_NS::FixedParameter fix >
 void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,1,gSize>& gridG) {
     using namespace Math_NS;
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     T tMin = -5;
@@ -164,9 +164,9 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
     }
 }
 
-template < typename T, size_t M, size_t N, size_t gSize, Minimization_NS::FixedParameter fix >
+template < typename T, size_t M, size_t N, size_t gSize, Inverse_NS::FixedParameter fix >
 Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG, const T& g) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
@@ -217,9 +217,9 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
     return dist;
 }
 
-template < typename T, size_t M, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
 void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);

@@ -41,11 +41,11 @@ namespace {
     #define REPEATS 10'000'000
     const map<pair<pair<pair<int, int>, string>, string>, int> ExpectedDeviations = {
         {{{{REPEATS, 2  }, "random" }, ""     },    11000},
-        {{{{REPEATS, 10 }, "random" }, ""     },     6300},
+        {{{{REPEATS, 10 }, "random" }, ""     },     6500},
         {{{{REPEATS, 100}, "random" }, ""     },     2600},
         {{{{REPEATS, 2  }, "randomC"}, ""     },    11000},
         {{{{REPEATS, 2  }, "randomC"}, "float"},  5010000},
-        {{{{REPEATS, 10 }, "randomC"}, ""     },     6300},
+        {{{{REPEATS, 10 }, "randomC"}, ""     },     6500},
         {{{{REPEATS, 10 }, "randomC"}, "float"},  1002000},
         {{{{REPEATS, 100}, "randomC"}, ""     },     2600},
         {{{{REPEATS, 100}, "randomC"}, "float"},   102000}

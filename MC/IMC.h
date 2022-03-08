@@ -4,12 +4,15 @@
 #include "MonteCarlo.h"
 
 #include "../AD/AddingDoublingNelderMead.h"
-#include "../Minimization/FixedParam.h"
+#include "../Inverse/FixedParam.h"
+#include "../Inverse/NelderMead.h"
 #include "../Physics/Angles.h"
 #include "../Utils/Utils.h"
 
 #include <stdexcept>
 #include <utility>
+
+using namespace Inverse_NS;
 
 template < typename T >
 T tauCalc(T nSlab, T n_slide_top, T n_slide_bottom, T Tcol) {
@@ -63,14 +66,14 @@ T funcToMinimizeMC(const T& a,
     for (auto x: tMC)
         cout << x.first << " " << x.second << endl;
     //*/
-    constexpr auto EPS = 1E-6;
+    // constexpr auto EPS = 1E-6;
     for (int i = 0; i < isize(rMC); i++)
         func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + EPS)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + EPS)*/);
 
     return func2min;
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 class MinimizableMC {
 public:
     virtual T funcToMinimize3argsMC(Matrix<T,1,N> vec) const = 0;
@@ -78,7 +81,7 @@ public:
     virtual ~MinimizableMC() = default;
 };
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 class FuncMC : public MinimizableMC<T,Nz,Nr,detector,N,fix> {
 public:
     FuncMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
@@ -95,7 +98,7 @@ public:
         , rmeas(new_rmeas)
         , tmeas(new_tmeas)
         , tcmeas(new_tcmeas) {
-        using namespace Minimization_NS;
+        using namespace Inverse_NS;
         using namespace std;
 
         if (fix == FixedParameter::Tau)
@@ -107,7 +110,7 @@ public:
     }
 
     T funcToMinimize3argsMC(Matrix<T,1,N> vec) const {
-        using namespace Minimization_NS;
+        using namespace Inverse_NS;
         using namespace std;
 
         if (N == 2) {
@@ -156,9 +159,9 @@ protected:
     T tcmeas;
 };
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     T nSlab = empty_tissue.n;
@@ -178,7 +181,7 @@ T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcme
         throw invalid_argument("Need to have fixed parameter");
 }
 
-template <typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix, size_t gSize>
+template <typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix, size_t gSize>
 Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,gSize> gridA, Matrix<T,1,gSize> gridT, Matrix<T,1,gSize> gridG, const T& g) {
     using namespace std;
 
@@ -211,7 +214,7 @@ Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,
     return dist;
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 void startGridIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, T& aStart, T& tStart, T& gStart) {
     using namespace std;
     constexpr int gridSize = 7;
@@ -237,9 +240,10 @@ void startGridIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, T& aStart, T& tStart, T& gSt
     gStart = gridG(minElementIndex);
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
+    using namespace Inverse_NS;
     using namespace std;
 
     Matrix<T,1,N> vstart, vb, vg, vw, vmid, vr, ve, vc, vs, vprevious;
@@ -350,7 +354,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
 
-        sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
@@ -388,7 +392,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[N].first = ve;
                 simplex[N].second = fve;
 
-                int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
                 if (checksum == N)
                     break;
 
@@ -400,7 +404,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[N].first = vr;
                 simplex[N].second = fvr;
 
-                int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
                 if (checksum == N)
                     break;
 
@@ -413,7 +417,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             simplex[N].first = vr;
             simplex[N].second = fvr;
 
-            int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
             if (checksum == N)
                 break;
 
@@ -438,7 +442,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             simplex[N].first = vs;
             simplex[N].second = fvs;
 
-        int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+        int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
             if (checksum == N)
                 break;
 
@@ -456,7 +460,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             cout << "v previous " << vprevious << endl;
             // cout << "global shrink" << endl;
 
-            int checksum = checkConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
             if (checksum == N)
                 break;
 
@@ -464,13 +468,13 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         }
     }
 
-    sort(ALL_CONTAINER(simplex), sortSimplex<T, N>);
+    sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
     // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
 }
 
-template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Minimization_NS::FixedParameter fix >
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 void IMC(const std::vector<std::pair<T,T>>& rmeas,
          const std::vector<std::pair<T,T>>& tmeas,
          T tcmeas,
@@ -490,7 +494,7 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
          T& aOut,
          T& tauOut,
          T& gOut) {
-    using namespace Minimization_NS;
+    using namespace Inverse_NS;
 	using namespace std;
 
     T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(gStart, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
