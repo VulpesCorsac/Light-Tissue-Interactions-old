@@ -1,7 +1,7 @@
 #pragma once
 
-#include "MCmultithread.h"
 #include "MonteCarlo.h"
+#include "MonteCarloMultithread.h"
 
 #include "../Inverse/Helpers.h"
 #include "../Inverse/FixedParam.h"

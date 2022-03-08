@@ -8,10 +8,10 @@
 #include "Utils/ReadFiles.h"
 
 #include "MC/Detector.h"
-#include "MC/IMC.h"
-#include "MC/MCmultithread.h"
+#include "MC/InverseMonteCarlo.h"
 #include "MC/Medium.h"
 #include "MC/MonteCarlo.h"
+#include "MC/MonteCarloMultithread.h"
 #include "MC/Photon.h"
 #include "MC/Sample.h"
 

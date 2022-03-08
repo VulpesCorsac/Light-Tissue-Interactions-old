@@ -2,7 +2,7 @@
 
 #include "Medium.h"
 #include "MonteCarlo.h"
-#include "MCmultithread.h"
+#include "MonteCarloMultithread.h"
 #include "Detector.h"
 
 #include "../Physics/BugerLambert.h"
