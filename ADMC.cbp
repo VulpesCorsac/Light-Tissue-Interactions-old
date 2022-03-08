@@ -47,14 +47,15 @@
 			<Add option="-static" />
 			<Add library="yaml-cpp/libyaml-cpp.a" />
 		</Linker>
-		<Unit filename="AD/ADTests.h" />
 		<Unit filename="AD/AddingDoubling.h" />
+		<Unit filename="AD/AddingDoublingNelderMead.h" />
+		<Unit filename="AD/AddingDoublingTests.h" />
 		<Unit filename="AD/CMakeLists.txt" />
-		<Unit filename="AD/DMmethod.h" />
-		<Unit filename="AD/IAD.h" />
-		<Unit filename="AD/IADTests.h" />
+		<Unit filename="AD/DeltaMMethod.h" />
+		<Unit filename="AD/Eigen_NS.h" />
+		<Unit filename="AD/InverseAddingDoubling.h" />
+		<Unit filename="AD/InverseAddingDoublingTests.h" />
 		<Unit filename="AD/LayerInit.h" />
-		<Unit filename="AD/NelderMead.h" />
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
@@ -91,6 +92,7 @@
 		<Unit filename="Math/CMakeLists.txt" />
 		<Unit filename="Math/Mesh3.h" />
 		<Unit filename="Math/Mesh3Tests.h" />
+		<Unit filename="Math/NelderMead.h" />
 		<Unit filename="Math/Random.h" />
 		<Unit filename="Math/RandomTests.h" />
 		<Unit filename="Math/Vector3.h" />
