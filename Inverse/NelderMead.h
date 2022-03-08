@@ -13,7 +13,7 @@ namespace Inverse_NS {
     template < typename T, size_t N >
     int CheckConvergence(const Matrix<T,1,N>& current,
                          const Matrix<T,1,N>& previous,
-                         const T& eps) noexcept;
+                         const T& EPS) noexcept;
 
     template < typename T >
     T a2aComp(T a);
@@ -53,7 +53,7 @@ bool Inverse_NS::SortSimplex(const std::pair<Matrix<T,1,N>,T> &a,
 template < typename T, size_t N >
 int Inverse_NS::CheckConvergence(const Matrix<T,1,N>& current,
                                  const Matrix<T,1,N>& previous,
-                                 const T& eps) noexcept {
+                                 const T& EPS) noexcept {
     using namespace std;
 
     if (current == previous)
@@ -61,7 +61,7 @@ int Inverse_NS::CheckConvergence(const Matrix<T,1,N>& current,
 
     int checksum = 0;
     for (size_t m = 0; m < N; m++)
-        if (abs(current(m) - previous(m)) < eps)
+        if (abs(current(m) - previous(m)) < EPS)
              checksum += 1;
     return checksum;
 }
@@ -97,7 +97,6 @@ T Inverse_NS::aComp2a(T aC) {
     using namespace Math_NS;
 
     CHECK_ARGUMENT_CONTRACT(aC != 0);
-    CHECK_ARGUMENT_CONTRACT((sqr(aC) + 4) + aC - 2 >  0);
 
     return (sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
 }

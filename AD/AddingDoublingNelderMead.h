@@ -13,8 +13,7 @@
 #include <iostream>
 #include <utility>
 
-using namespace AddingDoubling_NS;
-using namespace Inverse_NS;
+namespace AddingDoubling_NS {
 
 template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
 void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart, T gstart, Matrix<T,1,N>& vecMin, T& fmin, int& iters) {
@@ -68,14 +67,14 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
-        T eps = 1E-5; // for checking convergence
+        constexpr T EPS = 1E-5; /// for checking convergence
 
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
             simplex[i].second = f.funcToMinimize3args(vComp2v<T,N,fix>(simplex[i].first));
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
-        sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
@@ -113,7 +112,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[N].first = ve;
                 simplex[N].second = f.funcToMinimize3args(vComp2v<T,N,fix>(ve));
 
-                const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
                 if (checksum == N)
                     break;
 
@@ -127,7 +126,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[N].first = vr;
                 simplex[N].second = fvr;
 
-                const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
                 if (checksum == N)
                     break;
 
@@ -142,7 +141,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             simplex[N].first = vr;
             simplex[N].second = f.funcToMinimize3args(vComp2v<T,N,fix>(vr));
 
-            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -165,7 +164,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
             simplex[N].first = vs;
             simplex[N].second = f.funcToMinimize3args(vComp2v<T,N,fix>(vs));
 
-            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -182,7 +181,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
                 simplex[i].second = f.funcToMinimize3args(vComp2v<T,N,fix>(simplex[i].first));
             }
 
-            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            const auto checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -195,14 +194,14 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         }
     }
 
-    sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
+    sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
     // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
 }
 
 template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
-void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom, T& aOut, T& tauOut, T& gOut) {
+void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& aOut, T& tauOut, T& gOut) {
     using namespace Inverse_NS;
     using namespace std;
 
@@ -210,12 +209,12 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
     T g_val = 0.0;
-	if (fix == FixedParameter::G && N == 2){
+	if (fix == FixedParameter::G && N == 2) {
         cout << "Enter g " << endl;
         cin >> g_val;
     }
-    T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, n_slide_top, n_slide_bottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    Func<T,M,N,fix> toMinimize(fixedParam, nSlab, n_slide_top, n_slide_bottom, rsmeas, tsmeas, tcmeas);
+    T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, nSlideTop, nSlideBottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
+    Func<T,M,N,fix> toMinimize(fixedParam, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
 
     /// STARTING POINT
     T astart, tstart, gstart;
@@ -237,7 +236,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
     Matrix<T,1,N> vecMin;
 
     int itersMade;
-    if (N == 3){
+    if (N == 3) {
         NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
     }
     cout << "Iterations made " << itersMade << endl;
@@ -290,4 +289,6 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T n_slide_top, T n_slide_bottom,
         gOut = gstart;
         tauOut = tstart;
     // }
+}
+
 }

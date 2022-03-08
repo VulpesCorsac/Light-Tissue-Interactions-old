@@ -1,6 +1,5 @@
 #pragma once
 
-// #include "NelderMead.h"
 #include "Quadrature.h"
 #include "RT.h"
 
@@ -39,12 +38,12 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
     RTs<T,M>(a, tau, g, nSlab, nSlideTop, nSlideBottom, v, w, rs, ts);
 
     /// TODO: WHAT IS THIS 1E-6?
-    constexpr auto eps = 1E-6;
+    constexpr T EPS = 1E-6;
 
-    CHECK_ARGUMENT_CONTRACT(rmeas + eps > 0);
-    CHECK_ARGUMENT_CONTRACT(tmeas + eps > 0);
+    CHECK_ARGUMENT_CONTRACT(rmeas + EPS > 0);
+    CHECK_ARGUMENT_CONTRACT(tmeas + EPS > 0);
 
-    return abs((rs - rmeas) / (rmeas + eps)) + abs((ts - tmeas) / (tmeas + eps));
+    return abs((rs - rmeas) / (rmeas + EPS)) + abs((ts - tmeas) / (tmeas + EPS));
 }
 
 template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
@@ -136,7 +135,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
     if (N == 2) {
         T ts0 = 0;
         T rs0 = 0;
-        constexpr auto eps = 1E-6;
+        constexpr T EPS = 1E-6;
         RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
         // cout << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
         // cout << rs0 << " " << ts0 << endl;
@@ -145,17 +144,17 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
             for (size_t j = 0; j < gSize; j++) {
                 if (fix == FixedParameter::Tau) {
                     RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + eps);
+                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cout << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
                 } else if (fix == FixedParameter::G) {
                     RTs<T,M>(gridA(i), gridT(j), f.getG(), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + eps);
+                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cout << dist(i,j) << " ";
                 }
             }
         }
     } else if (N == 3) {
-        constexpr auto eps = 1E-6;
+        constexpr T EPS = 1E-6;
         T ts0 = 0;
         T rs0 = 0;
         // RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
@@ -164,7 +163,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
                 RTs<T,M>(gridA(i), gridT(j), g, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + eps) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + eps);
+                dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + EPS);
                 // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
             }
         }

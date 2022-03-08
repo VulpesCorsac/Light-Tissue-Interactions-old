@@ -99,10 +99,10 @@ Vector3D<T>::Vector3D() noexcept
 
 template < typename T >
 template < typename U, typename V, typename W >
-Vector3D<T>::Vector3D(const U& new_x, const V& new_y, const W& new_z) noexcept
-    : x(new_x)
-    , y(new_y)
-    , z(new_z) {
+Vector3D<T>::Vector3D(const U& x, const V& y, const W& z) noexcept
+    : x(x)
+    , y(y)
+    , z(z) {
 }
 
 template < typename T >

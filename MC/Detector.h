@@ -17,11 +17,11 @@ public:
     IntegratingSphere() noexcept = default;
 
     /// constructor with distance
-    IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2, const T& new_dist) noexcept;
+    IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2, const T& distance) noexcept;
     /// constructor without distance
-    IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2) noexcept;
+    IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2) noexcept;
     /// constructor from mother-sphere with distance
-    IntegratingSphere(const IntegratingSphere<T>& new_sphere, const T& new_dist) noexcept;
+    IntegratingSphere(const IntegratingSphere<T>& sphere, const T& distance) noexcept;
 
     ~IntegratingSphere() noexcept = default;
 
@@ -44,26 +44,26 @@ protected:
  ******************/
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2, const T& new_dist) noexcept
-    : distance(new_dist)
-    , dSphere(new_dSphere)
-    , dPort1(new_dPort1)
-    , dPort2(new_dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2, const T& distance) noexcept
+    : distance(distance)
+    , dSphere(dSphere)
+    , dPort1(dPort1)
+    , dPort2(dPort2) {
 }
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const T& new_dSphere, const T& new_dPort1, const T& new_dPort2) noexcept
-    : dSphere(new_dSphere)
-    , dPort1(new_dPort1)
-    , dPort2(new_dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2) noexcept
+    : dSphere(dSphere)
+    , dPort1(dPort1)
+    , dPort2(dPort2) {
 }
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const IntegratingSphere<T>& new_sphere, const T& new_dist) noexcept
-    : distance(new_dist)
-    , dSphere(new_sphere.dSphere)
-    , dPort1(new_sphere.dPort1)
-    , dPort2(new_sphere.dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const IntegratingSphere<T>& sphere, const T& distance) noexcept
+    : distance(distance)
+    , dSphere(sphere.dSphere)
+    , dPort1(sphere.dPort1)
+    , dPort2(sphere.dPort2) {
 }
 
 template < typename T >

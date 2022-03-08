@@ -192,7 +192,7 @@ void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
     length = length + 0.5 - (length < 0 ? 1 : 0);
     int nLength = length;
 
-    for(int i = 0; i < nLength; i++) {
+    for (int i = 0; i < nLength; i++) {
         if (detector == 1) {
             SpheresArrayR.push_back(IntegratingSphere<T>(mainSphereR, distances.min + i*distances.step));
             SpheresArrayT.push_back(IntegratingSphere<T>(mainSphereT, distances.min + i*distances.step));
@@ -869,7 +869,7 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
         for (int j = 0; j < Nr; j++)
             A(i,j) /= Volume(j+1) * Nphotons;
 
-    for(int j = 0; j < Nr; j++) {
+    for (int j = 0; j < Nr; j++) {
         RR(j) /= Area(j+1) * Nphotons;
         TT(j) /= Area(j+1) * Nphotons;
     }

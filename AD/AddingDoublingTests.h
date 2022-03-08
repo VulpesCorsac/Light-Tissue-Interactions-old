@@ -18,27 +18,27 @@ using namespace std;
 template < typename T, size_t M >
 class TestDataRT {
 public:
-    TestDataRT(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom) {
-        setValues(a, tau, g, n_slab, n_slide_top, n_slide_bottom);
+    TestDataRT(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom) {
+        setValues(a, tau, g, nSlab, nSlideTop, nSlideBottom);
         calc();
     }
 
-    void setValues(const T& a, const T& tau, const T& g, const T& n_slab, const T& n_slide_top, const T& n_slide_bottom) {
-        myA = a;
-        myTau = tau;
-        myG = g;
-        myN_slab = n_slab;
-        myN_slide_top = n_slide_top;
-        myN_slide_bottom = n_slide_bottom;
+    void setValues(const T& a, const T& tau, const T& g, const T& nSlab, const T& nSlideTop, const T& nSlideBottom) {
+        A = a;
+        Tau = tau;
+        G = g;
+        NSlab = nSlab;
+        NSlideTop = nSlideTop;
+        NSlideBottom = nSlideBottom;
 
-        Quadrature<T,M> quadrature(n_slab);
+        Quadrature<T,M> quadrature(nSlab);
         v = quadrature.getV();
         w = quadrature.getW();
     }
 
     void calc() {
-        RTs<T,M>(myA, myTau, myG, myN_slab, myN_slide_top, myN_slide_bottom, v, w, rs, ts);
-        tc = Tc<T,M>(myTau, myN_slab, myN_slide_top, myN_slide_bottom);
+        RTs<T,M>(A, Tau, G, NSlab, NSlideTop, NSlideBottom, v, w, rs, ts);
+        tc = Tc<T,M>(Tau, NSlab, NSlideTop, NSlideBottom);
     }
 
     T getRs() const noexcept { return rs; }
@@ -46,7 +46,7 @@ public:
     T getTc() const noexcept { return tc; }
 
 protected:
-    T myA, myTau, myG, myN_slab, myN_slide_top, myN_slide_bottom, ts, rs, tc;
+    T A, Tau, G, NSlab, NSlideTop, NSlideBottom, ts, rs, tc;
     array<T,M> v, w;
 };
 

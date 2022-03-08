@@ -15,12 +15,12 @@
 using namespace Inverse_NS;
 
 template < typename T >
-T tauCalc(T nSlab, T n_slide_top, T n_slide_bottom, T Tcol) {
+T tauCalc(T nSlab, T nSlideTop, T nSlideBottom, T Tcol) {
     using namespace Math_NS;
     using namespace Physics_NS;
 
-    const auto rb1 = BorderReflectance<T>(nSlab, n_slide_top   );
-    const auto rb2 = BorderReflectance<T>(nSlab, n_slide_bottom);
+    const auto rb1 = BorderReflectance<T>(nSlab, nSlideTop   );
+    const auto rb2 = BorderReflectance<T>(nSlab, nSlideBottom);
     const auto cached1 = rb1 * rb2;
     const auto cached2 = cached1 - rb1 - rb2 + 1;
     return log((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol));
@@ -30,30 +30,30 @@ template < typename T, size_t Nz, size_t Nr, bool detector >
 T funcToMinimizeMC(const T& a,
                    const T& tau,
                    const T& g,
-                   const Medium<T>& empty_tissue,
+                   const Medium<T>& emptyTissue,
                    const std::vector<Medium<T>>& slides,
                    int Np,
                    int threads,
                    T z,
                    T r,
-                   const IntegratingSphere<T>& new_sphereR,
-                   const IntegratingSphere<T>& new_sphereT,
-                   const DetectorDistance<T> new_dist,
+                   const IntegratingSphere<T>& sphereR,
+                   const IntegratingSphere<T>& sphereT,
+                   const DetectorDistance<T> dist,
                    const std::vector<std::pair<T,T>>& rmeas,
                    const std::vector<std::pair<T,T>>& tmeas) {
     using namespace Utils_NS;
     using namespace std;
 
-    // auto tissue = Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g);
+    // auto tissue = Medium<T>::fromAlbedo(emptyTissue.n, a, tau, emptyTissue.D, g);
     vector<Medium<T>> layers;
     if (slides.empty())
-        layers = { Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g) };
+        layers = { Medium<T>::fromAlbedo(emptyTissue.n, a, tau, emptyTissue.D, g) };
     else
-        layers = { slides[0], Medium<T>::fromAlbedo(empty_tissue.n, a, tau, empty_tissue.D, g), slides[1] };
+        layers = { slides[0], Medium<T>::fromAlbedo(emptyTissue.n, a, tau, emptyTissue.D, g), slides[1] };
     Sample<T> sample(layers, 1.0, 1.0);
 
     MCresults<T,Nz,Nr,detector> myResultsMT;
-    MCmultithread<T,Nz,Nr,detector>(sample, Np, threads, z, r, myResultsMT, new_sphereR, new_sphereT, new_dist);
+    MCmultithread<T,Nz,Nr,detector>(sample, Np, threads, z, r, myResultsMT, sphereR, sphereT, dist);
 
     const auto rMC = myResultsMT.detectedR;
     const auto tMC = myResultsMT.detectedT;
@@ -84,27 +84,28 @@ public:
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
 class FuncMC : public MinimizableMC<T,Nz,Nr,detector,N,fix> {
 public:
-    FuncMC(T fixed_param, const Medium<T>& new_empty_tissue, const std::vector<Medium<T>>& new_slides, int new_Np,
-           int new_threads, T new_z, T new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT,
-           const DetectorDistance<T> new_dist, const std::vector<std::pair<T,T>>& new_rmeas, const std::vector<std::pair<T,T>>& new_tmeas, const T& new_tcmeas)
-        : empty_tissue(new_empty_tissue)
-        , slides(new_slides)
-        , Np(new_Np)
-        , threads(new_threads)
-        , z(new_z), r(new_r)
-        , SphereR(new_sphereR)
-        , SphereT(new_sphereT)
-        , dist(new_dist)
-        , rmeas(new_rmeas)
-        , tmeas(new_tmeas)
-        , tcmeas(new_tcmeas) {
+    FuncMC(T fixedParam, const Medium<T>& emptyTissue, const std::vector<Medium<T>>& slides, int Np,
+           int threads, T z, T r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT,
+           const DetectorDistance<T> dist, const std::vector<std::pair<T,T>>& rmeas, const std::vector<std::pair<T,T>>& tmeas, const T& tcmeas)
+        : emptyTissue(emptyTissue)
+        , slides(slides)
+        , Np(Np)
+        , threads(threads)
+        , z(z)
+        , r(r)
+        , SphereR(sphereR)
+        , SphereT(sphereT)
+        , dist(dist)
+        , rmeas(rmeas)
+        , tmeas(tmeas)
+        , tcmeas(tcmeas) {
         using namespace Inverse_NS;
         using namespace std;
 
         if (fix == FixedParameter::Tau)
-            this->tau = fixed_param;
+            this->tau = fixedParam;
         else if (fix == FixedParameter::G)
-            this->g = fixed_param;
+            this->g = fixedParam;
         else
             throw invalid_argument("Need to have fixed parameter");
     }
@@ -114,20 +115,19 @@ public:
         using namespace std;
 
         if (N == 2) {
-            if (fix == FixedParameter::Tau){
-                return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), this->tau, vec(1), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
-            }
+            if (fix == FixedParameter::Tau)
+                return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), this->tau, vec(1), this->emptyTissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
             else if (fix == FixedParameter::G)
-                return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), this->g, this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
+                return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), this->g, this->emptyTissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
             else
                 throw invalid_argument("Need to have fixed parameter");
         } else if (N == 3)
-            return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), vec(2), this->empty_tissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
+            return funcToMinimizeMC<T,Nz,Nr,detector>(vec(0), vec(1), vec(2), this->emptyTissue, this->slides, this->Np, this->threads, this->z, this->r, this->SphereR, this->SphereT, this->dist, this->rmeas, this->tmeas);
         else
             throw std::invalid_argument("N should be in range [2, 3]");
     }
 
-    Medium<T> getEmptyTissue() const noexcept { return empty_tissue; }
+    Medium<T> getEmptyTissue() const noexcept { return emptyTissue; }
     std::vector<Medium<T>> getSlides() const noexcept { return slides; }
     int getNp() const noexcept { return Np; }
     int getThreads() const noexcept { return threads; }
@@ -147,7 +147,7 @@ protected:
     T g;
 
     // Sample<T> sample;
-    Medium<T> empty_tissue;
+    Medium<T> emptyTissue;
     std::vector<Medium<T>> slides;
     int Np, threads;
     T z;
@@ -160,21 +160,21 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS::FixedParameter fix >
-T fixParam(T newG, Medium<T> empty_tissue, std::vector<Medium<T>> slides, T tcmeas) {
+T fixParam(T newG, Medium<T> emptyTissue, std::vector<Medium<T>> slides, T tcmeas) {
     using namespace Inverse_NS;
     using namespace std;
 
-    T nSlab = empty_tissue.n;
-    T n_slide_top, n_slide_bottom;
+    T nSlab = emptyTissue.n;
+    T nSlideTop, nSlideBottom;
     if (slides.empty()) {
-        n_slide_top = nSlab;
-        n_slide_bottom = nSlab;
+        nSlideTop = nSlab;
+        nSlideBottom = nSlab;
     } else {
-        n_slide_top = slides[0].n;
-        n_slide_bottom = slides[1].n;
+        nSlideTop = slides[0].n;
+        nSlideBottom = slides[1].n;
     }
     if (fix == FixedParameter::Tau)
-        return tauCalc<T>(nSlab, n_slide_top, n_slide_bottom, tcmeas);
+        return tauCalc<T>(nSlab, nSlideTop, nSlideBottom, tcmeas);
     else if (fix == FixedParameter::G)
         return newG;
     else
@@ -186,7 +186,7 @@ Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,
     using namespace std;
 
     Matrix<T,gSize,gSize> dist;
-    constexpr auto eps = 1E-6;
+    constexpr T EPS = 1E-6;
     /// TODO: WHAT IS THIS 1E-6?
     T ts0 = 0;
     T rs0 = 0;
@@ -206,7 +206,7 @@ Matrix<T,gSize,gSize> distancesIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, Matrix<T,1,
             const auto tMC = myResultsMT.detectedT;
             rs0 = rMC[0].second;
             ts0 = tMC[0].second;
-            dist(i,j) = abs(rs0 - (f.getRmeas()[0].second)) / ((f.getRmeas()[0].second) + eps) + abs(ts0 - (f.getTmeas()[0].second)) / ((f.getTmeas()[0].second) + eps);
+            dist(i,j) = abs(rs0 - (f.getRmeas()[0].second)) / ((f.getRmeas()[0].second) + EPS) + abs(ts0 - (f.getTmeas()[0].second)) / ((f.getTmeas()[0].second) + EPS);
             cout << gridA(i) << " " << gridT(j) << " " << g << ": " << rs0 << " " << ts0 << " dist " << dist(i,j) << endl;
             //dist(i,j) = std::abs(rs0 - f.getRmeas()) + std::abs(ts0 - f.getTmeas());
         }
@@ -346,7 +346,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
 
     for (int k = 0; k < maxIter; k++) {
         iters = k;
-        T eps = checkConvEps;
+        T EPS = checkConvEps;
         cout << k << endl;
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
@@ -354,7 +354,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             // cout << simplex[i].first << " " << simplex[i].second << endl;
         }
 
-        sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
+        sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
         vb = simplex[0].first;
         vg = simplex[1].first;
         vw = simplex[N].first;
@@ -392,7 +392,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[N].first = ve;
                 simplex[N].second = fve;
 
-                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
                 if (checksum == N)
                     break;
 
@@ -404,7 +404,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
                 simplex[N].first = vr;
                 simplex[N].second = fvr;
 
-                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+                int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
                 if (checksum == N)
                     break;
 
@@ -417,7 +417,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             simplex[N].first = vr;
             simplex[N].second = fvr;
 
-            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -442,7 +442,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             simplex[N].first = vs;
             simplex[N].second = fvs;
 
-        int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+        int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -460,7 +460,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
             cout << "v previous " << vprevious << endl;
             // cout << "global shrink" << endl;
 
-            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, eps);
+            int checksum = CheckConvergence<T,N>(vComp2v<T,N,fix>(simplex[N].first), vprevious, EPS);
             if (checksum == N)
                 break;
 
@@ -468,7 +468,7 @@ void NelderMeadMin(FuncMC<T,Nz,Nr,detector,N,fix> f, int maxIter, T astart, T ts
         }
     }
 
-    sort(ALL_CONTAINER(simplex), SortSimplex<T, N>);
+    sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
     // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
@@ -478,7 +478,7 @@ template < typename T, size_t Nz, size_t Nr, bool detector, size_t N, Inverse_NS
 void IMC(const std::vector<std::pair<T,T>>& rmeas,
          const std::vector<std::pair<T,T>>& tmeas,
          T tcmeas,
-         const Medium<T>& empty_tissue,
+         const Medium<T>& emptyTissue,
          const std::vector<Medium<T>>& slides,
          int Np,
          int threads,
@@ -497,8 +497,8 @@ void IMC(const std::vector<std::pair<T,T>>& rmeas,
     using namespace Inverse_NS;
 	using namespace std;
 
-    T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(gStart, empty_tissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    FuncMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, empty_tissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
+    T fixedParam = fixParam<T,Nz,Nr,detector,N,fix>(gStart, emptyTissue, slides, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
+    FuncMC<T,Nz,Nr,detector,N,fix> toMinimize(fixedParam, emptyTissue, slides, Np, threads, z, r, SphereR, SphereT, dist, rmeas, tmeas, tcmeas);
 
     if (fix == FixedParameter::Tau && N == 2)
         cout << "Inverse Monte Carlo, fixed optical thickness = " << tStart << endl;

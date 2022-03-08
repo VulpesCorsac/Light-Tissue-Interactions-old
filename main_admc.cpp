@@ -104,13 +104,13 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
     ofstream fout;
 
     T nSlab = tissue.n;
-    T n_slide_top, n_slide_bottom;
+    T nSlideTop, nSlideBottom;
     if (slides.empty()) {
-        n_slide_top = tissue.n;
-        n_slide_bottom = tissue.n;
+        nSlideTop = tissue.n;
+        nSlideBottom = tissue.n;
     } else {
-        n_slide_top = slides[0].n;
-        n_slide_bottom = slides[1].n;
+        nSlideTop = slides[0].n;
+        nSlideBottom = slides[1].n;
     }
 
     T aOutIAD, tauOutIAD, gOutIAD; // IAD result will be recorded here
@@ -134,7 +134,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
             diff += e1;
         }
 
-        for (const auto& x: tsmeas){
+        for (const auto& x: tsmeas) {
             T e2 = distribution(generator);
             tSpoilt.push_back(make_pair(x.first, x.second + e2));
             diff += e2;
@@ -160,7 +160,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
         T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
         //*/
 
-        IAD<T,M,N,fix>(rStart, tStart, tcSpoilt, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
+        IAD<T,M,N,fix>(rStart, tStart, tcSpoilt, nSlab, nSlideTop, nSlideBottom, aOutIAD, tauOutIAD, gOutIAD);
 
         cout << "First approximation: Inverse Adding-Doubling" << endl;
         cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
@@ -281,13 +281,13 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     Sample<T> emptySample (emptyLayers, 1.0, 1.0);
 
     T nSlab = tissue.n;
-    T n_slide_top, n_slide_bottom;
+    T nSlideTop, nSlideBottom;
     if (slides.empty()) {
-        n_slide_top = tissue.n;
-        n_slide_bottom = tissue.n;
+        nSlideTop = tissue.n;
+        nSlideBottom = tissue.n;
     } else {
-        n_slide_top = slides[0].n;
-        n_slide_bottom = slides[1].n;
+        nSlideTop = slides[0].n;
+        nSlideBottom = slides[1].n;
     }
     //*/
 
@@ -306,15 +306,15 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
 
     Medium<T> emptyTissue = Medium<T>::fromAlbedo(0.0, 0.0, 0.0, 0.0, 0.0);
-    T rSpec, nSlab, n_slide_top, n_slide_bottom;
+    T rSpec, nSlab, nSlideTop, nSlideBottom;
     vector<Medium<T>> slides = {};
 
     if (emptySample.getNlayers() == 1) {
         rSpec = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
         emptyTissue = emptySample.getMedium(0);
         nSlab = emptyTissue.n;
-        n_slide_top = emptyTissue.n;
-        n_slide_bottom = emptyTissue.n;
+        nSlideTop = emptyTissue.n;
+        nSlideBottom = emptyTissue.n;
     } else {
         slides = {emptySample.getMedium(0), emptySample.getMedium(emptySample.getNlayers() - 1)};
         T r1 = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getMedium(0).n, 1.0);
@@ -322,8 +322,8 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
         rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
         emptyTissue = emptySample.getMedium(1); // yeah i need to make several layers possible
         nSlab = emptyTissue.n;
-        n_slide_top = slides[0].n;
-        n_slide_bottom = slides[1].n;
+        nSlideTop = slides[0].n;
+        nSlideBottom = slides[1].n;
     }
 
     T aOutIAD, tauOutIAD, gOutIAD; // IAD result will be recorded here
@@ -347,7 +347,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
         tStart += Tc[0].second;
 
     // if (N == 2) {
-        IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, n_slide_top, n_slide_bottom, aOutIAD, tauOutIAD, gOutIAD);
+        IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, nSlideTop, nSlideBottom, aOutIAD, tauOutIAD, gOutIAD);
         cout << "First approximation: Inverse Adding-Doubling" << endl;
         cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
     // }
