@@ -229,7 +229,7 @@ void startGridIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, T& aStart, T& tStart, T& gSt
         const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
         const T minHere = distancesMatrix.minCoeff();
         vectorMins.push_back(minHere);
-        vectorCoord.push_back(make_pair(minRow, minCol));
+        vectorCoord.push_back({minRow, minCol});
         ignore = mins;
         cout << gridG(i) << ": " << minHere << " " << minRow << " " << minCol << endl;
     }

@@ -130,13 +130,13 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
 
         for (const auto& x: rsmeas) {
             T e1 = distribution(generator);
-            rSpoilt.push_back(make_pair(x.first, x.second + e1));
+            rSpoilt.push_back({x.first, x.second + e1});
             diff += e1;
         }
 
         for (const auto& x: tsmeas) {
             T e2 = distribution(generator);
-            tSpoilt.push_back(make_pair(x.first, x.second + e2));
+            tSpoilt.push_back({x.first, x.second + e2});
             diff += e2;
         }
 
@@ -340,7 +340,7 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     //*/
 
     if ((fix == FixedParameter::G && N == 2) || N == 3)
-        Tc.push_back(make_pair(static_cast<T>(0.0), static_cast<T>(0.0)));
+        Tc.push_back({static_cast<T>(0.0), static_cast<T>(0.0)});
     T rStart = Rd[0].second + rSpec; // the closest values to total Rs and Ts to be used in IAD algorithm
     T tStart = Td[0].second;
     if (SphereT.getDPort2() != 0)
@@ -430,7 +430,7 @@ int main() {
         cout << "Enter number of threads" << endl;
         cin >> Nthreads;
         string settingsFname0 = "Settings & input files/SETTINGS.txt";
-        calcInverse<T, N, fix, M, Nz, Nr, detector>(settingsFname0, Nthreads);
+        calcInverse<T,N,fix,M,Nz,Nr,detector>(settingsFname0, Nthreads);
     } else {
         int mode;
         cout << "SELECT MODE 0 1 2 3" << endl;

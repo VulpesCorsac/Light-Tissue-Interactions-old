@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LayerInit.h"
+#include "LayerProperties.h"
 
 #include "../eigen/Eigen/Dense"
 #include "../eigen/Eigen/LU"
@@ -26,7 +27,7 @@ namespace AddingDoubling_NS {
                       const Matrix<T,M,M>& T01, const Matrix<T,M,M>& T12, Matrix<T,M,M>& T02);
 
     template < typename T, size_t M >
-    void Doubling(T a, T tau, T g, T nSlab,
+    void Doubling(const LayerProperties<T>& layer,
                   const std::array<T,M>& v, const std::array<T,M>& w,
                   Matrix<T,M,M>& Rs, Matrix<T,M,M>& Ts);
 }
@@ -77,12 +78,12 @@ void AddingDoubling_NS::AddingBounds(const Matrix<T,M,M>& R01, const Matrix<T,M,
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::Doubling(T a, T tau, T g, T nSlab,
+void AddingDoubling_NS::Doubling(const LayerProperties<T>& layer,
                                  const std::array<T,M>& v, const std::array<T,M>& w,
                                  Matrix<T,M,M>& Rs, Matrix<T,M,M>& Ts) {
-    const int n = N1<T,M>(a, tau, g, nSlab);
-    Rs = RD1<T,M>(a, tau, g, nSlab, v, w);
-    Ts = TD1<T,M>(a, tau, g, nSlab, v, w);
+    const int n = N1<T,M>(layer);
+    Rs = RD1<T,M>(layer, v, w);
+    Ts = TD1<T,M>(layer, v, w);
     for (int i = 0; i < n; i++) {
         const auto oldT = Ts;
         const auto oldR = Rs;

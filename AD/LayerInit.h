@@ -1,5 +1,6 @@
 #pragma once
 
+#include "LayerProperties.h"
 #include "RedistributionFunction.h"
 
 #include "../Math/Basic.h"
@@ -14,31 +15,48 @@ namespace AddingDoubling_NS {
     Matrix<T,M,M> E();
 
     template < typename T, size_t M >
-    Matrix<T,M,M> B(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> B(const LayerProperties<T>& layer,
+                    const std::array<T,M>& v,
+                    const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> A(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> A(const LayerProperties<T>& layer,
+                    const std::array<T,M>& v,
+                    const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> I(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> I(const LayerProperties<T>& layer,
+                    const std::array<T,M>& v,
+                    const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> G(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> G(const LayerProperties<T>& layer,
+                    const std::array<T,M>& v,
+                    const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> RR(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> RR(const LayerProperties<T>& layer,
+                     const std::array<T,M>& v,
+                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> TT(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> TT(const LayerProperties<T>& layer,
+                     const std::array<T,M>& v,
+                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,1> DoubleAW(const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,1> DoubleAW(const std::array<T,M>& v,
+                           const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> RD1(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> RD1(const LayerProperties<T>& layer,
+                      const std::array<T,M>& v,
+                      const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> TD1(T a, T tau, T g, T Vc, const std::array<T,M>& v, const std::array<T,M>& w);
+    Matrix<T,M,M> TD1(const LayerProperties<T>& layer,
+                      const std::array<T,M>& v,
+                      const std::array<T,M>& w);
 }
 
 /******************
@@ -51,7 +69,7 @@ Matrix<T,M,M> AddingDoubling_NS::E() {
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::B(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::B(const LayerProperties<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     const int m = M;
@@ -59,8 +77,8 @@ Matrix<T,M,M> AddingDoubling_NS::B(T a, T tau, T g, T nSlab,
     for (int i = 0; i < m; i++)
         CHECK_ARGUMENT_CONTRACT(v[i] != 0);
 
-    const auto hpn = HPN<T,M>(v, g);
-    const auto cached = As<T,M>(a, g) * DTaus<T,M>(a, tau, g, nSlab);
+    const auto hpn = HPN<T,M>(v, layer.g);
+    const auto cached = As<T,M>(layer.a, layer.g) * DTaus<T,M>(layer);
 
     Matrix<T,M,M> result;
     for (int i = 0; i < m; i++)
@@ -70,7 +88,7 @@ Matrix<T,M,M> AddingDoubling_NS::B(T a, T tau, T g, T nSlab,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::A(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::A(const LayerProperties<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     using namespace Math_NS;
@@ -80,9 +98,9 @@ Matrix<T,M,M> AddingDoubling_NS::A(T a, T tau, T g, T nSlab,
     for (int i = 0; i < m; i++)
         CHECK_ARGUMENT_CONTRACT(v[i] != 0);
 
-    const auto hpp = HPP<T,M>(v, g);
-    const auto cached1 = DTaus<T,M>(a, tau, g, nSlab);
-    const auto cached2 = cached1 * As<T,M>(a, g);
+    const auto hpp = HPP<T,M>(v, layer.g);
+    const auto cached1 = DTaus<T,M>(layer);
+    const auto cached2 = cached1 * As<T,M>(layer);
 
     Matrix<T,M,M> result;
     for (int i = 0; i < m; i++)
@@ -92,36 +110,37 @@ Matrix<T,M,M> AddingDoubling_NS::A(T a, T tau, T g, T nSlab,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::I(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::I(const LayerProperties<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
-    return (E<T,M>() + A<T,M>(a, tau, g, nSlab, v, w)).inverse();
+    return (E<T,M>() + A<T,M>(layer, v, w)).inverse();
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::G(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::G(const LayerProperties<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
-    const auto b = B<T,M>(a, tau, g, nSlab, v, w);
-    return (E<T,M>() + A<T,M>(a, tau, g, nSlab, v, w) - b * I<T,M>(a, tau, g, nSlab, v, w) * b).inverse();
+    const auto b = B<T,M>(layer, v, w);
+    return (E<T,M>() + A<T,M>(layer, v, w) - b * I<T,M>(layer, v, w) * b).inverse();
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::RR(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::RR(const LayerProperties<T>& layer,
                                     const std::array<T,M>& v,
                                     const std::array<T,M>& w) {
-    return 2 * G<T,M>(a, tau, g, nSlab, v, w) * B<T,M>(a, tau, g, nSlab, v, w) * I<T,M>(a, tau, g, nSlab, v, w);
+    return 2 * G<T,M>(layer, v, w) * B<T,M>(layer, v, w) * I<T,M>(layer, v, w);
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::TT(T a, T tau, T g, T nSlab,
+Matrix<T,M,M> AddingDoubling_NS::TT(const LayerProperties<T>& layer,
                                     const std::array<T,M>& v,
                                     const std::array<T,M>& w) {
-    return 2 * G<T,M>(a, tau, g, nSlab, v, w) - E<T,M>();
+    return 2 * G<T,M>(layer, v, w) - E<T,M>();
 }
 
 template < typename T, size_t M >
-Matrix<T,M,1> AddingDoubling_NS::DoubleAW(const std::array<T,M>& v, const std::array<T,M>& w) {
+Matrix<T,M,1> AddingDoubling_NS::DoubleAW(const std::array<T,M>& v,
+                                          const std::array<T,M>& w) {
     const int m = M;
     Matrix<T,M,1> t;
     for (int i = 0; i < m; i++)
@@ -130,9 +149,11 @@ Matrix<T,M,1> AddingDoubling_NS::DoubleAW(const std::array<T,M>& v, const std::a
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::RD1(T a, T tau, T g, T nSlab, const std::array<T,M>& v, const std::array<T,M>& w) {
+Matrix<T,M,M> AddingDoubling_NS::RD1(const LayerProperties<T>& layer,
+                                     const std::array<T,M>& v,
+                                     const std::array<T,M>& w) {
     const int m = M;
-    const auto cachedRR = RR<T,M>(a, tau, g, nSlab, v, w);
+    const auto cachedRR = RR<T,M>(layer, v, w);
     const auto cached2aw = DoubleAW<T,M>(v, w);
 
     for (int i = 0; i < m; i++)
@@ -146,9 +167,11 @@ Matrix<T,M,M> AddingDoubling_NS::RD1(T a, T tau, T g, T nSlab, const std::array<
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::TD1(T a, T tau, T g, T Vc, const std::array<T,M>& v, const std::array<T,M>& w) {
+Matrix<T,M,M> AddingDoubling_NS::TD1(const LayerProperties<T>& layer,
+                                     const std::array<T,M>& v,
+                                     const std::array<T,M>& w) {
     const int m = M;
-    const auto cachedTT = TT<T,M>(a, tau, g, Vc, v, w);
+    const auto cachedTT = TT<T,M>(layer, v, w);
     const auto cached2aw = DoubleAW<T,M>(v, w);
 
     for (int i = 0; i < m; i++)

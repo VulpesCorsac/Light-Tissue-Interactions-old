@@ -68,18 +68,18 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
-    MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_sphereR, const IntegratingSphere<T>& new_sphereT, const DetectorDistance<T> new_dist);
-    //MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_fiberR, const OpticalFiber<T>& new_fiberT, const DetectorDistance<T> new_dist);
+    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT, const DetectorDistance<T> dist);
+    //MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const OpticalFiber<T>& fiberR, const OpticalFiber<T>& fiberT, const DetectorDistance<T> dist);
     ~MonteCarlo() noexcept = default;
 
     /// TODO: Why not return result?
     void Calculate(MCresults<T,Nz,Nr,detector>& res);
     MCresults<T,Nz,Nr,detector> CalculateResult();
 
-    inline Matrix<T,Dynamic,Dynamic> getMatrixA()    const noexcept { return A;          }
-    inline Matrix<T,Dynamic,Dynamic> getArrayR()     const noexcept { return RR;         }
-    inline Matrix<T,Dynamic,Dynamic> getArrayRspec() const noexcept { return RRspecular; }
-    inline Matrix<T,Dynamic,Dynamic> getArrayT() 	 const noexcept { return TT; }
+    inline Matrix<T,Dynamic,Dynamic> getMatrixA()    const noexcept { return A;            }
+    inline Matrix<T,Dynamic,Dynamic> getArrayR()     const noexcept { return RR;           }
+    inline Matrix<T,Dynamic,Dynamic> getArrayRspec() const noexcept { return RRspecular;   }
+    inline Matrix<T,Dynamic,Dynamic> getArrayT() 	 const noexcept { return TT;           }
     inline Matrix<T,Dynamic,Dynamic> getAnglesR() 	 const noexcept { return arrayAnglesR; }
     inline Matrix<T,Dynamic,Dynamic> getAnglesT()    const noexcept { return arrayAnglesT; }
 
@@ -151,31 +151,31 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const IntegratingSphere<T>& new_detectorR, const IntegratingSphere<T>& new_detectorT, const DetectorDistance<T> new_dist)
-    : sample(new_sample)
-    , Nphotons(new_Np)
-    , dz(new_z / Nz)
-    , dr(new_r / Nr)
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT, const DetectorDistance<T> dist)
+    : sample(sample)
+    , Nphotons(Np)
+    , dz(z / Nz)
+    , dr(r / Nr)
     , chance(0.1)
     , threshold(1E-4)
-    , mainSphereR(new_detectorR)
-    , mainSphereT(new_detectorT)
-    , distances(new_dist) {
-        GenerateDetectorArrays();
+    , mainSphereR(detectorR)
+    , mainSphereT(detectorT)
+    , distances(dist) {
+    GenerateDetectorArrays();
 }
 
 /*
 template < typename T, size_t Nz, size_t Nr, bool detector>
-MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& new_sample, const int& new_Np, const T& new_z, const T& new_r, const OpticalFiber<T>& new_detectorR, const OpticalFiber<T>& new_detectorT, const DetectorDistance<T> new_dist)
-    : sample(new_sample)
-    , Nphotons(new_Np)
-    , dz(new_z / Nz)
-    , dr(new_r / Nr)
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const OpticalFiber<T>& detectorR, const OpticalFiber<T>& detectorT, const DetectorDistance<T> dist)
+    : sample(sample)
+    , Nphotons(Np)
+    , dz(z / Nz)
+    , dr(r / Nr)
     , chance(0.1)
     , threshold(1E-4)
-    , mainFiberR(new_detectorR)
-    , mainFiberT(new_detectorT)
-    , distances(new_dist) {
+    , mainFiberR(detectorR)
+    , mainFiberT(detectorT)
+    , distances(dist) {
     GenerateDetectorArrays();
 }
 //*/
@@ -849,15 +849,15 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
         results.SpheresArrayT = SpheresArrayT;
         for (int i = 0; i < isize(SpheresArrayR); i++) {
             /// TODO: use {} instead to make pair
-            results.detectedR.push_back(make_pair(SpheresArrayR[i].getDistance(), SpheresArrayR[i].totalLight / Nphotons));
-            results.detectedT.push_back(make_pair(SpheresArrayT[i].getDistance(), SpheresArrayT[i].totalLight / Nphotons));
+            results.detectedR.push_back({SpheresArrayR[i].getDistance(), SpheresArrayR[i].totalLight / Nphotons});
+            results.detectedT.push_back({SpheresArrayT[i].getDistance(), SpheresArrayT[i].totalLight / Nphotons});
         }
     }
     /*
     else {
         for (int i = 0; i < isize(FibersArrayR); i++) {
-            results.detectedR.push_back(make_pair(FibersArrayR[i].getDistance(), FibersArrayR[i].totalLight / Nphotons));
-            results.detectedT.push_back(make_pair(FibersArrayT[i].getDistance(), FibersArrayT[i].totalLight / Nphotons));
+            results.detectedR.push_back({FibersArrayR[i].getDistance(), FibersArrayR[i].totalLight / Nphotons});
+            results.detectedT.push_back({FibersArrayT[i].getDistance(), FibersArrayT[i].totalLight / Nphotons});
         }
     }
     //*/

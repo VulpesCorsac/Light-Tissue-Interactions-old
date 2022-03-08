@@ -47,7 +47,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         basis[i] = Matrix<T,1,N>::Zero();
         basis[i](i) = 1.0;
     }
-    cout << "START " << astart << " " << tstart << " " << gstart << endl;
+    cerr << "START " << astart << " " << tstart << " " << gstart << endl;
 
     start[0] = vstart;
     simplex[0].first = v2vComp<T,N,fix>(start[0]);
@@ -72,7 +72,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
         for (size_t i = 0; i < N + 1; i++) {
             simplex[i].second = f.funcToMinimize3args(vComp2v<T,N,fix>(simplex[i].first));
-            // cout << simplex[i].first << " " << simplex[i].second << endl;
+            // cerr << simplex[i].first << " " << simplex[i].second << endl;
         }
         sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
         vb = simplex[0].first;
@@ -80,9 +80,9 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         vw = simplex[N].first;
 
         /*
-        cout << simplex[0].first << " " << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
-        cout << simplex[1].first << " " << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
-        cout << simplex[2].first << " " << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
+        cerr << simplex[0].first << " " << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+        cerr << simplex[1].first << " " << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+        cerr << simplex[2].first << " " << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
         //*/
 
         /// FIND CENTER OF MASS OF EVERYTHING EXCEPT WORST VERTEX
@@ -101,8 +101,8 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         const T fvr = f.funcToMinimize3args(vComp2v<T,N,fix>(vr));
 
         /*
-        cout << "Vmid " << vmid << " " << vComp2v<T,N,fix>(vmid) << endl;
-        cout << "VR " << vr << " " << vComp2v<T,N,fix>(vr) << " " << fvr << endl;
+        cerr << "Vmid " << vmid << " " << vComp2v<T,N,fix>(vmid) << endl;
+        cerr << "VR " << vr << " " << vComp2v<T,N,fix>(vr) << " " << fvr << endl;
         //*/
 
         if (fvr < f.funcToMinimize3args(vComp2v<T,N,fix>(vb))) {
@@ -118,8 +118,8 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
                 /*
-                cout << "v previous " << vprevious << endl;
-                cout << "expanded" << endl;
+                cerr << "v previous " << vprevious << endl;
+                cerr << "expanded" << endl;
                 //*/
                 continue;
             } else {
@@ -132,8 +132,8 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
                 vprevious = vComp2v<T,N,fix>(simplex[N].first);
                 /*
-                cout << "v previous " << vprevious << endl;
-                cout << "1" << endl;
+                cerr << "v previous " << vprevious << endl;
+                cerr << "1" << endl;
                 //*/
                 continue;
             }
@@ -147,8 +147,8 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
             /*
-            cout << "v previous " << vprevious << endl;
-            cout << "2" << endl;
+            cerr << "v previous " << vprevious << endl;
+            cerr << "2" << endl;
             //*/
             continue;
         } else if (f.funcToMinimize3args(vComp2v<T,N,fix>(vg)) < fvr && fvr < f.funcToMinimize3args(vComp2v<T,N,fix>(vw))) {
@@ -158,7 +158,7 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
         }
         /// SHRINK
         vs = beta*vw + (1 - beta)*vmid;
-        // cout << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << f.funcToMinimize3args(vComp2v<T,N,fix>(vs)) << endl;
+        // cerr << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << f.funcToMinimize3args(vComp2v<T,N,fix>(vs)) << endl;
 
         if (f.funcToMinimize3args(vComp2v<T,N,fix>(vs)) < f.funcToMinimize3args(vComp2v<T,N,fix>(vw))) {
             simplex[N].first = vs;
@@ -170,8 +170,8 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
             /*
-            cout << "v previous " << vprevious << endl;
-            cout << "shrink" << endl;
+            cerr << "v previous " << vprevious << endl;
+            cerr << "shrink" << endl;
             //*/
             continue;
         } else {
@@ -187,15 +187,15 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 
             vprevious = vComp2v<T,N,fix>(simplex[N].first);
             /*
-            cout << "v previous " << vprevious << endl;
-            cout << "global shrink" << endl;
+            cerr << "v previous " << vprevious << endl;
+            cerr << "global shrink" << endl;
             //*/
             continue;
         }
     }
 
     sort(ALL_CONTAINER(simplex), SortSimplex<T,N>);
-    // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
+    // cerr << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
     vecMin = vComp2v<T,N,fix>(simplex[0].first);
     fmin = simplex[0].second;
 }
@@ -210,7 +210,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
 
     T g_val = 0.0;
 	if (fix == FixedParameter::G && N == 2) {
-        cout << "Enter g " << endl;
+        cerr << "Enter g " << endl;
         cin >> g_val;
     }
     T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, nSlideTop, nSlideBottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
@@ -221,12 +221,12 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
     startingPoints(toMinimize, astart, tstart, gstart);
     /*
     if (fix == FixedParameter::Tau && N == 2)
-        cout << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
+        cerr << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
     else if (fix == FixedParameter::G && N == 3)
-        cout << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << endl;
+        cerr << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << endl;
 	else if (N == 3)
-		cout << "Inverse Adding-Doubling N = 3" << endl;
-    // cout << astart << " " << gstart << endl;
+		cerr << "Inverse Adding-Doubling N = 3" << endl;
+    // cerr << astart << " " << gstart << endl;
     //*/
 
     /*
@@ -239,11 +239,11 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
     if (N == 3) {
         NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
     }
-    cout << "Iterations made " << itersMade << endl;
+    cerr << "Iterations made " << itersMade << endl;
 
 
     if (itersMade == maxIter - 1) { //RESTART
-        cout << "Restart" << endl;
+        cerr << "Restart" << endl;
         if (fix) {
             astart = vecMin(0)+0.05;
             gstart = vecMin(1)-0.05;
@@ -252,7 +252,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
             tstart = vecMin(1)+1;
         }
         NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
-        cout << "Iterations made " << itersMade << endl;
+        cerr << "Iterations made " << itersMade << endl;
     }
     //*/
 
@@ -264,7 +264,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
             gOut = vecMin(1);
             // gOut = vecMin(1);
         } else if (fix == FixedParameter::G) {
-            // cout << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
+            // cerr << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
             aOut = vecMin(0);
 
             // aOut = vecMin(0);

@@ -30,7 +30,8 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
         stringstream ss(line);
         getline(ss, zString, '\t');
         getline(ss, valString, '\n');
-        table.push_back(make_pair(static_cast<T>(stod(zString)), static_cast<T>(stod(valString))));
+        table.push_back({static_cast<T>(stod(zString)),
+                         static_cast<T>(stod(valString))});
     }
      /*
      for (auto x : table)

@@ -35,7 +35,7 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
 
     T ts;
     T rs;
-    RTs<T,M>(a, tau, g, nSlab, nSlideTop, nSlideBottom, v, w, rs, ts);
+    RTs<T,M>({a, tau, g, nSlab}, nSlideTop, nSlideBottom, v, w, rs, ts);
 
     /// TODO: WHAT IS THIS 1E-6?
     constexpr T EPS = 1E-6;
@@ -136,20 +136,20 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         T ts0 = 0;
         T rs0 = 0;
         constexpr T EPS = 1E-6;
-        RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-        // cout << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
-        // cout << rs0 << " " << ts0 << endl;
-        // cout << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
+        RTs<T,M>({0.9, 1.0, 0.9, f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+        // cerr << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
+        // cerr << rs0 << " " << ts0 << endl;
+        // cerr << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 if (fix == FixedParameter::Tau) {
-                    RTs<T,M>(gridA(i), f.getTau(), gridG(j), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    RTs<T,M>({gridA(i), f.getTau(), gridG(j), f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
-                    // cout << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
+                    // cerr << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
                 } else if (fix == FixedParameter::G) {
-                    RTs<T,M>(gridA(i), gridT(j), f.getG(), f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    RTs<T,M>({gridA(i), gridT(j), f.getG(), f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
-                    // cout << dist(i,j) << " ";
+                    // cerr << dist(i,j) << " ";
                 }
             }
         }
@@ -158,17 +158,17 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         T ts0 = 0;
         T rs0 = 0;
         // RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-        cout << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
+        cerr << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
-                RTs<T,M>(gridA(i), gridT(j), g, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                RTs<T,M>({gridA(i), gridT(j), g, f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + EPS);
                 // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
             }
         }
     }
-    // cout << "wow" << endl;
+    // cerr << "wow" << endl;
     return dist;
 }
 
@@ -187,25 +187,25 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
         int minRow, minCol;
         const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
         ignore = mins;
-        // cout << "?" << endl;
+        // cerr << "?" << endl;
         /*
-        cout << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << endl;
-        cout << gridA << endl;
-        cout << gridG << endl;
+        cerr << minRow << " " << minCol << " " << distancesMatrix.minCoeff() << endl;
+        cerr << gridA << endl;
+        cerr << gridG << endl;
         //*/
         if (fix == FixedParameter::Tau) {
             aStart = gridA(minRow);
             gStart = gridG(minCol);
             tStart = f.getTau();
-            cout << f.getTau() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
-            cout << gridA(minRow) << " " << gridG(minCol) << endl;
+            cerr << f.getTau() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
+            cerr << gridA(minRow) << " " << gridG(minCol) << endl;
         } else if (fix == FixedParameter::G) {
             aStart = gridA(minRow);
             tStart = gridT(minCol);
             gStart = f.getG();
-            cout << f.getG() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
+            cerr << f.getG() << ": " << distancesMatrix.minCoeff() << " " << minRow << " " << minCol << endl;
         }
-        cout << aStart << " " << gStart << " " << tStart << endl;
+        cerr << aStart << " " << gStart << " " << tStart << endl;
     } else if (N == 3) {
         vector<T> vectorMins;
         vector<pair<int,int>> vectorCoord;
@@ -215,9 +215,9 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
             const T mins = distancesMatrix.minCoeff(&minRow, &minCol);
             const T minHere = distancesMatrix.minCoeff();
             vectorMins.push_back(minHere);
-            vectorCoord.push_back(make_pair(minRow, minCol));
+            vectorCoord.push_back({minRow, minCol});
             ignore = mins;
-            cout << gridG(i) << " " << gridA(minRow) << " " << gridT(minCol) << ": " << minHere << endl;
+            cerr << gridG(i) << " " << gridA(minRow) << " " << gridT(minCol) << ": " << minHere << endl;
         }
         int minElementIndex = min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
         aStart = gridA(vectorCoord[minElementIndex].first);
