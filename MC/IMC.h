@@ -3,7 +3,7 @@
 #include "MCmultithread.h"
 #include "MonteCarlo.h"
 
-#include "../AD/AddingDoublingNelderMead.h"
+#include "../Inverse/Helpers.h"
 #include "../Inverse/FixedParam.h"
 #include "../Inverse/NelderMead.h"
 #include "../Physics/Angles.h"
@@ -219,7 +219,7 @@ void startGridIMC(FuncMC<T,Nz,Nr,detector,N,fix> f, T& aStart, T& tStart, T& gSt
     using namespace std;
     constexpr int gridSize = 7;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
-    constructGrid<T,gridSize>(gridA, gridT, gridG);
+    ConstructGrid<T,gridSize>(gridA, gridT, gridG);
 
     vector<T> vectorMins;
     vector<pair<int,int>> vectorCoord;
