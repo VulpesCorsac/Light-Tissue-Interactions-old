@@ -56,6 +56,7 @@
 		<Unit filename="AD/InverseAddingDoubling.h" />
 		<Unit filename="AD/InverseAddingDoublingTests.h" />
 		<Unit filename="AD/LayerInit.h" />
+		<Unit filename="AD/LayerProperties.h" />
 		<Unit filename="AD/Quadrature.h" />
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
@@ -85,11 +86,11 @@
 		<Unit filename="MC/Detector/IntegratingSphereSimpleTests.h" />
 		<Unit filename="MC/Detector/OpticalFiber.h" />
 		<Unit filename="MC/Detector/OpticalFiberTests.h" />
-		<Unit filename="MC/IMC.h" />
-		<Unit filename="MC/MCTests.h" />
-		<Unit filename="MC/MCmultithread.h" />
+		<Unit filename="MC/InverseMonteCarlo.h" />
 		<Unit filename="MC/Medium.h" />
 		<Unit filename="MC/MonteCarlo.h" />
+		<Unit filename="MC/MonteCarloMultithread.h" />
+		<Unit filename="MC/MonteCarloTests.h" />
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="Math/Basic.h" />
