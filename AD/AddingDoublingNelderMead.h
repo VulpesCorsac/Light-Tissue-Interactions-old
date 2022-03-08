@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IAD.h"
+#include "InverseAddingDoubling.h"
 
 #include "../Math/Basic.h"
 #include "../Minimization/FixedParam.h"
@@ -11,6 +11,8 @@
 #include <array>
 #include <iostream>
 #include <utility>
+
+using namespace AddingDoubling_NS;
 
 template < typename T, size_t N >
 bool sortSimplex(const std::pair<Matrix<T,1,N>,T> &a, const std::pair<Matrix<T,1,N>,T> &b) {

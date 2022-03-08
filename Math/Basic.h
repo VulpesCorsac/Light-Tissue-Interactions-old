@@ -18,6 +18,9 @@ namespace Math_NS {
 
     template < typename T >
     T legendreDerivative(int n, T x);
+
+    template < typename T >
+    T KD(T i, T j) noexcept;
 }
 
 /******************
@@ -46,4 +49,9 @@ T Math_NS::legendreDerivative(int n, T x) {
     /// TODO: why this assertion fails on tests?
     // assert(sqr(x) != 1);
     return n * (legendre(n-1, x) - x * legendre(n, x)) / (1 - sqr(x));
+}
+
+template < typename T >
+T Math_NS::KD(T i, T j) noexcept {
+    return i == j ? 1 : 0;
 }

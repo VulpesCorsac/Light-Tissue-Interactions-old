@@ -8,13 +8,34 @@
 #include <algorithm>
 #include <math.h>
 
+namespace AddingDoubling_NS {
+    template < typename T, size_t M >
+    T Taus(T a, T tau, T g);
+
+    template < typename T, size_t M >
+    T As(T a, T g);
+
+    template < typename T, size_t M >
+    int N1(T a, T tau, T g, T nSlab);
+
+    template < typename T, size_t M >
+    T DTaus(T a, T tau, T g, T nSlab);
+
+    template < typename T, size_t M >
+    T DTau(T a, T tau, T g, T nSlab);
+}
+
+/******************
+ * IMPLEMENTATION *
+ ******************/
+
 template < typename T, size_t M >
-T taus(T a, T tau, T g) {
+T AddingDoubling_NS::Taus(T a, T tau, T g) {
     return (1 - a * pow(g, M)) * tau;
 }
 
 template < typename T, size_t M >
-T as(T a, T g) {
+T AddingDoubling_NS::As(T a, T g) {
     const auto gPowM = pow(g, M);
 
     CHECK_ARGUMENT_CONTRACT(a * gPowM != 1);
@@ -23,7 +44,7 @@ T as(T a, T g) {
 }
 
 template < typename T, size_t M >
-int n1(T a, T tau, T g, T nSlab) {
+int AddingDoubling_NS::N1(T a, T tau, T g, T nSlab) {
     using namespace Utils_NS;
     using namespace std;
 
@@ -32,7 +53,7 @@ int n1(T a, T tau, T g, T nSlab) {
 
     CHECK_ARGUMENT_CONTRACT(isize(v) > 0);
 
-    const auto treshold = taus<T,M>(a, tau, g);
+    const auto treshold = Taus<T,M>(a, tau, g);
     const auto minElement = *min_element(ALL_CONTAINER(v));
 
     int n = 0;
@@ -43,15 +64,15 @@ int n1(T a, T tau, T g, T nSlab) {
 }
 
 template < typename T, size_t M >
-T dtaus(T a, T tau, T g, T nSlab) {
-    return taus<T,M>(a, tau, g) / (1 << n1<T,M>(a, tau, g, nSlab));
+T AddingDoubling_NS::DTaus(T a, T tau, T g, T nSlab) {
+    return Taus<T,M>(a, tau, g) / (1 << N1<T,M>(a, tau, g, nSlab));
 }
 
 template < typename T, size_t M >
-T dtau(T a, T tau, T g, T nSlab) {
+T AddingDoubling_NS::DTau(T a, T tau, T g, T nSlab) {
     const auto gPowM = pow(g, M);
 
     CHECK_ARGUMENT_CONTRACT(a * gPowM != 1);
 
-    return dtaus<T,M>(a, tau, g, nSlab) / (1 - a * gPowM);
+    return DTaus<T,M>(a, tau, g, nSlab) / (1 - a * gPowM);
 }

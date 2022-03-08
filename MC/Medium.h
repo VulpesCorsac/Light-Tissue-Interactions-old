@@ -40,6 +40,5 @@ private:
         , ut(ua + us)
         , a(a)
         , tau(tau) {
-
     }
 };

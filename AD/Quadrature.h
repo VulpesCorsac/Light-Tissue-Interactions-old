@@ -12,46 +12,52 @@
 
 #define _USE_MATH_DEFINES
 
+namespace AddingDoubling_NS {
+    template < typename T, size_t M >
+    class Quadrature {
+    public:
+        Quadrature(T nSlab);
+        std::array<T,M> getV() const noexcept;
+        std::array<T,M> getW() const noexcept;
+
+        void setValues(const T& nSlab) noexcept;
+        void printTTT(const std::array<T,M>& arr) const noexcept;
+
+    protected:
+        void calculateQuadrature();
+        void gaussQuadrature();
+        void radauQuadrature();
+        void mergeQuadratures();
+
+        T vc;
+        std::array<T,M/2> vG, vR, wG, wR;
+        std::array<T,M> v, w;
+    };
+}
+
+/// TODO
 template < typename T, size_t M >
-class Quadrature {
-public:
-    Quadrature(T nSlab);
-    std::array<T,M> getV() const noexcept;
-    std::array<T,M> getW() const noexcept;
-
-    void setValues(const T& nSlab) noexcept;
-    void printQuadrature(const std::array<T,M>& arr) const noexcept;
-
-protected:
-    void calculateQuadrature();
-    void gaussQuadrature();
-    void radauQuadrature();
-    void mergeQuadratures();
-
-    T vc;
-    std::array<T,M/2> v_g, v_r, w_g, w_r;
-    std::array<T,M> v, w;
-};
+std::ostream& operator << (std::ostream& os, const AddingDoubling_NS::Quadrature<T,M>& data) noexcept;
 
 /******************
  * IMPLEMENTATION *
  ******************/
 
 template < typename T, size_t M >
-Quadrature<T,M>::Quadrature(T nSlab) {
+AddingDoubling_NS::Quadrature<T,M>::Quadrature(T nSlab) {
     setValues(nSlab);
     calculateQuadrature();
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::setValues(const T& nSlab) noexcept {
+void AddingDoubling_NS::Quadrature<T,M>::setValues(const T& nSlab) noexcept {
     using namespace Physics_NS;
 
     vc = CriticalCos(nSlab);
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::printQuadrature(const std::array<T,M>& arr) const noexcept {
+void AddingDoubling_NS::Quadrature<T,M>::printTTT(const std::array<T,M>& arr) const noexcept {
     using namespace std;
 
     for (const auto& x : arr)
@@ -60,24 +66,24 @@ void Quadrature<T,M>::printQuadrature(const std::array<T,M>& arr) const noexcept
 }
 
 template < typename T, size_t M >
-std::array<T,M> Quadrature<T,M>::getV() const noexcept {
+std::array<T,M> AddingDoubling_NS::Quadrature<T,M>::getV() const noexcept {
     return v;
 }
 
 template < typename T, size_t M >
-std::array<T,M> Quadrature<T,M>::getW() const noexcept {
+std::array<T,M> AddingDoubling_NS::Quadrature<T,M>::getW() const noexcept {
     return w;
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::calculateQuadrature() {
+void AddingDoubling_NS::Quadrature<T,M>::calculateQuadrature() {
     gaussQuadrature();
     radauQuadrature();
     mergeQuadratures();
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::gaussQuadrature() {
+void AddingDoubling_NS::Quadrature<T,M>::gaussQuadrature() {
     using namespace Math_NS;
     using namespace std;
 
@@ -96,21 +102,21 @@ void Quadrature<T,M>::gaussQuadrature() {
             xn1 = xn - legendre(n, xn) / legendreDerivative(n, xn);
         }
 
-        // v_g.push_back(xn1);
-        v_g[i-1] = xn1;
+        // vG.push_back(xn1);
+        vG[i-1] = xn1;
         // w.push_back(2 / ((1 - sqr(xn1)) * sqr(legendreDerivative(n, xn1))));
     }
     for (int i = 0; i < n; i++) {
-        CHECK_RUNTIME_CONTRACT((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i])) != 0);
+        CHECK_RUNTIME_CONTRACT((1 - sqr(vG[i])) * sqr(legendreDerivative(n, vG[i])) != 0);
 
-        // w_g.push_back(vc / ((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i]))));
-        w_g[i] = vc / ((1 - sqr(v_g[i])) * sqr(legendreDerivative(n, v_g[i])));
-        v_g[i] = vc * (1 - v_g[i]) / 2;
+        // wG.push_back(vc / ((1 - sqr(vG[i])) * sqr(legendreDerivative(n, vG[i]))));
+        wG[i] = vc / ((1 - sqr(vG[i])) * sqr(legendreDerivative(n, vG[i])));
+        vG[i] = vc * (1 - vG[i]) / 2;
     }
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::radauQuadrature() {
+void AddingDoubling_NS::Quadrature<T,M>::radauQuadrature() {
     using namespace Math_NS;
     using namespace std;
 
@@ -160,34 +166,44 @@ void Quadrature<T,M>::radauQuadrature() {
 
     /*
     for (const auto& x : roots) {
-        w_r.push_back((1 - vc) / (2 * (1 - x) * sqr(legendreDerivative(n-1, x))));
-        v_r.push_back((1 + vc) / 2 - (1 - vc) * x / 2);
+        wR.push_back((1 - vc) / (2 * (1 - x) * sqr(legendreDerivative(n-1, x))));
+        vR.push_back((1 + vc) / 2 - (1 - vc) * x / 2);
     }
     //*/
     for (int i = 0; i < n; i++) {
         CHECK_RUNTIME_CONTRACT(2 * (1 - roots[i]) * sqr(legendreDerivative(n-1, roots[i])) != 0);
 
-        w_r[i] = (1 - vc) / (2 * (1 - roots[i]) * sqr(legendreDerivative(n-1, roots[i])));
-        v_r[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
+        wR[i] = (1 - vc) / (2 * (1 - roots[i]) * sqr(legendreDerivative(n-1, roots[i])));
+        vR[i] = (1 + vc) / 2 - (1 - vc) * roots[i] / 2;
     }
-    // w_r.erase(w_r.begin() + (n - 1));
-    // w_r.push_back((1 - vc) / sqr(n));
-    w_r[n-1] = (1 - vc) / sqr(n);
+    // wR.erase(wR.begin() + (n - 1));
+    // wR.push_back((1 - vc) / sqr(n));
+    wR[n-1] = (1 - vc) / sqr(n);
 }
 
 template < typename T, size_t M >
-void Quadrature<T,M>::mergeQuadratures() {
-    // v = v_g;
-    // w = w_g;
-    // v.insert(v.end(), v_r.begin(), v_r.end());
-    // w.insert(w.end(), w_r.begin(), w_r.end());
+void AddingDoubling_NS::Quadrature<T,M>::mergeQuadratures() {
+    // v = vG;
+    // w = wG;
+    // v.insert(v.end(), vR.begin(), vR.end());
+    // w.insert(w.end(), wR.begin(), wR.end());
     const int m = M;
     for (int i = 0; i < m / 2; i++) {
-        v[i] = v_g[i];
-        w[i] = w_g[i];
+        v[i] = vG[i];
+        w[i] = wG[i];
     }
     for (int i = m / 2; i < m; i++) {
-        v[i] = v_r[i-m/2];
-        w[i] = w_r[i-m/2];
+        v[i] = vR[i-m/2];
+        w[i] = wR[i-m/2];
     }
+}
+
+template < typename T, size_t M >
+std::ostream& operator << (std::ostream& os, const AddingDoubling_NS::Quadrature<T,M>& data) noexcept {
+    /*
+    for (const auto& x : arr)
+        os << x << ' ';
+    os << endl;
+    //*/
+    return os;
 }

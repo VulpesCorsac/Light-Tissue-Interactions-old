@@ -4,17 +4,18 @@
     #define ENABLE_CHECK_CONTRACTS
 #endif // ENABLE_CHECK_CONTRACTS
 
-#include "NelderMead.h"
-#include "IAD.h"
+#include "AddingDoublingNelderMead.h"
+#include "InverseAddingDoubling.h"
 
 #include <gtest/gtest.h>
 
 /// TODO: make some statistics as in MC tests
 /// TODO: extract tolerance
 
+using namespace AddingDoubling_NS;
 using namespace Minimization_NS;
 
-TEST(IAD, Test1) {
+TEST(InverseAddingDoubling, Test1) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;
@@ -38,7 +39,7 @@ TEST(IAD, Test1) {
     EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
 }
 
-TEST(IAD, Test2) {
+TEST(InverseAddingDoubling, Test2) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;
@@ -62,7 +63,7 @@ TEST(IAD, Test2) {
     EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
 }
 
-TEST(IAD, Test3) {
+TEST(InverseAddingDoubling, Test3) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;
@@ -86,7 +87,7 @@ TEST(IAD, Test3) {
     EXPECT_NEAR(gOut  , 0.99, TOLERANCE);
 }
 
-TEST(IAD, G0) {
+TEST(InverseAddingDoubling, G0) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;
@@ -110,7 +111,7 @@ TEST(IAD, G0) {
     EXPECT_NEAR(gOut  , 0   , TOLERANCE);
 }
 
-TEST(IAD, A0_G0_Tau_05) {
+TEST(InverseAddingDoubling, A0_G0_Tau05) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;
@@ -135,7 +136,7 @@ TEST(IAD, A0_G0_Tau_05) {
     // EXPECT_NEAR(gOut  , 0.9  , 10 * TOLERANCE);
 }
 
-TEST(IAD, A0_G0_Tau1) {
+TEST(InverseAddingDoubling, A0_G0_Tau1) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-4;

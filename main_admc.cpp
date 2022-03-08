@@ -17,7 +17,7 @@
 
 #include "Minimization/FixedParam.h"
 
-#include "AD/NelderMead.h"
+#include "AD/AddingDoublingNelderMead.h"
 #include "AD/Quadrature.h"
 #include "AD/RT.h"
 
@@ -33,6 +33,8 @@
 #include <sstream>
 #include <time.h>
 #include <random>
+
+using namespace AddingDoubling_NS;
 
 template < typename T, size_t N, Minimization_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, int Nthreads, double err) {

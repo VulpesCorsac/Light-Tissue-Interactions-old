@@ -4,6 +4,7 @@
     #define ENABLE_CHECK_CONTRACTS
 #endif // ENABLE_CHECK_CONTRACTS
 
+#include "AddingDoubling.h"
 #include "RT.h"
 #include "Quadrature.h"
 
@@ -11,12 +12,13 @@
 
 #include <gtest/gtest.h>
 
+using namespace AddingDoubling_NS;
 using namespace std;
 
 template < typename T, size_t M >
-class testDataRT {
+class TestDataRT {
 public:
-    testDataRT(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom) {
+    TestDataRT(T a, T tau, T g, T n_slab, T n_slide_top, T n_slide_bottom) {
         setValues(a, tau, g, n_slab, n_slide_top, n_slide_bottom);
         calc();
     }
@@ -48,61 +50,61 @@ protected:
     array<T,M> v, w;
 };
 
-void test1() {
+void RawTest1() {
     constexpr double TOLERANCE = 1e-4;
 
-    testDataRT<double,32> test(0.9, 1.0, 0.9, 1.4, 1.5, 1.5);
+    TestDataRT<double,32> test(0.9, 1.0, 0.9, 1.4, 1.5, 1.5);
     EXPECT_NEAR(test.getRs(), 0.08531 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.77350 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, Test1, test1, 100, 3500)
+BENCHMARK_TEST(AddingDoubling, Test1, RawTest1, 100, 3500)
 
-void test2() {
+void RawTest2() {
     constexpr double TOLERANCE = 1e-4;
 
-    testDataRT<float,16> test(0.9, 2.0, 0.99, 1.5, 1.5, 1.5);
+    TestDataRT<float,16> test(0.9, 2.0, 0.99, 1.5, 1.5, 1.5);
     EXPECT_NEAR(test.getRs(), 0.06548 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.74409 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.124729, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, Test2, test2, 100, 500)
+BENCHMARK_TEST(AddingDoubling, Test2, RawTest2, 100, 500)
 
-void g0() {
+void RawG0() {
     constexpr double TOLERANCE = 1e-4;
 
-    testDataRT<double,4> test(0.95, 5.0, 0.0, 1.4, 1.4, 1.4);
+    TestDataRT<double,4> test(0.95, 5.0, 0.0, 1.4, 1.4, 1.4);
     EXPECT_NEAR(test.getRs(), 0.38911 , TOLERANCE);
     EXPECT_NEAR(test.getTs(), 0.11869 , TOLERANCE);
     EXPECT_NEAR(test.getTc(), 0.006369, TOLERANCE);
 }
 
-BENCHMARK_TEST(AD, G0, g0, 10000, 800)
+BENCHMARK_TEST(AddingDoubling, G0, RawG0, 10000, 800)
 
-void a0() {
+void RawA0() {
     constexpr double TOLERANCE   = 1e-4;
     constexpr double TOLERANCE_T = 1e-3;
 
-    testDataRT<float,8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
+    TestDataRT<float,8> test(0.0, 0.5, 0.9, 1.5, 1.6, 1.6);
     EXPECT_NEAR(test.getRs(), 0.07204     , TOLERANCE  );
     EXPECT_NEAR(test.getTs(), 0.54314     , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), 0.543166    , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AD, A0, a0, 1000, 700)
+BENCHMARK_TEST(AddingDoubling, A0, RawA0, 1000, 700)
 
-void rtTestA0G0() {
+void RawA0G0() {
     constexpr double TOLERANCE   = 1e-4;
     constexpr double TOLERANCE_T = 1e-3;
 
-    testDataRT<double,32> test(0.0, 1.0, 0.0, 1.3, 1.4, 1.4);
+    TestDataRT<double,32> test(0.0, 1.0, 0.0, 1.3, 1.4, 1.4);
     EXPECT_NEAR(test.getRs(), 0.03278     , TOLERANCE  );
     EXPECT_NEAR(test.getTs(), 0.34684     , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), 0.346838    , TOLERANCE  );
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AD, RTtestA0G0, rtTestA0G0, 100, 450)
+BENCHMARK_TEST(AddingDoubling, A0_G0, RawA0G0, 100, 450)

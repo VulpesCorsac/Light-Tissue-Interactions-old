@@ -3,7 +3,7 @@
 #include "MCmultithread.h"
 #include "MonteCarlo.h"
 
-#include "../AD/NelderMead.h"
+#include "../AD/AddingDoublingNelderMead.h"
 #include "../Minimization/FixedParam.h"
 #include "../Physics/Angles.h"
 #include "../Utils/Utils.h"
@@ -63,9 +63,9 @@ T funcToMinimizeMC(const T& a,
     for (auto x: tMC)
         cout << x.first << " " << x.second << endl;
     //*/
-    constexpr auto eps = 1E-6;
+    constexpr auto EPS = 1E-6;
     for (int i = 0; i < isize(rMC); i++)
-        func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + eps)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + eps)*/);
+        func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + EPS)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + EPS)*/);
 
     return func2min;
 }

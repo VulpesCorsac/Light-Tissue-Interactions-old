@@ -2,313 +2,189 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Physics\LayerTests.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="674" topLine="0" />
+			<Cursor1 position="58" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="MC\MCmultithread.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Medium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1298" topLine="37" />
+			<Cursor1 position="307" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Settings\SettingsImporterMediumTests.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="13949" topLine="235" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumType.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="368" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\BugerLambert.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1475" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterLayerTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4586" topLine="94" />
-		</Cursor>
-	</File>
-	<File name="AD\Quadrature.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="491" topLine="9" />
-		</Cursor>
-		<Folding>
-			<Collapse line="40" />
-			<Collapse line="46" />
-			<Collapse line="58" />
-			<Collapse line="63" />
-			<Collapse line="68" />
-			<Collapse line="75" />
-			<Collapse line="98" />
-			<Collapse line="162" />
-		</Folding>
-	</File>
-	<File name="Physics\SpecimenTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="63" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Angles.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="786" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumUtils.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1449" topLine="29" />
-		</Cursor>
-		<Folding>
-			<Collapse line="68" />
-			<Collapse line="85" />
-			<Collapse line="105" />
-			<Collapse line="124" />
-			<Collapse line="344" />
-			<Collapse line="358" />
-		</Folding>
-	</File>
-	<File name="Math\Mesh3Tests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="179" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="483" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumLinearTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="8756" topLine="146" />
-		</Cursor>
-	</File>
-	<File name="AD\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="340" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumArbitrary.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9215" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Utils\Utils.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="35" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsImporterSample.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="61" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumLinear.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7963" topLine="128" />
-		</Cursor>
-	</File>
-	<File name="AD\ADTests.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2791" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumGlassTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="343" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="25" />
-			<Collapse line="32" />
-			<Collapse line="45" />
-			<Collapse line="49" />
-			<Collapse line="53" />
-			<Collapse line="57" />
-			<Collapse line="61" />
-			<Collapse line="65" />
-			<Collapse line="69" />
-			<Collapse line="73" />
-			<Collapse line="77" />
-		</Folding>
-	</File>
-	<File name="MC\Detector\DetectorTypeStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="143" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterHelpers.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="256" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumInterfaceTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="374" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="156" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Minimization\FixedParam.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="39" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Utils\ContractsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="434" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Utils\Contracts.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="287" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="AD\IADTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4090" topLine="126" />
-		</Cursor>
-	</File>
-	<File name="Math\Random.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="996" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="MC\Sample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="629" topLine="5" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterMedium.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="389" topLine="2" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumGlass.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2348" topLine="1" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector\DetectorUtils.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1539" topLine="19" />
-		</Cursor>
-	</File>
-	<File name="Utils\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="176" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumFactory.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="523" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="Tests\CMakeLists.txt" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="133" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumArbitraryTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5113" topLine="78" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector\FullAbsorberTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="28" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsImporterErrorsTests.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="104" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="381" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Math\Mesh3.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1527" topLine="55" />
-		</Cursor>
-	</File>
-	<File name="MC\Photon.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="11" />
-		</Cursor>
-	</File>
-	<File name="main_admc.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="16286" topLine="391" />
-		</Cursor>
-	</File>
-	<File name="AD\RT.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6286" topLine="24" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterSample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="61" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="AD\AddingDoubling.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="662" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="343" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC\MonteCarlo.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="267" topLine="10" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterLayer.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="899" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="AD\NelderMead.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="11186" topLine="296" />
-		</Cursor>
-		<Folding>
-			<Collapse line="20" />
-			<Collapse line="34" />
-			<Collapse line="285" />
-		</Folding>
-	</File>
-	<File name="Physics\Specimen.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Specimen.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="306" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Physics\Layer.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Settings/SettingsExporterLayerTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="809" topLine="8" />
+			<Cursor1 position="6616" topLine="54" />
 		</Cursor>
 	</File>
-	<File name="MC\IMC.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Utils/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3275" topLine="32" />
+			<Cursor1 position="176" topLine="0" />
 		</Cursor>
-		<Folding>
-			<Collapse line="26" />
-		</Folding>
 	</File>
-	<File name="Utils\StringUtilsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/RT.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9341" topLine="101" />
+			<Cursor1 position="5926" topLine="126" />
+		</Cursor>
+	</File>
+	<File name="Utils/Utils.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="896" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="AD/IAD.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1365" topLine="44" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsExporterMediumTests.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10945" topLine="169" />
+		</Cursor>
+	</File>
+	<File name="Physics/AnglesTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1530" topLine="25" />
+		</Cursor>
+	</File>
+	<File name="Utils/ContractsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="434" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumConstant.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4876" topLine="127" />
+		</Cursor>
+	</File>
+	<File name="MC/Photon.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/FullAbsorberTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1017" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="343" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterErrors.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="225" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Physics/SpecimenTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="63" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="TODO" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2684" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterLayer.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1101" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="Physics/LayerTests.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="548" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="Tests/BenchmarkHelper.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="591" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="156" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Utils/UtilsTests.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2958" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="134" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumFactory.h" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1377" topLine="8" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/DetectorFactory.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1035" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterLayerTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9067" topLine="191" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/IntegratingSphereSimple.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="604" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumUtils.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3711" topLine="115" />
+		</Cursor>
+	</File>
+	<File name="AD/Quadrature.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="323" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumType.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="368" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/DetectorInterface.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1538" topLine="30" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/IntegratingSphereSimpleTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="801" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsExporterLayer.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="374" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/OpticalFiber.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="553" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterErrorsTests.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="113" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Utils/StringUtilsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9341" topLine="0" />
 		</Cursor>
 		<Folding>
 			<Collapse line="8" />
@@ -380,34 +256,328 @@
 			<Collapse line="412" />
 		</Folding>
 	</File>
-	<File name="Physics\Medium\MediumProperties.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Detector/DetectorUtilsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6814" topLine="99" />
+			<Cursor1 position="7786" topLine="179" />
 		</Cursor>
 	</File>
-	<File name="Math\Vector3.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Medium/MediumArbitraryTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4795" topLine="255" />
+			<Cursor1 position="4635" topLine="51" />
 		</Cursor>
 	</File>
-	<File name="Settings\SettingsImporterErrors.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/MCmultithread.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="276" topLine="0" />
+			<Cursor1 position="2938" topLine="45" />
 		</Cursor>
 	</File>
-	<File name="Physics\Medium\MediumTypeStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Detector/DetectorUtils.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="12" topLine="0" />
+			<Cursor1 position="5582" topLine="143" />
 		</Cursor>
 	</File>
-	<File name="Math\RandomTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Utils/ReadFiles.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4012" topLine="83" />
+			<Cursor1 position="351" topLine="91" />
 		</Cursor>
 	</File>
-	<File name="Utils\StringUtils.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Sample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3913" topLine="57" />
+			<Cursor1 position="629" topLine="5" />
+		</Cursor>
+	</File>
+	<File name="Physics/Angles.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="602" topLine="23" />
+		</Cursor>
+	</File>
+	<File name="AD/DMmethod.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="669" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumUtilsTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1131" topLine="132" />
+		</Cursor>
+		<Folding>
+			<Collapse line="95" />
+			<Collapse line="112" />
+			<Collapse line="137" />
+			<Collapse line="175" />
+			<Collapse line="225" />
+			<Collapse line="263" />
+			<Collapse line="290" />
+			<Collapse line="327" />
+			<Collapse line="371" />
+			<Collapse line="404" />
+			<Collapse line="429" />
+			<Collapse line="467" />
+			<Collapse line="517" />
+			<Collapse line="555" />
+			<Collapse line="582" />
+			<Collapse line="619" />
+			<Collapse line="663" />
+			<Collapse line="696" />
+			<Collapse line="721" />
+			<Collapse line="759" />
+			<Collapse line="809" />
+			<Collapse line="847" />
+			<Collapse line="874" />
+			<Collapse line="911" />
+			<Collapse line="955" />
+			<Collapse line="988" />
+			<Collapse line="1013" />
+			<Collapse line="1051" />
+			<Collapse line="1101" />
+			<Collapse line="1139" />
+			<Collapse line="1166" />
+			<Collapse line="1203" />
+			<Collapse line="1247" />
+			<Collapse line="1269" />
+			<Collapse line="1279" />
+			<Collapse line="1303" />
+			<Collapse line="1341" />
+			<Collapse line="1391" />
+			<Collapse line="1432" />
+			<Collapse line="1469" />
+			<Collapse line="1513" />
+			<Collapse line="1549" />
+			<Collapse line="1587" />
+			<Collapse line="1637" />
+			<Collapse line="1678" />
+			<Collapse line="1715" />
+			<Collapse line="1759" />
+			<Collapse line="1795" />
+			<Collapse line="1833" />
+			<Collapse line="1883" />
+			<Collapse line="1924" />
+			<Collapse line="1961" />
+			<Collapse line="2005" />
+			<Collapse line="2042" />
+			<Collapse line="2079" />
+			<Collapse line="2123" />
+			<Collapse line="2145" />
+			<Collapse line="2158" />
+			<Collapse line="2171" />
+		</Folding>
+	</File>
+	<File name="AD/LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="330" topLine="86" />
+		</Cursor>
+	</File>
+	<File name="AD/ADTests.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="80" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="Minimization/FixedParam.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="39" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/IMC.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="19424" topLine="492" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsExporterSample.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="61" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumInterfaceTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1911" topLine="41" />
+		</Cursor>
+	</File>
+	<File name="MC/MCTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6692" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterMedium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1678" topLine="86" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumGlass.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2900" topLine="73" />
+		</Cursor>
+	</File>
+	<File name="Physics/Layer.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="183" topLine="18" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/OpticalFiberTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="702" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsExporterHelpers.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="466" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumArbitrary.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7419" topLine="161" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterSample.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="61" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumConstantTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1301" topLine="80" />
+		</Cursor>
+	</File>
+	<File name="AD/IADTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4696" topLine="134" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumInterface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7024" topLine="165" />
+		</Cursor>
+	</File>
+	<File name="Math/Vector3.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4414" topLine="154" />
+		</Cursor>
+	</File>
+	<File name="AD/NelderMead.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="256" topLine="151" />
+		</Cursor>
+	</File>
+	<File name="Math/Random.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="721" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="MC/MonteCarlo.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1006" topLine="35" />
+		</Cursor>
+	</File>
+	<File name="Utils/Contracts.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1756" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="Physics/BugerLambert.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="171" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="Tests/CMakeLists.txt" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="42" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Physics/ReflectanceTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1586" topLine="16" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/DetectorTypeStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="143" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Settings/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="483" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/DetectorInterfaceTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="972" topLine="7" />
+		</Cursor>
+	</File>
+	<File name="Settings/settings.yaml" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="39" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/DetectorFactoryTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="451" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Math/Basic.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="469" topLine="12" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterMediumTests.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="113" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Math/Mesh3.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1527" topLine="40" />
+		</Cursor>
+	</File>
+	<File name="Physics/BugerLambertTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="916" topLine="9" />
+		</Cursor>
+	</File>
+	<File name="Physics/Reflectance.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="340" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/IntegratingSphereComplex.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="893" topLine="4" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsImporterHelpers.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="865" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="MC/Detector/IntegratingSphereComplexTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="810" topLine="2" />
+		</Cursor>
+	</File>
+	<File name="AD/RedistributionFunction.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="727" topLine="67" />
+		</Cursor>
+	</File>
+	<File name="Settings/SettingsStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="180" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="15" />
+		</Folding>
+	</File>
+	<File name="Physics/Medium/MediumFactoryTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="436" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="381" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Utils/StringUtils.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4608" topLine="89" />
 		</Cursor>
 		<Folding>
 			<Collapse line="89" />
@@ -428,336 +598,92 @@
 			<Collapse line="199" />
 		</Folding>
 	</File>
-	<File name="Settings\SettingsStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Medium/MediumLinearTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="180" topLine="0" />
+			<Cursor1 position="4209" topLine="166" />
 		</Cursor>
-		<Folding>
-			<Collapse line="15" />
-		</Folding>
 	</File>
-	<File name="Physics\Medium\MediumUtilsTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Settings/SettingsExporterMedium.h" open="0" top="0" tabpos="9" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="85514" topLine="324" />
+			<Cursor1 position="1289" topLine="85" />
 		</Cursor>
-		<Folding>
-			<Collapse line="16" />
-			<Collapse line="20" />
-			<Collapse line="25" />
-			<Collapse line="43" />
-			<Collapse line="47" />
-			<Collapse line="88" />
-			<Collapse line="94" />
-			<Collapse line="100" />
-			<Collapse line="111" />
-			<Collapse line="122" />
-			<Collapse line="136" />
-			<Collapse line="150" />
-			<Collapse line="174" />
-			<Collapse line="198" />
-			<Collapse line="224" />
-			<Collapse line="250" />
-			<Collapse line="262" />
-			<Collapse line="274" />
-			<Collapse line="289" />
-			<Collapse line="304" />
-			<Collapse line="326" />
-			<Collapse line="348" />
-			<Collapse line="370" />
-			<Collapse line="392" />
-			<Collapse line="403" />
-			<Collapse line="414" />
-			<Collapse line="428" />
-			<Collapse line="442" />
-			<Collapse line="466" />
-			<Collapse line="490" />
-			<Collapse line="516" />
-			<Collapse line="542" />
-			<Collapse line="554" />
-			<Collapse line="566" />
-			<Collapse line="581" />
-			<Collapse line="596" />
-			<Collapse line="618" />
-			<Collapse line="640" />
-			<Collapse line="662" />
-			<Collapse line="684" />
-			<Collapse line="695" />
-			<Collapse line="706" />
-			<Collapse line="720" />
-			<Collapse line="734" />
-			<Collapse line="758" />
-			<Collapse line="782" />
-			<Collapse line="808" />
-			<Collapse line="834" />
-			<Collapse line="846" />
-			<Collapse line="858" />
-			<Collapse line="873" />
-			<Collapse line="888" />
-			<Collapse line="910" />
-			<Collapse line="932" />
-			<Collapse line="954" />
-			<Collapse line="976" />
-			<Collapse line="987" />
-			<Collapse line="998" />
-			<Collapse line="1012" />
-			<Collapse line="1026" />
-			<Collapse line="1050" />
-			<Collapse line="1074" />
-			<Collapse line="1100" />
-			<Collapse line="1126" />
-			<Collapse line="1138" />
-			<Collapse line="1150" />
-			<Collapse line="1165" />
-			<Collapse line="1180" />
-			<Collapse line="1202" />
-			<Collapse line="1224" />
-			<Collapse line="1246" />
-			<Collapse line="1268" />
-			<Collapse line="1278" />
-			<Collapse line="1288" />
-			<Collapse line="1302" />
-			<Collapse line="1316" />
-			<Collapse line="1340" />
-			<Collapse line="1364" />
-			<Collapse line="1390" />
-			<Collapse line="1416" />
-			<Collapse line="1431" />
-			<Collapse line="1446" />
-			<Collapse line="1468" />
-			<Collapse line="1490" />
-			<Collapse line="1512" />
-			<Collapse line="1534" />
-			<Collapse line="1548" />
-			<Collapse line="1562" />
-			<Collapse line="1586" />
-			<Collapse line="1610" />
-			<Collapse line="1636" />
-			<Collapse line="1662" />
-			<Collapse line="1677" />
-			<Collapse line="1692" />
-			<Collapse line="1714" />
-			<Collapse line="1736" />
-			<Collapse line="1758" />
-			<Collapse line="1780" />
-			<Collapse line="1794" />
-			<Collapse line="1808" />
-			<Collapse line="1832" />
-			<Collapse line="1856" />
-			<Collapse line="1882" />
-			<Collapse line="1908" />
-			<Collapse line="1923" />
-			<Collapse line="1938" />
-			<Collapse line="1960" />
-			<Collapse line="1982" />
-			<Collapse line="2004" />
-			<Collapse line="2026" />
-			<Collapse line="2041" />
-			<Collapse line="2056" />
-			<Collapse line="2078" />
-			<Collapse line="2100" />
-			<Collapse line="2122" />
-			<Collapse line="2144" />
-			<Collapse line="2157" />
-			<Collapse line="2170" />
-			<Collapse line="2190" />
-			<Collapse line="2210" />
-			<Collapse line="2230" />
-			<Collapse line="2264" />
-			<Collapse line="2284" />
-			<Collapse line="2306" />
-			<Collapse line="2338" />
-			<Collapse line="2406" />
-		</Folding>
 	</File>
-	<File name="Utils\UtilsTests.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="AD/AddingDoubling.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
+			<Cursor1 position="176" topLine="10" />
+		</Cursor>
+	</File>
+	<File name="AD/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="340" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Utils/Time.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="6893" topLine="156" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumProperties.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2426" topLine="132" />
+		</Cursor>
+	</File>
+	<File name="Physics/Medium/MediumGlassTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2530" topLine="43" />
 		</Cursor>
 		<Folding>
-			<Collapse line="15" />
 			<Collapse line="26" />
-			<Collapse line="37" />
-			<Collapse line="48" />
-			<Collapse line="59" />
-			<Collapse line="70" />
-			<Collapse line="81" />
-			<Collapse line="96" />
-			<Collapse line="111" />
-			<Collapse line="126" />
-		</Folding>
-	</File>
-	<File name="Settings\settings.yaml" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="39" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Physics\Reflectance.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="295" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="AD\IAD.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7515" topLine="125" />
-		</Cursor>
-		<Folding>
+			<Collapse line="46" />
+			<Collapse line="50" />
 			<Collapse line="54" />
+			<Collapse line="58" />
+			<Collapse line="62" />
 		</Folding>
 	</File>
-	<File name="Physics\Medium\MediumInterface.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Math/RandomTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3711" topLine="0" />
+			<Cursor1 position="1080" topLine="27" />
 		</Cursor>
 	</File>
-	<File name="MC\Detector\DetectorUtilsTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4370" topLine="168" />
-		</Cursor>
-	</File>
-	<File name="Utils\ReadFiles.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3976" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsImporterHelpers.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="365" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="Physics\ReflectanceTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="0" topLine="16" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumConstant.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2091" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="Math\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Math/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="92" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Utils\Time.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="71" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsImporterLayer.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9" topLine="39" />
-		</Cursor>
-	</File>
-	<File name="MC\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="266" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Physics\CMakeLists.txt" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Detector/FullAbsorber.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="351" topLine="0" />
+			<Cursor1 position="1654" topLine="39" />
 		</Cursor>
 	</File>
-	<File name="Settings\SettingsImporterMedium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main_admc.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="635" topLine="16" />
+			<Cursor1 position="215" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="AD\DMmethod.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Medium/MediumTypeStrings.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="487" topLine="0" />
+			<Cursor1 position="12" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Physics\AnglesTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Physics/Medium/MediumLinear.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="598" topLine="16" />
+			<Cursor1 position="5788" topLine="140" />
 		</Cursor>
 	</File>
-	<File name="Math\Basic.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Math/Mesh3Tests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="877" topLine="11" />
+			<Cursor1 position="2234" topLine="51" />
 		</Cursor>
 	</File>
-	<File name="Settings\SettingsImporterLayerTests.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="MC/Detector/DetectorProperties.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9067" topLine="191" />
+			<Cursor1 position="357" topLine="0" />
 		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumFactoryTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="132" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="MC\Medium.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1470" topLine="8" />
-		</Cursor>
-	</File>
-	<File name="TODO" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2684" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector\DetectorInterface.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1270" topLine="15" />
-		</Cursor>
-	</File>
-	<File name="Physics\Medium\MediumConstantTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="3414" topLine="69" />
-		</Cursor>
-	</File>
-	<File name="MC\MCTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="6704" topLine="158" />
-		</Cursor>
-	</File>
-	<File name="Tests\BenchmarkHelper.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="562" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector\DetectorFactory.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="924" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="Physics\BugerLambertTests.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1425" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="MC\Detector.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="134" topLine="27" />
-		</Cursor>
-	</File>
-	<File name="AD\LayerInit.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="194" topLine="64" />
-		</Cursor>
-	</File>
-	<File name="Settings\SettingsExporterMediumTests.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2193" topLine="30" />
-		</Cursor>
-		<Folding>
-			<Collapse line="63" />
-			<Collapse line="95" />
-			<Collapse line="155" />
-		</Folding>
-	</File>
-	<File name="AD\RedistributionFunction.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="76" topLine="1" />
-		</Cursor>
-		<Folding>
-			<Collapse line="17" />
-			<Collapse line="26" />
-			<Collapse line="36" />
-			<Collapse line="47" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

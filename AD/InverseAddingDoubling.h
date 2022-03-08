@@ -9,6 +9,8 @@
 
 #include <utility>
 
+namespace AddingDoubling_NS {
+
 template < typename T, size_t M >
 T tauCalc(T nSlab, T nSlideTop, T nSlideBottom, T Tcol) {
     using namespace Math_NS;
@@ -268,3 +270,6 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
         gStart = gridG(minElementIndex);
     }
 }
+
+}
+
