@@ -210,7 +210,7 @@ void IAD(Func<T,M,N,fix> toMinimize, T rsmeas, T tsmeas, T tcmeas, T nSlab, T nS
 
     if (fix == FixedParameter::Tau && N == 2)
         cerr << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;
-    else if (fix == FixedParameter::G && N == 3)
+    else if (fix == FixedParameter::G && N == 2)
         cerr << "Inverse Adding-Doubling, fixed anisotropy = " << gstart << endl;
 	else if (N == 3)
 		cerr << "Inverse Adding-Doubling N = 3" << endl;
