@@ -37,7 +37,7 @@ TEST(InverseAddingDoubling, Test1) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
     EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
@@ -65,7 +65,7 @@ TEST(InverseAddingDoubling, Test2) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
     EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
@@ -93,7 +93,7 @@ TEST(InverseAddingDoubling, Test3) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9 , TOLERANCE);
     EXPECT_NEAR(tauOut, 2   , TOLERANCE);
     EXPECT_NEAR(gOut  , 0.99, TOLERANCE);
@@ -121,7 +121,7 @@ TEST(InverseAddingDoubling, G0) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5   , TOLERANCE);
     EXPECT_NEAR(gOut  , 0   , TOLERANCE);
@@ -149,7 +149,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0  , TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, TOLERANCE);
     /// When a = 0, no value of g is correct
@@ -178,7 +178,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0, TOLERANCE);
     EXPECT_NEAR(tauOut, 1, TOLERANCE);
     /// When a = 0, no value of g is correct
@@ -207,7 +207,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 1.0, 10 * TOLERANCE);
     EXPECT_NEAR(gOut  , 0.9,      TOLERANCE);
@@ -235,7 +235,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95,      TOLERANCE);
     EXPECT_NEAR(tauOut, 5.0, 10 * TOLERANCE);
     EXPECT_NEAR(gOut  , 0.0,      TOLERANCE);
@@ -263,7 +263,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0, 10 * TOLERANCE);
     EXPECT_NEAR(gOut  , 0.99,      TOLERANCE);
@@ -291,7 +291,7 @@ TEST(InverseAddingDoubling, 3NMin1) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1.0, TOLERANCE);
     EXPECT_NEAR(gOut  , 0.9, TOLERANCE);
@@ -319,7 +319,7 @@ TEST(InverseAddingDoubling, 3NMin2) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5.0,  TOLERANCE);
     EXPECT_NEAR(gOut  , 0.0,  TOLERANCE);
@@ -347,7 +347,7 @@ TEST(InverseAddingDoubling, 3NMin3) {
     Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, astart, tstart, gstart);
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
-    std::cout << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
+    std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,  TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0,  TOLERANCE);
     EXPECT_NEAR(gOut  , 0.99, TOLERANCE);
