@@ -30,9 +30,13 @@ TEST(InverseAddingDoubling, Test1) {
     constexpr T rsmeas = 0.08624;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
@@ -54,9 +58,13 @@ TEST(InverseAddingDoubling, Test2) {
     constexpr T rsmeas = 0.08531;
     constexpr T tsmeas = 0.77350;
     constexpr T tcmeas = 0.338341;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
@@ -78,9 +86,13 @@ TEST(InverseAddingDoubling, Test3) {
     constexpr T rsmeas = 0.06548;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0.9 , TOLERANCE);
     EXPECT_NEAR(tauOut, 2   , TOLERANCE);
@@ -102,9 +114,13 @@ TEST(InverseAddingDoubling, G0) {
     constexpr T rsmeas = 0.38911;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5   , TOLERANCE);
@@ -126,9 +142,13 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     constexpr T rsmeas = 0.07204;
     constexpr T tsmeas = 0.54314;
     constexpr T tcmeas = 0.543166;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0  , TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, TOLERANCE);
@@ -151,9 +171,13 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     constexpr T rsmeas = 0.03278;
     constexpr T tsmeas = 0.34684;
     constexpr T tcmeas = 0.346838;
-    T aOut, tauOut, gOut;
 
-    IAD<T,M,N,fix>(rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, aOut, tauOut, gOut);
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
     EXPECT_NEAR(aOut  , 0, TOLERANCE);
     EXPECT_NEAR(tauOut, 1, TOLERANCE);

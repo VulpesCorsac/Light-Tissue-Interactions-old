@@ -201,24 +201,12 @@ void NelderMeadMin(const Func<T, M, N, fix>& f, int maxIter, T astart, T tstart,
 }
 
 template < typename T, size_t M, size_t N, Inverse_NS::FixedParameter fix >
-void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& aOut, T& tauOut, T& gOut) {
+void IAD(Func<T,M,N,fix> toMinimize, T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T fixedParam, T astart, T tstart, T gstart, T& aOut, T& tauOut, T& gOut) {
     using namespace Inverse_NS;
     using namespace std;
 
     CHECK_ARGUMENT_CONTRACT(2 <= N && N <= 3);
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
-
-    T g_val = 0.0;
-	if (fix == FixedParameter::G && N == 2) {
-        cerr << "Enter g " << endl;
-        cin >> g_val;
-    }
-    T fixedParam = fixParam<T,M,N,fix>(g_val, nSlab, nSlideTop, nSlideBottom, tcmeas);// fix == 1 => any arg, fix == 0 => value of g
-    Func<T,M,N,fix> toMinimize(fixedParam, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-
-    /// STARTING POINT
-    T astart, tstart, gstart;
-    startingPoints(toMinimize, astart, tstart, gstart);
 
     if (fix == FixedParameter::Tau && N == 2)
         cerr << "Inverse Adding-Doubling, fixed optical thickness = " << tstart << endl;

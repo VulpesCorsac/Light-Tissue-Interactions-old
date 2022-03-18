@@ -16,7 +16,7 @@ namespace Inverse_NS {
 
         T tMin = -5;
         T tMax = 3;
-        if ((fix == FixedParameter::G && N == 2) || N == 3) {
+/*        if ((fix == FixedParameter::G && N == 2) || N == 3) {
             cout << "Thick (tau > 2) or thin (tau < 2)? Thick = 0, thin = 1" << endl;
             int thick;
             cin >> thick;
@@ -27,7 +27,7 @@ namespace Inverse_NS {
                 tMin = -5;
                 tMax = 0;
             }
-        }
+        }*/
 
         for (size_t i = 0; i < gSize; i++) {
             const T j = i;

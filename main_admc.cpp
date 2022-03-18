@@ -159,8 +159,17 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
         T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; // the closest values to total Rs and Ts to be used in IAD algorithm
         T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
         //*/
+            T g_val = 0.0;
+        if (fix == FixedParameter::G && N == 2) {
+            cerr << "Enter g " << endl;
+            cin >> g_val;
+        }
+        T fixedParamVal = fixParam<T,M,N,fix>(g_val, nSlab, nSlideTop, nSlideBottom, tcSpoilt);
+        T astart, gstart, tstart;
+        Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rStart, tStart, tcSpoilt);
+        startingPoints(toMinimize, astart, tstart, gstart);
 
-        IAD<T,M,N,fix>(rStart, tStart, tcSpoilt, nSlab, nSlideTop, nSlideBottom, aOutIAD, tauOutIAD, gOutIAD);
+        IAD<T,M,N,fix>(toMinimize, rStart, tStart, tcSpoilt, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
 
         cout << "First approximation: Inverse Adding-Doubling" << endl;
         cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
@@ -346,11 +355,18 @@ void calcInverse(const std::string& settingsFile, int Nthreads) {
     if (SphereT.getDPort2() != 0)
         tStart += Tc[0].second;
 
-    // if (N == 2) {
-        IAD<T,M,N,fix>(rStart, tStart, Tc[0].second, nSlab, nSlideTop, nSlideBottom, aOutIAD, tauOutIAD, gOutIAD);
-        cout << "First approximation: Inverse Adding-Doubling" << endl;
-        cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
-    // }
+    T g_val = 0.0;
+	if (fix == FixedParameter::G && N == 2) {
+        cerr << "Enter g " << endl;
+        cin >> g_val;
+    }
+    T fixedParamVal = fixParam<T,M,N,fix>(g_val, nSlab, nSlideTop, nSlideBottom, Tc[0].second);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rStart, tStart, Tc[0].second);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rStart, tStart, Tc[0].second, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOutIAD, tauOutIAD, gOutIAD);
+    cout << "First approximation: Inverse Adding-Doubling" << endl;
+    cout << "a = " << aOutIAD << ", tau = " << tauOutIAD << ", g = " << gOutIAD << endl;
     IMC<T,Nz,Nr,detector,N,fix>(Rd, Td, Tc[0].second, emptyTissue, move(slides), Nphotons, Nthreads, emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT, distances, aOutIAD, tauOutIAD, gOutIAD, checkConvEps, aOutIMC, tauOutIMC, gOutIMC);
 
 
@@ -411,7 +427,7 @@ int main() {
     constexpr int N = 2; // minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
 
-    constexpr int M = 8; // matrix size in Adding-Doubling
+    constexpr int M = 32; // matrix size in Adding-Doubling
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;
