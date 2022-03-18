@@ -163,7 +163,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
                 RTs<T,M>({gridA(i), gridT(j), g, f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas()+0.02)) / ((f.getTmeas()+0.02) + EPS);
+                dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                 // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
             }
         }
