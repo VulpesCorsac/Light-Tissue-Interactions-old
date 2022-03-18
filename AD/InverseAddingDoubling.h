@@ -120,7 +120,7 @@ T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
 }
 
 template < typename T, size_t M, size_t N, size_t gSize, Inverse_NS::FixedParameter fix >
-Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG, const T& g) {
+Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG, const T& g, const enum& gridFunc) {
     using namespace Inverse_NS;
     using namespace std;
 
@@ -144,11 +144,11 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
             for (size_t j = 0; j < gSize; j++) {
                 if (fix == FixedParameter::Tau) {
                     RTs<T,M>({gridA(i), f.getTau(), gridG(j), f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
+                    dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
                 } else if (fix == FixedParameter::G) {
                     RTs<T,M>({gridA(i), gridT(j), f.getG(), f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-                    dist(i,j) = abs(rs0 - (f.getRmeas()+0.02)) / ((f.getRmeas()+0.02) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
+                    dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << dist(i,j) << " ";
                 }
             }
