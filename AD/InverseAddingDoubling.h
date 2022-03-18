@@ -120,7 +120,7 @@ T fixParam(T newG, T nSlab, T nSlideTop, T nSlideBottom, T tcmeas) {
 }
 
 template < typename T, size_t M, size_t N, size_t gSize, Inverse_NS::FixedParameter fix >
-Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG, const T& g, const enum& gridFunc) {
+Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize>& gridA, const Matrix<T,1,gSize>& gridT, const Matrix<T,1,gSize>& gridG, const T& g) {
     using namespace Inverse_NS;
     using namespace std;
 
