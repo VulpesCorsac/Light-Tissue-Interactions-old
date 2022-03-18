@@ -241,7 +241,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     EXPECT_NEAR(gOut  , 0.0,      TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, TauMin2) {
+TEST(InverseAddingDoubling, TauMin3) {
     using T = float;
 
     constexpr double TOLERANCE = 1e-2;
