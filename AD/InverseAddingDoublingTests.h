@@ -209,6 +209,62 @@ TEST(InverseAddingDoubling, TauMin1) {
     IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
 
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
-    EXPECT_NEAR(tauOut, 1  , 10 * TOLERANCE);
+    EXPECT_NEAR(tauOut, 1.0, 10 * TOLERANCE);
     EXPECT_NEAR(gOut  , 0.9,      TOLERANCE);
+}
+
+TEST(InverseAddingDoubling, TauMin2) {
+    using T = float;
+
+    constexpr double TOLERANCE = 1e-2;
+
+    constexpr int M = 32;
+    constexpr int N = 2; /// minimize 2 parameters
+    constexpr auto fix = FixedParameter::G;
+
+    constexpr T nSlab = 1.4; /// refraction index of sample
+    constexpr T nSlideTop = 1.4; /// refraction index of slide
+    constexpr T nSlideBottom = 1.4;
+    constexpr T rsmeas = 0.38911;
+    constexpr T tsmeas = 0.11869;
+    constexpr T tcmeas = 0.006369;
+
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+
+    EXPECT_NEAR(aOut  , 0.95,      TOLERANCE);
+    EXPECT_NEAR(tauOut, 5.0, 10 * TOLERANCE);
+    EXPECT_NEAR(gOut  , 0.0,      TOLERANCE);
+}
+
+TEST(InverseAddingDoubling, TauMin2) {
+    using T = float;
+
+    constexpr double TOLERANCE = 1e-2;
+
+    constexpr int M = 32;
+    constexpr int N = 2; /// minimize 2 parameters
+    constexpr auto fix = FixedParameter::G;
+
+    constexpr T nSlab = 1.5; /// refraction index of sample
+    constexpr T nSlideTop = 1.5; /// refraction index of slide
+    constexpr T nSlideBottom = 1.5;
+    constexpr T rsmeas = 0.06548;
+    constexpr T tsmeas = 0.74409;
+    constexpr T tcmeas = 0.124729;
+
+    T aOut, tauOut, gOut;
+    T fixedParamVal = fixParam<T,M,N,fix>(0.99, nSlab, nSlideTop, nSlideBottom, tcmeas);
+    T astart, gstart, tstart;
+    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, astart, tstart, gstart);
+    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+
+    EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
+    EXPECT_NEAR(tauOut, 2.0, 10 * TOLERANCE);
+    EXPECT_NEAR(gOut  , 0.99,      TOLERANCE);
 }
