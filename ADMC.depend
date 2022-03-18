@@ -1698,20 +1698,20 @@
 	<complex>
 	"Angles.h"
 
-1646140845 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
+1647582405 source:c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
 	"Physics/Angles.h"
 	"Physics/BugerLambert.h"
 	"Physics/Reflectance.h"
 	"Utils/ReadFiles.h"
 	"MC/Detector.h"
-	"MC/IMC.h"
-	"MC/MCmultithread.h"
+	"MC/InverseMonteCarlo.h"
 	"MC/Medium.h"
 	"MC/MonteCarlo.h"
+	"MC/MonteCarloMultithread.h"
 	"MC/Photon.h"
 	"MC/Sample.h"
-	"Minimization/FixedParam.h"
-	"AD/NelderMead.h"
+	"Inverse/FixedParam.h"
+	"AD/AddingDoublingNelderMead.h"
 	"AD/Quadrature.h"
 	"AD/RT.h"
 	"Settings/Settings/SettingsImporterHelpers.h"
@@ -1732,7 +1732,8 @@
 	<string>
 	<iostream>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
+	"../Utils/Contracts.h"
 
 1626069057 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\fresnel.h
 	"../Utils/Utils.h"
@@ -1742,7 +1743,7 @@
 	<algorithm>
 	<string>
 
-1646122386 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
 	"Detector.h"
 	"Medium.h"
 	"Photon.h"
@@ -1760,7 +1761,7 @@
 1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\sample.h
 	<vector>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\detector.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\detector.h
 	"Photon.h"
 	<tuple>
 
@@ -1806,7 +1807,7 @@
 	"../Utils/Contracts.h"
 	<utility>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
 	"../Math/Basic.h"
 	"../Physics/Angles.h"
 	"../Utils/Contracts.h"
@@ -1821,32 +1822,38 @@
 	<cmath>
 	<complex>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
 	"AddingDoubling.h"
+	"LayerProperties.h"
 	"../Physics/Reflectance.h"
 	"../Utils/Contracts.h"
 	"../Utils/Utils.h"
 	"../eigen/Eigen/Dense"
 	<array>
+	"Eigen_NS.h"
 
 1626069057 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\fresnel.h
 	"Angles.h"
 	"../Utils/Utils.h"
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoubling.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoubling.h
 	"LayerInit.h"
+	"LayerProperties.h"
 	"../eigen/Eigen/Dense"
 	"../eigen/Eigen/LU"
 	<array>
+	"Eigen_NS.h"
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerinit.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerinit.h
+	"LayerProperties.h"
 	"RedistributionFunction.h"
+	"../Math/Basic.h"
 	"../Utils/Contracts.h"
 	"../eigen/Eigen/LU"
 	<array>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\redistributionfunction.h
-	"DMmethod.h"
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\redistributionfunction.h
+	"DeltaMMethod.h"
 	"../Utils/Contracts.h"
 	"../eigen/Eigen/Dense"
 	<algorithm>
@@ -1854,6 +1861,7 @@
 	<iostream>
 	<math.h>
 	<numeric>
+	"Eigen_NS.h"
 
 1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\dmmethod.h
 	"Quadrature.h"
@@ -2903,7 +2911,7 @@
 	"../MC/Sample.h"
 	"../MC/Detector.h"
 
-1646033554 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
 	"../MC/Detector.h"
 	"../MC/Medium.h"
 	"../MC/MonteCarlo.h"
@@ -2913,7 +2921,7 @@
 	<string>
 	<sstream>
 	<vector>
-	"../Minimization/FixedParam.h"
+	"../Inverse/FixedParam.h"
 	"../Utils/Contracts.h"
 	<utility>
 
@@ -3214,7 +3222,7 @@
 	<math.h>
 	<iostream>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\basic.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\basic.h
 	<math.h>
 
 1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\utils\contracts.h
@@ -3232,17 +3240,77 @@
 	"../Utils/Utils.h"
 	<math.h>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
 	<iostream>
 	<math.h>
 	<stdexcept>
 	<string>
 
-1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\random.h
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\math\random.h
 	<random>
 	<stdlib.h>
 	<time.h>
 	<type_traits>
 
 1645785395 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\minimization\fixedparam.h
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\inverse\fixedparam.h
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\inversemontecarlo.h
+	"MonteCarlo.h"
+	"MonteCarloMultithread.h"
+	"../Inverse/Helpers.h"
+	"../Inverse/FixedParam.h"
+	"../Inverse/NelderMead.h"
+	"../Physics/Angles.h"
+	"../Utils/Utils.h"
+	<stdexcept>
+	<utility>
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlomultithread.h
+	"MonteCarlo.h"
+	"../Utils/Utils.h"
+	<thread>
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\inverse\helpers.h
+	"FixedParam.h"
+	"../Math/Basic.h"
+	"../eigen/Eigen/Dense"
+	"../AD/Eigen_NS.h"
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\eigen_ns.h
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\inverse\neldermead.h
+	"../Inverse/FixedParam.h"
+	"../Utils/Contracts.h"
+	"../eigen/Eigen/Dense"
+
+1647584814 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\addingdoublingneldermead.h
+	"InverseAddingDoubling.h"
+	"../Inverse/FixedParam.h"
+	"../Inverse/NelderMead.h"
+	"../Math/Basic.h"
+	"../Utils/Contracts.h"
+	"../eigen/Eigen/Dense"
+	<array>
+	<iostream>
+	<utility>
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\inverseaddingdoubling.h
+	"Quadrature.h"
+	"RT.h"
+	"../Inverse/FixedParam.h"
+	"../Inverse/Helpers.h"
+	"../Utils/Contracts.h"
+	<utility>
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\layerproperties.h
+
+1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\deltammethod.h
+	"LayerProperties.h"
+	"Quadrature.h"
+	"../Utils/Contracts.h"
+	"../Utils/Utils.h"
+	<algorithm>
+	<math.h>
 

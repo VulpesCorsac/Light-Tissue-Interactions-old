@@ -236,9 +236,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
     Matrix<T,1,N> vecMin;
 
     int itersMade;
-    if (N == 3) {
-        NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
-    }
+    NelderMeadMin<T,M,N,fix>(toMinimize, maxIter, astart, tstart, gstart, vecMin, fmin, itersMade);
     cerr << "Iterations made " << itersMade << endl;
 
 /*
@@ -262,12 +260,9 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
             aOut = vecMin(0);
             tauOut = fixedParam;
             gOut = vecMin(1);
-            // gOut = vecMin(1);
         } else if (fix == FixedParameter::G) {
             // cerr << "Minimum " << fmin << " at point a = " << vecMin(0) << ", tau = " << vecMin(1) << ", g = " << fixedParam <<endl;
             aOut = vecMin(0);
-
-            // aOut = vecMin(0);
             tauOut = vecMin(1);
             gOut = fixedParam;
         }
@@ -278,12 +273,7 @@ void IAD(T rsmeas, T tsmeas, T tcmeas, T nSlab, T nSlideTop, T nSlideBottom, T& 
     }
     //*/
 
-
-    if (N == 3) {
-        aOut = vecMin(0);
-        tauOut = vecMin(1);
-        gOut = vecMin(2);
-    }/* else {
+/* else {
     //
         aOut = astart;
         gOut = gstart;
