@@ -37,7 +37,7 @@ public:
     }
 
     void calc() {
-        RTs<T,M>(Medium<T>::fromAlbedo(NSlab, A, Tau, 0.0, G), NSlideTop, NSlideBottom, v, w, rs, ts);
+        RTs<T,M>(Medium<T>::fromAlbedo(NSlab, A, Tau, 1.0, G), NSlideTop, NSlideBottom, v, w, rs, ts);
         tc = Tc<T,M>(Tau, NSlab, NSlideTop, NSlideBottom);
     }
 

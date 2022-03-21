@@ -35,7 +35,7 @@ T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas,
 
     T ts;
     T rs;
-    RTs<T,M>(Medium<T>::fromAlbedo(nSlab, a, tau, 0.0, g), nSlideTop, nSlideBottom, v, w, rs, ts);
+    RTs<T,M>(Medium<T>::fromAlbedo(nSlab, a, tau, 1.0, g), nSlideTop, nSlideBottom, v, w, rs, ts);
 
     /// TODO: WHAT IS THIS 1E-6?
     constexpr T EPS = 1E-6;
@@ -143,11 +143,11 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 if (fix == FixedParameter::Tau) {
-                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), f.getTau(), 0.0, gridG(j)), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), f.getTau(), 1.0, gridG(j)), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
                 } else if (fix == FixedParameter::G) {
-                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 0.0, f.getG()), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, f.getG()), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << dist(i,j) << " ";
                 }
@@ -162,7 +162,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
-                RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 0.0, g), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, g), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
                 dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                 // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
             }

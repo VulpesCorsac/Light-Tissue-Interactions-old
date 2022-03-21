@@ -13,6 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add directory="include" />
+					<Add directory="MC" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -23,6 +24,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add directory="include" />
+					<Add directory="MC" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -64,6 +66,7 @@
 		<Unit filename="Inverse/CMakeLists.txt" />
 		<Unit filename="Inverse/FixedParam.h" />
 		<Unit filename="Inverse/Helpers.h" />
+		<Unit filename="Inverse/InverseProblem.h" />
 		<Unit filename="Inverse/NelderMead.h" />
 		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
