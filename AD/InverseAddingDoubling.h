@@ -217,7 +217,7 @@ void startingPoints(const Func<T,M,N,fix>& f, T& aStart, T& tStart, T& gStart) {
             vectorMins.push_back(minHere);
             vectorCoord.push_back({minRow, minCol});
             ignore = mins;
-            cerr << gridG(i) << " " << gridA(minRow) << " " << gridT(minCol) << ": " << minHere << endl;
+            cerr << gridA(minRow) << " " << gridT(minCol) <<" " <<  gridG(i) << ": " << minHere << endl;
         }
         int minElementIndex = min_element(vectorMins.begin(),vectorMins.end()) - vectorMins.begin();
         aStart = gridA(vectorCoord[minElementIndex].first);

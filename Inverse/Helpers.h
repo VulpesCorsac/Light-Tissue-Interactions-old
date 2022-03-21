@@ -14,7 +14,7 @@ namespace Inverse_NS {
         using namespace Math_NS;
         using namespace std;
 
-        T tMin = -5;
+        T tMin = -3;
         T tMax = 3;
 /*        if ((fix == FixedParameter::G && N == 2) || N == 3) {
             cout << "Thick (tau > 2) or thin (tau < 2)? Thick = 0, thin = 1" << endl;

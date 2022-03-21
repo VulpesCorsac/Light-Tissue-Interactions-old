@@ -159,7 +159,7 @@ void calcAll(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveable, i
         T rStart = myResultsMT.diffuseReflection + myResultsMT.specularReflection; // the closest values to total Rs and Ts to be used in IAD algorithm
         T tStart = myResultsMT.diffuseTransmission + myResultsMT.BugerTransmission;
         //*/
-            T g_val = 0.0;
+        T g_val = 0.0;
         if (fix == FixedParameter::G && N == 2) {
             cerr << "Enter g " << endl;
             cin >> g_val;
