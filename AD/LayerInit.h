@@ -2,6 +2,7 @@
 
 #include "LayerProperties.h"
 #include "RedistributionFunction.h"
+#include "../MC/Medium.h"
 
 #include "../Math/Basic.h"
 #include "../Utils/Contracts.h"
@@ -15,32 +16,32 @@ namespace AddingDoubling_NS {
     Matrix<T,M,M> E();
 
     template < typename T, size_t M >
-    Matrix<T,M,M> B(const LayerProperties<T>& layer,
+    Matrix<T,M,M> B(const Medium<T>& layer,
                     const std::array<T,M>& v,
                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> A(const LayerProperties<T>& layer,
+    Matrix<T,M,M> A(const Medium<T>& layer,
                     const std::array<T,M>& v,
                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> I(const LayerProperties<T>& layer,
+    Matrix<T,M,M> I(const Medium<T>& layer,
                     const std::array<T,M>& v,
                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> G(const LayerProperties<T>& layer,
+    Matrix<T,M,M> G(const Medium<T>& layer,
                     const std::array<T,M>& v,
                     const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> RR(const LayerProperties<T>& layer,
+    Matrix<T,M,M> RR(const Medium<T>& layer,
                      const std::array<T,M>& v,
                      const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> TT(const LayerProperties<T>& layer,
+    Matrix<T,M,M> TT(const Medium<T>& layer,
                      const std::array<T,M>& v,
                      const std::array<T,M>& w);
 
@@ -49,12 +50,12 @@ namespace AddingDoubling_NS {
                            const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> RD1(const LayerProperties<T>& layer,
+    Matrix<T,M,M> RD1(const Medium<T>& layer,
                       const std::array<T,M>& v,
                       const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> TD1(const LayerProperties<T>& layer,
+    Matrix<T,M,M> TD1(const Medium<T>& layer,
                       const std::array<T,M>& v,
                       const std::array<T,M>& w);
 }
@@ -69,7 +70,7 @@ Matrix<T,M,M> AddingDoubling_NS::E() {
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::B(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::B(const Medium<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     const int m = M;
@@ -88,7 +89,7 @@ Matrix<T,M,M> AddingDoubling_NS::B(const LayerProperties<T>& layer,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::A(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::A(const Medium<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     using namespace Math_NS;
@@ -110,14 +111,14 @@ Matrix<T,M,M> AddingDoubling_NS::A(const LayerProperties<T>& layer,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::I(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::I(const Medium<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     return (E<T,M>() + A<T,M>(layer, v, w)).inverse();
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::G(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::G(const Medium<T>& layer,
                                    const std::array<T,M>& v,
                                    const std::array<T,M>& w) {
     const auto b = B<T,M>(layer, v, w);
@@ -125,14 +126,14 @@ Matrix<T,M,M> AddingDoubling_NS::G(const LayerProperties<T>& layer,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::RR(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::RR(const Medium<T>& layer,
                                     const std::array<T,M>& v,
                                     const std::array<T,M>& w) {
     return 2 * G<T,M>(layer, v, w) * B<T,M>(layer, v, w) * I<T,M>(layer, v, w);
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::TT(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::TT(const Medium<T>& layer,
                                     const std::array<T,M>& v,
                                     const std::array<T,M>& w) {
     return 2 * G<T,M>(layer, v, w) - E<T,M>();
@@ -149,7 +150,7 @@ Matrix<T,M,1> AddingDoubling_NS::DoubleAW(const std::array<T,M>& v,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::RD1(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::RD1(const Medium<T>& layer,
                                      const std::array<T,M>& v,
                                      const std::array<T,M>& w) {
     const int m = M;
@@ -167,7 +168,7 @@ Matrix<T,M,M> AddingDoubling_NS::RD1(const LayerProperties<T>& layer,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::TD1(const LayerProperties<T>& layer,
+Matrix<T,M,M> AddingDoubling_NS::TD1(const Medium<T>& layer,
                                      const std::array<T,M>& v,
                                      const std::array<T,M>& w) {
     const int m = M;

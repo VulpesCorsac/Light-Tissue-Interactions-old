@@ -66,9 +66,9 @@ T funcToMinimizeMC(const T& a,
     for (auto x: tMC)
         cout << x.first << " " << x.second << endl;
     //*/
-    // constexpr auto EPS = 1E-6;
+     constexpr auto EPS = 1E-6;
     for (int i = 0; i < isize(rMC); i++)
-        func2min += abs((rMC[i].second - rmeas[i].second)/* / (rmeas[i].second + EPS)*/) + abs((tMC[i].second - tmeas[i].second)/* / (tmeas[i].second + EPS)*/);
+        func2min += abs((rMC[i].second - rmeas[i].second) / (rmeas[i].second + EPS)) + abs((tMC[i].second - tmeas[i].second) / (tmeas[i].second + EPS));
 
     return func2min;
 }

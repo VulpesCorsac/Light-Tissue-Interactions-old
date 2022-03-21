@@ -2,6 +2,7 @@
 
 #include "LayerProperties.h"
 #include "Quadrature.h"
+#include "../MC/Medium.h"
 
 #include "../Utils/Contracts.h"
 #include "../Utils/Utils.h"
@@ -14,22 +15,22 @@ namespace AddingDoubling_NS {
     T Taus(T a, T tau, T g);
 
     template < typename T, size_t M >
-    T Taus(const LayerProperties<T>& layer);
+    T Taus(const Medium<T>& layer);
 
     template < typename T, size_t M >
     T As(T a, T g);
 
     template < typename T, size_t M >
-    T As(const LayerProperties<T>& layer);
+    T As(const Medium<T>& layer);
 
     template < typename T, size_t M >
-    int N1(const LayerProperties<T>& layer);
+    int N1(const Medium<T>& layer);
 
     template < typename T, size_t M >
-    T DTaus(const LayerProperties<T>& layer);
+    T DTaus(const Medium<T>& layer);
 
     template < typename T, size_t M >
-    T DTau(const LayerProperties<T>& layer);
+    T DTau(const Medium<T>& layer);
 }
 
 /******************
@@ -42,7 +43,7 @@ T AddingDoubling_NS::Taus(T a, T tau, T g) {
 }
 
 template < typename T, size_t M >
-T AddingDoubling_NS::Taus(const LayerProperties<T>& layer) {
+T AddingDoubling_NS::Taus(const Medium<T>& layer) {
     return Taus<T,M>(layer.a, layer.tau, layer.g);
 }
 
@@ -56,16 +57,16 @@ T AddingDoubling_NS::As(T a, T g) {
 }
 
 template < typename T, size_t M >
-T AddingDoubling_NS::As(const LayerProperties<T>& layer) {
+T AddingDoubling_NS::As(const Medium<T>& layer) {
     return As<T,M>(layer.a, layer.g);
 }
 
 template < typename T, size_t M >
-int AddingDoubling_NS::N1(const LayerProperties<T>& layer) {
+int AddingDoubling_NS::N1(const Medium<T>& layer) {
     using namespace Utils_NS;
     using namespace std;
 
-    Quadrature<T,M> quadrature(layer.nSlab);
+    Quadrature<T,M> quadrature(layer.n);
     const auto v = quadrature.getV();
 
     CHECK_ARGUMENT_CONTRACT(isize(v) > 0);
@@ -81,12 +82,12 @@ int AddingDoubling_NS::N1(const LayerProperties<T>& layer) {
 }
 
 template < typename T, size_t M >
-T AddingDoubling_NS::DTaus(const LayerProperties<T>& layer) {
+T AddingDoubling_NS::DTaus(const Medium<T>& layer) {
     return Taus<T,M>(layer) / (1 << N1<T,M>(layer));
 }
 
 template < typename T, size_t M >
-T AddingDoubling_NS::DTau(const LayerProperties<T>& layer) {
+T AddingDoubling_NS::DTau(const Medium<T>& layer) {
     const auto gPowM = pow(layer.g, M);
 
     CHECK_ARGUMENT_CONTRACT(layer.a * gPowM != 1);

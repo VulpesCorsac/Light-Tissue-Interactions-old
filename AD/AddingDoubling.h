@@ -2,6 +2,7 @@
 
 #include "LayerInit.h"
 #include "LayerProperties.h"
+#include "../MC/Medium.h"
 
 #include "../eigen/Eigen/Dense"
 #include "../eigen/Eigen/LU"
@@ -27,7 +28,7 @@ namespace AddingDoubling_NS {
                       const Matrix<T,M,M>& T01, const Matrix<T,M,M>& T12, Matrix<T,M,M>& T02);
 
     template < typename T, size_t M >
-    void Doubling(const LayerProperties<T>& layer,
+    void Doubling(const Medium<T>& layer,
                   const std::array<T,M>& v, const std::array<T,M>& w,
                   Matrix<T,M,M>& Rs, Matrix<T,M,M>& Ts);
 }
@@ -78,7 +79,7 @@ void AddingDoubling_NS::AddingBounds(const Matrix<T,M,M>& R01, const Matrix<T,M,
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::Doubling(const LayerProperties<T>& layer,
+void AddingDoubling_NS::Doubling(const Medium<T>& layer,
                                  const std::array<T,M>& v, const std::array<T,M>& w,
                                  Matrix<T,M,M>& Rs, Matrix<T,M,M>& Ts) {
     const int n = N1<T,M>(layer);

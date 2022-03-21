@@ -202,8 +202,8 @@ void calcForward(T inA, T inT, T inG, T inN, T inD, T inNG, T inDG, bool moveabl
     vector<Medium<T>> emptyLayers = {glass, emptyTissue, glass};
     Sample<T> emptySample (emptyLayers, 1.0, 1.0);
 
-    IntegratingSphere<T> SphereT(0.1, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
-    IntegratingSphere<T> SphereR(0.1, 0.0125, 0.0125);
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
 
     DetectorDistance<T> distances;
     distances.max  = moveable ? 0.04 : 0.00;

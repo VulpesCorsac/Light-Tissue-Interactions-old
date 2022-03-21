@@ -93,7 +93,7 @@ protected:
     const T chance;
     const T threshold;
 
-    bool debug = 0;
+    bool debug = 1;
     int debugPhoton = 2;
 
     Matrix<T,Dynamic,Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);

@@ -2,6 +2,7 @@
 
 #include "AddingDoubling.h"
 #include "LayerProperties.h"
+#include "../MC/Medium.h"
 
 #include "../Physics/Reflectance.h"
 #include "../Utils/Contracts.h"
@@ -15,25 +16,25 @@
 
 namespace AddingDoubling_NS {
     template < typename T, size_t M >
-    void RTslab(const LayerProperties<T>& layer,
+    void RTslab(const Medium<T>& layer,
                 const std::array<T,M>& v, const std::array<T,M>& w,
                 Matrix<T,M,M>& Rslab, Matrix<T,M,M>& Tslab);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> Rbound(const LayerProperties<T>& layer, T nSlide,
+    Matrix<T,M,M> Rbound(const Medium<T>& layer, T nSlide,
                          const std::array<T,M>& v, const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> Tbound(const LayerProperties<T>& layer, T nSlide,
+    Matrix<T,M,M> Tbound(const Medium<T>& layer, T nSlide,
                          const std::array<T,M>& v, const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    void RTtotal(const LayerProperties<T>& layer, T nSlideTop, T nSlideBottom,
+    void RTtotal(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
                  const std::array<T,M>& v, const std::array<T,M>& w,
                  Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal);
 
     template < typename T, size_t M >
-    void RTs(const LayerProperties<T>& layer, T nSlideTop, T nSlideBottom,
+    void RTs(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
              const std::array<T,M>& v, const std::array<T,M>& w,
              T& Rs, T& Ts);
 
@@ -49,14 +50,14 @@ namespace AddingDoubling_NS {
  ******************/
 
 template < typename T, size_t M >
-void AddingDoubling_NS::RTslab(const LayerProperties<T>& layer,
+void AddingDoubling_NS::RTslab(const Medium<T>& layer,
                                const std::array<T,M>& v, const std::array<T,M>& w,
                                Matrix<T,M,M>& Rslab, Matrix<T,M,M>& Tslab) {
     Doubling<T,M>(layer, v, w, Rslab, Tslab);
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::Rbound(const LayerProperties<T>& layer, T nSlide,
+Matrix<T,M,M> AddingDoubling_NS::Rbound(const Medium<T>& layer, T nSlide,
                                         const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
     using namespace std;
@@ -64,7 +65,7 @@ Matrix<T,M,M> AddingDoubling_NS::Rbound(const LayerProperties<T>& layer, T nSlid
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto& nSlab = layer.nSlab;
+        const auto& nSlab = layer.n;
         const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
         const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
@@ -77,7 +78,7 @@ Matrix<T,M,M> AddingDoubling_NS::Rbound(const LayerProperties<T>& layer, T nSlid
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::Tbound(const LayerProperties<T>& layer, T nSlide,
+Matrix<T,M,M> AddingDoubling_NS::Tbound(const Medium<T>& layer, T nSlide,
                                         const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
     using namespace std;
@@ -87,7 +88,7 @@ Matrix<T,M,M> AddingDoubling_NS::Tbound(const LayerProperties<T>& layer, T nSlid
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto& nSlab = layer.nSlab;
+        const auto& nSlab = layer.n;
         const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
         const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
@@ -100,7 +101,7 @@ Matrix<T,M,M> AddingDoubling_NS::Tbound(const LayerProperties<T>& layer, T nSlid
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::RTtotal(const LayerProperties<T>& layer, T nSlideTop, T nSlideBottom,
+void AddingDoubling_NS::RTtotal(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
                                 const std::array<T,M>& v, const std::array<T,M>& w,
                                 Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal) {
     using namespace Math_NS;
@@ -121,7 +122,7 @@ void AddingDoubling_NS::RTtotal(const LayerProperties<T>& layer, T nSlideTop, T 
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::RTs(const LayerProperties<T>& layer, T nSlideTop, T nSlideBottom,
+void AddingDoubling_NS::RTs(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
                             const std::array<T,M>& v, const std::array<T,M>& w,
                             T& Rs, T& Ts) {
     const int m = M;
