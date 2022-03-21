@@ -158,7 +158,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         T ts0 = 0;
         T rs0 = 0;
         // RTs<T,M>(0.9, 1.0, 0.9, f.getNslab(), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-        cerr << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
+     //   cerr << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
