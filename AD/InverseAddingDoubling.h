@@ -29,13 +29,24 @@ T tauCalc(T nSlab, T nSlideTop, T nSlideBottom, T Tcol) {
 
 template < typename T, size_t M >
 T funcToMinimize(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom, T rmeas, T tmeas) {
+
     Quadrature<T,M> quadrature(nSlab);
     const auto v = quadrature.getV();
     const auto w = quadrature.getW();
 
     T ts;
     T rs;
-    RTs<T,M>(Medium<T>::fromAlbedo(nSlab, a, tau, 1.0, g), nSlideTop, nSlideBottom, v, w, rs, ts);
+
+    const auto layer = Medium<T>::fromAlbedo(nSlab, a, tau, 1.0, g);
+    const auto glassTop = Medium<T>::fromCoeffs(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    const auto glassBottom = Medium<T>::fromCoeffs(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> samples;
+    if (nSlideTop == nSlab)
+        samples = {layer};
+    else
+        samples = {glassTop, layer, glassBottom};
+
+    RTs<T,M>(Sample<T>(samples), v, w, rs, ts);
 
     /// TODO: WHAT IS THIS 1E-6?
     constexpr T EPS = 1E-6;
@@ -132,22 +143,33 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
     const auto vStart = quadStart.getV();
     const auto wStart = quadStart.getW();
 
+    const auto glassTop = Medium<T>::fromCoeffs(f.getNslideTop(), 0.0, 0.0, 1.0, 0.0);
+    const auto glassBottom = Medium<T>::fromCoeffs(f.getNslideBottom(), 0.0, 0.0, 1.0, 0.0);
     if (N == 2) {
         T ts0 = 0;
         T rs0 = 0;
+
         constexpr T EPS = 1E-6;
-//        RTs<T,M>({0.9, 1.0, 0.9, f.getNslab()}, f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
-        // cerr << f.getNslab() << " " << f.getNslideTop() << " " << f.getNslideBottom() << " " << f.getRmeas() << " " << f.getTmeas() << endl;
-        // cerr << rs0 << " " << ts0 << endl;
-        // cerr << abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas()) << endl;
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 if (fix == FixedParameter::Tau) {
-                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), f.getTau(), 1.0, gridG(j)), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    const auto layer = Medium<T>::fromAlbedo(f.getNslab(), gridA(i), f.getTau(), 1.0, gridG(j));
+                    vector<Medium<T>> samples;
+                    if (f.getNslideTop() == f.getNslab())
+                        samples = {layer};
+                    else
+                        samples = {glassTop, layer, glassBottom};
+                    RTs<T,M>(Sample<T>(samples), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << "a = " << gridA(i) << " g = " << gridG(j) << " tau = " << f.getTau() << " : " << dist(i,j) << endl;
                 } else if (fix == FixedParameter::G) {
-                    RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, f.getG()), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                    const auto layer = Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, f.getG());
+                    vector<Medium<T>> samples;
+                    if (f.getNslideTop() == f.getNslab())
+                        samples = {layer};
+                    else
+                        samples = {glassTop, layer, glassBottom};
+                    RTs<T,M>(Sample<T>(samples), vStart, wStart, rs0, ts0);
                     dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                     // cerr << dist(i,j) << " ";
                 }
@@ -162,7 +184,13 @@ Matrix<T,gSize,gSize> distances(const Func<T,M,N,fix>& f, const Matrix<T,1,gSize
         for (size_t i = 0; i < gSize; i++) {
             for (size_t j = 0; j < gSize; j++) {
                 /// TODO: WHAT IS THIS 1E-6?
-                RTs<T,M>(Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, g), f.getNslideTop(), f.getNslideBottom(), vStart, wStart, rs0, ts0);
+                const auto layer = Medium<T>::fromAlbedo(f.getNslab(), gridA(i), gridT(j), 1.0, g);
+                vector<Medium<T>> samples;
+                if (f.getNslideTop() == f.getNslab())
+                    samples = {layer};
+                else
+                    samples = {glassTop, layer, glassBottom};
+                RTs<T,M>(Sample<T>(samples), vStart, wStart, rs0, ts0);
                 dist(i,j) = abs(rs0 - (f.getRmeas())) / ((f.getRmeas()) + EPS) + abs(ts0 - (f.getTmeas())) / ((f.getTmeas()) + EPS);
                 // dist(i,j) = abs(rs0 - f.getRmeas()) + abs(ts0 - f.getTmeas());
             }

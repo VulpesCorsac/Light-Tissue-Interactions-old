@@ -21,20 +21,20 @@ namespace AddingDoubling_NS {
                 Matrix<T,M,M>& Rslab, Matrix<T,M,M>& Tslab);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> Rbound(const Medium<T>& layer, T nSlide,
+    Matrix<T,M,M> Rbound(const Sample<T>& sample,
                          const std::array<T,M>& v, const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    Matrix<T,M,M> Tbound(const Medium<T>& layer, T nSlide,
+    Matrix<T,M,M> Tbound(const Sample<T>& sample,
                          const std::array<T,M>& v, const std::array<T,M>& w);
 
     template < typename T, size_t M >
-    void RTtotal(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
+    void RTtotal(const Sample<T>& sample,
                  const std::array<T,M>& v, const std::array<T,M>& w,
                  Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal);
 
     template < typename T, size_t M >
-    void RTs(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
+    void RTs(const Sample<T>& sample,
              const std::array<T,M>& v, const std::array<T,M>& w,
              T& Rs, T& Ts);
 
@@ -57,15 +57,19 @@ void AddingDoubling_NS::RTslab(const Medium<T>& layer,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::Rbound(const Medium<T>& layer, T nSlide,
+Matrix<T,M,M> AddingDoubling_NS::Rbound(const Sample<T>& sample,
                                         const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
     using namespace std;
 
+    CHECK_ARGUMENT_CONTRACT(sample.getNlayers() == 1 || sample.getNlayers() == 3);
+
+    T nSlide = sample.getNslideTop();
+    T nSlab = sample.getNslab();
+
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto& nSlab = layer.n;
         const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
         const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
@@ -78,17 +82,21 @@ Matrix<T,M,M> AddingDoubling_NS::Rbound(const Medium<T>& layer, T nSlide,
 }
 
 template < typename T, size_t M >
-Matrix<T,M,M> AddingDoubling_NS::Tbound(const Medium<T>& layer, T nSlide,
+Matrix<T,M,M> AddingDoubling_NS::Tbound(const Sample<T>& sample,
                                         const std::array<T,M>& v, const std::array<T,M>& w) {
     using namespace Physics_NS;
     using namespace std;
+
+    CHECK_ARGUMENT_CONTRACT(sample.getNlayers() == 1 || sample.getNlayers() == 3);
+
+    const T& nSlide = sample.getNslideBottom();
+    const T& nSlab = sample.getNslab();
 
     ignore = w;
 
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto& nSlab = layer.n;
         const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
         const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
@@ -101,34 +109,47 @@ Matrix<T,M,M> AddingDoubling_NS::Tbound(const Medium<T>& layer, T nSlide,
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::RTtotal(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
+void AddingDoubling_NS::RTtotal(const Sample<T>& sample,
                                 const std::array<T,M>& v, const std::array<T,M>& w,
                                 Matrix<T,M,M>& Rtotal, Matrix<T,M,M>& Ttotal) {
     using namespace Math_NS;
 
+    CHECK_ARGUMENT_CONTRACT(sample.getNlayers() == 1 || sample.getNlayers() == 3);
+
+    T nSlideTop = sample.getNslideTop();
+    T nSlideBottom = sample.getNslideBottom();
+    Medium<T> layer = sample.getTurbidMedium();
+
     const int m = M;
     Matrix<T,M,M> T02, R20, T03, R30, Rslab, Tslab, R30mod;
     RTslab<T,M>(layer, v, w, Rslab, Tslab);
-    AddingBounds<T,M>(Rbound<T,M>(layer, nSlideTop, v, w), Rslab, R20, Tbound<T,M>(layer, nSlideTop, v, w), Tslab, T02);
-    AddingBounds<T,M>(R20, Rbound<T,M>(layer, nSlideBottom, v, w), R30, T02, Tbound<T,M>(layer, nSlideBottom, v, w), Ttotal);
-    R30mod = R30 - Rbound<T,M>(layer, nSlideBottom, v, w);
+    AddingBounds<T,M>(Rbound<T,M>(sample, v, w), Rslab, R20, Tbound<T,M>(sample, v, w), Tslab, T02);
+    AddingBounds<T,M>(R20, Rbound<T,M>(sample, v, w), R30, T02, Tbound<T,M>(sample, v, w), Ttotal);
+    R30mod = R30 - Rbound<T,M>(sample, v, w);
 
     for (int i = 0; i < m; i++)
         CHECK_RUNTIME_CONTRACT(sqr(DoubleAW<T,M>(v, w)(i) != 0));
 
     for (int i = 0; i < m; i++)
-        R30mod(i, i) += Rbound<T,M>(layer, nSlideBottom, v, w)(i, i) / sqr(DoubleAW<T,M>(v, w)(i));
+        R30mod(i, i) += Rbound<T,M>(sample, v, w)(i, i) / sqr(DoubleAW<T,M>(v, w)(i));
     Rtotal = R30mod;
 }
 
 template < typename T, size_t M >
-void AddingDoubling_NS::RTs(const Medium<T>& layer, T nSlideTop, T nSlideBottom,
+void AddingDoubling_NS::RTs(const Sample<T>& sample,
                             const std::array<T,M>& v, const std::array<T,M>& w,
                             T& Rs, T& Ts) {
+
+    CHECK_ARGUMENT_CONTRACT(sample.getNlayers() == 1 || sample.getNlayers() == 3);
+
+    T nSlideTop = sample.getNslideTop();
+    T nSlideBottom = sample.getNslideBottom();
+    Medium<T> layer = sample.getTurbidMedium();
+
     const int m = M;
     Ts = Rs = 0;
     Matrix<T,M,M> Ttot, Rtot;
-    RTtotal<T,M>(layer, nSlideTop, nSlideBottom, v, w, Rtot, Ttot);
+    RTtotal<T,M>(sample, v, w, Rtot, Ttot);
     for (int i = 0; i < m; i++) {
         Ts += 2 * v[i] * w[i] * Ttot(i, m-1);
         Rs += 2 * v[i] * w[i] * Rtot(i, m-1);

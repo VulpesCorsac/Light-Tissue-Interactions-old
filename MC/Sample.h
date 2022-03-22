@@ -7,6 +7,7 @@ class Sample {
 public:
     Sample() noexcept = default;
     Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, const T& vacLower);
+    Sample(const std::vector<Medium<T>>& mediums);
     ~Sample() noexcept = default;
 
     inline T CurrentUpperBorderZ(const int& currentLayer) const noexcept { // layer numeration from 0!
@@ -22,6 +23,30 @@ public:
     inline T getNvacLower() const noexcept { return nVacLower; }
     inline T getTotalThickness() const noexcept { return totalThickness; }
     inline int getNlayers() const noexcept { return sample.size(); }
+    inline T getNslab() const noexcept {
+        if (sample.size() == 1)
+            return sample[0].n;
+        else if (sample.size() == 3)
+            return sample[1].n;
+    }
+    inline T getNslideTop() const noexcept {
+        if (sample.size() == 1)
+            return sample[0].n;
+        else if (sample.size() == 3)
+            return sample[0].n;
+    }
+    inline T getNslideBottom() const noexcept {
+        if (sample.size() == 1)
+            return sample[0].n;
+        else if (sample.size() == 3)
+            return sample[2].n;
+    }
+    inline Medium<T> getTurbidMedium() const noexcept {
+        if (sample.size() == 1)
+            return sample[0];
+        else if (sample.size() == 3)
+            return sample[1];
+    }
 
 protected:
     std::vector<Medium<T>> sample;
@@ -35,6 +60,19 @@ Sample<T>::Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, cons
     : sample(mediums)
     , nVacLower(vacLower)
     , nVacUpper(vacUpper) {
+    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size == 3);
+    T thickness = 0;
+    for (const auto& layer : sample)
+        thickness += layer.D;
+    totalThickness = thickness;
+}
+
+template < typename T >
+Sample<T>::Sample(const std::vector<Medium<T>>& mediums)
+    : sample(mediums)
+    , nVacLower(1.0)
+    , nVacUpper(1.0) {
+    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size == 3);
     T thickness = 0;
     for (const auto& layer : sample)
         thickness += layer.D;

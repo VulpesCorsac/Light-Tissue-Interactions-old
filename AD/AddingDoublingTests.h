@@ -37,7 +37,15 @@ public:
     }
 
     void calc() {
-        RTs<T,M>(Medium<T>::fromAlbedo(NSlab, A, Tau, 1.0, G), NSlideTop, NSlideBottom, v, w, rs, ts);
+        const auto layer = Medium<T>::fromAlbedo(NSlab, A, Tau, 1.0, G);
+        const auto glassTop = Medium<T>::fromCoeffs(NSlideTop, 0.0, 0.0, 1.0, 0.0);
+        const auto glassBottom = Medium<T>::fromCoeffs(NSlideBottom, 0.0, 0.0, 1.0, 0.0);
+        vector<Medium<T>> samples;
+        if (NSlideTop == NSlab)
+            samples = {layer};
+        else
+            samples = {glassTop, layer, glassBottom};
+        RTs<T,M>(Sample<T>(samples), v, w, rs, ts);
         tc = Tc<T,M>(Tau, NSlab, NSlideTop, NSlideBottom);
     }
 
