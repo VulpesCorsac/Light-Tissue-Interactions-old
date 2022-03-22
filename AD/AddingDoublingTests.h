@@ -7,6 +7,7 @@
 #include "AddingDoubling.h"
 #include "RT.h"
 #include "Quadrature.h"
+#include "../MC/Sample.h"
 
 #include "../Tests/BenchmarkHelper.h"
 
