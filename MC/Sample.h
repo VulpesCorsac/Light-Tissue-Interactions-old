@@ -60,7 +60,7 @@ Sample<T>::Sample(const std::vector<Medium<T>>& mediums, const T& vacUpper, cons
     : sample(mediums)
     , nVacLower(vacLower)
     , nVacUpper(vacUpper) {
-    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size == 3);
+    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size() == 3);
     T thickness = 0;
     for (const auto& layer : sample)
         thickness += layer.D;
@@ -72,7 +72,7 @@ Sample<T>::Sample(const std::vector<Medium<T>>& mediums)
     : sample(mediums)
     , nVacLower(1.0)
     , nVacUpper(1.0) {
-    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size == 3);
+    CHECK_ARGUMENT_CONTRACT(mediums.size() == 1 || mediums.size() == 3);
     T thickness = 0;
     for (const auto& layer : sample)
         thickness += layer.D;
