@@ -2,7 +2,7 @@
 
 #include "AddingDoubling.h"
 #include "LayerProperties.h"
-#include "../MC/Medium.h"
+#include "../MC/Sample.h"
 
 #include "../Physics/Reflectance.h"
 #include "../Utils/Contracts.h"
