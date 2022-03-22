@@ -1758,8 +1758,12 @@
 	<math.h>
 	<tgmath.h>
 
-1647935923 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\sample.h
+1647940128 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\sample.h
 	<vector>
+	<stdexcept>
+	<utility>
+	<string>
+	<iostream>
 
 1647582405 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\mc\detector.h
 	"Photon.h"
@@ -1822,10 +1826,10 @@
 	<cmath>
 	<complex>
 
-1647936978 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
+1647937811 c:\users\tatki\documents\photonics\biophotonics\light-tissue-interactions\ad\rt.h
 	"AddingDoubling.h"
 	"LayerProperties.h"
-	"../MC/Medium.h"
+	"../MC/Sample.h"
 	"../Physics/Reflectance.h"
 	"../Utils/Contracts.h"
 	"../Utils/Utils.h"

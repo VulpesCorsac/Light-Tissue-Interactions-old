@@ -1,6 +1,10 @@
 #pragma once
 
 #include <vector>
+#include <stdexcept>
+#include <utility>
+#include <string>
+#include <iostream>
 
 template < typename T >
 class Sample {
@@ -24,28 +28,45 @@ public:
     inline T getTotalThickness() const noexcept { return totalThickness; }
     inline int getNlayers() const noexcept { return sample.size(); }
     inline T getNslab() const noexcept {
+        CHECK_ARGUMENT_CONTRACT(sample.size() == 1 || sample.size() == 3);
         if (sample.size() == 1)
             return sample[0].n;
         else if (sample.size() == 3)
             return sample[1].n;
+        else
+           // throw invalid_argument("Be a darling and feed this program either 1 or 3 layers");
+           std::cerr << "Be a darling and feed this program either 1 or 3 layers";
+
     }
     inline T getNslideTop() const noexcept {
+        CHECK_ARGUMENT_CONTRACT(sample.size() == 1 || sample.size() == 3);
         if (sample.size() == 1)
             return sample[0].n;
         else if (sample.size() == 3)
             return sample[0].n;
+        else
+            //throw invalid_argument("Be a darling and feed this program either 1 or 3 layers");
+            std::cerr << "Be a darling and feed this program either 1 or 3 layers";
     }
     inline T getNslideBottom() const noexcept {
+        CHECK_ARGUMENT_CONTRACT(sample.size() == 1 || sample.size() == 3);
         if (sample.size() == 1)
             return sample[0].n;
         else if (sample.size() == 3)
             return sample[2].n;
+        else
+            //throw invalid_argument("Be a darling and feed this program either 1 or 3 layers");
+            std::cerr << "Be a darling and feed this program either 1 or 3 layers";
     }
     inline Medium<T> getTurbidMedium() const noexcept {
+        CHECK_ARGUMENT_CONTRACT(sample.size() == 1 || sample.size() == 3);
         if (sample.size() == 1)
             return sample[0];
         else if (sample.size() == 3)
             return sample[1];
+        else
+            //throw invalid_argument("Be a darling and feed this program either 1 or 3 layers");
+            std::cerr << "Be a darling and feed this program either 1 or 3 layers";
     }
 
 protected:
