@@ -36,8 +36,8 @@ TEST(InverseAddingDoubling, Test1) {
     constexpr T tcmeas = 0.338341;
     constexpr T tsmeas = 0.76446;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -87,8 +87,8 @@ TEST(InverseAddingDoubling, Test2) {
     constexpr T tcmeas = 0.338341;
     constexpr T tsmeas = 0.77350;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -137,8 +137,8 @@ TEST(InverseAddingDoubling, Test3) {
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -187,8 +187,8 @@ TEST(InverseAddingDoubling, G0) {
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -237,8 +237,8 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     constexpr T tsmeas = 0.54314;
     constexpr T tcmeas = 0.543166;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -288,8 +288,8 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     constexpr T tsmeas = 0.34684;
     constexpr T tcmeas = 0.346838;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -339,8 +339,8 @@ TEST(InverseAddingDoubling, TauMin1) {
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -389,8 +389,8 @@ TEST(InverseAddingDoubling, TauMin2) {
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -439,8 +439,8 @@ TEST(InverseAddingDoubling, TauMin3) {
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
@@ -489,8 +489,8 @@ TEST(InverseAddingDoubling, TauMin4) {
     constexpr T tsmeas = 0.699568;
     constexpr T tcmeas = 0.559308;
 
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+    const std::vector<std::pair<T,T>> Rd = {std::make_pair(0.0, rsmeas)};
+    const std::vector<std::pair<T,T>> Td = {std::make_pair(0.0, tsmeas)};
 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
