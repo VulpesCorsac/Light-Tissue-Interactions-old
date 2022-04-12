@@ -1,8 +1,6 @@
 add_library(AddingDoubling.h INTERFACE)
-add_library(AddingDoublingNelderMead.h INTERFACE)
 add_library(DeltaMMethod.h INTERFACE)
 add_library(Eigen_NS.h INTERFACE)
-add_library(InverseAddingDoubling.h INTERFACE)
 add_library(LayerInit.h INTERFACE)
 add_library(LayerProperties.h INTERFACE)
 add_library(Quadrature.h INTERFACE)

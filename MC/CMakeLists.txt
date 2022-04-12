@@ -1,5 +1,4 @@
 add_library(Detector.h INTERFACE)
-add_library(InverseMonteCarlo.h INTERFACE)
 add_library(Medium.h INTERFACE)
 add_library(MonteCarlo.h INTERFACE)
 add_library(MonteCarloMultithread.h INTERFACE)

@@ -44,7 +44,7 @@ T AddingDoubling_NS::Taus(T a, T tau, T g) {
 
 template < typename T, size_t M >
 T AddingDoubling_NS::Taus(const Medium<T>& layer) {
-    return Taus<T,M>(layer.a, layer.tau, layer.g);
+    return Taus<T,M>(layer.getA(), layer.getTau(), layer.getG());
 }
 
 template < typename T, size_t M >
@@ -58,7 +58,7 @@ T AddingDoubling_NS::As(T a, T g) {
 
 template < typename T, size_t M >
 T AddingDoubling_NS::As(const Medium<T>& layer) {
-    return As<T,M>(layer.a, layer.g);
+    return As<T,M>(layer.getA(), layer.getG());
 }
 
 template < typename T, size_t M >
@@ -66,7 +66,7 @@ int AddingDoubling_NS::N1(const Medium<T>& layer) {
     using namespace Utils_NS;
     using namespace std;
 
-    Quadrature<T,M> quadrature(layer.n);
+    Quadrature<T,M> quadrature(layer.getN());
     const auto v = quadrature.getV();
 
     CHECK_ARGUMENT_CONTRACT(isize(v) > 0);
@@ -88,9 +88,9 @@ T AddingDoubling_NS::DTaus(const Medium<T>& layer) {
 
 template < typename T, size_t M >
 T AddingDoubling_NS::DTau(const Medium<T>& layer) {
-    const auto gPowM = pow(layer.g, M);
+    const auto gPowM = pow(layer.getG(), M);
 
-    CHECK_ARGUMENT_CONTRACT(layer.a * gPowM != 1);
+    CHECK_ARGUMENT_CONTRACT(layer.getA() * gPowM != 1);
 
-    return DTaus<T,M>(layer) / (1 - layer.a * gPowM);
+    return DTaus<T,M>(layer) / (1 - layer.getA() * gPowM);
 }

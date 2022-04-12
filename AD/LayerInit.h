@@ -78,8 +78,8 @@ Matrix<T,M,M> AddingDoubling_NS::B(const Medium<T>& layer,
     for (int i = 0; i < m; i++)
         CHECK_ARGUMENT_CONTRACT(v[i] != 0);
 
-    const auto hpn = HPN<T,M>(v, layer.g);
-    const auto cached = As<T,M>(layer.a, layer.g) * DTaus<T,M>(layer);
+    const auto hpn = HPN<T,M>(v, layer.getG());
+    const auto cached = As<T,M>(layer.getA(), layer.getG()) * DTaus<T,M>(layer);
 
     Matrix<T,M,M> result;
     for (int i = 0; i < m; i++)
@@ -99,7 +99,7 @@ Matrix<T,M,M> AddingDoubling_NS::A(const Medium<T>& layer,
     for (int i = 0; i < m; i++)
         CHECK_ARGUMENT_CONTRACT(v[i] != 0);
 
-    const auto hpp = HPP<T,M>(v, layer.g);
+    const auto hpp = HPP<T,M>(v, layer.getG());
     const auto cached1 = DTaus<T,M>(layer);
     const auto cached2 = cached1 * As<T,M>(layer);
 

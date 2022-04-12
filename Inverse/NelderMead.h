@@ -155,3 +155,4 @@ Matrix<T,1,N> Inverse_NS::vComp2v(const Matrix<T,1,N>& vComp) {
     }
     return v;
 }
+

@@ -114,6 +114,6 @@ void readSettings(const std::string& fileName,
 
     readTable(Rd, "Settings & input files/" + RdFname);
     readTable(Td, "Settings & input files/" + TdFname);
-    if (fix == FixedParameter::Tau)
+//    if (fix == FixedParameter::Tau)
         readTable(Tc, "Settings & input files/" + TcFname);
 }

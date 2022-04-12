@@ -38,6 +38,9 @@ struct MCresults {
     std::vector<IntegratingSphere<T>> SpheresArrayR;
     std::vector<IntegratingSphere<T>> SpheresArrayT;
 
+    IntegratingSphere<T> mainSphereR;
+    IntegratingSphere<T> mainSphereT;
+
     //std::vector<OpticalFiber<T>> FibersArrayR;
     //std::vector<OpticalFiber<T>> FibersArrayT;
 
@@ -93,8 +96,8 @@ protected:
     const T chance;
     const T threshold;
 
-    bool debug = 1;
-    int debugPhoton = 2;
+    bool debug = 0;
+    int debugPhoton = 0;
 
     Matrix<T,Dynamic,Dynamic> A = Matrix<T, Nz, Nr>::Constant(0.0);
     Matrix<T,1,Dynamic> RR = Matrix<T, 1, Nr>::Constant(0.0);
@@ -419,15 +422,15 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
     using namespace std;
 
     const auto ni = sample.getNvacUpper();
-    const auto nt = sample.getMedium(0).n;
+    const auto nt = sample.getMedium(0).getN();
     const auto cosi = abs(photon.direction.z);
     const auto cost = TransmittanceCos(ni, nt, cosi);
 
     T Ri = FresnelReflectance(ni, nt, cosi);
 
-    if (sample.getMedium(0).ut == 0) { // specular from glass
+    if (sample.getMedium(0).getMut() == 0) { // specular from glass
         const auto R1 = FresnelReflectance(ni, nt, cosi);
-        const auto n3 = sample.getMedium(1).n;
+        const auto n3 = sample.getMedium(1).getN();
         const auto R2 = FresnelReflectance(nt, n3, cost);
         Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
     }
@@ -450,7 +453,7 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::HopDropSpin(Photon<T>& photon) {
-    if (sample.getMedium(photon.layer).ut == 0)
+    if (sample.getMedium(photon.layer).getMut() == 0)
         HopInGlass(photon);
     else
         HopDropSpinInTissue(photon);
@@ -535,7 +538,7 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
     using namespace Math_NS;
     using namespace std;
 
-    const auto mT = sample.getMedium(photon.layer).ut;
+    const auto mT = sample.getMedium(photon.layer).getMut();
     if (photon.stepLeft == 0) // new step
         photon.step = -log(random<T>(0, 1)) / mT;
     else { // leftover step
@@ -613,9 +616,9 @@ void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
     if (iz >= Nz)
         cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N " << photon.number << endl;
 
-    A(iz, min(ir, Nr-1)) += photon.weight * sample.getMedium(layer).ua / sample.getMedium(layer).ut;
+    A(iz, min(ir, Nr-1)) += photon.weight * sample.getMedium(layer).getMua() / sample.getMedium(layer).getMut();
 
-    photon.weight *= sample.getMedium(layer).us / sample.getMedium(layer).ut;
+    photon.weight *= sample.getMedium(layer).getMus() / sample.getMedium(layer).getMut();
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
@@ -625,7 +628,7 @@ void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
     using namespace std;
 
     const int layer = photon.layer;
-    const T g = sample.getMedium(layer).g;
+    const T g = sample.getMedium(layer).getG();
 
     const auto RND1 = random<T>(0, 1);
     T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
@@ -673,7 +676,7 @@ bool MonteCarlo<T,Nz,Nr,detector>::HitBoundary(Photon<T>& photon) {
         distToBnd = (sample.CurrentUpperBorderZ(photon.layer) - photon.coordinate.z) / uz;
 
     if (uz != 0 && photon.step > distToBnd) {
-        photon.stepLeft = (photon.step - distToBnd) * sample.getMedium(photon.layer).ut;
+        photon.stepLeft = (photon.step - distToBnd) * sample.getMedium(photon.layer).getMut();
         photon.step = distToBnd;
         return true;
     }
@@ -696,8 +699,8 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
 
     const T cosi = photon.direction.z;
     const int layer = photon.layer;
-    const auto ni = sample.getMedium(layer).n;
-    const auto nt = layer == 0 ? sample.getNvacUpper() : sample.getMedium(layer - 1).n;
+    const auto ni = sample.getMedium(layer).getN();
+    const auto nt = layer == 0 ? sample.getNvacUpper() : sample.getMedium(layer - 1).getN();
     const auto cost = TransmittanceCos(ni, nt, cosi);
     const auto Ri = FresnelReflectance(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
@@ -734,8 +737,8 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
         cout << "CrossDownOrNot" << endl;
     const auto cosi = photon.direction.z;
     const int layer = photon.layer;
-    const auto ni = sample.getMedium(layer).n;
-    const auto nt = layer == sample.getNlayers()-1 ? sample.getNvacLower() : sample.getMedium(layer + 1).n;
+    const auto ni = sample.getMedium(layer).getN();
+    const auto nt = layer == sample.getNlayers()-1 ? sample.getNvacLower() : sample.getMedium(layer + 1).getN();
     const auto cost = TransmittanceCos(ni, nt, cosi);
     const auto Ri = FresnelReflectance(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
@@ -785,19 +788,20 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num) {
     using namespace Math_NS;
     using namespace std;
-
+/*
     const T radius = 1e-3;
     T RNDx, RNDy;
     do {
         RNDx = random<T>(-1, 1);
         RNDy = random<T>(-1, 1);
     } while ((sqr(RNDx) + sqr(RNDy)) > 1);
-    const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);
+    const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);*/
+    const auto startCoord = Vector3D<T>(0, 0, 0);
 
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
     FirstReflection(photon);
-    if (sample.getMedium(0).ut == 0) { // 1st layer is glass -- go directly to tissue
+    if (sample.getMedium(0).getMut() == 0) { // 1st layer is glass -- go directly to tissue
         photon.layer = 1;
         photon.coordinate.z = sample.CurrentUpperBorderZ(photon.layer);
     }
@@ -839,10 +843,13 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     results.arrayAnglesR = arrayAnglesR;
     results.arrayAnglesT = arrayAnglesT;
 
+    results.mainSphereR = mainSphereR;
+    results.mainSphereT = mainSphereT;
+
     if (sample.getNlayers() == 1)
-        results.BugerTransmission = BugerLambert(sample.getMedium(0).tau, sample.getMedium(0).n, sample.getNvacLower(), sample.getNvacLower());
+        results.BugerTransmission = BugerLambert(sample.getMedium(0).getTau(), sample.getMedium(0).getN(), sample.getNvacLower(), sample.getNvacLower());
     else
-        results.BugerTransmission = BugerLambert(sample.getMedium(1).tau, sample.getMedium(1).n, sample.getMedium(0).n, sample.getMedium(2).n);
+        results.BugerTransmission = BugerLambert(sample.getMedium(1).getTau(), sample.getMedium(1).getN(), sample.getMedium(0).getN(), sample.getMedium(2).getN());
 
     if (detector == 1) {
         results.SpheresArrayR = SpheresArrayR;

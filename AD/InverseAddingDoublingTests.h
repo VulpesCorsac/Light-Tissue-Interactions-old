@@ -4,8 +4,8 @@
     #define ENABLE_CHECK_CONTRACTS
 #endif // ENABLE_CHECK_CONTRACTS
 
-#include "AddingDoublingNelderMead.h"
-#include "InverseAddingDoubling.h"
+#include "../Inverse/InverseProblem.h"
+#include "../Inverse/StartingPoints.h"
 
 #include <gtest/gtest.h>
 
@@ -27,16 +27,23 @@ TEST(InverseAddingDoubling, Test1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.08624;
+    constexpr T rsmeas = 0.0862354 - 0.0410959;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
@@ -55,16 +62,24 @@ TEST(InverseAddingDoubling, Test2) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.08531;
+
+    constexpr T rsmeas = 0.08531 - 0.0410959;
     constexpr T tsmeas = 0.77350;
     constexpr T tcmeas = 0.338341;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
@@ -83,16 +98,23 @@ TEST(InverseAddingDoubling, Test3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548;
+    constexpr T rsmeas = 0.06548 - 0.04;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9 , TOLERANCE);
     EXPECT_NEAR(tauOut, 2   , TOLERANCE);
@@ -111,16 +133,23 @@ TEST(InverseAddingDoubling, G0) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911;
+    constexpr T rsmeas = 0.38911 - 0.02778;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5   , TOLERANCE);
@@ -139,16 +168,23 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.6; /// refraction index of slide
     constexpr T nSlideBottom = 1.6;
-    constexpr T rsmeas = 0.07204;
+    constexpr T rsmeas = 0.07204 - 0.05419;
     constexpr T tsmeas = 0.54314;
     constexpr T tcmeas = 0.543166;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0  , TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, TOLERANCE);
@@ -168,16 +204,23 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     constexpr T nSlab = 1.3; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.03278;
+    constexpr T rsmeas = 0.03278 - 0.02907;
     constexpr T tsmeas = 0.34684;
     constexpr T tcmeas = 0.346838;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0, TOLERANCE);
     EXPECT_NEAR(tauOut, 1, TOLERANCE);
@@ -197,16 +240,23 @@ TEST(InverseAddingDoubling, TauMin1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.08624;
+    constexpr T rsmeas = 0.08624 - 0.0410959;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.9, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 1.0, 10 * TOLERANCE);
@@ -225,16 +275,23 @@ TEST(InverseAddingDoubling, TauMin2) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911;
+    constexpr T rsmeas = 0.38911 - 0.02778;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95,      TOLERANCE);
     EXPECT_NEAR(tauOut, 5.0, 10 * TOLERANCE);
@@ -253,16 +310,23 @@ TEST(InverseAddingDoubling, TauMin3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548;
+    constexpr T rsmeas = 0.06548 - 0.04;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.99, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0, 10 * TOLERANCE);
@@ -281,15 +345,22 @@ TEST(InverseAddingDoubling, TauMin4) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.0630203;
+    constexpr T rsmeas = 0.0630203 - 0.04;
     constexpr T tsmeas = 0.699568;
     constexpr T tcmeas = 0.559308;
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.9, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.5,      TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, 10 * TOLERANCE);
@@ -312,12 +383,19 @@ TEST(InverseAddingDoubling, 3NMin1) {
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
+   Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.9, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1.0, TOLERANCE);
@@ -340,12 +418,19 @@ TEST(InverseAddingDoubling, 3NMin2) {
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.0, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5.0,  TOLERANCE);
@@ -368,12 +453,19 @@ TEST(InverseAddingDoubling, 3NMin3) {
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+    std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+    Sample<T> emptySample = (layers);
+
     T aOut, tauOut, gOut;
-    T fixedParamVal = fixParam<T,M,N,fix>(0.99, nSlab, nSlideTop, nSlideBottom, tcmeas);
-    T astart, gstart, tstart;
-    Func<T,M,N,fix> toMinimize(fixedParamVal, nSlab, nSlideTop, nSlideBottom, rsmeas, tsmeas, tcmeas);
-    startingPoints(toMinimize, astart, tstart, gstart);
-    IAD<T,M,N,fix>(toMinimize, rsmeas, tsmeas, tcmeas, nSlab, nSlideTop, nSlideBottom, fixedParamVal, astart, tstart, gstart, aOut, tauOut, gOut);
+    T aStart, gStart, tStart;
+
+    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,  TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0,  TOLERANCE);

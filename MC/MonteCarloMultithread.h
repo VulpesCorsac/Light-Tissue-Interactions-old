@@ -42,6 +42,8 @@ void MCmultithread(const Sample<T>& sample,
         finalResults.matrixA += result.matrixA;
         finalResults.arrayAnglesR += result.arrayAnglesR;
         finalResults.arrayAnglesT += result.arrayAnglesT;
+        finalResults.mainSphereR = result.mainSphereR;
+        finalResults.mainSphereT = result.mainSphereT;
 
         if (detector == 1) {
             finalResults.detectedR.resize(result.detectedR.size());
@@ -54,9 +56,9 @@ void MCmultithread(const Sample<T>& sample,
     }
 
     if (sample.getNlayers() == 1)
-        finalResults.BugerTransmission = BugerLambert(sample.getMedium(0).tau, sample.getMedium(0).n, sample.getNvacLower(), sample.getNvacLower());
+        finalResults.BugerTransmission = BugerLambert(sample.getMedium(0).getTau(), sample.getMedium(0).getN(), sample.getNvacLower(), sample.getNvacLower());
     else
-        finalResults.BugerTransmission = BugerLambert(sample.getMedium(1).tau, sample.getMedium(1).n, sample.getMedium(0).n, sample.getMedium(2).n);
+        finalResults.BugerTransmission = BugerLambert(sample.getMedium(1).getTau(), sample.getMedium(1).getN(), sample.getMedium(0).getN(), sample.getMedium(2).getN());
 
 
     finalResults.diffuseReflection   = finalResults.arrayR.sum()         / Np;

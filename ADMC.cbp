@@ -14,6 +14,8 @@
 				<Compiler>
 					<Add directory="include" />
 					<Add directory="MC" />
+					<Add directory="Scripts" />
+					<Add directory="Inverse" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -25,6 +27,8 @@
 					<Add option="-O2" />
 					<Add directory="include" />
 					<Add directory="MC" />
+					<Add directory="Scripts" />
+					<Add directory="Inverse" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -68,6 +72,7 @@
 		<Unit filename="Inverse/Helpers.h" />
 		<Unit filename="Inverse/InverseProblem.h" />
 		<Unit filename="Inverse/NelderMead.h" />
+		<Unit filename="Inverse/StartingPoints.h" />
 		<Unit filename="MC/CMakeLists.txt" />
 		<Unit filename="MC/Detector.h" />
 		<Unit filename="MC/Detector/CMakeLists.txt" />
@@ -132,6 +137,9 @@
 		<Unit filename="Physics/ReflectanceTests.h" />
 		<Unit filename="Physics/Specimen.h" />
 		<Unit filename="Physics/SpecimenTests.h" />
+		<Unit filename="Scripts/DirectMC.h" />
+		<Unit filename="Scripts/InverseMC.h" />
+		<Unit filename="Scripts/SaveResults.h" />
 		<Unit filename="Settings/CMakeLists.txt" />
 		<Unit filename="Settings/SettingsExporterHelpers.h" />
 		<Unit filename="Settings/SettingsExporterLayer.h" />
