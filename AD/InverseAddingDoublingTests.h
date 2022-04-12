@@ -48,7 +48,7 @@ TEST(InverseAddingDoubling, Test1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
