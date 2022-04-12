@@ -32,7 +32,7 @@ TEST(InverseAddingDoubling, Test1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.0862354 - 0.0410959;
+    constexpr T rsmeas = 0.0862354/* - 0.0410959*/;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
@@ -71,7 +71,7 @@ TEST(InverseAddingDoubling, Test2) {
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
 
-    constexpr T rsmeas = 0.08531 - 0.0410959;
+    constexpr T rsmeas = 0.08531/* - 0.0410959*/;
     constexpr T tsmeas = 0.77350;
     constexpr T tcmeas = 0.338341;
 
@@ -109,7 +109,7 @@ TEST(InverseAddingDoubling, Test3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548 - 0.04;
+    constexpr T rsmeas = 0.06548/* - 0.04*/;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
@@ -147,7 +147,7 @@ TEST(InverseAddingDoubling, G0) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911 - 0.02778;
+    constexpr T rsmeas = 0.38911/* - 0.02778*/;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
@@ -185,7 +185,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.6; /// refraction index of slide
     constexpr T nSlideBottom = 1.6;
-    constexpr T rsmeas = 0.07204 - 0.05419;
+    constexpr T rsmeas = 0.07204/* - 0.05419*/;
     constexpr T tsmeas = 0.54314;
     constexpr T tcmeas = 0.543166;
 
@@ -224,7 +224,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     constexpr T nSlab = 1.3; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.03278 - 0.02907;
+    constexpr T rsmeas = 0.03278/* - 0.02907*/;
     constexpr T tsmeas = 0.34684;
     constexpr T tcmeas = 0.346838;
 
@@ -263,7 +263,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.08624 - 0.0410959;
+    constexpr T rsmeas = 0.08624/* - 0.0410959*/;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
@@ -301,7 +301,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911 - 0.02778;
+    constexpr T rsmeas = 0.38911/* - 0.02778*/;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
 
@@ -339,7 +339,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548 - 0.04;
+    constexpr T rsmeas = 0.06548/* - 0.04*/;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
 
@@ -377,7 +377,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.0630203 - 0.04;
+    constexpr T rsmeas = 0.0630203/* - 0.04*/;
     constexpr T tsmeas = 0.699568;
     constexpr T tcmeas = 0.559308;
 
