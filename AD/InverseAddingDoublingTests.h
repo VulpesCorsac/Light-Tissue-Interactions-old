@@ -79,7 +79,7 @@ TEST(InverseAddingDoubling, Test2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9, TOLERANCE);
     EXPECT_NEAR(tauOut, 1  , TOLERANCE);
@@ -114,7 +114,7 @@ TEST(InverseAddingDoubling, Test3) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9 , TOLERANCE);
     EXPECT_NEAR(tauOut, 2   , TOLERANCE);
@@ -149,7 +149,7 @@ TEST(InverseAddingDoubling, G0) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95, TOLERANCE);
     EXPECT_NEAR(tauOut, 5   , TOLERANCE);
@@ -184,7 +184,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0  , TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, TOLERANCE);
@@ -220,7 +220,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0, TOLERANCE);
     EXPECT_NEAR(tauOut, 1, TOLERANCE);
@@ -256,7 +256,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 1.0, 10 * TOLERANCE);
@@ -291,7 +291,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.95,      TOLERANCE);
     EXPECT_NEAR(tauOut, 5.0, 10 * TOLERANCE);
@@ -326,7 +326,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.9,      TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0, 10 * TOLERANCE);
@@ -360,7 +360,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tOut, gOut, ModellingMethod::AD);
+    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     EXPECT_NEAR(aOut  , 0.5,      TOLERANCE);
     EXPECT_NEAR(tauOut, 0.5, 10 * TOLERANCE);
