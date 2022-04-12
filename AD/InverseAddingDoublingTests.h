@@ -58,7 +58,7 @@ TEST(InverseAddingDoubling, Test1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -109,7 +109,7 @@ TEST(InverseAddingDoubling, Test2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -159,7 +159,7 @@ TEST(InverseAddingDoubling, Test3) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -209,7 +209,7 @@ TEST(InverseAddingDoubling, G0) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -259,7 +259,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -310,7 +310,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -361,7 +361,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -411,7 +411,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -461,7 +461,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -511,7 +511,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, tcmeas);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
