@@ -20,8 +20,8 @@ T tauCalc(T nSlab, T nSlideTop, T nSlideBottom, T Tcol) {
     const auto cached2 = cached1 - rb1 - rb2 + 1;
 
     CHECK_ARGUMENT_CONTRACT(Tcol != 0);
-    CHECK_RUNTIME_CONTRACT(4 * cache1 * sqr(Tcol) + sqr(cache2) > 0);
-    CHECK_RUNTIME_CONTRACT((sqrt(4 * cache1 * sqr(Tcol) + sqr(cache2)) + cache2) / (2 * Tcol) > 0);
+    CHECK_RUNTIME_CONTRACT(4 * cached1 * sqr(Tcol) + sqr(cached2) > 0);
+    CHECK_RUNTIME_CONTRACT((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol) > 0);
 
     return log((sqrt(4 * cached1 * sqr(Tcol) + sqr(cached2)) + cached2) / (2 * Tcol));
 }
