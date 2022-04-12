@@ -42,10 +42,10 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
         T tcMeas = Tc[0].second;
         T rSpec;
         if (emptySample.getNlayers() == 1)
-            rSpec = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getNslab(), 1.0);
+            rSpec = FresnelReflectance<T>(emptySample.getNvacUpper(), emptySample.getNslab(), 1.0);
         else if (emptySample.getNlayers() == 3) {
-            T r1 = FresnelReflectance(emptySample.getNvacUpper(), emptySample.getNslideTop(), 1.0);
-            T r2 = FresnelReflectance(emptySample.getNslideTop(), emptySample.getNslab(), 1.0);
+            T r1 = FresnelReflectance<T>(emptySample.getNvacUpper(), emptySample.getNslideTop(), 1.0);
+            T r2 = FresnelReflectance<T>(emptySample.getNslideTop(), emptySample.getNslab(), 1.0);
             rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
         } else
             throw invalid_argument("Only one or three layers possible");

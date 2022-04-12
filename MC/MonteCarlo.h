@@ -426,12 +426,12 @@ void MonteCarlo<T,Nz,Nr,detector>::FirstReflection(Photon<T>& photon) {
     const auto cosi = abs(photon.direction.z);
     const auto cost = TransmittanceCos(ni, nt, cosi);
 
-    T Ri = FresnelReflectance(ni, nt, cosi);
+    T Ri = FresnelReflectance<T>(ni, nt, cosi);
 
     if (sample.getMedium(0).getMut() == 0) { // specular from glass
-        const auto R1 = FresnelReflectance(ni, nt, cosi);
+        const auto R1 = FresnelReflectance<T>(ni, nt, cosi);
         const auto n3 = sample.getMedium(1).getN();
-        const auto R2 = FresnelReflectance(nt, n3, cost);
+        const auto R2 = FresnelReflectance<T>(nt, n3, cost);
         Ri = R1 + (sqr(1 - R1) * R2) / (1 - R1 * R2);
     }
 
@@ -702,7 +702,7 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossUpOrNot(Photon<T>& photon) {
     const auto ni = sample.getMedium(layer).getN();
     const auto nt = layer == 0 ? sample.getNvacUpper() : sample.getMedium(layer - 1).getN();
     const auto cost = TransmittanceCos(ni, nt, cosi);
-    const auto Ri = FresnelReflectance(ni, nt, cosi);
+    const auto Ri = FresnelReflectance<T>(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton)
@@ -740,7 +740,7 @@ void MonteCarlo<T,Nz,Nr,detector>::CrossDownOrNot(Photon<T>& photon) {
     const auto ni = sample.getMedium(layer).getN();
     const auto nt = layer == sample.getNlayers()-1 ? sample.getNvacLower() : sample.getMedium(layer + 1).getN();
     const auto cost = TransmittanceCos(ni, nt, cosi);
-    const auto Ri = FresnelReflectance(ni, nt, cosi);
+    const auto Ri = FresnelReflectance<T>(ni, nt, cosi);
     const auto RND = random<T>(0, 1); // reflected or transmitted on inner borders?
 
     if (debug && photon.number == debugPhoton)

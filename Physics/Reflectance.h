@@ -45,8 +45,8 @@ T Physics_NS::BorderReflectance(T mediumRefractionIndex, T outerRefractionIndex)
     CHECK_ARGUMENT_CONTRACT(mediumRefractionIndex >= 1);
     CHECK_ARGUMENT_CONTRACT(outerRefractionIndex  >= 1);
 
-    const auto cached1 = FresnelReflectance(mediumRefractionIndex, outerRefractionIndex, static_cast<T>(1));
-    const auto cached2 = FresnelReflectance(outerRefractionIndex , static_cast<T>(1)   , static_cast<T>(1));
+    const auto cached1 = FresnelReflectance<T>(mediumRefractionIndex, outerRefractionIndex, static_cast<T>(1));
+    const auto cached2 = FresnelReflectance<T>(outerRefractionIndex , static_cast<T>(1)   , static_cast<T>(1));
     const auto cached3 = cached1 * cached2;
 
     CHECK_RUNTIME_CONTRACT(cached3 != 1);

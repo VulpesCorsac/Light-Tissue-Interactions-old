@@ -62,10 +62,10 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
     if (mod == ModellingMethod::AD) {
         T rSpec;
         if (f.getEmptySample().getNlayers() == 1)
-            rSpec = FresnelReflectance(f.getEmptySample().getNvacUpper(), f.getEmptySample().getNslab(), 1.0);
+            rSpec = FresnelReflectance<T>(f.getEmptySample().getNvacUpper(), f.getEmptySample().getNslab(), 1.0);
         else if (f.getEmptySample().getNlayers() == 3) {
-            T r1 = FresnelReflectance(f.getEmptySample().getNvacUpper(), f.getEmptySample().getNslideTop(), 1.0);
-            T r2 = FresnelReflectance(f.getEmptySample().getNslideTop(), f.getEmptySample().getNslab(), 1.0);
+            T r1 = FresnelReflectance<T>(f.getEmptySample().getNvacUpper(), f.getEmptySample().getNslideTop(), 1.0);
+            T r2 = FresnelReflectance<T>(f.getEmptySample().getNslideTop(), f.getEmptySample().getNslab(), 1.0);
             rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
         } else
             throw invalid_argument("Only one or three layers possible");

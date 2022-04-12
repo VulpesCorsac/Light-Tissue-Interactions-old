@@ -70,8 +70,8 @@ Matrix<T,M,M> AddingDoubling_NS::Rbound(const Sample<T>& sample,
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
-        const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
+        const auto cached1 = FresnelReflectance<T>(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
+        const auto cached2 = FresnelReflectance<T>(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
 
         CHECK_RUNTIME_CONTRACT(cached3 != 1);
@@ -97,8 +97,8 @@ Matrix<T,M,M> AddingDoubling_NS::Tbound(const Sample<T>& sample,
     const int m = M;
     Matrix<T,M,M> result = E<T,M>();
     for (int i = 0; i < m; i++) {
-        const auto cached1 = FresnelReflectance(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
-        const auto cached2 = FresnelReflectance(nSlab , nSlide           , v[i]                                 );
+        const auto cached1 = FresnelReflectance<T>(nSlide, static_cast<T>(1), TransmittanceCos(nSlab, nSlide, v[i]));
+        const auto cached2 = FresnelReflectance<T>(nSlab , nSlide           , v[i]                                 );
         const auto cached3 = cached1 * cached2;
 
         CHECK_RUNTIME_CONTRACT(cached3 != 1);
@@ -160,8 +160,8 @@ template < typename T, size_t M >
 T AddingDoubling_NS::Rborder(T nSlab, T nSlide) {
     using namespace Physics_NS;
 
-    const auto cached1 = FresnelReflectance(nSlab , nSlide           , static_cast<T>(1));
-    const auto cached2 = FresnelReflectance(nSlide, static_cast<T>(1), static_cast<T>(1));
+    const auto cached1 = FresnelReflectance<T>(nSlab , nSlide           , static_cast<T>(1));
+    const auto cached2 = FresnelReflectance<T>(nSlide, static_cast<T>(1), static_cast<T>(1));
     const auto cached3 = cached1 * cached2;
 
     CHECK_RUNTIME_CONTRACT(cached3 != 1);
