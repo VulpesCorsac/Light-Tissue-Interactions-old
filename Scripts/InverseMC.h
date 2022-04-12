@@ -37,8 +37,9 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
     cerr << "a = " << aStart << ", tau = " << tStart << ", g = " << gStart << endl;
     if (startMod == ModellingMethod::AD){
         cerr << "Starting first approximation with IAD" << endl;
-        T tMeas = Td[0].second;
-        T rMeas = Rd[0].second;
+        vector<pair<T,T>> tMeas, rMeas;
+        tMeas.push_back(make_pair(0.0, Td[0].second));
+        rMeas.push_back(make_pair(0.0, Rd[0].second));
         T tcMeas = Tc[0].second;
         T rSpec;
         if (emptySample.getNlayers() == 1)
@@ -49,12 +50,13 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
             rSpec = (r1 + r2 - 2 * r1 * r2) / (1 - r1 * r2);
         } else
             throw invalid_argument("Only one or three layers possible");
-        rMeas += rSpec;
+        rMeas[0].second += rSpec;
         if (SphereT.getDPort2() != 0)
-            tMeas += tcMeas;
+            tMeas[0].second += tcMeas;
         T aStartIAD, tStartIAD, gStartIAD;
-        Func<T,Nz,Nr,detector,M,N,fix> firstMinimize(fixedParamVal, emptySample, rMeas, tMeas, tcMeas);
-        cerr << rMeas << " " << tMeas << endl;
+        Func<T,Nz,Nr,detector,M,N,fix> firstMinimize(fixedParamVal, emptySample, Nphotons, Nthreads,
+                                              emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
+                                              distances, rMeas, tMeas, tcMeas);
         firstMinimize.InverseProblem(aStart, tStart, gStart, aStartIAD, tStartIAD, gStartIAD, ModellingMethod::AD);
         aStart = aStartIAD;
         tStart = tStartIAD;

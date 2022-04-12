@@ -32,9 +32,19 @@ TEST(InverseAddingDoubling, Test1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.0862354/* - 0.0410959*/;
-    constexpr T tsmeas = 0.76446;
+    constexpr T rsmeas = 0.0862354 - 0.0410959;
     constexpr T tcmeas = 0.338341;
+    constexpr T tsmeas = 0.76446;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -46,7 +56,9 @@ TEST(InverseAddingDoubling, Test1) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -71,9 +83,19 @@ TEST(InverseAddingDoubling, Test2) {
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
 
-    constexpr T rsmeas = 0.08531/* - 0.0410959*/;
-    constexpr T tsmeas = 0.77350;
+    constexpr T rsmeas = 0.08531 - 0.0410959;
     constexpr T tcmeas = 0.338341;
+    constexpr T tsmeas = 0.77350;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -85,7 +107,9 @@ TEST(InverseAddingDoubling, Test2) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -109,9 +133,19 @@ TEST(InverseAddingDoubling, Test3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548/* - 0.04*/;
+    constexpr T rsmeas = 0.06548 - 0.04;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -123,7 +157,9 @@ TEST(InverseAddingDoubling, Test3) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -147,9 +183,19 @@ TEST(InverseAddingDoubling, G0) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911/* - 0.02778*/;
+    constexpr T rsmeas = 0.38911 - 0.02778;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -161,7 +207,9 @@ TEST(InverseAddingDoubling, G0) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -185,9 +233,19 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.6; /// refraction index of slide
     constexpr T nSlideBottom = 1.6;
-    constexpr T rsmeas = 0.07204/* - 0.05419*/;
+    constexpr T rsmeas = 0.07204 - 0.05419;
     constexpr T tsmeas = 0.54314;
     constexpr T tcmeas = 0.543166;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -199,7 +257,9 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -224,9 +284,19 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     constexpr T nSlab = 1.3; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.03278/* - 0.02907*/;
+    constexpr T rsmeas = 0.03278 - 0.02907;
     constexpr T tsmeas = 0.34684;
     constexpr T tcmeas = 0.346838;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -238,7 +308,9 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -263,9 +335,19 @@ TEST(InverseAddingDoubling, TauMin1) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.08624/* - 0.0410959*/;
+    constexpr T rsmeas = 0.08624 - 0.0410959;
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -277,7 +359,9 @@ TEST(InverseAddingDoubling, TauMin1) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -301,9 +385,19 @@ TEST(InverseAddingDoubling, TauMin2) {
     constexpr T nSlab = 1.4; /// refraction index of sample
     constexpr T nSlideTop = 1.4; /// refraction index of slide
     constexpr T nSlideBottom = 1.4;
-    constexpr T rsmeas = 0.38911/* - 0.02778*/;
+    constexpr T rsmeas = 0.38911 - 0.02778;
     constexpr T tsmeas = 0.11869;
     constexpr T tcmeas = 0.006369;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -315,7 +409,9 @@ TEST(InverseAddingDoubling, TauMin2) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -339,9 +435,19 @@ TEST(InverseAddingDoubling, TauMin3) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.06548/* - 0.04*/;
+    constexpr T rsmeas = 0.06548 - 0.04;
     constexpr T tsmeas = 0.74409;
     constexpr T tcmeas = 0.124729;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -353,7 +459,9 @@ TEST(InverseAddingDoubling, TauMin3) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -377,9 +485,19 @@ TEST(InverseAddingDoubling, TauMin4) {
     constexpr T nSlab = 1.5; /// refraction index of sample
     constexpr T nSlideTop = 1.5; /// refraction index of slide
     constexpr T nSlideBottom = 1.5;
-    constexpr T rsmeas = 0.0630203/* - 0.04*/;
+    constexpr T rsmeas = 0.0630203 - 0.04;
     constexpr T tsmeas = 0.699568;
     constexpr T tcmeas = 0.559308;
+
+    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
+    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
+
+    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
+    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
+    DetectorDistance<T> distances;
+    distances.max  = 0.0;
+    distances.min  = 0.0;
+    distances.step = 0.0;
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -391,7 +509,9 @@ TEST(InverseAddingDoubling, TauMin4) {
     T aStart, gStart, tStart;
 
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, rsmeas, tsmeas, tcmeas);
+    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
+                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
+                                              distances, Rd, Td, Tc[0].second);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;

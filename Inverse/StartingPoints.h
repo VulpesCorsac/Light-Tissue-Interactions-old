@@ -70,7 +70,8 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
         } else
             throw invalid_argument("Only one or three layers possible");
         rMeas += rSpec;
-        tMeas += f.getTcmeas();
+        if (f.getSphereT().getDPort2() != 0)
+            tMeas += f.getTcmeas();
     }
 
     for (size_t i = 0; i < gSize; i++)
