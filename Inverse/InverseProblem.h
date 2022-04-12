@@ -56,6 +56,7 @@ public:
         : emptySample(emptySampleNew)
         , tcmeas(tcmeasNew) {
         using namespace Inverse_NS;
+        using namespace Physics_NS;
         using namespace std;
 
         if (emptySampleNew.getNlayers() == 3) {
@@ -67,6 +68,13 @@ public:
 
         this->rmeas.push_back(make_pair(0.0, rmeasNew));
         this->tmeas.push_back(make_pair(0.0, tmeasNew));
+
+        if (this->emptySample.getNlayers() == 1)
+            this->rSpec = FresnelReflectance<T>(this->emptySample.getNvacUpper(), this->emptySample.getNslab(), 1.0);
+        else if (this->emptySample.getNlayers() == 3)
+            this->rSpec = BorderReflectance(this->emptySample.getNslab(), this->emptySample.getNslideTop());
+        else
+            throw invalid_argument("Only one or three layers possible");
 
         CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
@@ -94,12 +102,20 @@ public:
         , tmeas(tmeasNew)
         , tcmeas(tcmeasNew) {
         using namespace Inverse_NS;
+        using namespace Physics_NS;
         using namespace std;
 
         if (emptySampleNew.getNlayers() == 3) {
             this->glassTop    = Medium<T>::fromAlbedo(emptySample.getNslideTop(),    0.0, 0.0, emptySample.getMedium(0).getD(), 0.0);
             this->glassBottom = Medium<T>::fromAlbedo(emptySample.getNslideBottom(), 0.0, 0.0, emptySample.getMedium(2).getD(), 0.0);
         }
+
+        if (this->emptySample.getNlayers() == 1)
+            this->rSpec = FresnelReflectance<T>(this->emptySample.getNvacUpper(), this->emptySample.getNslab(), 1.0);
+        else if (this->emptySample.getNlayers() == 3)
+            this->rSpec = BorderReflectance(this->emptySample.getNslab(), this->emptySample.getNslideTop());
+        else
+            throw invalid_argument("Only one or three layers possible");
 
         this->nLayers = emptySampleNew.getNlayers();
 
@@ -474,6 +490,13 @@ public:
         CHECK_ARGUMENT_CONTRACT(mod == ModellingMethod::MC || mod == ModellingMethod::AD);
         CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
+
+        if (mod == ModellingMethod::AD) {
+            this->rmeas[0].second += this->rSpec;
+            if (this->SphereT.getDPort2() != 0)
+                this->tmeas[0].second += this->tcmeas;
+        }
+
         T fixedParam = fixParam<T,fix>(gStart, this->emptySample, this->tcmeas);
 
         string method = "";
@@ -558,6 +581,7 @@ public:
     T getTcmeas()     const noexcept { return tcmeas;  }
     T getTau()        const noexcept { return tau;     }
     T getG()          const noexcept { return g;       }
+    T getRspec()      const noexcept { return rSpec;   }
 
 protected:
     Sample<T> emptySample;
@@ -570,7 +594,7 @@ protected:
     DetectorDistance<T> dist;
     std::vector<std::pair<T,T>> rmeas;
     std::vector<std::pair<T,T>> tmeas;
-    T tcmeas;
+    T tcmeas, rSpec;
     T tau, g;
 };
 
