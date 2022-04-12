@@ -27,46 +27,6 @@ int main() {
     constexpr int Nr = 10000;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
-    constexpr double TOLERANCE = 1e-4;
-
-    constexpr int N = 2; /// minimize 2 parameters
-    constexpr auto fix = FixedParameter::Tau;
-
-    constexpr T nSlab = 1.4; /// refraction index of sample
-    constexpr T nSlideTop = 1.5; /// refraction index of slide
-    constexpr T nSlideBottom = 1.5;
-
-    constexpr T rsmeas = 0.08531 - 0.0410959;
-    constexpr T tcmeas = 0.338341;
-    constexpr T tsmeas = 0.77350;
-
-    const vector<pair<T,T>> Rd = {make_pair(0.0, rsmeas)};
-    const vector<pair<T,T>> Td = {make_pair(0.0, tsmeas)};
-
-    IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
-    IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
-    DetectorDistance<T> distances;
-    distances.max  = 0.0;
-    distances.min  = 0.0;
-    distances.step = 0.0;
-
-    const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
-    const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
-    const auto glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
-    vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
-    Sample<T> emptySample = (layers);
-
-    T aOut, tauOut, gOut;
-    T aStart, gStart, tStart;
-
-    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
-    Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
-                                              emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
-    startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
-    toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
-    cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << endl;
-
     /// CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     bool developerMode;
     cout << "SELECT MODE" << endl;

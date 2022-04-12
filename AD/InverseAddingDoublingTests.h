@@ -358,7 +358,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     T aOut, tauOut, gOut;
     T aStart, gStart, tStart;
 
-    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    T fixedParamVal = fixParam<T,fix>(0.9, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
                                               distances, Rd, Td, tcmeas);
@@ -458,7 +458,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     T aOut, tauOut, gOut;
     T aStart, gStart, tStart;
 
-    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    T fixedParamVal = fixParam<T,fix>(0.99, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
                                               distances, Rd, Td, tcmeas);
@@ -508,7 +508,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     T aOut, tauOut, gOut;
     T aStart, gStart, tStart;
 
-    T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
+    T fixedParamVal = fixParam<T,fix>(0.9, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
                                               distances, Rd, Td, tcmeas);
