@@ -20,6 +20,9 @@ TEST(InverseAddingDoubling, Test1) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 4;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -55,6 +58,9 @@ TEST(InverseAddingDoubling, Test2) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -91,6 +97,9 @@ TEST(InverseAddingDoubling, Test3) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 16;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -126,6 +135,9 @@ TEST(InverseAddingDoubling, G0) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 4;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -161,6 +173,9 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 8;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -197,6 +212,9 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
 
     constexpr double TOLERANCE = 1e-4;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::Tau;
@@ -233,6 +251,9 @@ TEST(InverseAddingDoubling, TauMin1) {
 
     constexpr double TOLERANCE = 1e-2;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::G;
@@ -268,6 +289,9 @@ TEST(InverseAddingDoubling, TauMin2) {
 
     constexpr double TOLERANCE = 1e-2;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::G;
@@ -303,6 +327,9 @@ TEST(InverseAddingDoubling, TauMin3) {
 
     constexpr double TOLERANCE = 1e-2;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::G;
@@ -338,6 +365,9 @@ TEST(InverseAddingDoubling, TauMin4) {
 
     constexpr double TOLERANCE = 1e-2;
 
+    constexpr int Nz = 1000;
+    constexpr int Nr = 10000;
+    constexpr bool detector = 1;
     constexpr int M = 32;
     constexpr int N = 2; /// minimize 2 parameters
     constexpr auto fix = FixedParameter::G;
