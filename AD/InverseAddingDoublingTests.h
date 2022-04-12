@@ -6,6 +6,8 @@
 
 #include "../Inverse/InverseProblem.h"
 #include "../Inverse/StartingPoints.h"
+#include "../MC/Medium.h"
+#include "../MC/Sample.h"
 
 #include <gtest/gtest.h>
 
