@@ -96,7 +96,7 @@ template < typename T >
 T Inverse_NS::aComp2a(T aC) {
     using namespace Math_NS;
 
-    CHECK_ARGUMENT_CONTRACT(aC != 0);
+    //CHECK_ARGUMENT_CONTRACT(aC != 0);
 
     return (sqrt(sqr(aC) + 4) + aC - 2) / (2 * aC);
 }
