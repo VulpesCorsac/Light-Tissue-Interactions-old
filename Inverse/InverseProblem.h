@@ -514,7 +514,7 @@ public:
         else
             throw invalid_argument("Need to have fixed parameter");
 
-        int maxIter = 50;
+        int maxIter = 100;
         if (N == 3)
             maxIter = 100;
 
