@@ -27,6 +27,7 @@ int main() {
     constexpr int Nr = 10000;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
+
     /// CALCULATE ENTRIES FOR MINIMIZATION WITH MONTE-CARLO, OR USE INPUT FILE
     bool developerMode;
     cout << "SELECT MODE" << endl;

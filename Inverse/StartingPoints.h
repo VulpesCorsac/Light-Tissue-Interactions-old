@@ -18,12 +18,13 @@ void constructGrid(Matrix<T,1,gSize>& gridA, Matrix<T,1,gSize>& gridT, Matrix<T,
     for (size_t i = 0; i < gSize; i++) {
         const T j = i;
         const T x = j / (gSize - 1.0);
-        if (x < 0.25)
+        gridA(i) = 0.9999 * (1 - x) + 0.00001;
+      /*  if (x < 0.25)
             gridA(i) = 0.9999 * (1 - x) + 0.00001;
         else if (x > 0.75)
             gridA(i) = 0.9999 * (1 - x) + 0.00001;
         else
-            gridA(i) = 0.9999 * sqr(1 - x) + 0.00001;
+            gridA(i) = 0.9999 * sqr(1 - x) + 0.00001;*/
         gridT(i) = pow(2, tMin + (tMax - tMin) * x);
         /* gridG(i) = 0.9999 * (2.0 * i / (gSize - 1.0) - 1.0) + 0.00001;*/ /// including g < 0
         gridG(i) = 0.9999 * i / (gSize - 1.0) + 0.00001;
@@ -99,6 +100,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
                 rCalc = myResults.detectedR[0].second;
             }
             distMatrix(i,j) = abs(rCalc - rMeas) / (rMeas + EPS) + abs(tCalc - tMeas) / (tMeas + EPS);
+          //  cerr << gridA(i) << " " << gridT(j) << " " << distMatrix(i,j) << endl;
         }
         cerr << "#";
     }
@@ -113,7 +115,7 @@ void startingPoints(const Func<T,Nz,Nr,detector,M,N,fix>& f, T& aStart, T& tStar
     CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
     CHECK_ARGUMENT_CONTRACT(mod == ModellingMethod::AD || mod == ModellingMethod::MC);
 
-    constexpr int gridSize = 20;
+    constexpr int gridSize = 30;
     Matrix<T, 1, gridSize> gridA, gridT, gridG;
     constructGrid<T,gridSize>(gridA, gridT, gridG);
     cerr << "Calculating starting grid..." << endl;
