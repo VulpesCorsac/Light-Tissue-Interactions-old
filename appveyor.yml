@@ -14,4 +14,4 @@ build_script:
 
 test_script:
 - sh: >-
-    ./Tests/unit_tests --gtest_filter=InverseAddingDoubling*
+    ./Tests/unit_tests *
