@@ -33,6 +33,8 @@ public:
     IntegratingSphere<T> sphereT{0.1, 0.01, 0.00};
     IntegratingSphere<T> sphereR{0.1, 0.01, 0.01};
     DetectorDistance<T>  dist   {0.0, 0.3 , 0.05};
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+
 
 public:
     template < typename T >
@@ -187,7 +189,8 @@ TEST_P(TESTNAME, SingleThread) {                                               \
                                                 selectedRadius,                \
                                                 sphereR,                       \
                                                 sphereT,                       \
-                                                dist).CalculateResult(),       \
+                                                dist,                          \
+                                                source).CalculateResult(),     \
                 EXPECTED,                                                      \
                 BUGER_VALUE);                                                  \
 }                                                                              \
@@ -200,7 +203,8 @@ TEST_P(TESTNAME, MultiThread) {                                                \
                                                    selectedRadius,             \
                                                    sphereR,                    \
                                                    sphereT,                    \
-                                                   dist),                      \
+                                                   dist,                       \
+                                                   source),                    \
                 EXPECTED,                                                      \
                 BUGER_VALUE);                                                  \
 }                                                                              \
