@@ -41,7 +41,7 @@ Vector3D<T> LightSource<T>::getPhotonCoord() const noexcept {
         do {
             RNDx = Math_NS::random<T>(-1, 1);
             RNDy = Math_NS::random<T>(-1, 1);
-        } while ((Math_NS::sqr(RNDx) + Math_NS::sqr(RNDy)) > 1);
+        } while ((Math_NS::sqr<T>(RNDx) + Math_NS::sqr<T>(RNDy)) > 1);
         coord = Vector3D<T>(sqrt(RNDx) * radius, sqrt(RNDy) * radius, 0);
     } else if (type == SourceType::Gaussian) {
         T RNDr, RNDa;
