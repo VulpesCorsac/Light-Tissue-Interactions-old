@@ -2,10 +2,12 @@
 
 #include "Medium.h"
 #include "MonteCarlo.h"
+#include "LightSource.h"
 #include "MonteCarloMultithread.h"
 #include "Detector.h"
 
 #include "../Physics/BugerLambert.h"
+#include "../Math/Vector3.h"
 
 #include <gtest/gtest.h>
 
