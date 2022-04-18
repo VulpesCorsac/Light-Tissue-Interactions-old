@@ -4,6 +4,8 @@
 #include "Scripts/DirectMC.h"
 #include "Scripts/InverseMC.h"
 #include "Scripts/SpoiltData.h"
+#include "MC/MonteCarloTests.h"
+#include "AD/InverseAddingDoublingTests.h"
 /*
 #include "Settings/Settings/SettingsImporterHelpers.h"
 //*/
