@@ -40,21 +40,29 @@ void saveResults(const MCresults<T,Nz,Nr,detector>& results, const T& inA, const
         auto ameas = results.matrixA;
         auto anglesR = results.arrayAnglesR;
         auto anglesT = results.arrayAnglesT;
+        auto source = results.sourceMatrix;
 
-        ofstream Afile, Anglesfile;
+        ofstream Afile, Anglesfile, Sourcefile;
 
         Afile.open("Output files/A_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
         Anglesfile.open("Output files/Angles_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
+        Sourcefile.open("Output files/Source_" + to_string(inA) + "_" + to_string(inT) + "_" + to_string(inG) + ".csv");
         if (!Afile.is_open())
             throw invalid_argument("Failed to open file A");
         if (!Anglesfile.is_open())
             throw invalid_argument("Failed to open file Angles");
+        if (!Sourcefile.is_open())
+            throw invalid_argument("Failed to open file Sources");
 
         const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
         Afile << ameas.format(CSVFormat) << '\n';
         Anglesfile << anglesR.format(CSVFormat) << ", " << anglesT.format(CSVFormat) << '\n';
 
+        for (const auto& x: source)
+            Sourcefile << x.first << ", " << x.second << "\n";
+
         Afile.close();
         Anglesfile.close();
+        Sourcefile.close();
     }
 }

@@ -33,6 +33,7 @@ void spoiltData(T inA, T inT, T inG, T inN, T inD, T inNtop, T inDtop, T inNbott
 
     const IntegratingSphere<T> SphereR = cleanRes.mainSphereR;
     const IntegratingSphere<T> SphereT = cleanRes.mainSphereT;
+    const LightSource<T> source = cleanRes.lightSource;
 
     cerr << SphereR.getDPort1() << " " << SphereR.getDPort2() << " " << SphereR.getDSphere() << endl;
     cerr << SphereT.getDPort1() << " " << SphereT.getDPort2() << " " << SphereT.getDSphere() << endl;
@@ -83,7 +84,7 @@ void spoiltData(T inA, T inT, T inG, T inN, T inD, T inNtop, T inDtop, T inNbott
             cerr << x.first << " " << x.second << endl;
 
         inverseResults<T,Nz,Nr,detector> inverseRes = inverseMC<T,N,fix,M,Nz,Nr,detector>(rSpoilt, tSpoilt, tcSpoilt,
-                                                                emptySample, SphereR, SphereT, distances,
+                                                                emptySample, SphereR, SphereT, source, distances,
                                                                 Nphotons, selectedRadius, moveable, Nthreads, ModellingMethod::MC, 0);
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;

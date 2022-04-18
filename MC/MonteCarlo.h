@@ -4,6 +4,7 @@
 #include "Medium.h"
 #include "Photon.h"
 #include "Sample.h"
+#include "LightSource.h"
 
 #include "../Math/Basic.h"
 #include "../Math/Random.h"
@@ -40,6 +41,8 @@ struct MCresults {
 
     IntegratingSphere<T> mainSphereR;
     IntegratingSphere<T> mainSphereT;
+    LightSource<T> lightSource;
+    std::vector<std::pair<T,T>> sourceMatrix;
 
     //std::vector<OpticalFiber<T>> FibersArrayR;
     //std::vector<OpticalFiber<T>> FibersArrayT;
@@ -71,7 +74,7 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
-    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT, const DetectorDistance<T> dist);
+    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT, const DetectorDistance<T> dist, const LightSource<T>& source);
     //MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const OpticalFiber<T>& fiberR, const OpticalFiber<T>& fiberT, const DetectorDistance<T> dist);
     ~MonteCarlo() noexcept = default;
 
@@ -88,6 +91,7 @@ public:
 
 protected:
     const Sample<T>& sample;
+    const LightSource<T>& lightSource;
 
     const int Nphotons;
 
@@ -154,8 +158,9 @@ protected:
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT, const DetectorDistance<T> dist)
-    : sample(sample)
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& newSample, const int& Np, const T& z, const T& r,
+                                         const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT, const DetectorDistance<T> dist, const LightSource<T>& source)
+    : sample(newSample)
     , Nphotons(Np)
     , dz(z / Nz)
     , dr(r / Nr)
@@ -163,7 +168,8 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& sample, const int& Np,
     , threshold(1E-4)
     , mainSphereR(detectorR)
     , mainSphereT(detectorT)
-    , distances(dist) {
+    , distances(dist)
+    , lightSource(source) {
     GenerateDetectorArrays();
 }
 
@@ -788,15 +794,9 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::Simulation(Photon<T>& photon, const int& num) {
     using namespace Math_NS;
     using namespace std;
-/*
-    const T radius = 1e-3;
-    T RNDx, RNDy;
-    do {
-        RNDx = random<T>(-1, 1);
-        RNDy = random<T>(-1, 1);
-    } while ((sqr(RNDx) + sqr(RNDy)) > 1);
-    const auto startCoord = Vector3D<T>(RNDx * radius, RNDy * radius, 0);*/
-    const auto startCoord = Vector3D<T>(0, 0, 0);
+
+    const auto startCoord = lightSource.getPhotonCoord();
+    results.sourceMatrix.push_back({startCoord.x, startCoord.y});
 
     const auto startDir = Vector3D<T>(0, 0, 1); // normal incidence for now
     photon = Photon<T>(startCoord, startDir, 1.0, num);
@@ -845,6 +845,7 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
 
     results.mainSphereR = mainSphereR;
     results.mainSphereT = mainSphereT;
+    results.lightSource = lightSource;
 
     if (sample.getNlayers() == 1)
         results.BugerTransmission = BugerLambert(sample.getMedium(0).getTau(), sample.getMedium(0).getN(), sample.getNvacLower(), sample.getNvacLower());

@@ -44,26 +44,26 @@ protected:
  ******************/
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2, const T& distance) noexcept
-    : distance(distance)
-    , dSphere(dSphere)
-    , dPort1(dPort1)
-    , dPort2(dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const T& newDSphere, const T& newDPort1, const T& newDPort2, const T& newDistance) noexcept
+    : distance(newDistance)
+    , dSphere(newDSphere)
+    , dPort1(newDPort1)
+    , dPort2(newDPort2) {
 }
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const T& dSphere, const T& dPort1, const T& dPort2) noexcept
-    : dSphere(dSphere)
-    , dPort1(dPort1)
-    , dPort2(dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const T& newDSphere, const T& newDPort1, const T& newDPort2) noexcept
+    : dSphere(newDSphere)
+    , dPort1(newDPort1)
+    , dPort2(newDPort2) {
 }
 
 template < typename T >
-IntegratingSphere<T>::IntegratingSphere(const IntegratingSphere<T>& sphere, const T& distance) noexcept
-    : distance(distance)
-    , dSphere(sphere.dSphere)
-    , dPort1(sphere.dPort1)
-    , dPort2(sphere.dPort2) {
+IntegratingSphere<T>::IntegratingSphere(const IntegratingSphere<T>& newSphere, const T& newDistance) noexcept
+    : distance(newDistance)
+    , dSphere(newSphere.dSphere)
+    , dPort1(newSphere.dPort1)
+    , dPort2(newSphere.dPort2) {
 }
 
 template < typename T >

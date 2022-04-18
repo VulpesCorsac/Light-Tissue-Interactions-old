@@ -14,7 +14,7 @@ struct inverseResults {
 
 template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd, const std::vector<std::pair<T,T>>& Td, const std::vector<std::pair<T,T>>& Tc,
-                                           const Sample<T>& emptySample, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT,
+                                           const Sample<T>& emptySample, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT, const LightSource<T> source,
                                            const DetectorDistance<T>& distances, const int& Nphotons, const T& selectedRadius, const bool& moveable, const int& Nthreads,
                                            Inverse_NS::ModellingMethod startMod, const bool& save) {
     using namespace Inverse_NS;
@@ -29,7 +29,7 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
     T fixedParamVal = fixParam<T,fix>(g_val, emptySample, Tc[0].second);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, Nphotons, Nthreads,
                                               emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
-                                              distances, Rd, Td, Tc[0].second);
+                                              distances, Rd, Td, Tc[0].second, source);
 
     T aStart, tStart, gStart;
     startingPoints(toMinimize, aStart, tStart, gStart, startMod);
@@ -56,7 +56,7 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
         T aStartIAD, tStartIAD, gStartIAD;
         Func<T,Nz,Nr,detector,M,N,fix> firstMinimize(fixedParamVal, emptySample, Nphotons, Nthreads,
                                               emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
-                                              distances, rMeas, tMeas, tcMeas);
+                                              distances, rMeas, tMeas, tcMeas, source);
         firstMinimize.InverseProblem(aStart, tStart, gStart, aStartIAD, tStartIAD, gStartIAD, ModellingMethod::AD);
         aStart = aStartIAD;
         tStart = tStartIAD;
@@ -84,7 +84,7 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
     Sample<T> mySampleFin(layersFin);
 
     MCresults<T,Nz,Nr,detector> MCresultsFin;
-    MCmultithread<T,Nz,Nr,detector>(mySampleFin, Nphotons, Nthreads, mySampleFin.getTotalThickness(), selectedRadius, MCresultsFin, SphereR, SphereT, distances);
+    MCmultithread<T,Nz,Nr,detector>(mySampleFin, Nphotons, Nthreads, mySampleFin.getTotalThickness(), selectedRadius, MCresultsFin, SphereR, SphereT, distances, source);
     cout << MCresultsFin << endl;
 
     inverseResults<T,Nz,Nr,detector> inverseResultsFin;
@@ -115,7 +115,9 @@ inverseResults<T,Nz,Nr,detector> inverseMCfromFile(const std::string& settingsFi
     distances.min  = T(Rd[0].first);
     distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
 
-    inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(Rd, Td, Tc, emptySample, SphereR, SphereT,
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+
+    inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(Rd, Td, Tc, emptySample, SphereR, SphereT, source,
                                                                    distances, Nphotons, selectedRadius, moveable, Nthreads, startMod, save);
 
     return inverseResultsFin;

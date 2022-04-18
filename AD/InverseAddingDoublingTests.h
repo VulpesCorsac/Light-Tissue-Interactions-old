@@ -45,6 +45,8 @@ TEST(InverseAddingDoubling, Test1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -58,7 +60,7 @@ TEST(InverseAddingDoubling, Test1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -96,6 +98,8 @@ TEST(InverseAddingDoubling, Test2) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -109,7 +113,7 @@ TEST(InverseAddingDoubling, Test2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -146,6 +150,7 @@ TEST(InverseAddingDoubling, Test3) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -159,7 +164,7 @@ TEST(InverseAddingDoubling, Test3) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -196,6 +201,7 @@ TEST(InverseAddingDoubling, G0) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -209,7 +215,7 @@ TEST(InverseAddingDoubling, G0) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -246,6 +252,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -259,7 +266,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -297,6 +304,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -310,7 +318,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -348,6 +356,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -361,7 +370,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     T fixedParamVal = fixParam<T,fix>(0.9, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -398,6 +407,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -411,7 +421,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     T fixedParamVal = fixParam<T,fix>(0.0, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -448,6 +458,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -461,7 +472,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     T fixedParamVal = fixParam<T,fix>(0.99, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
@@ -498,6 +509,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -511,7 +523,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     T fixedParamVal = fixParam<T,fix>(0.9, emptySample, tcmeas);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, 1000, 1,
                                               emptySample.getTotalThickness(), 10E-2, SphereR, SphereT,
-                                              distances, Rd, Td, tcmeas);
+                                              distances, Rd, Td, tcmeas, source);
     startingPoints(toMinimize, aStart, tStart, gStart, ModellingMethod::AD);
     toMinimize.InverseProblem(aStart, tStart, gStart, aOut, tauOut, gOut, ModellingMethod::AD);
     std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;

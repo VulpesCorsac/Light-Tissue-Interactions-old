@@ -88,7 +88,8 @@ public:
 
     Func(T fixedParam, const Sample<T>& emptySampleNew, const int& NpNew,
          const int& threadsNew, const T& zNew, const T& rNew, const IntegratingSphere<T>& sphereRNew, const IntegratingSphere<T>& sphereTNew,
-         const DetectorDistance<T>& distNew, const std::vector<std::pair<T,T>>& rmeasNew, const std::vector<std::pair<T,T>>& tmeasNew, const T& tcmeasNew) EXCEPT_INPUT_PARAMS
+         const DetectorDistance<T>& distNew, const std::vector<std::pair<T,T>>& rmeasNew, const std::vector<std::pair<T,T>>& tmeasNew,
+         const T& tcmeasNew, const LightSource<T>& source) EXCEPT_INPUT_PARAMS
         : emptySample(emptySampleNew)
         , nLayers(emptySampleNew.getNlayers())
         , Np(NpNew)
@@ -100,7 +101,8 @@ public:
         , dist(distNew)
         , rmeas(rmeasNew)
         , tmeas(tmeasNew)
-        , tcmeas(tcmeasNew) {
+        , tcmeas(tcmeasNew)
+        , lightSource(source) {
         using namespace Inverse_NS;
         using namespace Physics_NS;
         using namespace std;
@@ -150,7 +152,7 @@ public:
         using namespace std;
 
         MCresults<T,Nz,Nr,detector> myResultsMT;
-        MCmultithread<T,Nz,Nr,detector>(sample, this->Np, this->threads, this->z, this->r, myResultsMT, this->SphereR, this->SphereT, this->dist);
+        MCmultithread<T,Nz,Nr,detector>(sample, this->Np, this->threads, this->z, this->r, myResultsMT, this->SphereR, this->SphereT, this->dist, this->lightSource);
         const auto rMC = myResultsMT.detectedR;
         const auto tMC = myResultsMT.detectedT;
         T func2min = 0;
@@ -573,6 +575,7 @@ public:
     DetectorDistance<T> getDistances()     const noexcept { return dist;        }
     std::vector<std::pair<T,T>> getRmeas() const noexcept { return rmeas;       }
     std::vector<std::pair<T,T>> getTmeas() const noexcept { return tmeas;       }
+    LightSource<T> getLightSource()        const noexcept { return lightSource; }
 
     int getNphotons() const noexcept { return Np;      }
     int getNthreads() const noexcept { return threads; }
@@ -587,6 +590,7 @@ protected:
     Sample<T> emptySample;
     Medium<T> glassTop;
     Medium<T> glassBottom;
+    LightSource<T> lightSource;
     int nLayers;
     int Np, threads;
     T z, r;

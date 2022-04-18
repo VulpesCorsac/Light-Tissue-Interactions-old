@@ -95,7 +95,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
                 RTs<T,M>(Sample<T>(samples), vStart, wStart, rCalc, tCalc);
             else if (mod == ModellingMethod::MC) {
                 MCmultithread(Sample<T>(samples), Nphotons, Nthreads, f.getZ(), f.getR(),
-                              myResults, f.getSphereR(), f.getSphereT(), dist);
+                              myResults, f.getSphereR(), f.getSphereT(), dist, f.getLightSource());
                 tCalc = myResults.detectedT[0].second;
                 rCalc = myResults.detectedR[0].second;
             }

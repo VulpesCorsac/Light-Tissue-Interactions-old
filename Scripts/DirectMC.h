@@ -17,9 +17,9 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
     } else if (inDtop == 0 && inDbottom == 0)
         layers = {tissue};
     else
-        throw invalid_argument("It seems that you want to calculate 2 layers, you can only do 1 or three");
+        throw invalid_argument("It seems that you want to calculate 2 layers, you can only do 1 or 3");
     Sample<T> mySample(layers);
-
+    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.001, SourceType::Gaussian);
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
     DetectorDistance<T> distances;
@@ -32,7 +32,7 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
 
     MCresults<T,Nz,Nr,detector> myResults;
 
-    MCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances);
+    MCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source);
     cout << myResults << endl;
     if (save)
         saveResults<T,Nz,Nr,detector>(myResults, inA, inT, inG, 1);

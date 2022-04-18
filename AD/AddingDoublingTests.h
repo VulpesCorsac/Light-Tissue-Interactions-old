@@ -68,7 +68,7 @@ void RawTest1() {
     EXPECT_NEAR(test.getTc(), 0.338341, TOLERANCE);
 }
 
-BENCHMARK_TEST(AddingDoubling, Test1, RawTest1, 100, 3500)
+BENCHMARK_TEST(AddingDoubling, Test1, RawTest1, 100, 3600)
 
 void RawTest2() {
     constexpr double TOLERANCE = 1e-4;
@@ -79,7 +79,7 @@ void RawTest2() {
     EXPECT_NEAR(test.getTc(), 0.124729, TOLERANCE);
 }
 
-BENCHMARK_TEST(AddingDoubling, Test2, RawTest2, 100, 500)
+BENCHMARK_TEST(AddingDoubling, Test2, RawTest2, 100, 700)
 
 void RawG0() {
     constexpr double TOLERANCE = 1e-4;
@@ -90,7 +90,7 @@ void RawG0() {
     EXPECT_NEAR(test.getTc(), 0.006369, TOLERANCE);
 }
 
-BENCHMARK_TEST(AddingDoubling, G0, RawG0, 10000, 800)
+BENCHMARK_TEST(AddingDoubling, G0, RawG0, 10000, 1300)
 
 void RawA0() {
     constexpr double TOLERANCE   = 1e-4;
@@ -103,7 +103,7 @@ void RawA0() {
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AddingDoubling, A0, RawA0, 1000, 700)
+BENCHMARK_TEST(AddingDoubling, A0, RawA0, 1000, 1000)
 
 void RawA0G0() {
     constexpr double TOLERANCE   = 1e-4;
@@ -116,4 +116,4 @@ void RawA0G0() {
     EXPECT_NEAR(test.getTc(), test.getTs(), TOLERANCE_T);
 }
 
-BENCHMARK_TEST(AddingDoubling, A0_G0, RawA0G0, 100, 450)
+BENCHMARK_TEST(AddingDoubling, A0_G0, RawA0G0, 100, 800)

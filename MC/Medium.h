@@ -42,14 +42,14 @@ protected:
     T tau; // optical thickness
 
 private:
-    Medium(const T& n, const T& ua, const T& us, const T& a, const T& tau, const T& D, const T& g) noexcept
-        : n(n)
-        , ua(ua)
-        , us(us)
-        , D(D)
-        , g(g)
-        , ut(ua + us)
-        , a(a)
-        , tau(tau) {
+    Medium(const T& newN, const T& newMua, const T& newMus, const T& newA, const T& newTau, const T& newD, const T& newG) noexcept
+        : n(newN)
+        , ua(newMua)
+        , us(newMus)
+        , D(newD)
+        , g(newG)
+        , ut(newMua + newMus)
+        , a(newA)
+        , tau(newTau) {
     }
 };

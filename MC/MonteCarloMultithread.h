@@ -16,7 +16,8 @@ void MCmultithread(const Sample<T>& sample,
                    MCresults<T,Nz,Nr,detector>& finalResults,
                    const IntegratingSphere<T>& sphereR,
                    const IntegratingSphere<T>& sphereT,
-                   const DetectorDistance<T>& dist) {
+                   const DetectorDistance<T>& dist,
+                   const LightSource<T>& source) {
     using namespace Physics_NS;
     using namespace Utils_NS;
     using namespace std;
@@ -26,7 +27,7 @@ void MCmultithread(const Sample<T>& sample,
     vector<MCresults<T,Nz,Nr,detector>> mcResults;
     // MonteCarlo<T,Nz,Nr,detector> mc(sample, (Np / threads), z, r);
     for (int i = 0; i < threads; i++) {
-        mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, sphereR, sphereT, dist));
+        mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, sphereR, sphereT, dist, source));
         mcResults.push_back(MCresults <T,Nz,Nr,detector>());
     }
 
@@ -44,6 +45,8 @@ void MCmultithread(const Sample<T>& sample,
         finalResults.arrayAnglesT += result.arrayAnglesT;
         finalResults.mainSphereR = result.mainSphereR;
         finalResults.mainSphereT = result.mainSphereT;
+        finalResults.lightSource = result.lightSource;
+        finalResults.sourceMatrix = result.sourceMatrix;
 
         if (detector == 1) {
             finalResults.detectedR.resize(result.detectedR.size());
@@ -77,8 +80,10 @@ void MCmultithread(const Sample<T>& sample,
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
-MCresults<T,Nz,Nr,detector> MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT, const DetectorDistance<T> dist) {
+MCresults<T,Nz,Nr,detector> MCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r,
+                                          const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT,
+                                          const DetectorDistance<T> dist, const LightSource<T> source) {
     MCresults<T,Nz,Nr,detector> finalResults;
-    MCmultithread(sample, Np, threads, z, r, finalResults, sphereR, sphereT, dist);
+    MCmultithread(sample, Np, threads, z, r, finalResults, sphereR, sphereT, dist, source);
     return finalResults;
 }
