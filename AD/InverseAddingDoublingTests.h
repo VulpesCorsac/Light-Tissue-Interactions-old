@@ -45,7 +45,7 @@ TEST(InverseAddingDoubling, Test1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
@@ -98,7 +98,7 @@ TEST(InverseAddingDoubling, Test2) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
@@ -150,7 +150,7 @@ TEST(InverseAddingDoubling, Test3) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -201,7 +201,7 @@ TEST(InverseAddingDoubling, G0) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -252,7 +252,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau05) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -304,7 +304,7 @@ TEST(InverseAddingDoubling, A0_G0_Tau1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -356,7 +356,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -407,7 +407,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -458,7 +458,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
@@ -509,7 +509,7 @@ TEST(InverseAddingDoubling, TauMin4) {
     distances.max  = 0.0;
     distances.min  = 0.0;
     distances.step = 0.0;
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
+    LightSource<T> source(0.0, SourceType::Point);
 
     const auto emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     const auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);

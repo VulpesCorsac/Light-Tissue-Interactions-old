@@ -14,20 +14,18 @@ template < typename T >
 class LightSource {
 public:
     LightSource() noexcept = default;
-    LightSource(const Vector3D<T>& newCentreCoord, const T& newRadius, SourceType newType) noexcept;
+    LightSource(const T& newRadius, SourceType newType) noexcept;
     ~LightSource() noexcept = default;
 
     Vector3D<T> getPhotonCoord() const noexcept;
 protected:
     SourceType type;
-    Vector3D<T> centreCoord;
     T radius;
 };
 
 template < typename T >
-LightSource<T>::LightSource(const Vector3D<T>& newCentreCoord, const T& newRadius, SourceType newType) noexcept
+LightSource<T>::LightSource(const T& newRadius, SourceType newType) noexcept
     : type(newType)
-    , centreCoord(newCentreCoord)
     , radius(newRadius){
 }
 
@@ -35,7 +33,7 @@ template < typename T >
 Vector3D<T> LightSource<T>::getPhotonCoord() const noexcept {
     Vector3D<T> coord;
     if (type == SourceType::Point)
-        coord = this->centreCoord;
+        coord = Vector3D<T>(0.0, 0.0, 0.0);
     else if (type == SourceType::Circle) {
         T RNDx, RNDy;
         do {

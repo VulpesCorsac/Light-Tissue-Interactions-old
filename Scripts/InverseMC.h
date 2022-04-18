@@ -108,14 +108,13 @@ inverseResults<T,Nz,Nr,detector> inverseMCfromFile(const std::string& settingsFi
     IntegratingSphere<T> SphereR, SphereT;
     bool moveable;
     vector<pair<T,T>> Rd, Td, Tc;
-    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc);
+    LightSource<T> source;
+    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc, source);
 
     DetectorDistance<T> distances;
     distances.max  = T(Rd[Rd.size()-1].first);
     distances.min  = T(Rd[0].first);
     distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
-
-    LightSource<T> source(Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point);
 
     inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(Rd, Td, Tc, emptySample, SphereR, SphereT, source,
                                                                    distances, Nphotons, selectedRadius, moveable, Nthreads, startMod, save);

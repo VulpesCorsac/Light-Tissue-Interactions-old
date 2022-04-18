@@ -23,7 +23,7 @@ int main() {
     using namespace std;
     using T = double;
 
-    constexpr int M = 32; // matrix size in Adding-Doubling
+    constexpr int M = 8; // matrix size in Adding-Doubling
 
     constexpr int Nz = 1000;
     constexpr int Nr = 10000;

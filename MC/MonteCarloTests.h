@@ -35,7 +35,7 @@ public:
     IntegratingSphere<T> sphereT{0.1, 0.01, 0.00};
     IntegratingSphere<T> sphereR{0.1, 0.01, 0.01};
     DetectorDistance<T>  dist   {0.0, 0.3 , 0.05};
-    LightSource<T> source{Vector3D<T>(0.0, 0.0, 0.0), 0.0, SourceType::Point};
+    LightSource<T> source{0.0, SourceType::Point};
 
 
 public:

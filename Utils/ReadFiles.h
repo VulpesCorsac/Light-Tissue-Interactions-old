@@ -49,7 +49,8 @@ void readSettings(const std::string& fileName,
                   int& Nphotons,
                   std::vector<std::pair<T,T>>& Rd,
                   std::vector<std::pair<T,T>>& Td,
-                  std::vector<std::pair<T,T>>& Tc) {
+                  std::vector<std::pair<T,T>>& Tc,
+                  LightSource<T>& source) {
     using namespace std;
     using namespace Inverse_NS;
 
@@ -57,9 +58,12 @@ void readSettings(const std::string& fileName,
     if (!myFileStream.is_open())
         cout << "Failed to open settings file " << fileName << endl;
     string line, nLayersLine, nLine, dLine, cache3, DLine, d1Line, d2Line, cache, mLine, NpLine;
+    string sourceTypeLine, sourceRadLine;
+    SourceType sourceType;
     string RdFname, TdFname, TcFname;
     int nLayers;
     vector<Medium<T>> emptyLayers;
+
 
     for (int lineno = 0; getline(myFileStream,line) && lineno < 40; ++lineno) {
         stringstream ss(line);
@@ -92,7 +96,18 @@ void readSettings(const std::string& fileName,
                                            static_cast<T>(stod(d1Line))*1.0,
                                            static_cast<T>(stod(d2Line))*1.0);
         }
-        if (lineno == 18 + nLayers) {
+        if (lineno == 19 + nLayers) {
+            getline(ss, sourceTypeLine, '\t');
+            getline(ss, sourceRadLine, '\n');
+            if (sourceTypeLine == "Point")
+                sourceType = SourceType::Point;
+            else if (sourceTypeLine == "Gaussian")
+                sourceType = SourceType::Gaussian;
+            else if (sourceTypeLine == "Circle")
+                sourceType = SourceType::Circle;
+            source = LightSource(static_cast<T>(stod(sourceRadLine)), sourceType);
+        }
+        if (lineno == 22 + nLayers) {
             getline(ss, mLine, '\n');
             if (mLine == "1")
                 moveable = true;
@@ -100,15 +115,15 @@ void readSettings(const std::string& fileName,
                 moveable = false;
         }
 
-        if (lineno == 21 + nLayers) {
+        if (lineno == 25 + nLayers) {
             getline(ss, NpLine, '\n');
             Nphotons = stoi(NpLine);
         }
-        if (lineno == 25 + nLayers)
-            getline(ss, RdFname, '\n');
-        if (lineno == 27 + nLayers)
-            getline(ss, TdFname, '\n');
         if (lineno == 29 + nLayers)
+            getline(ss, RdFname, '\n');
+        if (lineno == 31 + nLayers)
+            getline(ss, TdFname, '\n');
+        if (lineno == 33 + nLayers)
             getline(ss, TcFname, '\n');
     }
 
