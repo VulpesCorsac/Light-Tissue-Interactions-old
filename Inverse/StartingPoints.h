@@ -51,7 +51,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
     const auto wStart = quadStart.getW();
 
     constexpr int Nphotons = 1000;
-    constexpr int Nthreads = 1;
+    constexpr int Nthreads = 4;
     DetectorDistance<T> dist;
     dist.max = f.getDistances().min;
     dist.min = f.getDistances().min;

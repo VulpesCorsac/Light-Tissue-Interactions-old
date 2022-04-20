@@ -19,20 +19,19 @@ using namespace std;
 template < typename T, size_t M >
 class TestDataRT {
 public:
-    TestDataRT(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom) {
-        setValues(a, tau, g, nSlab, nSlideTop, nSlideBottom);
+    TestDataRT(T a, T tau, T g, T nSlab, T nSlideTop, T nSlideBottom) EXCEPT_INPUT_PARAMS
+               : A(a)
+               , Tau(tau)
+               , G(g)
+               , NSlab(nSlab)
+               , NSlideTop(nSlideTop)
+               , NSlideBottom(nSlideBottom) {
+        setValues();
         calc();
     }
 
-    void setValues(const T& a, const T& tau, const T& g, const T& nSlab, const T& nSlideTop, const T& nSlideBottom) {
-        A = a;
-        Tau = tau;
-        G = g;
-        NSlab = nSlab;
-        NSlideTop = nSlideTop;
-        NSlideBottom = nSlideBottom;
-
-        Quadrature<T,M> quadrature(nSlab);
+    void setValues() {
+        Quadrature<T,M> quadrature(NSlab);
         v = quadrature.getV();
         w = quadrature.getW();
     }
