@@ -57,11 +57,16 @@ public:
         SphereR = IntegratingSphere<T>(0.0508, 0.0125, 0.0125);
         source = LightSource<T>(0.0, SourceType::Point);
 
-
+        vector<Medium<T>> layers;
         emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, dSlab, 0.0);
-        glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, dSlideTop, 0.0);
-        glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, dSlideBottom, 0.0);
-        vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
+        if (dSlideTop != 0 && dSlideBottom != 0) {
+            auto glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, dSlideTop, 0.0);
+            auto glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, dSlideBottom, 0.0);
+            layers = {glassTop, emptyTissue, glassBottom};
+        } else if (dSlideTop == 0 && dSlideBottom == 0)
+            layers = {emptyTissue};
+        else
+            throw invalid_argument("It seems that you want to calculate 2 layers, you can only do 1 or 3");
         emptySample = Sample<T>(layers);
     }
 
