@@ -18,11 +18,14 @@ using namespace Inverse_NS;
 template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 class TestIMC {
 public:
-    TestIMC(const T& nSlabNew, const T& nSlideTopNew, const T& nSlideBottomNew,
-            const string& fNameNew, const T& gNew, const int& NthNew, const int& NphNew) EXCEPT_INPUT_PARAMS
+    TestIMC(const T& nSlabNew, const T& dSlabNew, const T& nSlideTopNew, const T& dSlideTopNew, const T& nSlideBottomNew, const T& dSlideBottomNew,
+            const string& fNameNew, const T& gNew, const int& NthNew, const int& NphNew, ModellingMethod startMod) EXCEPT_INPUT_PARAMS
             : nSlab(nSlabNew)
+            , dSlab(dSlabNew)
             , nSlideTop(nSlideTopNew)
+            , dSlideTop(dSlideTopNew)
             , nSlideBottom(nSlideBottomNew)
+            , dSlideBottom(dSlideBottomNew)
             , fName(fNameNew)
             , gVal(gNew)
             , Nphotons(NphNew)
@@ -32,7 +35,7 @@ public:
         setValues();
         inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(RdMeas, TdMeas, TcMeas, emptySample,
                                                                                                  SphereR, SphereT, source, distances,
-                                                                                                 Nphotons, selectedRadius, Nthreads, gVal, ModellingMethod::MC, 0);
+                                                                                                 Nphotons, selectedRadius, Nthreads, gVal, startMod, 0);
         aOut = inverseResultsFin.a;
         tauOut = inverseResultsFin.tau;
         gOut = inverseResultsFin.g;
@@ -54,9 +57,10 @@ public:
         SphereR = IntegratingSphere<T>(0.0508, 0.0125, 0.0125);
         source = LightSource<T>(0.0, SourceType::Point);
 
-        emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
-        glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
-        glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
+
+        emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, dSlab, 0.0);
+        glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, dSlideTop, 0.0);
+        glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, dSlideBottom, 0.0);
         vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
         emptySample = Sample<T>(layers);
     }
@@ -65,7 +69,7 @@ public:
     T getTout() const noexcept { return tauOut; }
     T getGout() const noexcept { return gOut; }
 protected:
-    T nSlab, nSlideTop, nSlideBottom;
+    T nSlab, dSlab, nSlideTop, dSlideTop, nSlideBottom, dSlideBottom;
     T gVal;
     vector<pair<T,T>> RdMeas, TdMeas, TcMeas;
     string fName;
@@ -78,10 +82,51 @@ protected:
     const T selectedRadius = 1E-1;
     T aOut, tauOut, gOut;
 };
+
 TEST(InverseMonteCarlo, AbsorptionOnly1) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_1.000000_0.000000";
-    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 1.5, 1.5, fname, 0.0, 4, 10000);
-    EXPECT_NEAR(test.getAout(), 0.9, TOLERANCE);
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.5, 0.0, 1.5, 0.0, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
     EXPECT_NEAR(test.getTout(), 1  , TOLERANCE);
+}
+
+TEST(InverseMonteCarlo, AbsorptionOnly2) {
+    constexpr double TOLERANCE = 1e-2;
+    string fname = "0.000000_0.100000_0.000000";
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.3, 0.0, 1.3, 0.0, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
+    EXPECT_NEAR(test.getTout(), 0.1, TOLERANCE);
+}
+
+TEST(InverseMonteCarlo, AbsorptionOnly3) {
+    constexpr double TOLERANCE = 1e-2;
+    string fname = "0.000000_10.000000_0.000000";
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.6, 0.0, 1.6, 0.0, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
+    EXPECT_NEAR(test.getTout(), 10 , TOLERANCE);
+}
+
+TEST(InverseMonteCarlo, AbsorptionOnlyGlass1) {
+    constexpr double TOLERANCE = 1e-2;
+    string fname = "0.000000_1.000000_0.000000_glass";
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.6, 0.001, 1.6, 0.001, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
+    EXPECT_NEAR(test.getTout(), 1  , TOLERANCE);
+}
+
+TEST(InverseMonteCarlo, AbsorptionOnlyGlass2) {
+    constexpr double TOLERANCE = 1e-2;
+    string fname = "0.000000_0.100000_0.000000_glass";
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.4, 0.001, 1.4, 0.001, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
+    EXPECT_NEAR(test.getTout(), 0.1, TOLERANCE);
+}
+
+TEST(InverseMonteCarlo, AbsorptionOnlyGlass3) {
+    constexpr double TOLERANCE = 1e-2;
+    string fname = "0.000000_10.000000_0.000000_glass";
+    TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.65, 0.001, 1.65, 0.001, fname, 0.0, 4, 10000, ModellingMethod::AD);
+    EXPECT_NEAR(test.getAout(), 0.0, TOLERANCE);
+    EXPECT_NEAR(test.getTout(), 10 , TOLERANCE);
 }
