@@ -51,7 +51,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
     const auto wStart = quadStart.getW();
 
     constexpr int Nphotons = 1000;
-    constexpr int Nthreads = 4;
+    constexpr int Nthreads = 1;
     DetectorDistance<T> dist;
     dist.max = f.getDistances().min;
     dist.min = f.getDistances().min;
@@ -100,7 +100,7 @@ Matrix<T,gSize,gSize> distances(const Func<T,Nz,Nr,detector,M,N,fix>& f,
                 rCalc = myResults.detectedR[0].second;
             }
             distMatrix(i,j) = abs(rCalc - rMeas) / (rMeas + EPS) + abs(tCalc - tMeas) / (tMeas + EPS);
-          //  cerr << gridA(i) << " " << gridT(j) << " " << distMatrix(i,j) << endl;
+        //    cerr << gridA(i) << " " << gridT(j) << " " << distMatrix(i,j) << endl;
         }
         cerr << "#";
     }

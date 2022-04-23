@@ -15,17 +15,12 @@ struct inverseResults {
 template < typename T, size_t N, Inverse_NS::FixedParameter fix, size_t M, size_t Nz, size_t Nr, bool detector >
 inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd, const std::vector<std::pair<T,T>>& Td, const std::vector<std::pair<T,T>>& Tc,
                                            const Sample<T>& emptySample, const IntegratingSphere<T>& SphereR, const IntegratingSphere<T>& SphereT, const LightSource<T> source,
-                                           const DetectorDistance<T>& distances, const int& Nphotons, const T& selectedRadius, const bool& moveable, const int& Nthreads,
+                                           const DetectorDistance<T>& distances, const int& Nphotons, const T& selectedRadius, const int& Nthreads, const T& g_val,
                                            Inverse_NS::ModellingMethod startMod, const bool& save) {
     using namespace Inverse_NS;
     using namespace Physics_NS;
     using namespace std;
 
-    T g_val = 0.0;
-    if (fix == FixedParameter::G && N == 2) {
-        cerr << "Enter g " << endl;
-        cin >> g_val;
-    }
     T fixedParamVal = fixParam<T,fix>(g_val, emptySample, Tc[0].second);
     Func<T,Nz,Nr,detector,M,N,fix> toMinimize(fixedParamVal, emptySample, Nphotons, Nthreads,
                                               emptySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
@@ -109,15 +104,24 @@ inverseResults<T,Nz,Nr,detector> inverseMCfromFile(const std::string& settingsFi
     bool moveable;
     vector<pair<T,T>> Rd, Td, Tc;
     LightSource<T> source;
-    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, moveable, Nphotons, Rd, Td, Tc, source);
+    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, Nphotons, Rd, Td, Tc, source);
 
     DetectorDistance<T> distances;
     distances.max  = T(Rd[Rd.size()-1].first);
     distances.min  = T(Rd[0].first);
-    distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first); // please, enter correct step for your borders
+    if (Rd.size() == 1)
+        distances.step = 0.0;
+    else
+        distances.step = T(Rd[Rd.size()-1].first - Rd[Rd.size() - 2].first);
+
+    T g_val = 0.0;
+    if (fix == FixedParameter::G && N == 2) {
+        cerr << "Enter g " << endl;
+        cin >> g_val;
+    }
 
     inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(Rd, Td, Tc, emptySample, SphereR, SphereT, source,
-                                                                   distances, Nphotons, selectedRadius, moveable, Nthreads, startMod, save);
+                                                                   distances, Nphotons, selectedRadius, Nthreads, g_val, startMod, save);
 
     return inverseResultsFin;
 }

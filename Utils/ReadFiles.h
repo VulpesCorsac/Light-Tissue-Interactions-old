@@ -45,7 +45,6 @@ void readSettings(const std::string& fileName,
                   Sample<T>& emptySample,
                   IntegratingSphere<T>& SphereR,
                   IntegratingSphere<T>& SphereT,
-                  bool& moveable,
                   int& Nphotons,
                   std::vector<std::pair<T,T>>& Rd,
                   std::vector<std::pair<T,T>>& Td,
@@ -54,6 +53,7 @@ void readSettings(const std::string& fileName,
     using namespace std;
     using namespace Inverse_NS;
 
+    bool moveable;
     ifstream myFileStream(fileName);
     if (!myFileStream.is_open())
         cout << "Failed to open settings file " << fileName << endl;

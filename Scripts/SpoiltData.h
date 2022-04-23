@@ -85,7 +85,7 @@ void spoiltData(T inA, T inT, T inG, T inN, T inD, T inNtop, T inDtop, T inNbott
 
         inverseResults<T,Nz,Nr,detector> inverseRes = inverseMC<T,N,fix,M,Nz,Nr,detector>(rSpoilt, tSpoilt, tcSpoilt,
                                                                 emptySample, SphereR, SphereT, source, distances,
-                                                                Nphotons, selectedRadius, moveable, Nthreads, ModellingMethod::MC, 0);
+                                                                Nphotons, selectedRadius, Nthreads, 0.0, ModellingMethod::MC, 0);
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
 

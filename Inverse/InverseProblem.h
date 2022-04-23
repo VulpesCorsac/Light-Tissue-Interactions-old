@@ -316,14 +316,16 @@ public:
 
         vprevious = vComp2v<T,N,fix>(simplex[0].first);
 
-        cerr << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
-        cerr << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
-        cerr << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
-
+        if (mod == ModellingMethod::MC) {
+            cerr << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+            cerr << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+            cerr << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
+        }
         for (int k = 0; k < maxIter; k++) {
             iters = k;
             T EPS = checkConvEps;
-            cerr << "Iteration " << k << endl;
+            if (mod == ModellingMethod::MC)
+                cerr << "Iteration " << k << endl;
             /// FIND BEST, GOOD AND WORST VERTICES OF SIMPLEX
             for (size_t i = 0; i < N + 1; i++) {
                 if (mod == ModellingMethod::AD)
@@ -337,10 +339,11 @@ public:
             vg = simplex[1].first;
             vw = simplex[N].first;
 
-            cerr << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
-            cerr << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
-            cerr << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
-
+            if (mod == ModellingMethod::MC) {
+                cerr << vComp2v<T,N,fix>(simplex[0].first) << " " << simplex[0].second << endl;
+                cerr << vComp2v<T,N,fix>(simplex[1].first) << " " << simplex[1].second << endl;
+                cerr << vComp2v<T,N,fix>(simplex[2].first) << " " << simplex[2].second << endl;
+            }
             /// FIND CENTER OF MASS OF EVERYTHING EXCEPT WORST VERTEX
             vmid = Matrix<T,1,N>::Zero();
             for (size_t i = 0; i < N; i++) {

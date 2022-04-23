@@ -25,7 +25,7 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
     DetectorDistance<T> distances;
     distances.max  = moveable ? 0.1 : 0.0;
     distances.min  = 0;
-    distances.step = 0.002; // please, enter correct step for your borders
+    distances.step = 0.005; // please, enter correct step for your borders
 
     constexpr int Nphotons = 1E6;
     constexpr T selectedRadius = 10E-2;
@@ -35,7 +35,7 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
     MCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source);
     cout << myResults << endl;
     if (save)
-        saveResults<T,Nz,Nr,detector>(myResults, inA, inT, inG, 1);
+        saveResults<T,Nz,Nr,detector>(myResults, inA, inT, inG, 0);
 
     return myResults;
 }
