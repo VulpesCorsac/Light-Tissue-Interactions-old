@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../AD/Quadrature.h"
-#include "../eigen/Eigen/Dense"
-#include "../AD/RT.h"
 #include "NelderMead.h"
+
 #include "../MC/MonteCarlo.h"
 #include "../MC/MonteCarloMultithread.h"
+
+#include "../eigen/Eigen/Dense"
 
 using namespace Inverse_NS;
 
@@ -69,12 +69,12 @@ public:
         this->rmeas.push_back(make_pair(0.0, rmeasNew));
         this->tmeas.push_back(make_pair(0.0, tmeasNew));
 
+        CHECK_ARGUMENT_CONTRACT(this->emptySample.getNlayers() == 1 || this->emptySample.getNlayers() == 3);
+
         if (this->emptySample.getNlayers() == 1)
             this->rSpec = FresnelReflectance<T>(this->emptySample.getNvacUpper(), this->emptySample.getNslab(), 1.0);
         else if (this->emptySample.getNlayers() == 3)
             this->rSpec = BorderReflectance(this->emptySample.getNslab(), this->emptySample.getNslideTop());
-        else
-            throw invalid_argument("Only one or three layers possible");
 
         CHECK_ARGUMENT_CONTRACT(fix == FixedParameter::Tau || fix == FixedParameter::G);
 
@@ -82,8 +82,6 @@ public:
             this->tau = fixedParam;
         else if (fix == FixedParameter::G)
             this->g = fixedParam;
-        else
-            throw invalid_argument("Need to have fixed parameter");
     }
 
     Func(T fixedParam, const Sample<T>& emptySampleNew, const int& NpNew,
@@ -112,12 +110,12 @@ public:
             this->glassBottom = Medium<T>::fromAlbedo(emptySample.getNslideBottom(), 0.0, 0.0, emptySample.getMedium(2).getD(), 0.0);
         }
 
+       CHECK_ARGUMENT_CONTRACT(this->emptySample.getNlayers() == 1 || this->emptySample.getNlayers() == 3);
+
         if (this->emptySample.getNlayers() == 1)
             this->rSpec = FresnelReflectance<T>(this->emptySample.getNvacUpper(), this->emptySample.getNslab(), 1.0);
         else if (this->emptySample.getNlayers() == 3)
             this->rSpec = BorderReflectance(this->emptySample.getNslab(), this->emptySample.getNslideTop());
-        else
-            throw invalid_argument("Only one or three layers possible");
 
         this->nLayers = emptySampleNew.getNlayers();
 
@@ -127,8 +125,6 @@ public:
             this->tau = fixedParam;
         else if (fix == FixedParameter::G)
             this->g = fixedParam;
-        else
-            throw invalid_argument("Need to have fixed parameter");
     }
 
     T MinimizationAD(const Sample<T>& sample) {
@@ -147,7 +143,7 @@ public:
         return abs((rs - this->rmeas[0].second) / (this->rmeas[0].second + EPS)) + abs((ts - this->tmeas[0].second) / (this->tmeas[0].second + EPS));
     }
 
-    T MinimizationMC (const Sample<T>& sample) {
+    T MinimizationMC(const Sample<T>& sample) {
         using namespace Utils_NS;
         using namespace std;
 
@@ -227,7 +223,7 @@ public:
     }
 
     void NelderMeadMin(int maxIter, T astart, T tstart, T gstart,
-                   Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps, const Inverse_NS::ModellingMethod& mod) {
+                       Matrix<T,1,N>& vecMin, T& fmin, int& iters, const T& checkConvEps, const Inverse_NS::ModellingMethod& mod) {
         using namespace std;
         using namespace Inverse_NS;
 
@@ -441,7 +437,7 @@ public:
                 fve = MinimizationMC3args(vComp2v<T,N,fix>(ve));
                 fvw = MinimizationMC3args(vComp2v<T,N,fix>(vw));
             }
-            if (debug){
+            if (debug) {
                 cerr << "VS " << vs << " " << vComp2v<T,N,fix>(vs) << " " << fvs << endl;
                 cerr << vComp2v<T,N,fix>(vs) << " " << fvs << endl;
             }
@@ -485,10 +481,9 @@ public:
         // cout << "MINIMUM " << simplex[0].second << " AT POINT " << simplex[0].first << endl;
         vecMin = vComp2v<T,N,fix>(simplex[0].first);
         fmin = simplex[0].second;
-
     }
 
-    void InverseProblem (const T& aStart, const T& tStart, const T& gStart, T& aOut, T& tOut, T& gOut, const Inverse_NS::ModellingMethod& mod) {
+    void InverseProblem(const T& aStart, const T& tStart, const T& gStart, T& aOut, T& tOut, T& gOut, const Inverse_NS::ModellingMethod& mod) {
         using namespace Inverse_NS;
         using namespace std;
 
@@ -604,5 +599,3 @@ protected:
     T tcmeas, rSpec;
     T tau, g;
 };
-
-

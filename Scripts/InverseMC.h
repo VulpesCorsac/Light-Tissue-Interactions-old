@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../Utils/ReadFiles.h"
 #include "../Inverse/InverseProblem.h"
 #include "../Inverse/StartingPoints.h"
+#include "../Utils/ReadFiles.h"
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
 struct inverseResults {
@@ -30,7 +30,7 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
     startingPoints(toMinimize, aStart, tStart, gStart, startMod);
     cerr << "Nearest point in starting grid:" << endl;
     cerr << "a = " << aStart << ", tau = " << tStart << ", g = " << gStart << endl;
-    if (startMod == ModellingMethod::AD){
+    if (startMod == ModellingMethod::AD) {
         cerr << "Starting first approximation with IAD" << endl;
         vector<pair<T,T>> tMeas, rMeas;
         tMeas.push_back(make_pair(0.0, Td[0].second));
@@ -121,9 +121,7 @@ inverseResults<T,Nz,Nr,detector> inverseMCfromFile(const std::string& settingsFi
     }
 
     inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(Rd, Td, Tc, emptySample, SphereR, SphereT, source,
-                                                                   distances, Nphotons, selectedRadius, Nthreads, g_val, startMod, save);
+                                                                                             distances, Nphotons, selectedRadius, Nthreads, g_val, startMod, save);
 
     return inverseResultsFin;
 }
-
-

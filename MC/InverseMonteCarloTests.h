@@ -29,9 +29,7 @@ public:
             , fName(fNameNew)
             , gVal(gNew)
             , Nphotons(NphNew)
-            , Nthreads(NthNew)
-    {
-
+            , Nthreads(NthNew) {
         setValues();
         inverseResults<T,Nz,Nr,detector> inverseResultsFin = inverseMC<T,N,fix,M,Nz,Nr,detector>(RdMeas, TdMeas, TcMeas, emptySample,
                                                                                                  SphereR, SphereT, source, distances,
@@ -70,9 +68,10 @@ public:
         emptySample = Sample<T>(layers);
     }
 
-    T getAout() const noexcept { return aOut; }
+    T getAout() const noexcept { return aOut;   }
     T getTout() const noexcept { return tauOut; }
-    T getGout() const noexcept { return gOut; }
+    T getGout() const noexcept { return gOut;   }
+
 protected:
     T nSlab, dSlab, nSlideTop, dSlideTop, nSlideBottom, dSlideBottom;
     T gVal;
@@ -88,7 +87,7 @@ protected:
     T aOut, tauOut, gOut;
 };
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_IS_D) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_IS_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_1.000000_0.000000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.5, 0.0, 1.5, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -96,7 +95,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_IS_D) {
     EXPECT_NEAR(test.getTout(), 1  , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_GT_D) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_GT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_0.100000_0.000000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.3, 0.0, 1.3, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -104,7 +103,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_GT_D) {
     EXPECT_NEAR(test.getTout(), 0.1, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_LT_D) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_LT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_10.000000_0.000000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.6, 0.0, 1.6, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -112,7 +111,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_LT_D) {
     EXPECT_NEAR(test.getTout(), 10 , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_IS_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_IS_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_1.000000_0.000000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.6, 0.001, 1.6, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -120,7 +119,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_IS_D_Glass) {
     EXPECT_NEAR(test.getTout(), 1  , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_GT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_GT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_0.100000_0.000000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.4, 0.001, 1.4, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -128,7 +127,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_GT_D_Glass) {
     EXPECT_NEAR(test.getTout(), 0.1, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, AbsorptionOnly_MFP_LT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, AbsorptionOnly_MFP_LT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.000000_10.000000_0.000000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.65, 0.001, 1.65, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -136,7 +135,7 @@ TEST(InverseMonteCarlo, AbsorptionOnly_MFP_LT_D_Glass) {
     EXPECT_NEAR(test.getTout(), 10 , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.900000_1.000000_0.900000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.5, 0.0, 1.5, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -145,7 +144,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.800000_0.100000_0.500000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.3, 0.0, 1.3, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -154,7 +153,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D) {
     EXPECT_NEAR(test.getGout(), 0.5, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.300000_10.000000_0.000000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.6, 0.0, 1.6, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -163,7 +162,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D) {
     EXPECT_NEAR(test.getGout(), 0.0, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.990000_10.000000_0.900000";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.4, 0.0002, 1.4, 0.0, 1.4, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -172,7 +171,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE) {
     EXPECT_NEAR(test.getGout(), 0.9 , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.900000_1.000000_0.900000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.5, 0.001, 1.6, 0.001, 1.6, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -181,7 +180,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_IS_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.800000_0.100000_0.500000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.3, 0.001, 1.4, 0.001, 1.4, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -190,7 +189,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_GT_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.5, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.300000_10.000000_0.000000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.6, 0.01, 1.65, 0.001, 1.65, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -199,7 +198,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_MFP_LT_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.0, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.990000_10.000000_0.900000_glass";
     TestIMC<double, 2, FixedParameter::Tau, 4, 1000, 10000, 1> test(1.4, 0.0002, 1.5, 0.001, 1.5, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -210,7 +209,7 @@ TEST(InverseMonteCarlo, Gmin_AbsorptionScattering_TISSUE_Glass) {
 
 ///
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.900000_1.000000_0.900000";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.5, 0.001, 1.5, 0.0, 1.5, 0.0, fname, 0.9, 4, 10000, ModellingMethod::MC);
@@ -219,7 +218,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.800000_0.100000_0.500000";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.3, 0.001, 1.3, 0.0, 1.3, 0.0, fname, 0.5, 4, 10000, ModellingMethod::MC);
@@ -228,7 +227,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D) {
     EXPECT_NEAR(test.getGout(), 0.5, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.300000_10.000000_0.000000";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.6, 0.01, 1.6, 0.0, 1.6, 0.0, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -237,7 +236,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D) {
     EXPECT_NEAR(test.getGout(), 0.0, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_TISSUE) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_TISSUE) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.990000_10.000000_0.900000";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.4, 0.0002, 1.4, 0.0, 1.4, 0.0, fname, 0.9, 4, 10000, ModellingMethod::MC);
@@ -246,7 +245,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_TISSUE) {
     EXPECT_NEAR(test.getGout(), 0.9 , TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.900000_1.000000_0.900000_glass";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.5, 0.001, 1.6, 0.001, 1.6, 0.001, fname, 0.9, 4, 10000, ModellingMethod::MC);
@@ -255,7 +254,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_IS_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.800000_0.100000_0.500000_glass";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.3, 0.001, 1.4, 0.001, 1.4, 0.001, fname, 0.5, 4, 10000, ModellingMethod::MC);
@@ -264,7 +263,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_GT_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.5, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.300000_10.000000_0.000000_glass";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.6, 0.01, 1.65, 0.001, 1.65, 0.001, fname, 0.0, 4, 10000, ModellingMethod::MC);
@@ -273,7 +272,7 @@ TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_MFP_LT_D_Glass) {
     EXPECT_NEAR(test.getGout(), 0.0, TOLERANCE);
 }
 
-TEST(InverseMonteCarlo, Tmin_AbsorptionScattering_TISSUE_Glass) {
+TEST(HealthCheck_InverseMonteCarlo, Tmin_AbsorptionScattering_TISSUE_Glass) {
     constexpr double TOLERANCE = 1e-2;
     string fname = "0.990000_10.000000_0.900000_glass";
     TestIMC<double, 2, FixedParameter::G, 4, 1000, 10000, 1> test(1.4, 0.0002, 1.5, 0.001, 1.5, 0.001, fname, 0.9, 4, 10000, ModellingMethod::MC);

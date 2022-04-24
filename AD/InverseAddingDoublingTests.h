@@ -18,7 +18,7 @@ using namespace AddingDoubling_NS;
 using namespace Inverse_NS;
 using namespace std;
 
-template< typename T, size_t Nz, size_t Nr, bool detector, size_t M, size_t N, FixedParameter fix>
+template < typename T, size_t Nz, size_t Nr, bool detector, size_t M, size_t N, FixedParameter fix >
 class TestIAD {
 public:
     TestIAD(const T& nSlabNew, const T& nSlideTopNew, const T& nSlideBottomNew,
@@ -29,10 +29,11 @@ public:
             , rMeas(rMeasNew)
             , tMeas(tMeasNew)
             , tcMeas(tcMeasNew)
-            , gVal(gNew){
+            , gVal(gNew) {
         setValues();
         calc();
     }
+
     void setValues() {
         Rd = {{0.0, rMeas}};
         Td = {{0.0, tMeas}};
@@ -61,9 +62,10 @@ public:
         std::cerr << "a " << aOut << ", tau " << tauOut << ", g " << gOut << std::endl;
     }
 
-    T getAout() const noexcept { return aOut; }
+    T getAout() const noexcept { return aOut;   }
     T getTout() const noexcept { return tauOut; }
-    T getGout() const noexcept { return gOut; }
+    T getGout() const noexcept { return gOut;   }
+
 protected:
     T nSlab, nSlideTop, nSlideBottom;
     T rMeas, tMeas, tcMeas, gVal;
@@ -77,7 +79,7 @@ protected:
     T aStart, gStart, tStart;
 };
 
-TEST(InverseAddingDoubling, Test1) {
+TEST(HealthCheck_InverseAddingDoubling, Test1) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 4, 2, FixedParameter::Tau> test(1.4, 1.5, 1.5, 0.0862354 - 0.0410959, 0.76446, 0.338341, 0.0);
     EXPECT_NEAR(test.getAout(), 0.9, TOLERANCE);
@@ -85,7 +87,7 @@ TEST(InverseAddingDoubling, Test1) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, Test2) {
+TEST(HealthCheck_InverseAddingDoubling, Test2) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::Tau> test(1.4, 1.5, 1.5, 0.08531 - 0.0410959, 0.77350, 0.338341, 0.0);
     EXPECT_NEAR(test.getAout(), 0.9, TOLERANCE);
@@ -93,7 +95,7 @@ TEST(InverseAddingDoubling, Test2) {
     EXPECT_NEAR(test.getGout(), 0.9, TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, Test3) {
+TEST(HealthCheck_InverseAddingDoubling, Test3) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 16, 2, FixedParameter::Tau> test(1.5, 1.5, 1.5, 0.06548 - 0.04, 0.74409, 0.124729, 0.0);
     EXPECT_NEAR(test.getAout(), 0.9 , TOLERANCE);
@@ -101,7 +103,7 @@ TEST(InverseAddingDoubling, Test3) {
     EXPECT_NEAR(test.getGout(), 0.99, TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, G0) {
+TEST(HealthCheck_InverseAddingDoubling, G0) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 4, 2, FixedParameter::Tau> test(1.4, 1.4, 1.4, 0.38911 - 0.02778, 0.11869, 0.006369, 0.0);
     EXPECT_NEAR(test.getAout(), 0.95, TOLERANCE);
@@ -109,25 +111,25 @@ TEST(InverseAddingDoubling, G0) {
     EXPECT_NEAR(test.getGout(), 0   , TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, A0_G0_Tau05) {
+TEST(HealthCheck_InverseAddingDoubling, A0_G0_Tau05) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 8, 2, FixedParameter::Tau> test(1.5, 1.6, 1.6, 0.07204 - 0.05419, 0.54314, 0.543166, 0.0);
     EXPECT_NEAR(test.getAout(), 0  , TOLERANCE);
     EXPECT_NEAR(test.getTout(), 0.5, TOLERANCE);
-/// When a = 0, no value of g is correct
-    //EXPECT_NEAR(test.getGout(), 0   , TOLERANCE);
+    /// When a = 0, no value of g is correct
+    // EXPECT_NEAR(test.getGout(), 0   , TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, A0_G0_Tau1) {
+TEST(HealthCheck_InverseAddingDoubling, A0_G0_Tau1) {
     constexpr double TOLERANCE = 1e-4;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::Tau> test(1.3, 1.4, 1.4, 0.03278 - 0.02907, 0.34684, 0.346838, 0.0);
     EXPECT_NEAR(test.getAout(), 0, TOLERANCE);
     EXPECT_NEAR(test.getTout(), 1, TOLERANCE);
-/// When a = 0, no value of g is correct
+    /// When a = 0, no value of g is correct
     //EXPECT_NEAR(test.getGout(), 0   , TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, TauMin1) {
+TEST(HealthCheck_InverseAddingDoubling, TauMin1) {
     constexpr double TOLERANCE = 1e-2;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::G> test(1.4, 1.5, 1.5, 0.08624 - 0.0410959, 0.76446, 0.338341, 0.9);
     EXPECT_NEAR(test.getAout(), 0.9,      TOLERANCE);
@@ -135,7 +137,7 @@ TEST(InverseAddingDoubling, TauMin1) {
     EXPECT_NEAR(test.getGout(), 0.9,      TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, TauMin2) {
+TEST(HealthCheck_InverseAddingDoubling, TauMin2) {
     constexpr double TOLERANCE = 1e-2;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::G> test(1.4, 1.4, 1.4, 0.38911 - 0.02778, 0.11869, 0.006369, 0.0);
     EXPECT_NEAR(test.getAout(), 0.95,      TOLERANCE);
@@ -143,7 +145,7 @@ TEST(InverseAddingDoubling, TauMin2) {
     EXPECT_NEAR(test.getGout(), 0.0 ,      TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, TauMin3) {
+TEST(HealthCheck_InverseAddingDoubling, TauMin3) {
     constexpr double TOLERANCE = 1e-2;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::G> test(1.5, 1.5, 1.5, 0.06548 - 0.04, 0.74409, 0.124729, 0.99);
     EXPECT_NEAR(test.getAout(), 0.9 ,      TOLERANCE);
@@ -151,7 +153,7 @@ TEST(InverseAddingDoubling, TauMin3) {
     EXPECT_NEAR(test.getGout(), 0.99,      TOLERANCE);
 }
 
-TEST(InverseAddingDoubling, TauMin4) {
+TEST(HealthCheck_InverseAddingDoubling, TauMin4) {
     constexpr double TOLERANCE = 1e-2;
     TestIAD<float, 1000, 10000, 1, 32, 2, FixedParameter::G> test(1.5, 1.5, 1.5, 0.0630203 - 0.04, 0.699568, 0.559308, 0.9);
     EXPECT_NEAR(test.getAout(), 0.5,      TOLERANCE);
@@ -176,7 +178,7 @@ TEST(InverseAddingDoubling, 3NMin1) {
     constexpr T tsmeas = 0.76446;
     constexpr T tcmeas = 0.338341;
 
-   Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
+    Meduim<T> emptyTissue = Medium<T>::fromAlbedo(nSlab, 0.0, 0.0, 1.0, 0.0);
     Meduim<T> glassTop = Medium<T>::fromAlbedo(nSlideTop, 0.0, 0.0, 1.0, 0.0);
     Meduim<T> glassBottom = Medium<T>::fromAlbedo(nSlideBottom, 0.0, 0.0, 1.0, 0.0);
     std::vector<Medium<T>> layers = {glassTop, emptyTissue, glassBottom};
@@ -263,4 +265,5 @@ TEST(InverseAddingDoubling, 3NMin3) {
     EXPECT_NEAR(aOut  , 0.9,  TOLERANCE);
     EXPECT_NEAR(tauOut, 2.0,  TOLERANCE);
     EXPECT_NEAR(gOut  , 0.99, TOLERANCE);
-}*/
+}
+//*/

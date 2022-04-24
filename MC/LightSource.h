@@ -2,6 +2,7 @@
 
 #include "../Math/Random.h"
 #include "../Math/Vector3.h"
+
 #include <math.h>
 
 enum class SourceType {
@@ -18,6 +19,7 @@ public:
     ~LightSource() noexcept = default;
 
     Vector3D<T> getPhotonCoord() const noexcept;
+
 protected:
     SourceType type;
     T radius;
@@ -26,7 +28,7 @@ protected:
 template < typename T >
 LightSource<T>::LightSource(const T& newRadius, SourceType newType) noexcept
     : type(newType)
-    , radius(newRadius){
+    , radius(newRadius) {
 }
 
 template < typename T >
@@ -47,5 +49,6 @@ Vector3D<T> LightSource<T>::getPhotonCoord() const noexcept {
         RNDa = Math_NS::random<T>(0,1) * 2 * M_PI;
         coord = Vector3D<T>(sqrt(-log(RNDr)) * radius * cos(RNDa), sqrt(-log(RNDr)) * radius * sin(RNDa), 0);
     }
+
     return coord;
 }

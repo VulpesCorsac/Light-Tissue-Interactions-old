@@ -190,7 +190,7 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& sample, const int& Np,
 //*/
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
+void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays() {
     using namespace std;
 
     /// TODO: you need * 1.0 ?
@@ -216,7 +216,7 @@ void MonteCarlo<T,Nz,Nr,detector>::GenerateDetectorArrays () {
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photon) {
+void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR(Photon<T>& exit_photon) {
     using namespace Math_NS;
     using namespace Utils_NS;
     using namespace std;
@@ -319,7 +319,7 @@ void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereR (Photon<T>& exit_photo
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
-void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT (Photon<T>& exit_photon) {
+void MonteCarlo<T,Nz,Nr,detector>::PhotonDetectionSphereT(Photon<T>& exit_photon) {
     using namespace Math_NS;
     using namespace Utils_NS;
     using namespace std;

@@ -12,7 +12,7 @@ public:
     Photon(const Vector3D<T>& new_coord, const Vector3D<T>& new_dir, const T& w, const int& new_num) noexcept; // construct from coord, dir, weight
     ~Photon() noexcept = default; // destructor
 
-    void printInfo ();
+    void printInfo();
 
     Vector3D<T> coordinate = Vector3D<T>(0,0,0);
     Vector3D<T> direction = Vector3D<T>(0,0,0);

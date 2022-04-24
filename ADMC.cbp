@@ -54,12 +54,10 @@
 			<Add library="yaml-cpp/libyaml-cpp.a" />
 		</Linker>
 		<Unit filename="AD/AddingDoubling.h" />
-		<Unit filename="AD/AddingDoublingNelderMead.h" />
 		<Unit filename="AD/AddingDoublingTests.h" />
 		<Unit filename="AD/CMakeLists.txt" />
 		<Unit filename="AD/DeltaMMethod.h" />
 		<Unit filename="AD/Eigen_NS.h" />
-		<Unit filename="AD/InverseAddingDoubling.h" />
 		<Unit filename="AD/InverseAddingDoublingTests.h" />
 		<Unit filename="AD/LayerInit.h" />
 		<Unit filename="AD/LayerProperties.h" />
@@ -69,7 +67,6 @@
 		<Unit filename="CMakeLists.txt" />
 		<Unit filename="Inverse/CMakeLists.txt" />
 		<Unit filename="Inverse/FixedParam.h" />
-		<Unit filename="Inverse/Helpers.h" />
 		<Unit filename="Inverse/InverseProblem.h" />
 		<Unit filename="Inverse/NelderMead.h" />
 		<Unit filename="Inverse/StartingPoints.h" />
@@ -94,7 +91,8 @@
 		<Unit filename="MC/Detector/IntegratingSphereSimpleTests.h" />
 		<Unit filename="MC/Detector/OpticalFiber.h" />
 		<Unit filename="MC/Detector/OpticalFiberTests.h" />
-		<Unit filename="MC/InverseMonteCarlo.h" />
+		<Unit filename="MC/InverseMonteCarloTests.h" />
+		<Unit filename="MC/LightSource.h" />
 		<Unit filename="MC/Medium.h" />
 		<Unit filename="MC/MonteCarlo.h" />
 		<Unit filename="MC/MonteCarloMultithread.h" />
@@ -140,6 +138,7 @@
 		<Unit filename="Scripts/DirectMC.h" />
 		<Unit filename="Scripts/InverseMC.h" />
 		<Unit filename="Scripts/SaveResults.h" />
+		<Unit filename="Scripts/SpoiltData.h" />
 		<Unit filename="Settings/CMakeLists.txt" />
 		<Unit filename="Settings/SettingsExporterHelpers.h" />
 		<Unit filename="Settings/SettingsExporterLayer.h" />
@@ -171,6 +170,7 @@
 		<Unit filename="Utils/Time.h" />
 		<Unit filename="Utils/Utils.h" />
 		<Unit filename="Utils/UtilsTests.h" />
+		<Unit filename="appveyor.yml" />
 		<Unit filename="main_admc.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

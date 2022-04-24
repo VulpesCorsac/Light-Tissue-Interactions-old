@@ -13,17 +13,7 @@ pvs/*
 tasks/*
 Testing/*
 
-CMakeFiles/*
-AD/CMakeFiles/*
-Inverse/CMakeFiles/*
-Math/CMakeFiles/*
-MC/CMakeFiles/*
-MC/Detector/CMakeFiles/*
-Physics/CMakeFiles/*
-Physics/Medium/CMakeFiles/*
-Settings/CMakeFiles/*
-Tests/CMakeFiles/*
-Utils/CMakeFiles/*
+**/CMakeFiles/*
 
 main_admc
 Tests/unit_tests*
