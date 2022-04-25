@@ -43,6 +43,8 @@ void MCmultithread(const Sample<T>& sample,
         finalResults.matrixA += result.matrixA;
         finalResults.arrayAnglesR += result.arrayAnglesR;
         finalResults.arrayAnglesT += result.arrayAnglesT;
+        finalResults.heatSource += result.heatSource;
+
         finalResults.mainSphereR = result.mainSphereR;
         finalResults.mainSphereT = result.mainSphereT;
         finalResults.lightSource = result.lightSource;
@@ -70,6 +72,7 @@ void MCmultithread(const Sample<T>& sample,
     finalResults.absorbed            = finalResults.matrixA.sum()        / Np;
     finalResults.arrayAnglesT        = finalResults.arrayAnglesT         / Np;
     finalResults.arrayAnglesR        = finalResults.arrayAnglesR         / Np;
+    finalResults.heatSource          = finalResults.heatSource           / Np;
 
     for (int i = 0; i < isize(finalResults.detectedR); i++) {
         finalResults.detectedR[i].first = mcResults[0].detectedR[i].first;

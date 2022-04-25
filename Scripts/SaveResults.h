@@ -37,7 +37,7 @@ void saveResults(const MCresults<T,Nz,Nr,detector>& results, const T& inA, const
     Tcfile.close();
 
     if (matrixExport) {
-        auto ameas = results.matrixA;
+        auto ameas = results.heatSource;
         auto anglesR = results.arrayAnglesR;
         auto anglesT = results.arrayAnglesT;
         auto source = results.sourceMatrix;

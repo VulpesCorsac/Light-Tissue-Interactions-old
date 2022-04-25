@@ -32,6 +32,8 @@ struct MCresults {
     Matrix<T,1,Dynamic> arrayR = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayRspecular = Matrix<T, 1, Nr>::Constant(0);
     Matrix<T,1,Dynamic> arrayT = Matrix<T, 1, Nr>::Constant(0);
+    Matrix<T,Dynamic,Dynamic> heatSource = Matrix<T, Nz, Nr>::Constant(0);
+    Matrix<T,Dynamic,Dynamic> heatSourceNorm = Matrix<T, Nz, Nr>::Constant(0);
 
     Matrix<T,1,Dynamic> arrayAnglesR = Matrix<T, 1, 100>::Constant(0);
     Matrix<T,1,Dynamic> arrayAnglesT = Matrix<T, 1, 100>::Constant(0);
@@ -816,7 +818,7 @@ T MonteCarlo<T,Nz,Nr,detector>::Volume(const T& ir) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
-    return 2 * M_PI * (ir - 0.5) * sqr(dr);
+    return 2 * M_PI * (ir - 0.5) * Math_NS::sqr(dr);
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
@@ -835,7 +837,13 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     results.arrayRspecular = RRspecular;
     results.arrayT = TT;
     results.matrixA = A;
+    results.heatSource = A;
 
+    for (int i = 0; i < Nz; i++)
+        for (int j = 0; j < Nr; j++)
+            results.heatSource(i,j) /= (Volume(j+1));
+
+    results.heatSourceNorm = results.heatSource / Nphotons;
     results.diffuseReflection = RR.sum() / Nphotons;
     results.specularReflection = RRspecular.sum() / Nphotons;
     results.diffuseTransmission = TT.sum() / Nphotons;
@@ -873,9 +881,6 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     res = results;
 
     /*
-    for (int i = 0; i < Nz; i++)
-        for (int j = 0; j < Nr; j++)
-            A(i,j) /= Volume(j+1) * Nphotons;
 
     for (int j = 0; j < Nr; j++) {
         RR(j) /= Area(j+1) * Nphotons;

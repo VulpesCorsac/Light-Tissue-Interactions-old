@@ -35,17 +35,17 @@ Vector3D<T> LightSource<T>::getPhotonCoord() const noexcept {
     if (type == SourceType::Point)
         coord = Vector3D<T>(0.0, 0.0, 0.0);
     else if (type == SourceType::Circle) {
-        T RNDx, RNDy;
-        do {
-            RNDx = Math_NS::random<T>(-1, 1);
-            RNDy = Math_NS::random<T>(-1, 1);
-        } while (/*(Math_NS::sqr<T>(RNDx) + Math_NS::sqr<T>(RNDy))*/ (RNDx * RNDx + RNDy * RNDy) > 1);
-        coord = Vector3D<T>(sqrt(RNDx) * radius, sqrt(RNDy) * radius, 0);
+        T RNDr, RNDa;
+        RNDr = Math_NS::random<T>(0, 1);
+        RNDa = Math_NS::random<T>(0, 1) * 2 * M_PI;
+        coord = Vector3D<T>(sqrt(RNDr) * radius * cos(RNDa), sqrt(RNDr) * radius * sin(RNDa), 0);
+    //    std::cerr << coord << std::endl;
     } else if (type == SourceType::Gaussian) {
         T RNDr, RNDa;
         RNDr = Math_NS::random<T>(0, 1);
-        RNDa = Math_NS::random<T>(0,1) * 2 * M_PI;
+        RNDa = Math_NS::random<T>(0, 1) * 2 * M_PI;
         coord = Vector3D<T>(sqrt(-log(RNDr)) * radius * cos(RNDa), sqrt(-log(RNDr)) * radius * sin(RNDa), 0);
+    //    std::cerr << coord << std::endl;
     }
     return coord;
 }
