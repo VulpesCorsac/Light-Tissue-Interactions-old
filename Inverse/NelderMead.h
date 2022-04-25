@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../AD/Quadrature.h"
+#include "../AD/RT.h"
 #include "../Inverse/FixedParam.h"
 #include "../Utils/Contracts.h"
 

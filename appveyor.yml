@@ -10,8 +10,6 @@ build_script:
 
     make
 
-    g++ -std=c++2a -O2 -Ieigen -Iyaml-cpp/include main_admc.cpp -o main_admc -pthread yaml-cpp/libyaml-cpp.a
-
 test_script:
 - sh: >-
-    ./Tests/unit_tests *
+    ./Tests/unit_tests --gtest_filter=HealthCheck*

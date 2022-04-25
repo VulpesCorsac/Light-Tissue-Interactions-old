@@ -181,7 +181,7 @@ public:
  * TESTS *
  *********/
 
-#define TESTING_VALUES ::testing::Values(0,1,2,3,4)
+#define TESTING_VALUES ::testing::Values(0,1,2)
 
 #define TEST_MC(TESTNAME,BUGER_VALUE)                                          \
 TEST_P(TESTNAME, SingleThread) {                                               \
@@ -211,7 +211,7 @@ TEST_P(TESTNAME, MultiThread) {                                                \
                 BUGER_VALUE);                                                  \
 }                                                                              \
                                                                                \
-INSTANTIATE_TEST_SUITE_P(MC, TESTNAME, TESTING_VALUES);
+INSTANTIATE_TEST_SUITE_P(HealthCheck_MC, TESTNAME, TESTING_VALUES);
 
 TEST_MC(SingleLayerAbsorptionOnly_MFP_IS_D      , BUGER);
 TEST_MC(SingleLayerAbsorptionOnly_MFP_GT_D      , BUGER);

@@ -17,7 +17,6 @@
 #include <string>
 #include <sstream>
 
-
 using namespace AddingDoubling_NS;
 
 int main() {
@@ -120,5 +119,6 @@ int main() {
             spoiltData<T,2,FixedParameter::Tau,M,Nz,Nr,detector>(inA, inT, inG, inN, inD, inNG, inDG, inNG, inDG, moveable, Nthreads, err);
         }
     }
+
     return 0;
 }

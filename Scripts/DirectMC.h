@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../Inverse/InverseProblem.h"
 #include "SaveResults.h"
+
+#include "../Inverse/InverseProblem.h"
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T inN, T inD, T inNbottom, T inDbottom, bool moveable, int Nthreads, bool save) {
@@ -39,4 +40,3 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
 
     return myResults;
 }
-
