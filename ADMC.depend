@@ -3322,8 +3322,9 @@
 	<algorithm>
 	<math.h>
 
-1650890027 source:c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
+1651767437 source:c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
 	"Scripts/DirectMC.h"
+	"Scripts/DirectHeterogeneousMC.h"
 	"Scripts/InverseMC.h"
 	"Scripts/SpoiltData.h"
 	"Settings/Settings/SettingsImporterHelpers.h"
@@ -3360,7 +3361,7 @@
 	<algorithm>
 	<string>
 
-1650718937 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
 	"../MC/Detector.h"
 	"../MC/Medium.h"
 	"../MC/MonteCarlo.h"
@@ -3378,20 +3379,24 @@
 	"Photon.h"
 	<tuple>
 
-1645785396 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\photon.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\photon.h
 	"../Math/Vector3.h"
 	<iostream>
 
-1647582406 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
+1651661687 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
+	"Basic.h"
 	<iostream>
 	<math.h>
 	<stdexcept>
 	<string>
 
-1650723753 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
+1651759702 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
 	"../Utils/Contracts.h"
+	"../eigen/Eigen/Dense"
+	"../Math/Basic.h"
+	<map>
 
-1650889863 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
+1651767626 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
 	"Detector.h"
 	"Medium.h"
 	"Photon.h"
@@ -3399,6 +3404,7 @@
 	"LightSource.h"
 	"../Math/Basic.h"
 	"../Math/Random.h"
+	"../Math/Bresenham.h"
 	"../Physics/BugerLambert.h"
 	"../Physics/Reflectance.h"
 	"../Utils/Utils.h"
@@ -3406,8 +3412,11 @@
 	<iostream>
 	<math.h>
 	<tgmath.h>
+	<map>
+	<chrono>
 
-1649752577 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\sample.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\sample.h
+	"../Utils/Contracts.h"
 	<vector>
 	<stdexcept>
 	<utility>
@@ -4287,7 +4296,7 @@
 
 1646032990 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\eigen\eigen\src\eigenvalues\selfadjointeigensolver_lapacke.h
 
-1648560012 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\fixedparam.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\fixedparam.h
 
 1649413635 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\inversemontecarlo.h
 	"MonteCarlo.h"
@@ -4300,7 +4309,7 @@
 	<stdexcept>
 	<utility>
 
-1650886700 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlomultithread.h
+1651663938 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlomultithread.h
 	"MonteCarlo.h"
 	"../Utils/Utils.h"
 	<thread>
@@ -4313,18 +4322,18 @@
 
 1647582406 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\ad\eigen_ns.h
 
-1649832877 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\neldermead.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\neldermead.h
+	"../AD/Quadrature.h"
+	"../AD/RT.h"
 	"../Inverse/FixedParam.h"
 	"../Utils/Contracts.h"
 	"../eigen/Eigen/Dense"
 
-1650429398 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\inverseproblem.h
-	"../AD/Quadrature.h"
-	"../eigen/Eigen/Dense"
-	"../AD/RT.h"
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\inverseproblem.h
 	"NelderMead.h"
 	"../MC/MonteCarlo.h"
 	"../MC/MonteCarloMultithread.h"
+	"../eigen/Eigen/Dense"
 
 1647582406 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\ad\quadrature.h
 	"../Math/Basic.h"
@@ -4406,22 +4415,22 @@
 	"../Utils/Contracts.h"
 	<utility>
 
-1650890396 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directmc.h
-	"../Inverse/InverseProblem.h"
+1650957668 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directmc.h
 	"SaveResults.h"
+	"../Inverse/InverseProblem.h"
 
-1650889594 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\saveresults.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\saveresults.h
 	"../MC/MonteCarlo.h"
 	<fstream>
-	<string>
 	<sstream>
+	<string>
 
-1650719310 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\inversemc.h
-	"../Utils/ReadFiles.h"
+1650957668 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\inversemc.h
 	"../Inverse/InverseProblem.h"
 	"../Inverse/StartingPoints.h"
+	"../Utils/ReadFiles.h"
 
-1650690688 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\startingpoints.h
+1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\startingpoints.h
 	"InverseProblem.h"
 	"../Physics/Reflectance.h"
 	"../Math/Basic.h"
@@ -4436,9 +4445,10 @@
 	<time.h>
 	<random>
 
-1650888256 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\lightsource.h
+1650905964 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\lightsource.h
 	"../Math/Random.h"
 	"../Math/Vector3.h"
+	"../Math/Basic.h"
 	<math.h>
 
 1650719272 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\inversemontecarlotests.h
@@ -4630,4 +4640,16 @@
 
 1646032996 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\googletest\googletest\include\\gtest\gtest_pred_impl.h
 	"gtest/gtest.h"
+
+1651767200 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\heat transfer\ht.h
+	<vector>
+
+1650976192 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\bresenham.h
+	<Vector3.h>
+	<vector>
+
+1651767697 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directheterogeneousmc.h
+	"SaveResults.h"
+	"../Inverse/InverseProblem.h"
+	"../Heat Transfer/HT.h"
 

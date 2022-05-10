@@ -88,6 +88,9 @@ inverseResults<T,Nz,Nr,detector> inverseMC(const std::vector<std::pair<T,T>>& Rd
     inverseResultsFin.g = gOutIMC;
     inverseResultsFin.resultsMC = MCresultsFin;
 
+    if (save)
+        saveResults<T,Nz,Nr,detector>(MCresultsFin, aOutIMC, tOutIMC, gOutIMC, 1);
+
     return inverseResultsFin;
 }
 

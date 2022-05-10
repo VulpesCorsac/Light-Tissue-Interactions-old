@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Basic.h"
+
 #include <iostream>
 #include <math.h>
 #include <stdexcept>
@@ -289,4 +291,10 @@ std::ostream& operator << (std::ostream& os, const Vector3D<T>& v) noexcept {
     os << ')';
 
     return os;
+}
+
+template <typename T >
+T distance(const Vector3D<T>& v, const Vector3D<T>& w) noexcept {
+    using namespace Math_NS;
+    return sqrt(sqr(w.x - v.x) + sqr(w.y - v.y) + sqr(w.z - v.z));
 }

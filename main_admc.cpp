@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include "Scripts/DirectMC.h"
+#include "Scripts/DirectHeterogeneousMC.h"
 #include "Scripts/InverseMC.h"
 #include "Scripts/SpoiltData.h"
 //#include "MC/MonteCarloTests.h"
@@ -11,6 +12,7 @@
 /*
 #include "Settings/Settings/SettingsImporterHelpers.h"
 //*/
+
 
 #include <iostream>
 #include <fstream>
@@ -26,10 +28,35 @@ int main() {
 
     constexpr int M = 8; // matrix size in Adding-Doubling
 
-    constexpr int Nz = 100;
-    constexpr int Nr = 1000;
+    constexpr int Nz = 101;
+    constexpr int Nr = 501;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
+
+    map<T, tissueProperties<T>> coagTissueProps;
+    tissueProperties<T> raw, coagulated;
+
+    raw.g = 0.9;
+    raw.ua = 100;
+    raw.us = 500;
+    raw.ut = 600;
+
+    coagulated.g = 0.0;
+    coagulated.ua = 500;
+    coagulated.us = 5000;
+    coagulated.ut = 5500;
+
+    coagTissueProps[1.0] = raw;
+    coagTissueProps[0.0] = coagulated;
+
+    const auto coagMatrix = coag<T, Nz, Nr>();
+//    cerr << coagMatrix << endl;
+//    cerr << endl;
+
+    heterogeneousProperties<T,Nz,Nr> tissues(coagTissueProps, coagMatrix);
+    MCresults<T,Nz,Nr,detector> myRes = directHeterogeneousMC<T,Nz,Nr,detector>(0.83, 0.6, 0.0, 1.5, 0.0, 1.5, 0.001, 1.5, 0.0, tissues, 0, 1, 1);
+
+/*
     int mode;
     cout << "SELECT MODE:" << endl;
     cout << "MODE 0: R(z) and T(z) for fixed/moveable spheres and one set of parameters" << endl;
@@ -118,7 +145,7 @@ int main() {
             inT = gridT(i);
             spoiltData<T,2,FixedParameter::Tau,M,Nz,Nr,detector>(inA, inT, inG, inN, inD, inNG, inDG, inNG, inDG, moveable, Nthreads, err);
         }
-    }
+    }*/
 
     return 0;
 }

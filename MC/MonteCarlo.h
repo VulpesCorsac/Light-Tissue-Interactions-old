@@ -8,6 +8,7 @@
 
 #include "../Math/Basic.h"
 #include "../Math/Random.h"
+#include "../Math/Bresenham.h"
 #include "../Physics/BugerLambert.h"
 #include "../Physics/Reflectance.h"
 #include "../Utils/Utils.h"
@@ -17,6 +18,8 @@
 #include <iostream>
 #include <math.h>
 #include <tgmath.h>
+#include <map>
+#include <chrono>
 
 using namespace Eigen;
 
@@ -76,7 +79,10 @@ template < typename T, size_t Nz, size_t Nr, bool detector>
 class MonteCarlo {
 public:
     MonteCarlo() noexcept = delete;
-    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT, const DetectorDistance<T> dist, const LightSource<T>& source);
+    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT,
+               const DetectorDistance<T> dist, const LightSource<T>& source);
+    MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT,
+               const DetectorDistance<T> dist, const LightSource<T>& source, const heterogeneousProperties<T,Nz,Nr>& tissuesNew);
     //MonteCarlo(const Sample<T>& sample, const int& Np, const T& z, const T& r, const OpticalFiber<T>& fiberR, const OpticalFiber<T>& fiberT, const DetectorDistance<T> dist);
     ~MonteCarlo() noexcept = default;
 
@@ -97,10 +103,11 @@ protected:
 
     const int Nphotons;
 
-    const T dz;
+    const T dx, dy, dz;
     const T dr;
     const T chance;
     const T threshold;
+    const T radius;
 
     bool debug = 0;
     int debugPhoton = 0;
@@ -125,6 +132,10 @@ protected:
 
     DetectorDistance<T> distances;
 
+    const bool homogenous;
+    const heterogeneousProperties<T, Nz, Nr> tissues;
+    const std::vector<Matrix<T,Dynamic,Dynamic>> heterogeneousMatrix3D;
+
     void GenerateDetectorArrays();
     void PhotonDetectionSphereR(Photon<T>& exit_photon);
     void PhotonDetectionSphereT(Photon<T>& exit_photon);
@@ -134,6 +145,10 @@ protected:
     void HopDropSpin(Photon<T>& photon);
     void HopInGlass(Photon<T>& photon);
     void HopDropSpinInTissue(Photon<T>& photon);
+    void HopDropSpinInHeterogeneousTissue(Photon<T>& photon);
+
+    void InnerBordersArray(Photon<T>& photon, std::vector<Vector3D<T>>& bordersArray, std::vector<T>& attCoeffs);
+    void HopInHeterogeneousTissue(Photon<T>& photon, const std::vector<Vector3D<T>>& bordersArray, const std::vector<T>& attCoeffs);
 
     void StepSizeInGlass(Photon<T>& photon);
     void StepSizeInTissue(Photon<T>& photon);
@@ -155,15 +170,20 @@ protected:
 
     T Volume(const T& ir);
     T Area(const T& ir);
+    Vector3D<int> CartesianGridPoint(const Vector3D<T>& point);
+    Vector3D<T> CartesianCoord(const Vector3D<int>& point);
 
     MCresults<T,Nz,Nr,detector> results;
 };
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& newSample, const int& Np, const T& z, const T& r,
-                                         const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT, const DetectorDistance<T> dist, const LightSource<T>& source)
+                                         const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT,
+                                         const DetectorDistance<T> dist, const LightSource<T>& source)
     : sample(newSample)
     , Nphotons(Np)
+    , dx(2 * r / (2 * Nr - 1))
+    , dy(2 * r / (2 * Nr - 1))
     , dz(z / Nz)
     , dr(r / Nr)
     , chance(0.1)
@@ -171,7 +191,32 @@ MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& newSample, const int& 
     , mainSphereR(detectorR)
     , mainSphereT(detectorT)
     , distances(dist)
-    , lightSource(source) {
+    , lightSource(source)
+    , radius(r)
+    , homogenous(1) {
+    GenerateDetectorArrays();
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+MonteCarlo<T,Nz,Nr,detector>::MonteCarlo(const Sample<T>& newSample, const int& Np, const T& z, const T& r,
+                                         const IntegratingSphere<T>& detectorR, const IntegratingSphere<T>& detectorT,
+                                         const DetectorDistance<T> dist, const LightSource<T>& source, const heterogeneousProperties<T,Nz,Nr>& tissuesNew)
+    : sample(newSample)
+    , Nphotons(Np)
+    , dx(2 * r / (2 * Nr - 1))
+    , dy(2 * r / (2 * Nr - 1))
+    , dz(z / Nz)
+    , dr(r / Nr)
+    , chance(0.1)
+    , threshold(1E-4)
+    , mainSphereR(detectorR)
+    , mainSphereT(detectorT)
+    , distances(dist)
+    , lightSource(source)
+    , radius(r)
+    , tissues(tissuesNew)
+    , heterogeneousMatrix3D(tissuesNew.getMatrix3D())
+    , homogenous(0) {
     GenerateDetectorArrays();
 }
 
@@ -464,7 +509,10 @@ void MonteCarlo<T,Nz,Nr,detector>::HopDropSpin(Photon<T>& photon) {
     if (sample.getMedium(photon.layer).getMut() == 0)
         HopInGlass(photon);
     else
-        HopDropSpinInTissue(photon);
+        if (homogenous)
+            HopDropSpinInTissue(photon);
+        else
+            HopDropSpinInHeterogeneousTissue(photon);
     Roulette(photon);
 }
 
@@ -531,6 +579,157 @@ void MonteCarlo<T,Nz,Nr,detector>::HopDropSpinInTissue(Photon<T>& photon) {
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T,Nz,Nr,detector>::HopDropSpinInHeterogeneousTissue(Photon<T>& photon) {
+    using namespace std;
+
+    ///1. make border array: find border point (jump to border), bresenham through coag, if there is change in properties, add coag border
+    ///2. make coeffs array
+    ///3. coag borders with reflection routine, add crossOrNot
+    ///4. standard DropSpin routine
+
+    vector<Vector3D<T>> bordersArray;
+    vector<T> attCoeffs;
+    InnerBordersArray(photon, bordersArray, attCoeffs);
+    /// bordersArray size will always be >= 2.
+        /// coag borders routine
+    if (debug && photon.number == debugPhoton) {
+        cout << "Before HeteroHop" << endl;
+        cout << photon << endl;
+    }
+    HopInHeterogeneousTissue(photon, bordersArray, attCoeffs);
+    if (debug && photon.number == debugPhoton) {
+        cout << "After HeteroHop" << endl;
+        cout << photon << endl;
+    }
+    Drop(photon);
+    if (debug && photon.number == debugPhoton) {
+        cout << "After Drop" << endl;
+        cout << photon << endl;
+    }
+    Spin(photon);
+    if (debug && photon.number == debugPhoton) {
+        cout << "After Spin" << endl;
+        cout << photon << endl;
+    }
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T,Nz,Nr,detector>::InnerBordersArray(Photon<T>& photon, std::vector<Vector3D<T>>& bordersArray, std::vector<T>& attCoeffs) {
+    using namespace std;
+    vector<Vector3D<int>> trajectoryArrayInt;
+    T step;
+    const auto uz = photon.direction.z;
+    if (uz > 0)
+        step = (sample.CurrentLowerBorderZ(photon.layer) - photon.coordinate.z) / uz;
+    else if (uz < 0)
+        step = (sample.CurrentUpperBorderZ(photon.layer) - photon.coordinate.z) / uz;
+
+    Vector3D<T> finalBorderPoint;
+    finalBorderPoint = photon.coordinate + step * photon.direction;
+    Vector3D<T> startPoint = photon.coordinate;
+
+    Bresenham3D(CartesianGridPoint(startPoint), CartesianGridPoint(finalBorderPoint), trajectoryArrayInt);
+
+    Vector3D<int> point = trajectoryArrayInt[0];
+    T val = heterogeneousMatrix3D[point.z](point.x, point.y);
+
+    for (int i = 0; i < trajectoryArrayInt.size() - 1; i++) {
+//        Vector3D<int> point = trajectoryArrayInt[i];
+        Vector3D<int> point2 = trajectoryArrayInt[i + 1];
+        T val2 = heterogeneousMatrix3D[point2.z](point2.x, point2.y);
+        /// we will set glass value in the matrix to -1
+        if (val != val2) {
+           bordersArray.push_back(CartesianCoord(Vector3D<int>(point.x, point.y, point.z)));
+           attCoeffs.push_back(tissues.getUt(val));
+           attCoeffs.push_back(tissues.getUt(val2));
+        }
+        point = point2;
+        val = val2;
+
+    }
+    bordersArray.push_back(finalBorderPoint);
+    bordersArray.insert(bordersArray.begin(), startPoint);
+    if (bordersArray.size() == 2) {
+        Vector3D<int> point = trajectoryArrayInt[0];
+        attCoeffs.push_back(tissues.getUt(heterogeneousMatrix3D[point.z](point.x, point.y)));
+    }
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissue(Photon<T>& photon, const std::vector<Vector3D<T>>& bordersArray, const std::vector<T>& attCoeffs) {
+    using namespace std;
+    vector<Vector3D<T>> bordersArrayFull = bordersArray;
+    vector<T> attCoeffsFull = attCoeffs;
+/*
+    cerr << "BORDERS " << endl;
+    for (auto x : bordersArrayFull)
+        cerr << x << " " ;
+    cerr << endl;
+    cerr << "COEFFS " << endl;
+    for (auto x : attCoeffsFull)
+        cerr << x << " ";
+    cerr << endl;
+*/
+    int currentBand = 0;
+//    cerr << "CURRENT BAND " << currentBand << " coeff " << attCoeffsFull[currentBand] << endl;
+    T xi = random<T>(0, 1);
+//    cerr << "xi " << xi << endl;
+    photon.step = - log(xi) / attCoeffsFull[currentBand];
+//    cerr << "FIRST STEP " << photon.step << endl;
+    while ((photon.coordinate.z + photon.step * photon.direction.z > bordersArrayFull[currentBand + 1].z && photon.direction.z > 0) ||
+           (photon.coordinate.z + photon.step * photon.direction.z < bordersArrayFull[currentBand + 1].z && photon.direction.z < 0)) {
+        currentBand += 1;
+//        cerr << "CURRENT BAND " << currentBand << " coeff " << attCoeffsFull[currentBand] << endl;
+        photon.coordinate = bordersArrayFull[currentBand];
+//        cerr << "COORDINATE " << photon.coordinate << endl;
+        if (photon.coordinate == bordersArrayFull[bordersArrayFull.size() - 1]) {
+ //           cerr << "REFLECTION HETERO" << endl;
+ //           cerr << "old dir " << photon.direction << endl;
+            CrossOrNot(photon);
+ //          cerr << "new dir " << photon.direction << endl;
+ //           cerr << "old step " << photon.step << endl;
+            T distToBnd = abs((bordersArrayFull[bordersArrayFull.size() - 1].z - bordersArrayFull[bordersArrayFull.size() - 2].z) / photon.direction.z);
+ //           cerr << distToBnd << endl;
+            if (photon.direction.z != 0 && photon.step > distToBnd) {
+                photon.stepLeft = (photon.step - distToBnd);
+            }
+ //           cerr << "step left " << photon.stepLeft << endl;
+       /// baaad     photon.stepLeft = photon.step - distance<T>(bordersArrayFull[bordersArrayFull.size() - 1], bordersArrayFull[bordersArrayFull.size() - 2]);
+            vector<Vector3D<T>> bordersArrayNew;
+            vector<T> attCoeffsNew;
+            InnerBordersArray(photon, bordersArrayNew, attCoeffsNew);
+            bordersArrayNew.erase(bordersArrayNew.begin());
+            bordersArrayFull.insert(bordersArrayFull.end(), bordersArrayNew.begin(), bordersArrayNew.end());
+            attCoeffsFull.insert(attCoeffsFull.end(), attCoeffsNew.begin(), attCoeffsNew.end());
+/*            cerr << "BORDERS FULL" << endl;
+            for (auto x : bordersArrayFull)
+                cerr << x << " " ;
+            cerr << endl;
+            cerr << "COEFFS FULL" << endl;
+            for (auto x : attCoeffsFull)
+                cerr << x << " ";
+            cerr << endl;
+            cerr << "CURRENT BAND " << currentBand << " coeff " << attCoeffsFull[currentBand] << endl;
+*/
+            if ((photon.coordinate.z + photon.stepLeft * photon.direction.z < bordersArrayFull[currentBand + 1].z && photon.direction.z > 0) ||
+                (photon.coordinate.z + photon.stepLeft * photon.direction.z > bordersArrayFull[currentBand + 1].z && photon.direction.z < 0)) {
+                photon.step = photon.stepLeft;
+                photon.stepLeft = 0;
+                break;
+            }
+        }
+        photon.step = -log(xi) / attCoeffsFull[currentBand];
+        for (int i = 0; i < currentBand; i++)
+            photon.step -= attCoeffsFull[i] * abs((bordersArrayFull[i+1].z - bordersArrayFull[i].z) / photon.direction.z) / attCoeffsFull[currentBand];
+   //     cerr << "STEP NEW " << photon.step << endl;
+   //     cerr << "CURRENT BAND " << currentBand << " coeff " << attCoeffsFull[currentBand] << endl;
+    }
+    photon.coordinate += photon.step * photon.direction;
+ //   cerr << "FINAL COORDINATE " << photon.coordinate << endl;
+ //   cerr << "FINAL DIRECTION " << photon.direction << endl;
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::StepSizeInGlass(Photon<T>& photon) {
     const auto uz = photon.direction.z;
     photon.step = 0;
@@ -546,7 +745,13 @@ void MonteCarlo<T,Nz,Nr,detector>::StepSizeInTissue(Photon<T>& photon) {
     using namespace Math_NS;
     using namespace std;
 
-    const auto mT = sample.getMedium(photon.layer).getMut();
+    T mT;
+    if (homogenous)
+        mT = sample.getMedium(photon.layer).getMut();
+    else {
+        Vector3D<int> point = CartesianGridPoint(photon.coordinate);
+        mT = tissues.getUtCoord(point);
+    }
     if (photon.stepLeft == 0) // new step
         photon.step = -log(random<T>(0, 1)) / mT;
     else { // leftover step
@@ -624,9 +829,20 @@ void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
     if (iz >= Nz)
         cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N " << photon.number << endl;
 
-    A(iz, min(ir, Nr-1)) += photon.weight * sample.getMedium(layer).getMua() / sample.getMedium(layer).getMut();
+    T Mua, Mut, Mus;
+    if (homogenous) {
+        Mua = sample.getMedium(layer).getMua();
+        Mut = sample.getMedium(layer).getMut();
+        Mus = sample.getMedium(layer).getMus();
+    } else {
+        Vector3D<int> point = CartesianGridPoint(photon.coordinate);
+        Mua = tissues.getUaCoord(point);
+        Mut = tissues.getUtCoord(point);
+        Mus = tissues.getUsCoord(point);
+    }
+    A(iz, min(ir, Nr-1)) += photon.weight * Mua / Mut;
 
-    photon.weight *= sample.getMedium(layer).getMus() / sample.getMedium(layer).getMut();
+    photon.weight *= Mus / Mut;
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
@@ -636,7 +852,13 @@ void MonteCarlo<T,Nz,Nr,detector>::Spin(Photon<T>& photon) {
     using namespace std;
 
     const int layer = photon.layer;
-    const T g = sample.getMedium(layer).getG();
+    T g;
+    if (homogenous)
+        g = sample.getMedium(layer).getG();
+    else {
+        Vector3D<int> point = CartesianGridPoint(photon.coordinate);
+        g = tissues.getGCoord(point);
+    }
 
     const auto RND1 = random<T>(0, 1);
     T cosHG = (1 + sqr(g) - sqr((1 - sqr(g)) / (1 - g + 2 * g * RND1))) / (2 * g);
@@ -818,7 +1040,60 @@ T MonteCarlo<T,Nz,Nr,detector>::Volume(const T& ir) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
-    return 2 * M_PI * (ir - 0.5) * Math_NS::sqr(dr);
+    return 2 * M_PI * (ir + 0.5) * Math_NS::sqr(dr);
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+Vector3D<int> MonteCarlo<T,Nz,Nr,detector>::CartesianGridPoint(const Vector3D<T>& point) {
+//    std::cerr << point.x << " " << point.y << " " << point.z << std::endl;
+    int iz = floor(point.z / dz);
+    if (point.z < 0)
+        iz = 0;
+    int ix, iy;
+
+    if (point.x <= -radius)
+        ix = 0;
+    else if (point.x >= radius)
+        ix = 2 * Nr - 3;
+    else if (point.x >= 0 && point.x < radius)
+        ix = Nr - 1 + floor(point.x / dx);
+    else if (point.x < 0 && point.x > -radius)
+        ix = Nr - 1 - floor(point.x / dx);
+
+    if (point.y <= -radius)
+        iy = 0;
+    else if (point.y >= radius)
+        iy = 2 * Nr - 3;
+    else if (point.y >= 0 && point.y < radius)
+        iy = Nr - 1 + floor(point.y / dy);
+    else if (point.y < 0 && point.y > -radius)
+        iy = Nr - 1 - floor(point.y / dy);
+
+    if (iz == Nz)
+        iz -= 1;
+    if (iz > Nz)
+        std::cerr << "ACHTUNG!!! iz = " << iz << " exceeds Nz while getting cartesian coordinate" << std::endl;
+ //   std::cerr << ix << " " << iy << " " << iz << std::endl;
+ //   std::cerr << Nz << " " << 2 * Nr - 1 << std::endl;
+    return Vector3D<int>(ix, iy, iz);
+}
+
+template < typename T, size_t Nz, size_t Nr, bool detector>
+Vector3D<T> MonteCarlo<T,Nz,Nr,detector>::CartesianCoord(const Vector3D<int>& point) {
+    T x, y, z;
+    z = point.z * dz;
+
+    if (point.x >= Nr - 1)
+        x = (point.x - (Nr - 1)) * dx;
+    else if (point.x < Nr - 1)
+        x = - (point.x - (Nr - 1)) * dx;
+
+    if (point.y >= Nr - 1)
+        y = (point.y - (Nr - 1)) * dy;
+    else if (point.y < Nr - 1)
+        y = - (point.y - (Nr - 1)) * dy;
+
+    return Vector3D<T>(x, y, z);
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
@@ -828,6 +1103,8 @@ void MonteCarlo<T, Nz, Nr, detector >::Calculate(MCresults<T,Nz,Nr,detector>& re
     using namespace std;
 
     for (int i = 0; i < Nphotons; i++) {
+     //   if (i % 1000 == 0)
+       //     cerr << i << endl;
         Photon<T> myPhoton;
         Simulation(myPhoton, i);
         // cout << RRspecular(0) << endl;
