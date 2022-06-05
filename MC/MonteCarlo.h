@@ -1129,7 +1129,7 @@ T MonteCarlo<T,Nz,Nr,detector>::Volume(const T& ir) {
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
 T MonteCarlo<T,Nz,Nr,detector>::Area(const T& ir) {
-    return 2 * M_PI * (ir + 0.5) * Math_NS::sqr(dr);
+    return 2 * M_PI * (ir - 0.5) * Math_NS::sqr(dr);
 }
 
 template < typename T, size_t Nz, size_t Nr, bool detector>
