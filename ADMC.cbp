@@ -5,6 +5,7 @@
 		<Option title="ADMC" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="Physics/" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/ADMC" prefix_auto="1" extension_auto="1" />
@@ -65,6 +66,7 @@
 		<Unit filename="AD/RT.h" />
 		<Unit filename="AD/RedistributionFunction.h" />
 		<Unit filename="CMakeLists.txt" />
+		<Unit filename="Heat Transfer/HT.h" />
 		<Unit filename="Inverse/CMakeLists.txt" />
 		<Unit filename="Inverse/FixedParam.h" />
 		<Unit filename="Inverse/InverseProblem.h" />
@@ -100,6 +102,7 @@
 		<Unit filename="MC/Photon.h" />
 		<Unit filename="MC/Sample.h" />
 		<Unit filename="Math/Basic.h" />
+		<Unit filename="Math/Bresenham.h" />
 		<Unit filename="Math/CMakeLists.txt" />
 		<Unit filename="Math/Mesh3.h" />
 		<Unit filename="Math/Mesh3Tests.h" />
@@ -135,10 +138,14 @@
 		<Unit filename="Physics/ReflectanceTests.h" />
 		<Unit filename="Physics/Specimen.h" />
 		<Unit filename="Physics/SpecimenTests.h" />
+		<Unit filename="Scripts/DirectHeterogeneousMC.h" />
 		<Unit filename="Scripts/DirectMC.h" />
 		<Unit filename="Scripts/InverseMC.h" />
+		<Unit filename="Scripts/KineticsIMC.h" />
 		<Unit filename="Scripts/SaveResults.h" />
-		<Unit filename="Scripts/SpoiltData.h" />
+		<Unit filename="Scripts/SpoiltData.h">
+			<Option virtualFolder="Physics/" />
+		</Unit>
 		<Unit filename="Settings/CMakeLists.txt" />
 		<Unit filename="Settings/SettingsExporterHelpers.h" />
 		<Unit filename="Settings/SettingsExporterLayer.h" />

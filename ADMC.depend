@@ -3322,11 +3322,12 @@
 	<algorithm>
 	<math.h>
 
-1651767437 source:c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
+1654244100 source:c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\main_admc.cpp
 	"Scripts/DirectMC.h"
 	"Scripts/DirectHeterogeneousMC.h"
 	"Scripts/InverseMC.h"
 	"Scripts/SpoiltData.h"
+	"Scripts/KineticsIMC.h"
 	"Settings/Settings/SettingsImporterHelpers.h"
 	<iostream>
 	<fstream>
@@ -3361,7 +3362,7 @@
 	<algorithm>
 	<string>
 
-1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
+1654004178 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\utils\readfiles.h
 	"../MC/Detector.h"
 	"../MC/Medium.h"
 	"../MC/MonteCarlo.h"
@@ -3383,20 +3384,20 @@
 	"../Math/Vector3.h"
 	<iostream>
 
-1651661687 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
+1652682397 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\vector3.h
 	"Basic.h"
 	<iostream>
 	<math.h>
 	<stdexcept>
 	<string>
 
-1651759702 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
+1652790270 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\medium.h
 	"../Utils/Contracts.h"
 	"../eigen/Eigen/Dense"
 	"../Math/Basic.h"
 	<map>
 
-1651767626 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
+1653915587 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlo.h
 	"Detector.h"
 	"Medium.h"
 	"Photon.h"
@@ -4309,7 +4310,7 @@
 	<stdexcept>
 	<utility>
 
-1651663938 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlomultithread.h
+1652789169 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\mc\montecarlomultithread.h
 	"MonteCarlo.h"
 	"../Utils/Utils.h"
 	<thread>
@@ -4329,7 +4330,7 @@
 	"../Utils/Contracts.h"
 	"../eigen/Eigen/Dense"
 
-1650905274 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\inverseproblem.h
+1654006143 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\inverse\inverseproblem.h
 	"NelderMead.h"
 	"../MC/MonteCarlo.h"
 	"../MC/MonteCarloMultithread.h"
@@ -4415,7 +4416,7 @@
 	"../Utils/Contracts.h"
 	<utility>
 
-1650957668 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directmc.h
+1654250039 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directmc.h
 	"SaveResults.h"
 	"../Inverse/InverseProblem.h"
 
@@ -4425,7 +4426,7 @@
 	<sstream>
 	<string>
 
-1650957668 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\inversemc.h
+1654003988 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\inversemc.h
 	"../Inverse/InverseProblem.h"
 	"../Inverse/StartingPoints.h"
 	"../Utils/ReadFiles.h"
@@ -4641,15 +4642,22 @@
 1646032996 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\googletest\googletest\include\\gtest\gtest_pred_impl.h
 	"gtest/gtest.h"
 
-1651767200 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\heat transfer\ht.h
+1652789169 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\heat transfer\ht.h
 	<vector>
 
-1650976192 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\bresenham.h
-	<Vector3.h>
+1652169475 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\math\bresenham.h
+	"Vector3.h"
 	<vector>
 
-1651767697 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directheterogeneousmc.h
+1652789521 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\directheterogeneousmc.h
 	"SaveResults.h"
 	"../Inverse/InverseProblem.h"
 	"../Heat Transfer/HT.h"
+
+1654238469 c:\users\admin\documents\photonics\biophotonics\light-tissue-interactions\scripts\kineticsimc.h
+	"../Inverse/InverseProblem.h"
+	"../Inverse/StartingPoints.h"
+	"../Utils/ReadFiles.h"
+	"InverseMC.h"
+	<iostream>
 

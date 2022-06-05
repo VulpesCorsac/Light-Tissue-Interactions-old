@@ -51,6 +51,7 @@ public:
 
     T norm2() const noexcept;
     T norm() const noexcept;
+    T distance() const noexcept;
 
 public:
     T x;

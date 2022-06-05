@@ -106,8 +106,9 @@ inverseResults<T,Nz,Nr,detector> inverseMCfromFile(const std::string& settingsFi
     IntegratingSphere<T> SphereR, SphereT;
     bool moveable;
     vector<pair<T,T>> Rd, Td, Tc;
+    vector<T> emptyVec;
     LightSource<T> source;
-    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, Nphotons, Rd, Td, Tc, source);
+    readSettings<T, fix>(settingsFile, emptySample, SphereR, SphereT, Nphotons, Rd, Td, Tc, source, 0, emptyVec);
 
     DetectorDistance<T> distances;
     distances.max  = T(Rd[Rd.size()-1].first);

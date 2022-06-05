@@ -40,6 +40,44 @@ void readTable(std::vector<std::pair<T,T>>& table, const std::string& fileName) 
     myFileStream.close();
 }
 
+template < typename T >
+void readTableKinetics(std::vector<std::pair<T,T>>& table, const T& dist, const std::string& fileName) {
+    using namespace std;
+
+    ifstream myFileStream(fileName);
+    if (!myFileStream.is_open())
+        cout << "Failed to open file " << fileName << endl;
+
+    // T z, val;
+    string line, zString, valString;
+    while(getline(myFileStream, line)) {
+        stringstream ss(line);
+        getline(ss, zString, '\t');
+        getline(ss, valString, '\n');
+        table.push_back({dist, static_cast<T>(stod(valString))});
+    }
+    myFileStream.close();
+}
+
+template < typename T >
+void getTimesKinetics(std::vector<T>& times, const std::string& fileName) {
+    using namespace std;
+
+    ifstream myFileStream(fileName);
+    if (!myFileStream.is_open())
+        cout << "Failed to open file " << fileName << endl;
+
+    // T z, val;
+    string line, zString, valString;
+    while(getline(myFileStream, line)) {
+        stringstream ss(line);
+        getline(ss, zString, '\t');
+        getline(ss, valString, '\n');
+        times.push_back(static_cast<T>(stod(zString)));
+    }
+    myFileStream.close();
+}
+
 template < typename T, Inverse_NS::FixedParameter fix >
 void readSettings(const std::string& fileName,
                   Sample<T>& emptySample,
@@ -49,7 +87,9 @@ void readSettings(const std::string& fileName,
                   std::vector<std::pair<T,T>>& Rd,
                   std::vector<std::pair<T,T>>& Td,
                   std::vector<std::pair<T,T>>& Tc,
-                  LightSource<T>& source) {
+                  LightSource<T>& source,
+                  bool kinetics,
+                  std::vector<T>& kineticTimes) {
     using namespace std;
     using namespace Inverse_NS;
 
@@ -127,8 +167,17 @@ void readSettings(const std::string& fileName,
             getline(ss, TcFname, '\n');
     }
 
-    readTable(Rd, "Settings & input files/" + RdFname);
-    readTable(Td, "Settings & input files/" + TdFname);
-    // if (fix == FixedParameter::Tau)
-    readTable(Tc, "Settings & input files/" + TcFname);
+    if (kinetics) {
+        T dist;
+        cerr << "Enter distances between sample and sphere port (equal for both spheres)" << endl;
+        cin >> dist;
+        readTableKinetics(Rd, dist, "Settings & input files/" + RdFname);
+        readTableKinetics(Td, dist, "Settings & input files/" + TdFname);
+        readTableKinetics(Tc, 0.0,   "Settings & input files/" + TcFname);
+        getTimesKinetics(kineticTimes, "Settings & input files/" + RdFname);
+    } else {
+        readTable(Rd, "Settings & input files/" + RdFname);
+        readTable(Td, "Settings & input files/" + TdFname);
+        readTable(Tc, "Settings & input files/" + TcFname);
+    }
 }

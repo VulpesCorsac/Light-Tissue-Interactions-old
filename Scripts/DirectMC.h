@@ -24,7 +24,7 @@ MCresults<T,Nz,Nr,detector> directMC(T inA, T inT, T inG, T inNtop, T inDtop, T 
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
     DetectorDistance<T> distances;
-    distances.max  = moveable ? 0.1 : 0.0;
+    distances.max  = moveable ? 0.16 : 0.0;
     distances.min  = 0;
     distances.step = 0.005; // please, enter correct step for your borders
 

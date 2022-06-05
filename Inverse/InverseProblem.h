@@ -154,9 +154,12 @@ public:
         T func2min = 0;
 
         constexpr auto EPS = 1E-6;
-        for (int i = 0; i < isize(rMC); i++)
-            func2min += abs((rMC[i].second - this->rmeas[i].second) / (this->rmeas[i].second + EPS)) + abs((tMC[i].second - this->tmeas[i].second) / (this->tmeas[i].second + EPS));
-
+        if (isize(rMC) == 1)
+            func2min += abs((rMC[0].second - this->rmeas[0].second) / (this->rmeas[0].second + EPS)) + abs((tMC[0].second - this->tmeas[0].second) / (this->tmeas[0].second + EPS));
+        else if (isize(rMC) > 1) {
+            for (int i = 0; i < isize(rMC); i++)
+                func2min += /*abs((rMC[i].second - this->rmeas[i].second) / (this->rmeas[i].second + EPS)) + */abs((tMC[i].second - this->tmeas[i].second) / (this->tmeas[i].second + EPS));
+        }
         return func2min;
     }
 
