@@ -104,7 +104,7 @@ void heterogeneousMCmultithread(const Sample<T>& sample,
                    const IntegratingSphere<T>& sphereT,
                    const DetectorDistance<T>& dist,
                    const LightSource<T>& source,
-                   const heterogeneousProperties<T,Nz,Nr>& tissues) {
+                   const Matrix<T,Dynamic,Dynamic>& coagMatrix) {
     using namespace Physics_NS;
     using namespace Utils_NS;
     using namespace std;
@@ -114,7 +114,7 @@ void heterogeneousMCmultithread(const Sample<T>& sample,
     vector<MCresults<T,Nz,Nr,detector>> mcResults;
     // MonteCarlo<T,Nz,Nr,detector> mc(sample, (Np / threads), z, r);
     for (int i = 0; i < threads; i++) {
-        mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, sphereR, sphereT, dist, source, tissues));
+        mcDivided.push_back(MonteCarlo<T,Nz,Nr,detector>(sample, (Np / threads), z, r, sphereR, sphereT, dist, source, coagMatrix));
         mcResults.push_back(MCresults <T,Nz,Nr,detector>());
     }
 
@@ -172,9 +172,9 @@ void heterogeneousMCmultithread(const Sample<T>& sample,
 template < typename T, size_t Nz, size_t Nr, bool detector >
 MCresults<T,Nz,Nr,detector> heterogeneousMCmultithread(const Sample<T>& sample, int Np, int threads, T z, T r,
                                           const IntegratingSphere<T>& sphereR, const IntegratingSphere<T>& sphereT,
-                                          const DetectorDistance<T> dist, const LightSource<T> source, const heterogeneousProperties<T,Nz,Nr>& tissues) {
+                                          const DetectorDistance<T> dist, const LightSource<T> source, const Matrix<T,Dynamic,Dynamic>& coagMatrix) {
     MCresults<T,Nz,Nr,detector> finalResults;
-    heterogeneousMCmultithread(sample, Np, threads, z, r, finalResults, sphereR, sphereT, dist, source, tissues);
+    heterogeneousMCmultithread(sample, Np, threads, z, r, finalResults, sphereR, sphereT, dist, source, coagMatrix);
     return finalResults;
 }
 
