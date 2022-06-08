@@ -3,6 +3,7 @@
 #include "../Inverse/InverseProblem.h"
 #include "../Inverse/StartingPoints.h"
 #include "../Utils/ReadFiles.h"
+#include "SaveResults.h"
 
 template < typename T, size_t Nz, size_t Nr, bool detector >
 struct inverseResults {
