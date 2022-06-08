@@ -760,6 +760,19 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             if (debug && photon.number == debugPhoton)
                 cerr << "reflection hetero" << endl;
             photon.coordinate = CartesianCoord(currentCoordInt);
+
+            T Mua = uaFunc<T>(heterogeneousMatrix3D[currentCoordInt.z](currentCoordInt.x, currentCoordInt.y));
+            T Mus = usFunc<T>(heterogeneousMatrix3D[currentCoordInt.z](currentCoordInt.x, currentCoordInt.y));
+            T Mut = Mua + Mus;
+            T ds = distance<T>(CartesianCoord(currentCoordInt), CartesianCoord(prevCoordInt));
+            stepTotal += ds;
+            coord += Mut * ds/* * abs(photon.direction.z)*/;
+            const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+            const size_t ir = floor(r / dr);
+            const size_t iz = abs(floor(photon.coordinate.z / dz));
+            A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
+            photon.weight *= exp(-Mua * ds);
+
             CrossOrNot(photon);
             trajectoryArrayInt = TrajectoryArrayInt(photon, finalBorderPoint);
             currentPoint = 1;
@@ -785,8 +798,7 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
         if (debug && photon.number == debugPhoton)
             cerr << coord << endl;
         photon.coordinate = CartesianCoord(currentCoordInt);
-  //      if (CartesianGridPoint(photon.coordinate).z == 29 || CartesianGridPoint(photon.coordinate).z == 59)
-    //        cerr << CartesianGridPoint(photon.coordinate).z << endl;
+
         if (photon.coordinate.x > radius || photon.coordinate.y > radius) {
             cerr << photon.coordinate << " i am too big" << endl;
             cerr << startCoord << endl;
@@ -799,11 +811,11 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             photon.alive = false;
             continue;
         }
-    /*    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+        const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
         const size_t ir = floor(r / dr);
         const size_t iz = abs(floor(photon.coordinate.z / dz));
         A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
-        photon.weight *= exp(-Mua * ds);*/
+        photon.weight *= exp(-Mua * ds);
     }
 //    if (CartesianGridPoint(photon.coordinate).z == 29 || CartesianGridPoint(photon.coordinate).z == 59)
   //      cerr << CartesianGridPoint(photon.coordinate).z << endl;
