@@ -54,7 +54,7 @@ int main() {
 
     constexpr int M = 8; // matrix size in Adding-Doubling
 
-    constexpr int Nz = 100;
+    constexpr int Nz = 98;
     constexpr int Nr = 501;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 

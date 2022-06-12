@@ -33,11 +33,11 @@ MCresults<T,Nz,Nr,detector> directHeterogeneousMC(T inA, T inT, T inG, T inNtop,
     constexpr T selectedRadius = 1E-2;
 
     MCresults<T,Nz,Nr,detector> myResults;
-    MonteCarlo<T,Nz,Nr,detector> MC(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
+ /*   MonteCarlo<T,Nz,Nr,detector> MC(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
                distances, source, coagMatrix);
-    MC.Calculate(myResults);
+    MC.Calculate(myResults);*/
 
-//    heterogeneousMCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source, coagMatrix);
+    heterogeneousMCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source, coagMatrix);
     cout << myResults << endl;
     if (save)
         saveResults<T,Nz,Nr,detector>(myResults, inA, inT, inG, 1);

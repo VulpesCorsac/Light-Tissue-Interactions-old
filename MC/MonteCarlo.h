@@ -810,8 +810,8 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
             const size_t ir = floor(r / dr);
             const size_t iz = currentCoordInt.z;
-            A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
-            photon.weight *= exp(-Mua * ds);
+   //         A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
+   //         photon.weight *= exp(-Mua * ds);
             Roulette(photon);
 
             CrossOrNot(photon);
@@ -870,8 +870,8 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
         const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
         const size_t ir = floor(r / dr);
         const size_t iz = currentCoordInt.z;
-        A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
-        photon.weight *= exp(-Mua * ds);
+ //       A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
+ //       photon.weight *= exp(-Mua * ds);
         Roulette(photon);
         if ((debug&& photon.number == debugPhoton)  || myDebug)
             cerr << "weight " << photon.weight << endl;
@@ -888,6 +888,30 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
     if ((debug && photon.number == debugPhoton) || myDebug)
         cerr << "weight " << photon.weight << endl;
 
+
+    const int layer = photon.layer;
+    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
+    const size_t ir = floor(r / dr);
+    const size_t iz = currentCoordInt.z;
+
+    if (iz >= Nz) {
+        cout << "ACHTUNG!!! iz = " << iz << " exceeds Nz during drop of photon N " << photon.number << endl;
+        cerr << photon.coordinate << endl;
+        cerr << photon.direction << endl;
+    }
+    T Mua, Mut, Mus;
+    if (homogenous) {
+        Mua = sample.getMedium(layer).getMua();
+        Mut = sample.getMedium(layer).getMut();
+        Mus = sample.getMedium(layer).getMus();
+    } else {
+        Mua = uaFunc<T>(heterogeneousMatrix3D[currentCoordInt.z](currentCoordInt.x, currentCoordInt.y));
+        Mus = usFunc<T>(heterogeneousMatrix3D[currentCoordInt.z](currentCoordInt.x, currentCoordInt.y));
+        Mut = Mua + Mus;
+    }
+    A(iz, min(ir, Nr-1)) += photon.weight * Mua / Mut;
+
+    photon.weight *= Mus / Mut;
     Spin(photon);
     Roulette(photon);
     }
@@ -1010,17 +1034,17 @@ void MonteCarlo<T,Nz,Nr,detector>::Drop(Photon<T>& photon) {
         cerr << photon.direction << endl;
     }
     T Mua, Mut, Mus;
+    Vector3D<int> point = CartesianGridPoint(photon.coordinate);
     if (homogenous) {
         Mua = sample.getMedium(layer).getMua();
         Mut = sample.getMedium(layer).getMut();
         Mus = sample.getMedium(layer).getMus();
     } else {
-        Vector3D<int> point = CartesianGridPoint(photon.coordinate);
         Mua = uaFunc<T>(heterogeneousMatrix3D[point.z](point.x, point.y));
         Mus = usFunc<T>(heterogeneousMatrix3D[point.z](point.x, point.y));
         Mut = Mua + Mus;
     }
-    A(iz, min(ir, Nr-1)) += photon.weight * Mua / Mut;
+    A(point.z, min(ir, Nr-1)) += photon.weight * Mua / Mut;
 
     photon.weight *= Mus / Mut;
 }
