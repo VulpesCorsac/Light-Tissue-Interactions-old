@@ -673,11 +673,11 @@ std::vector<Vector3D<int>> MonteCarlo<T,Nz,Nr,detector>::TrajectoryArrayInt(Phot
     finalBorderPoint = photon.coordinate + step * photon.direction;
     Vector3D<T> startPoint = photon.coordinate;
     Bresenham3D(CartesianGridPoint(startPoint), CartesianGridPoint(finalBorderPoint), trajectoryArrayInt);
-    if (debug && photon.number == debugPhoton) {
+/*    if (debug && photon.number == debugPhoton) {
         for (auto x : trajectoryArrayInt)
             cerr << x << endl;
         cerr << endl;
-    }
+    }*/
     return trajectoryArrayInt;
 }
 
@@ -717,6 +717,7 @@ void MonteCarlo<T,Nz,Nr,detector>::InnerBordersArray(Photon<T>& photon, std::vec
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissue(Photon<T>& photon, const std::vector<Vector3D<T>>& bordersArray, const std::vector<T>& attCoeffs) {
     using namespace std;
+
     vector<Vector3D<T>> bordersArrayFull = bordersArray;
     vector<T> attCoeffsFull = attCoeffs;
     int currentBand = 0;
@@ -759,7 +760,9 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissue(Photon<T>& photon, c
 template < typename T, size_t Nz, size_t Nr, bool detector>
 void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& photon) {
     using namespace std;
-
+    if ((debug&& photon.number == debugPhoton))
+        cerr << "alive? " << photon.alive << endl;
+    while (photon.alive) {
     T xi = random<T>(0, 1);
     T coord0 = -log(xi);
     T coord = 0;
@@ -778,13 +781,6 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
 
     if (debug && photon.number == debugPhoton)
         cerr << "coord0 " << coord0 << endl;
-    const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
-    const size_t ir = floor(r / dr);
-    if ( currentCoordInt.z > 100 && A(currentCoordInt.z, ir) > 100 * A(currentCoordInt.z-1, ir)) {
-     //   cerr << "suspicious " << A(currentCoordInt.z, ir) << " "<< A(currentCoordInt.z-1, ir) << " " <<currentCoordInt.z << " " << ir << endl;
-        myDebug = 0;
-    //    cerr << "PHOTON NO " << photon.number << endl;
-    }
 
     if ((debug && photon.number == debugPhoton )|| myDebug) {
         cerr << "Start COORD " << photon.coordinate << endl;
@@ -795,6 +791,8 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             cerr << x << endl;
         }
     }
+    if (debug && photon.number == debugPhoton)
+        cerr << "current point here" <<currentPoint << endl;
     while(coord < coord0) {
         if (currentPoint == (trajectoryArrayInt.size() - 1)) {
             refCount += 1;
@@ -812,8 +810,9 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
             const size_t ir = floor(r / dr);
             const size_t iz = currentCoordInt.z;
-      //      A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
-       //     photon.weight *= exp(-Mua * ds);
+            A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
+            photon.weight *= exp(-Mua * ds);
+            Roulette(photon);
 
             CrossOrNot(photon);
             if (sample.getMedium(photon.layer).getMut() == 0)
@@ -824,18 +823,21 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
                 prevCoordInt = trajectoryArrayInt[0];
                 currentCoordInt = trajectoryArrayInt[1];
                 Roulette(photon);
-                if (photon.alive = 0)
-                    continue;
+                if (photon.alive == 0)
+                    break;
             }
         } else {
             prevCoordInt = currentCoordInt;
             currentPoint += 1;
+            if ((debug&& photon.number == debugPhoton)  || myDebug)
+                cerr << "current point " <<currentPoint << endl;
             currentCoordInt = trajectoryArrayInt[currentPoint];
-            if (currentCoordInt.x >= 2 * Nr - 1 || currentCoordInt.y >= 2 * Nr - 1 || currentCoordInt.z >= Nz)
+            if (currentCoordInt.x > 2 * Nr - 1 || currentCoordInt.y >= 2 * Nr - 1 || currentCoordInt.z >= Nz || currentCoordInt.x <= 0 || currentCoordInt.y <= 0 || currentCoordInt.z < 0) {
                 photon.alive = 0;
-     //           continue;
+                break;
+            }
 
-        if ((debug&& photon.number == debugPhoton)  || myDebug)
+    if ((debug&& photon.number == debugPhoton)  || myDebug)
            cerr << "CURRENT COORD " << CartesianCoord(currentCoordInt) << " " << currentCoordInt << endl;
       if ((debug&& photon.number == debugPhoton)  || myDebug)
          cerr << "PREV COORD " << CartesianCoord(prevCoordInt) << " " << prevCoordInt <<  endl;
@@ -863,29 +865,32 @@ void MonteCarlo<T,Nz,Nr,detector>::HopInHeterogeneousTissueNoBorder(Photon<T>& p
             for (auto x : trajectoryArrayInt)
                 cerr << x.x << " " << x.y << " " << x.z << endl;
             photon.alive = false;
-            continue;
+            break;
         }
         const auto r = sqrt(sqr(photon.coordinate.x) + sqr(photon.coordinate.y));
         const size_t ir = floor(r / dr);
         const size_t iz = currentCoordInt.z;
         A(iz, min(ir, Nr-1)) += photon.weight * (-exp(-Mua * ds) + 1);
         photon.weight *= exp(-Mua * ds);
+        Roulette(photon);
         if ((debug&& photon.number == debugPhoton)  || myDebug)
             cerr << "weight " << photon.weight << endl;
-        Roulette(photon);
-        if (photon.alive = 0)
-                continue;
+        if (photon.alive == 0)
+            break;
     }
 //    if (CartesianGridPoint(photon.coordinate).z == 29 || CartesianGridPoint(photon.coordinate).z == 59)
   //      cerr << CartesianGridPoint(photon.coordinate).z << endl;
+    }
     if ((debug&& photon.number == debugPhoton) || myDebug)
         cerr << "FINAL COORDINATE " << photon.coordinate << endl;
     if ((debug&& photon.number == debugPhoton) || myDebug)
         cerr << "FINAL DIRECTION " << photon.direction << endl;
     if ((debug && photon.number == debugPhoton) || myDebug)
         cerr << "weight " << photon.weight << endl;
-    }
+
     Spin(photon);
+    Roulette(photon);
+    }
 }
 /*
 template < typename T, size_t Nz, size_t Nr, bool detector>

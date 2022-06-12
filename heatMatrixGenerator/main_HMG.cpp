@@ -54,12 +54,12 @@ int main() {
 
     constexpr int M = 8; // matrix size in Adding-Doubling
 
-    constexpr int Nz = 300;
+    constexpr int Nz = 100;
     constexpr int Nr = 501;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
     const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
-/*
+
     auto coagMatrix = coag<T, Nz, Nr>();
     ofstream coagfile;
     coagfile.open("CoagMatrix.csv");
@@ -67,7 +67,7 @@ int main() {
         throw invalid_argument("Failed to open file coag");
     coagfile << coagMatrix.format(CSVFormat) << '\n';
     coagfile.close();
-*/
+
     const string fName = "CoagMatrix.csv";
     auto coagMatrixRead = readCSV<T, Nz, Nr>(fName);
     constexpr int Nthreads = 1;
