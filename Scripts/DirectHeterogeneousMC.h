@@ -21,7 +21,7 @@ MCresults<T,Nz,Nr,detector> directHeterogeneousMC(T inA, T inT, T inG, T inNtop,
     else
         throw invalid_argument("It seems that you want to calculate 2 layers, you can only do 1 or 3");
     Sample<T> mySample(layers);
-    LightSource<T> source(0.001, SourceType::Gaussian);
+    LightSource<T> source(0.001, SourceType::Circle);
     IntegratingSphere<T> SphereT(0.0508, 0.0125, 0.0); // dPort2 = zero if the sphere has one port
     IntegratingSphere<T> SphereR(0.0508, 0.0125, 0.0125);
     DetectorDistance<T> distances;
@@ -33,8 +33,11 @@ MCresults<T,Nz,Nr,detector> directHeterogeneousMC(T inA, T inT, T inG, T inNtop,
     constexpr T selectedRadius = 1E-2;
 
     MCresults<T,Nz,Nr,detector> myResults;
+    MonteCarlo<T,Nz,Nr,detector> MC(mySample, Nphotons, mySample.getTotalThickness(), selectedRadius, SphereR, SphereT,
+               distances, source, coagMatrix);
+    MC.Calculate(myResults);
 
-    heterogeneousMCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source, coagMatrix);
+//    heterogeneousMCmultithread(mySample, Nphotons, Nthreads, mySample.getTotalThickness(), selectedRadius, myResults, SphereR, SphereT, distances, source, coagMatrix);
     cout << myResults << endl;
     if (save)
         saveResults<T,Nz,Nr,detector>(myResults, inA, inT, inG, 1);

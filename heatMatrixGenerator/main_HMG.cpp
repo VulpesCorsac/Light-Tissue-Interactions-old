@@ -1,4 +1,5 @@
 #include "../Scripts/DirectHeterogeneousMC.h"
+#include "../Heat Transfer/HT.h"
 
 #include <iostream>
 #include <fstream>
@@ -53,22 +54,31 @@ int main() {
 
     constexpr int M = 8; // matrix size in Adding-Doubling
 
-    constexpr int Nz = 98;
+    constexpr int Nz = 300;
     constexpr int Nr = 501;
     constexpr bool detector = 1; // spheres => detector = 1; fiber => detector = 0.
 
- //   auto coagMatrix = coag<T, Nz, Nr>();
+    const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
+/*
+    auto coagMatrix = coag<T, Nz, Nr>();
+    ofstream coagfile;
+    coagfile.open("CoagMatrix.csv");
+    if (!coagfile.is_open())
+        throw invalid_argument("Failed to open file coag");
+    coagfile << coagMatrix.format(CSVFormat) << '\n';
+    coagfile.close();
+*/
     const string fName = "CoagMatrix.csv";
-    auto coagMatrix = readCSV<T, Nz, Nr>(fName);
+    auto coagMatrixRead = readCSV<T, Nz, Nr>(fName);
+    constexpr int Nthreads = 1;
 
-
-    MCresults<T,Nz,Nr,detector> myRes = directHeterogeneousMC<T,Nz,Nr,detector>(0.83, 0.6, 0.0, 1.5, 0.0, 1.5, 0.001, 1.5, 0.0, coagMatrix, 0, 1, 0);
+    MCresults<T,Nz,Nr,detector> myRes = directHeterogeneousMC<T,Nz,Nr,detector>(0.83, 0.6, 0.0, 1.5, 0.00, 1.34, 0.0006, 1.5, 0.00, coagMatrixRead, 0, Nthreads, 0);
 
     ofstream Afile;
     Afile.open("HeatSourceMatrix.csv");
     if (!Afile.is_open())
         throw invalid_argument("Failed to open file A");
-    const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
+ //   const static IOFormat CSVFormat(FullPrecision, DontAlignCols, ", ", "\n");
     Afile << myRes.heatSource.format(CSVFormat) << '\n';
     Afile.close();
 

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-inline void Bresenham3D(const Vector3D<int>& start, const Vector3D<int>& finish, vector<Vector3D<int>>& points){
+void Bresenham3D(const Vector3D<int>& start, const Vector3D<int>& finish, vector<Vector3D<int>>& points){
     Vector3D<int> point = start;
     int dx = finish.x - start.x;
     int dy = finish.y - start.y;

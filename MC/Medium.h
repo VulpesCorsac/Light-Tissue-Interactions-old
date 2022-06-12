@@ -61,10 +61,10 @@ private:
 };
 
 template<typename T>
-T gFunc(const T& G) { return 0.9 + 0.09 * (1 - G); }
+T gFunc(const T& G) { return 0.6 + 0.15 * (1 - G); }
 
 template<typename T>
-T usFunc(const T& G) { return 500 + 4500 * (1 - G); }
+T usFunc(const T& G) { return 40 + 2600 * (1 - G); }
 
 template<typename T>
-T uaFunc(const T& G) { return 100 + 900 * (1 - G); }
+T uaFunc(const T& G) { return 5 + 85 * (1 - G); }
